@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "745327604160",
+    "project_id": "rapidlie",
+    "storage_bucket": "rapidlie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745327604160:android:63b5f00d9fc39824be5825",
+        "android_client_info": {
+          "package_name": "com.example.rapidlie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745327604160-d0vlgpifiol8qsjfn2h0eqgabhespncg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWHv0HfhpKw5XVIfhoZxyUHP3Vt-cJAgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745327604160-d0vlgpifiol8qsjfn2h0eqgabhespncg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
