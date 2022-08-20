@@ -1,8 +1,7 @@
 import 'dart:ui';
 
-class ColorSystem{
-
-static Color colorFromHex(String colorCode) {
+class ColorSystem {
+  static Color colorFromHex(String colorCode) {
     final hexCode = colorCode.replaceAll('#', '');
     Color newColor = Color(int.parse('FF$hexCode', radix: 16));
     return newColor;
@@ -15,5 +14,4 @@ static Color colorFromHex(String colorCode) {
   static Color gray = colorFromHex('#EAEAEA');
   static Color copyLinkColour = colorFromHex('##CDCDCD');
   static Color hintTextColor = colorFromHex('#808080');
-
 }
