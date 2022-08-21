@@ -23,13 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^1.20.0
-  firebase_database: ^9.1.0
-  intl_phone_number_input: ^0.7.0+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  intl_phone_number_input: ^0.7.0+2
+  
 
 dev_dependencies:
   flutter_test:
@@ -62,17 +61,31 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Metropolis
+      fonts:
+        - asset: fonts/Metropolis-Black.otf
+        - asset: fonts/Metropolis-BlackItalic.otf
+        - asset: fonts/Metropolis-Bold.otf
+          weight: 700
+        - asset: fonts/Metropolis-ExtraBold.otf
+        - asset: fonts/Metropolis-ExtraBoldItalic.otf
+        - asset: fonts/Metropolis-BoldItalic.otf
+        - asset: fonts/Metropolis-ExtraLight.otf
+        - asset: fonts/Metropolis-ExtraLightItalic.otf
+        - asset: fonts/Metropolis-Light.otf
+        - asset: fonts/Metropolis-LightItalic.otf
+        - asset: fonts/Metropolis-Medium.otf
+          weight: 500
+        - asset: fonts/Metropolis-MediumItalic.otf
+        - asset: fonts/Metropolis-Regular.otf
+          weight: 400
+        - asset: fonts/Metropolis-RegularItalic.otf
+        - asset: fonts/Metropolis-SemiBold.otf
+          weight: 600
+        - asset: fonts/Metropolis-SemiBoldItalic.otf
+        - asset: fonts/Metropolis-Thin.otf
+        - asset: fonts/Metropolis-ThinItalic.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
