@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/views/auth/create_account_screen.dart';
 import 'package:rapidlie/views/auth/login_screen.dart';
 import 'package:rapidlie/views/auth/signup_screen.dart';
+import 'package:rapidlie/views/rapid_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => LoginScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
         CreateAccountScreen.routeName: (context) => CreateAccountScreen(),
+        RapidScreen.routeName: (context) => RapidScreen(),
       },
       initialRoute: LoginScreen.routeName,
       onGenerateRoute: (RouteSettings settings) {

@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rapidlie/constants/color_system.dart';
 
 class RapidScreen extends StatefulWidget {
+  static const String routeName = "rapid";
+
   @override
   State<RapidScreen> createState() => _RapidScreenState();
 }
@@ -14,6 +16,12 @@ class _RapidScreenState extends State<RapidScreen> {
   Color activeTextColor = ColorSystem.primary;
   Color inactiveTextColor = ColorSystem.black;
   bool active = false;
+
+  @override
+  void initState() {
+    _currentIndex = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

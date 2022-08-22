@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/views/rapid_screen.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   buttonWidth: width,
                   buttonHeight: 50,
                   buttonAction: () {
-                    print("something");
+                    Navigator.pushNamed(context, RapidScreen.routeName);
                   },
                   fontColor: ColorSystem.white,
                   textSize: 12.0,
