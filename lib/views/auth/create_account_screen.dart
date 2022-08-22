@@ -67,7 +67,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   buttonColor: ColorSystem.primary,
                   buttonWidth: width,
                   buttonHeight: 50,
-                  buttonAction: () => print('somethig'),
+                  buttonAction: () {
+                    print("something");
+                  },
                   fontColor: ColorSystem.white,
                   textSize: 12.0,
                   buttonBorderRadius: 10,
