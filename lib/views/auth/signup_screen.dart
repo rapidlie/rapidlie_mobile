@@ -44,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   ButtonTemplate(
                     buttonName: "Register",
-                    buttonColor: Colors.green,
+                    buttonColor: ColorSystem.primary,
                     buttonWidth: width,
                     buttonHeight: 50,
                     buttonAction: () {

@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ButtonTemplate(
                     buttonName: "Login",
-                    buttonColor: Colors.green,
+                    buttonColor: ColorSystem.primary,
                     buttonWidth: width,
                     buttonHeight: 50,
                     buttonAction: () {

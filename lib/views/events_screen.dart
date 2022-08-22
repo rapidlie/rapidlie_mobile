@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class VerifyAccountScreen extends StatelessWidget {
+class EventsScreen extends StatelessWidget {
+  static const String routeName = "events";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(),
-      ),
+      body: Container(),
     );
   }
 }

@@ -7,8 +7,8 @@ class ColorSystem {
     return newColor;
   }
 
-  static Color primary = colorFromHex('#02A94C');
-  static Color secondary = colorFromHex('#009A06');
+  static Color primary = colorFromHex('#1A488E');
+  static Color secondary = colorFromHex('#092147');
   static Color white = colorFromHex('#FFFFFF');
   static Color black = colorFromHex('#000000');
   static Color gray = colorFromHex('#EAEAEA');
