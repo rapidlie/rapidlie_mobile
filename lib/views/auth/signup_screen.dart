@@ -74,18 +74,21 @@ class _SignupScreenState extends State<SignupScreen> {
                   SizedBox(
                     height: 30.0,
                   ),
-                  ButtonTemplate(
-                    buttonName: "Register",
-                    buttonColor: ColorSystem.secondary,
-                    buttonWidth: width,
-                    buttonHeight: 50,
-                    buttonAction: () {
-                      Navigator.pushNamed(
-                          context, CreateAccountScreen.routeName);
-                    },
-                    fontColor: ColorSystem.white,
-                    textSize: 14,
-                    buttonBorderRadius: 10.0,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: ButtonTemplate(
+                      buttonName: "Register",
+                      buttonColor: ColorSystem.secondary,
+                      buttonWidth: width,
+                      buttonHeight: 50,
+                      buttonAction: () {
+                        Navigator.pushNamed(
+                            context, CreateAccountScreen.routeName);
+                      },
+                      fontColor: ColorSystem.white,
+                      textSize: 14,
+                      buttonBorderRadius: 10.0,
+                    ),
                   ),
                 ],
               ),

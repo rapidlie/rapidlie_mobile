@@ -74,17 +74,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 30.0,
                   ),
-                  ButtonTemplate(
-                    buttonName: "Login",
-                    buttonColor: ColorSystem.secondary,
-                    buttonWidth: width,
-                    buttonHeight: 50,
-                    buttonAction: () {
-                      Navigator.pushNamed(context, SignupScreen.routeName);
-                    },
-                    fontColor: ColorSystem.white,
-                    textSize: 14,
-                    buttonBorderRadius: 10.0,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: ButtonTemplate(
+                      buttonName: "Login",
+                      buttonColor: ColorSystem.secondary,
+                      buttonWidth: width,
+                      buttonHeight: 50,
+                      buttonAction: () {
+                        Navigator.pushNamed(context, SignupScreen.routeName);
+                      },
+                      fontColor: ColorSystem.white,
+                      textSize: 14,
+                      buttonBorderRadius: 10.0,
+                    ),
                   ),
                 ],
               ),
