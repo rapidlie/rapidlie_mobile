@@ -10,18 +10,19 @@ class TextFieldTemplate extends StatelessWidget {
   final TextInputType textInputType;
   final TextInputAction textInputAction;
   final bool enabled;
-
+  final double leftContentPadding;
 
   TextFieldTemplate({
-    required this.hintText, 
-    required this.controller, 
-    required this.obscureText, 
-    required this.width, 
-    required this.height, 
-    required this.textInputType, 
-    required this.textInputAction, 
-    required this.enabled
-    });
+    required this.hintText,
+    required this.controller,
+    required this.obscureText,
+    required this.width,
+    required this.height,
+    required this.textInputType,
+    required this.textInputAction,
+    required this.enabled,
+    this.leftContentPadding = 14.0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +30,7 @@ class TextFieldTemplate extends StatelessWidget {
       height: 50,
       width: width,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: ColorSystem.gray),
+          borderRadius: BorderRadius.circular(10.0), color: ColorSystem.gray),
       child: Center(
         child: TextField(
           key: key,
@@ -44,7 +44,10 @@ class TextFieldTemplate extends StatelessWidget {
           autocorrect: false,
           decoration: InputDecoration(
             counterText: '',
-            contentPadding: EdgeInsets.only(left: 14.0, right: 14.0),
+            contentPadding: EdgeInsets.only(
+              left: leftContentPadding,
+              right: 14.0,
+            ),
             border: InputBorder.none,
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: ColorSystem.primary)),
@@ -57,10 +60,11 @@ class TextFieldTemplate extends StatelessWidget {
             hintText: hintText,
           ),
           style: TextStyle(
-            color: ColorSystem.black ,
+            color: ColorSystem.black,
             fontSize: 16.0,
             fontFamily: 'Metropolis',
             fontWeight: FontWeight.w500,
+            letterSpacing: 1,
           ),
         ),
       ),

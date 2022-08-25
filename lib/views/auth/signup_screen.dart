@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
+import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/intl_phone_field.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
@@ -15,6 +16,8 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController controller;
+
+  String countryCode = '+233';
 
   @override
   void initState() {
@@ -40,15 +43,33 @@ class _SignupScreenState extends State<SignupScreen> {
                   /* IntlPhoneField(
                     controller: controller,
                   ), */
-                  TextFieldTemplate(
-                    hintText: "Phone",
-                    controller: controller,
-                    obscureText: false,
-                    width: width,
-                    height: 50,
-                    textInputType: TextInputType.name,
-                    textInputAction: TextInputAction.next,
-                    enabled: true,
+                  Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      Expanded(
+                        flex: 20,
+                        child: TextFieldTemplate(
+                          hintText: "Phone",
+                          controller: controller,
+                          obscureText: false,
+                          width: width,
+                          height: 50,
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          enabled: true,
+                          leftContentPadding: 120,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: CountryCodeLayout(
+                            countryCode: countryCode,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 30.0,
