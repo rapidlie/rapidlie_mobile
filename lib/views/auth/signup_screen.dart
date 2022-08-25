@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/intl_phone_field.dart';
+import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
 
 import 'create_account_screen.dart';
@@ -36,15 +37,25 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IntlPhoneField(
+                  /* IntlPhoneField(
                     controller: controller,
+                  ), */
+                  TextFieldTemplate(
+                    hintText: "Phone",
+                    controller: controller,
+                    obscureText: false,
+                    width: width,
+                    height: 50,
+                    textInputType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    enabled: true,
                   ),
                   SizedBox(
                     height: 30.0,
                   ),
                   ButtonTemplate(
                     buttonName: "Register",
-                    buttonColor: ColorSystem.primary,
+                    buttonColor: ColorSystem.secondary,
                     buttonWidth: width,
                     buttonHeight: 50,
                     buttonAction: () {
@@ -53,7 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     },
                     fontColor: ColorSystem.white,
                     textSize: 14,
-                    buttonBorderRadius: 5.0,
+                    buttonBorderRadius: 10.0,
                   ),
                 ],
               ),

@@ -6,7 +6,17 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: Text("Events screen"),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

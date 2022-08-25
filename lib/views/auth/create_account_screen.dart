@@ -65,11 +65,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 ButtonTemplate(
                   buttonName: "Create account",
-                  buttonColor: ColorSystem.primary,
+                  buttonColor: ColorSystem.secondary,
                   buttonWidth: width,
                   buttonHeight: 50,
                   buttonAction: () {
-                    Navigator.pushNamed(context, RapidScreen.routeName);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RapidScreen(
+                          currentIndex: 0,
+                        ),
+                      ),
+                    );
                   },
                   fontColor: ColorSystem.white,
                   textSize: 12.0,
