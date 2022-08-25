@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
+import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/intl_phone_field.dart';
+import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
 import 'package:rapidlie/views/auth/signup_screen.dart';
 
@@ -13,6 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController controller;
+
+  String countryCode = '+233';
 
   @override
   void initState() {
@@ -36,15 +40,43 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IntlPhoneField(
+                  /* IntlPhoneField(
                     controller: controller,
+                  ), */
+                  Stack(
+                    alignment: AlignmentDirectional.centerStart,
+                    children: [
+                      Expanded(
+                        flex: 20,
+                        child: TextFieldTemplate(
+                          hintText: "Phone",
+                          controller: controller,
+                          obscureText: false,
+                          width: width,
+                          height: 50,
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          enabled: true,
+                          leftContentPadding: 120,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: CountryCodeLayout(
+                            countryCode: countryCode,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 30.0,
                   ),
                   ButtonTemplate(
                     buttonName: "Login",
-                    buttonColor: ColorSystem.primary,
+                    buttonColor: ColorSystem.secondary,
                     buttonWidth: width,
                     buttonHeight: 50,
                     buttonAction: () {
@@ -52,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     fontColor: ColorSystem.white,
                     textSize: 14,
-                    buttonBorderRadius: 5.0,
+                    buttonBorderRadius: 10.0,
                   ),
                 ],
               ),
