@@ -71,6 +71,7 @@ flutter:
         - asset: fonts/Metropolis-Bold.otf
           weight: 700
         - asset: fonts/Metropolis-ExtraBold.otf
+          weight: 800
         - asset: fonts/Metropolis-ExtraBoldItalic.otf
         - asset: fonts/Metropolis-BoldItalic.otf
         - asset: fonts/Metropolis-ExtraLight.otf
