@@ -49,63 +49,48 @@ class _RapidScreenState extends State<RapidScreen> {
             showSelectedLabels: true,
             unselectedFontSize: 10.0,
             selectedFontSize: 10.0,
-            selectedItemColor: ColorSystem.secondary,
-            unselectedItemColor: ColorSystem.black,
+            selectedItemColor: ColorSystem.black,
             items: [
               //Home
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icons/home.svg",
+                icon: Image.asset(
+                  "assets/icons/home.png",
                   width: 20,
                   height: 20,
                 ),
                 label: 'Home',
-                activeIcon: SvgPicture.asset(
-                  "assets/icons/home_selected.svg",
-                  width: 20,
-                  height: 20,
+                activeIcon: Image.asset(
+                  "assets/icons/home_selected.png",
+                  width: 26,
+                  height: 26,
                 ),
               ),
               // Events
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icons/event.svg",
+                icon: Image.asset(
+                  "assets/icons/add_event.png",
                   width: 20,
                   height: 20,
                 ),
                 label: 'Events',
-                activeIcon: SvgPicture.asset(
-                  "assets/icons/event_selected.svg",
-                  width: 20,
-                  height: 20,
+                activeIcon: Image.asset(
+                  "assets/icons/add_event_selected.png",
+                  width: 26,
+                  height: 26,
                 ),
               ),
               // Invites
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icons/invites.svg",
+                icon: Image.asset(
+                  "assets/icons/invites.png",
                   width: 20,
                   height: 20,
                 ),
                 label: 'Invites',
-                activeIcon: SvgPicture.asset(
-                  "assets/icons/invites_selected.svg",
-                  width: 20,
-                  height: 20,
-                ),
-              ),
-              // Settings
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icons/settings.svg",
-                  width: 20,
-                  height: 20,
-                ),
-                label: 'Settings',
-                activeIcon: SvgPicture.asset(
-                  "assets/icons/settings_selected.svg",
-                  width: 20,
-                  height: 20,
+                activeIcon: Image.asset(
+                  "assets/icons/invites_selected.png",
+                  width: 26,
+                  height: 26,
                 ),
               ),
             ],

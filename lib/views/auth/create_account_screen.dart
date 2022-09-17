@@ -63,24 +63,27 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 SizedBox(
                   height: 30.0,
                 ),
-                ButtonTemplate(
-                  buttonName: "Create account",
-                  buttonColor: ColorSystem.secondary,
-                  buttonWidth: width,
-                  buttonHeight: 50,
-                  buttonAction: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RapidScreen(
-                          currentIndex: 0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: ButtonTemplate(
+                    buttonName: "Create account",
+                    buttonColor: ColorSystem.secondary,
+                    buttonWidth: width,
+                    buttonHeight: 50,
+                    buttonAction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RapidScreen(
+                            currentIndex: 0,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  fontColor: ColorSystem.white,
-                  textSize: 12.0,
-                  buttonBorderRadius: 10,
+                      );
+                    },
+                    fontColor: ColorSystem.white,
+                    textSize: 12.0,
+                    buttonBorderRadius: 10,
+                  ),
                 )
               ],
             ),
