@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rapidlie/constants/color_system.dart';
-import 'package:rapidlie/views/events_screen.dart';
-import 'package:rapidlie/views/home_screen.dart';
-import 'package:rapidlie/views/invites_screen.dart';
+import 'package:rapidlie/views/events/screens/events_screen.dart';
+import 'package:rapidlie/views/home/screens/home_screen.dart';
+import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
 
 class RapidScreen extends StatefulWidget {

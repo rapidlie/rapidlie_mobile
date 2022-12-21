@@ -3,7 +3,8 @@ import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
-import 'package:rapidlie/views/auth/signup_screen.dart';
+
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";

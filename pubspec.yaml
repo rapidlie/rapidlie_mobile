@@ -30,6 +30,7 @@ dependencies:
   intl_phone_number_input: ^0.7.0+2
   flutter_svg: ^1.1.4
   country_list_pick: ^1.0.1+6
+  get:
   
 
 dev_dependencies:

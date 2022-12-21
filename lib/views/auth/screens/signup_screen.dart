@@ -82,7 +82,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       buttonHeight: 50,
                       buttonAction: () {
                         Navigator.pushNamed(
-                            context, CreateAccountScreen.routeName);
+                          context,
+                          CreateAccountScreen.routeName,
+                        );
                       },
                       fontColor: ColorSystem.white,
                       textSize: 14,
