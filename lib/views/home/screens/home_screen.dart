@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/homepage_actions.dart';
-import 'package:rapidlie/components/horizontal_event_template.dart';
 import 'package:rapidlie/constants/color_system.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home";
+
+  List<String> imageSet = [
+    "assets/images/unsafe.png",
+    "assets/images/unsafe.png",
+    "assets/images/unsafe.png"
+  ];
+
+  List<String> textSet = [
+    "Feeling unsafe?",
+    "Feeling unsafe?",
+    "Feeling unsafe?"
+  ];
+
+  List<String> subtextSet = ["Get tracked", "Get tracked", "Get tracked"];
+
+  List<Color> colorSet = [
+    ColorSystem.unsafeBoxColor,
+    ColorSystem.addFriendsBoxColor,
+    Color.fromARGB(255, 213, 179, 77).withOpacity(0.3)
+  ];
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -25,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Rapidlie.',
+                          'rapidlie.',
                           style: TextStyle(
                             color: ColorSystem.black,
                             fontSize: 22.0,
@@ -51,7 +71,12 @@ class HomeScreen extends StatelessWidget {
                           padding: EdgeInsets.only(left: 20),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
-                            return HomepageActions();
+                            return HomepageActions(
+                              color: colorSet[index],
+                              imageSource: imageSet[index],
+                              mainText: textSet[index],
+                              subText: subtextSet[index],
+                            );
                           },
                           itemCount: 3,
                           separatorBuilder: (BuildContext context, int index) {
@@ -68,24 +93,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: ColorSystem.secondary,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Public events",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: "Metropolis",
-                            fontWeight: FontWeight.w600,
-                            color: ColorSystem.white,
-                          ),
-                        ),
+                    child: Text(
+                      "Summary",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontFamily: "Metropolis",
+                        fontWeight: FontWeight.w600,
+                        color: ColorSystem.black,
                       ),
                     ),
                   ),
@@ -95,15 +109,6 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     width: width,
                     height: height * 0.25,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 100,
-                      itemBuilder: (context, index) {
-                        return HorizontalEventTemplate();
-                      },
-                    ),
                   )
                 ],
               ),

@@ -14,5 +14,6 @@ class ColorSystem {
   static Color gray = colorFromHex('#EAEAEA');
   static Color copyLinkColour = colorFromHex('##CDCDCD');
   static Color hintTextColor = colorFromHex('#808080');
-  static Color unsafeBoxColor = colorFromHex('#D0C7BE');
+  static Color unsafeBoxColor = colorFromHex('#F5EDE0');
+  static Color addFriendsBoxColor = colorFromHex('#E3F1F4');
 }

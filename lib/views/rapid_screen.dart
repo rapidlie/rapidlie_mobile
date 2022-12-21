@@ -45,8 +45,8 @@ class _RapidScreenState extends State<RapidScreen> {
           body: currentScreen[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
             unselectedFontSize: 10.0,
             selectedFontSize: 10.0,
             selectedItemColor: ColorSystem.black,

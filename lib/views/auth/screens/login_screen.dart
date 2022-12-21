@@ -39,9 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  /* IntlPhoneField(
-                    controller: controller,
-                  ), */
                   Stack(
                     alignment: AlignmentDirectional.centerStart,
                     children: [
