@@ -33,6 +33,7 @@ dependencies:
   get:
   cached_network_image: ^3.2.1
   expandable_page_view: ^1.0.17
+  table_calendar: ^3.0.8
   
 
 dev_dependencies:
