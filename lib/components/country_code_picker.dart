@@ -1,6 +1,6 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
 class CountryCodeLayout extends StatefulWidget {
   String countryCode;
@@ -18,11 +18,11 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
       height: 45,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: ColorSystem.gray,
-          border: Border.all(color: ColorSystem.gray, width: 1.0)),
+          color: ColorConstants.gray,
+          border: Border.all(color: ColorConstants.gray, width: 1.0)),
       child: CountryListPick(
         appBar: AppBar(
-          backgroundColor: ColorSystem.secondary,
+          backgroundColor: ColorConstants.secondary,
           title: Text(
             'Choose a country',
             style: TextStyle(
@@ -51,7 +51,7 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
                     fontSize: 16.0,
                     fontFamily: 'Metropolis',
                     fontWeight: FontWeight.w500,
-                    color: ColorSystem.black,
+                    color: ColorConstants.black,
                   ),
                 ),
               ],
@@ -60,7 +60,7 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
         },
         // to show or hide flag
         theme: CountryTheme(
-          alphabetSelectedBackgroundColor: ColorSystem.secondary,
+          alphabetSelectedBackgroundColor: ColorConstants.secondary,
           searchHintText: 'Enter name of country here',
           isShowFlag: true,
           isShowTitle: false,

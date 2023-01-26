@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/text_field_template.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
 import 'signup_screen.dart';
 
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: ColorSystem.white,
+      backgroundColor: ColorConstants.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -75,13 +75,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ButtonTemplate(
                       buttonName: "Login",
-                      buttonColor: ColorSystem.secondary,
+                      buttonColor: ColorConstants.primary,
                       buttonWidth: width,
                       buttonHeight: 50,
                       buttonAction: () {
                         Navigator.pushNamed(context, SignupScreen.routeName);
                       },
-                      fontColor: ColorSystem.white,
+                      fontColor: ColorConstants.white,
                       textSize: 14,
                       buttonBorderRadius: 10.0,
                     ),

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
 class HomepageActions extends StatelessWidget {
   final Color color;
@@ -52,7 +52,7 @@ class HomepageActions extends StatelessWidget {
                     Text(
                       mainText,
                       style: TextStyle(
-                          color: ColorSystem.black,
+                          color: ColorConstants.black,
                           fontSize: 14.0,
                           fontFamily: "Metroplis",
                           fontWeight: FontWeight.w500),
@@ -60,7 +60,7 @@ class HomepageActions extends StatelessWidget {
                     Text(
                       subText,
                       style: TextStyle(
-                          color: ColorSystem.black,
+                          color: ColorConstants.black,
                           fontSize: 14.0,
                           fontFamily: "Metroplis",
                           fontWeight: FontWeight.w500),

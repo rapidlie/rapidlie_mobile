@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/homepage_actions.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home";
@@ -20,8 +20,8 @@ class HomeScreen extends StatelessWidget {
   List<String> subtextSet = ["Get tracked", "Get tracked", "Get tracked"];
 
   List<Color> colorSet = [
-    ColorSystem.unsafeBoxColor,
-    ColorSystem.addFriendsBoxColor,
+    ColorConstants.unsafeBoxColor,
+    ColorConstants.addFriendsBoxColor,
     Color.fromARGB(255, 213, 179, 77).withOpacity(0.3)
   ];
 
@@ -47,14 +47,14 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           'rapidlie.',
                           style: TextStyle(
-                            color: ColorSystem.black,
+                            color: ColorConstants.black,
                             fontSize: 22.0,
                             fontFamily: "Metropolis",
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         CircleAvatar(
-                          backgroundColor: ColorSystem.black,
+                          backgroundColor: ColorConstants.black,
                         )
                       ],
                     ),
@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         fontSize: 16.0,
                         fontFamily: "Metropolis",
                         fontWeight: FontWeight.w600,
-                        color: ColorSystem.black,
+                        color: ColorConstants.black,
                       ),
                     ),
                   ),
