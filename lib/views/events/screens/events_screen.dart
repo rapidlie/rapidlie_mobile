@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class EventsScreen extends StatefulWidget {
   static const String routeName = "events";
@@ -23,6 +25,10 @@ class _EventsScreenState extends State<EventsScreen> {
   late Offset buttonPosition;
   late Size buttonSize;
   late OverlayEntry _overlayEntry;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  //DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  DateTime _currentDay = DateTime.now();
 
   @override
   void initState() {
@@ -43,14 +49,14 @@ class _EventsScreenState extends State<EventsScreen> {
     isMenuOpen = !isMenuOpen;
   }
 
-  void openMenu() {
+  void openMenu(StateSetter setState) {
     findButton();
-    _overlayEntry = _overlayEntryBuilder();
+    _overlayEntry = _overlayEntryBuilder(setState);
     Overlay.of(context)!.insert(_overlayEntry);
     isMenuOpen = !isMenuOpen;
   }
 
-  OverlayEntry _overlayEntryBuilder() {
+  OverlayEntry _overlayEntryBuilder(StateSetter setState) {
     return OverlayEntry(
       builder: (context) {
         return Positioned(
@@ -62,12 +68,14 @@ class _EventsScreenState extends State<EventsScreen> {
             child: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Container(
-                height: 200,
                 decoration: BoxDecoration(
                   color: ColorConstants.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Container(),
+                child: Padding(
+                  padding: EdgeInsets.all(0),
+                  child: tableCalendar(setState),
+                ),
               ),
             ),
           ),
@@ -191,7 +199,10 @@ class _EventsScreenState extends State<EventsScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Get.back(),
+                    onTap: () {
+                      closeMenu();
+                      Get.back();
+                    },
                     child: Container(
                       height: 30,
                       width: 30,
@@ -333,7 +344,7 @@ class _EventsScreenState extends State<EventsScreen> {
               if (isMenuOpen) {
                 closeMenu();
               } else {
-                openMenu();
+                openMenu(setState);
               }
               //dateController.text = 'Hello';
             },
@@ -351,10 +362,10 @@ class _EventsScreenState extends State<EventsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      dateText,
+                      convertDate(_selectedDay) ?? 'Date',
                       style: TextStyle(
-                        color: ColorConstants.hintTextColor,
-                        fontSize: 14.0,
+                        color: ColorConstants.black,
+                        fontSize: 17.0,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
@@ -374,5 +385,135 @@ class _EventsScreenState extends State<EventsScreen> {
         ],
       ),
     );
+  }
+
+  tableCalendar(StateSetter setState) {
+    return TableCalendar(
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2030, 3, 14),
+      focusedDay: _currentDay,
+      currentDay: _currentDay,
+      rowHeight: 32,
+      calendarFormat: _calendarFormat,
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        /* leftChevronVisible: false,
+                    rightChevronVisible: false, */
+        leftChevronPadding: EdgeInsets.zero,
+        leftChevronMargin: EdgeInsets.zero,
+        rightChevronPadding: EdgeInsets.zero,
+        rightChevronMargin: EdgeInsets.zero,
+        titleTextStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: ColorConstants.gray900,
+            fontFamily: "Metropolis"),
+      ),
+      daysOfWeekHeight: 24,
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      daysOfWeekStyle: DaysOfWeekStyle(
+        weekdayStyle: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          fontFamily: "Metropolis",
+          color: ColorConstants.colorFromHex("#0E1339"),
+        ),
+        weekendStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w500,
+          color: ColorConstants.colorFromHex("#0E1339"),
+        ),
+      ),
+      calendarStyle: CalendarStyle(
+        todayTextStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w600,
+          color: ColorConstants.gray900,
+        ),
+        withinRangeDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorConstants.colorFromHex("#F4F5FB"),
+        ),
+        defaultTextStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w600,
+          color: ColorConstants.colorFromHex("#34405E"),
+        ),
+        outsideTextStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w600,
+          color: ColorConstants.colorFromHex("#AEB2BF"),
+        ),
+        weekendTextStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w600,
+          color: ColorConstants.colorFromHex("#34405E"),
+        ),
+        defaultDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorConstants.colorFromHex("#F4F5FB"),
+        ),
+        weekendDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorConstants.colorFromHex("#F4F5FB"),
+        ),
+        todayDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorConstants.colorFromHex("#ADDBFB"),
+        ),
+        selectedDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorConstants.primary,
+        ),
+        selectedTextStyle: TextStyle(
+          fontSize: 12,
+          fontFamily: "Metropolis",
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ), //
+      ),
+      selectedDayPredicate: (day) {
+        return isSameDay(_selectedDay, day);
+      },
+      onDaySelected: (selectedDay, currentDay) {
+        if (selectedDay.isBefore(DateTime.now())) {
+          Get.snackbar(
+            "Error",
+            "Selected day cannot be in the past",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 3),
+            backgroundColor: ColorConstants.white,
+            colorText: ColorConstants.black,
+          );
+        } else if (!isSameDay(_selectedDay, selectedDay)) {
+          setState((() {
+            _selectedDay = selectedDay;
+            closeMenu();
+          }));
+        }
+      },
+      onFormatChanged: (format) {
+        if (_calendarFormat != format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        }
+      },
+      onPageChanged: (focusedDay) {},
+    );
+  }
+
+  String convertDate(DateTime? dateToConvert) {
+    final dateFormat = DateFormat('dd.MM.yyyy');
+    if (dateToConvert == null) {
+      return '';
+    } else {
+      return dateFormat.format(dateToConvert);
+    }
   }
 }

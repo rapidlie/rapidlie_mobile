@@ -19,4 +19,5 @@ class ColorConstants {
   static Color lightGray = colorFromHex('#E1E1E1');
   static Color closeButtonColor = colorFromHex('#848489');
   static Color charcoalBlack = colorFromHex('#0E0E0E');
+  static Color gray900 = colorFromHex('#0e1339');
 }
