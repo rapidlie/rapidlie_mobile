@@ -20,11 +20,13 @@ class _EventsScreenState extends State<EventsScreen> {
   int bottomSheetContentIndex = 0;
   String dateText = 'Date';
   late PageController _pageViewController;
-  late GlobalKey _key;
+  late GlobalKey _keyDate;
+  late GlobalKey _keyStartTime;
+  late GlobalKey _keyEndTime;
   bool isMenuOpen = false;
   late Offset buttonPosition;
   late Size buttonSize;
-  late OverlayEntry _overlayEntry;
+  late OverlayEntry? _overlayEntry;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   //DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -33,11 +35,13 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   void initState() {
     _pageViewController = PageController();
-    _key = LabeledGlobalKey("button_icon");
+    _keyDate = LabeledGlobalKey("button_icon");
+    _keyStartTime = LabeledGlobalKey("button_icon");
+    _keyEndTime = LabeledGlobalKey("button_icon");
     super.initState();
   }
 
-  findButton() {
+  findButton(GlobalKey _key) {
     RenderBox? renderBox =
         _key.currentContext!.findRenderObject() as RenderBox?;
     buttonSize = renderBox!.size;
@@ -45,14 +49,17 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   void closeMenu() {
-    _overlayEntry.remove();
+    if (_overlayEntry != null && _overlayEntry!.mounted) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
     isMenuOpen = !isMenuOpen;
   }
 
-  void openMenu(StateSetter setState) {
-    findButton();
+  void openMenu(StateSetter setState, GlobalKey _key) {
+    findButton(_key);
     _overlayEntry = _overlayEntryBuilder(setState);
-    Overlay.of(context)!.insert(_overlayEntry);
+    Overlay.of(context)!.insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
@@ -344,12 +351,12 @@ class _EventsScreenState extends State<EventsScreen> {
               if (isMenuOpen) {
                 closeMenu();
               } else {
-                openMenu(setState);
+                openMenu(setState, _keyDate);
               }
               //dateController.text = 'Hello';
             },
             child: Container(
-              key: _key,
+              key: _keyDate,
               height: 50,
               width: Get.width,
               decoration: BoxDecoration(
@@ -397,8 +404,6 @@ class _EventsScreenState extends State<EventsScreen> {
       calendarFormat: _calendarFormat,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
-        /* leftChevronVisible: false,
-                    rightChevronVisible: false, */
         leftChevronPadding: EdgeInsets.zero,
         leftChevronMargin: EdgeInsets.zero,
         rightChevronPadding: EdgeInsets.zero,
@@ -511,7 +516,7 @@ class _EventsScreenState extends State<EventsScreen> {
   String convertDate(DateTime? dateToConvert) {
     final dateFormat = DateFormat('dd.MM.yyyy');
     if (dateToConvert == null) {
-      return '';
+      return 'Date';
     } else {
       return dateFormat.format(dateToConvert);
     }
