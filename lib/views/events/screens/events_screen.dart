@@ -313,7 +313,7 @@ class _EventsScreenState extends State<EventsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
-              buttonName: "Next",
+              buttonName: "next",
               buttonColor: ColorConstants.primary,
               buttonWidth: Get.width,
               buttonHeight: 50,
@@ -322,7 +322,7 @@ class _EventsScreenState extends State<EventsScreen> {
               textSize: 10,
               buttonBorderRadius: 10,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -387,8 +387,147 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
           ),
           SizedBox(
-            height: 100,
-          )
+            height: 16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Start time',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: ColorConstants.charcoalBlack,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (isMenuOpen) {
+                          //closeMenu();
+                        } else {
+                          //openMenu(setState, _keyStartTime);
+                        }
+                        //dateController.text = 'Hello';
+                      },
+                      child: Container(
+                        key: _keyStartTime,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Start time',
+                                style: TextStyle(
+                                  color: ColorConstants.black,
+                                  fontSize: 17.0,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: ColorConstants.colorFromHex("#C6CDD3"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'End time',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: ColorConstants.charcoalBlack,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (isMenuOpen) {
+                          //closeMenu();
+                        } else {
+                          //openMenu(setState, _keyEndTime);
+                        }
+                        //dateController.text = 'Hello';
+                      },
+                      child: Container(
+                        key: _keyEndTime,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'End time',
+                                style: TextStyle(
+                                  color: ColorConstants.black,
+                                  fontSize: 17.0,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: ColorConstants.colorFromHex("#C6CDD3"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 60.0),
+            child: ButtonTemplate(
+              buttonName: "next",
+              buttonColor: ColorConstants.primary,
+              buttonWidth: Get.width,
+              buttonHeight: 50,
+              buttonAction: () {},
+              fontColor: Colors.white,
+              textSize: 10,
+              buttonBorderRadius: 10,
+            ),
+          ),
         ],
       ),
     );
@@ -397,7 +536,7 @@ class _EventsScreenState extends State<EventsScreen> {
   tableCalendar(StateSetter setState) {
     return TableCalendar(
       firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
+      lastDay: DateTime.utc(2100, 3, 14),
       focusedDay: _currentDay,
       currentDay: _currentDay,
       rowHeight: 32,

@@ -41,9 +41,9 @@ class ButtonTemplate extends StatelessWidget {
               buttonName.toUpperCase(),
               style: TextStyle(
                 color: fontColor,
-                fontSize: 14.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
+                fontSize: 15.0,
+                fontFamily: 'Metropolis',
+                fontWeight: FontWeight.w600,
               ),
             ),
       color: buttonColor,
