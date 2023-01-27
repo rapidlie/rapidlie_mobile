@@ -30,21 +30,19 @@ dependencies:
   intl_phone_number_input: ^0.7.0+2
   flutter_svg: ^1.1.4
   country_list_pick: ^1.0.1+6
+  get:
+  cached_network_image: ^3.2.1
+  expandable_page_view: ^1.0.17
+  table_calendar: ^3.0.8
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -64,6 +62,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: Poppins
+      fonts: 
+        - asset: fonts/PoppinsMedium.ttf
+          weight: 500
+        - asset: fonts/PoppinsRegular.ttf
+          weight: 400
+        - asset: fonts/PoppinsSemiBold.ttf
+          weight: 600
     - family: Metropolis
       fonts:
         - asset: fonts/Metropolis-Black.otf

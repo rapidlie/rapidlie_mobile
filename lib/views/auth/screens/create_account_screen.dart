@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 import 'package:rapidlie/views/rapid_screen.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: ButtonTemplate(
                     buttonName: "Create account",
-                    buttonColor: ColorSystem.secondary,
+                    buttonColor: ColorConstants.primary,
                     buttonWidth: width,
                     buttonHeight: 50,
                     buttonAction: () {
@@ -80,7 +80,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                       );
                     },
-                    fontColor: ColorSystem.white,
+                    fontColor: ColorConstants.white,
                     textSize: 12.0,
                     buttonBorderRadius: 10,
                   ),

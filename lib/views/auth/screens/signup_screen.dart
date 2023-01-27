@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/text_field_template.dart';
-import 'package:rapidlie/constants/color_system.dart';
-import 'package:rapidlie/views/auth/signup_screen.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = "login";
+import 'create_account_screen.dart';
+
+class SignupScreen extends StatefulWidget {
+  static const String routeName = 'signup';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController controller;
 
   String countryCode = '+233';
@@ -25,11 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: ColorSystem.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -76,14 +76,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ButtonTemplate(
-                      buttonName: "Login",
-                      buttonColor: ColorSystem.secondary,
+                      buttonName: "Register",
+                      buttonColor: ColorConstants.primary,
                       buttonWidth: width,
                       buttonHeight: 50,
                       buttonAction: () {
-                        Navigator.pushNamed(context, SignupScreen.routeName);
+                        Navigator.pushNamed(
+                          context,
+                          CreateAccountScreen.routeName,
+                        );
                       },
-                      fontColor: ColorSystem.white,
+                      fontColor: ColorConstants.white,
                       textSize: 14,
                       buttonBorderRadius: 10.0,
                     ),

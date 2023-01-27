@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rapidlie/constants/color_system.dart';
-import 'package:rapidlie/views/events_screen.dart';
-import 'package:rapidlie/views/home_screen.dart';
-import 'package:rapidlie/views/invites_screen.dart';
+import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/views/events/screens/events_screen.dart';
+import 'package:rapidlie/views/home/screens/home_screen.dart';
+import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
 
 class RapidScreen extends StatefulWidget {
@@ -25,8 +24,8 @@ class _RapidScreenState extends State<RapidScreen> {
     InvitesScreen(),
     SettingsScreen()
   ];
-  Color activeTextColor = ColorSystem.secondary;
-  Color inactiveTextColor = ColorSystem.black;
+  Color activeTextColor = ColorConstants.primary;
+  Color inactiveTextColor = ColorConstants.black;
   bool active = false;
 
   @override
@@ -45,11 +44,11 @@ class _RapidScreenState extends State<RapidScreen> {
           body: currentScreen[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
             unselectedFontSize: 10.0,
             selectedFontSize: 10.0,
-            selectedItemColor: ColorSystem.black,
+            selectedItemColor: ColorConstants.black,
             items: [
               //Home
               BottomNavigationBarItem(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
 class ButtonTemplate extends StatelessWidget {
   final String buttonName;
@@ -33,26 +33,27 @@ class ButtonTemplate extends StatelessWidget {
               height: 16,
               width: 16,
               child: CircularProgressIndicator(
-                backgroundColor: ColorSystem.white,
+                backgroundColor: ColorConstants.white,
                 strokeWidth: 1,
               ),
             )
           : Text(
-              buttonName,
+              buttonName.toUpperCase(),
               style: TextStyle(
                 color: fontColor,
-                fontSize: 16.0,
+                fontSize: 15.0,
                 fontFamily: 'Metropolis',
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
       color: buttonColor,
-      splashColor: ColorSystem.secondary,
+      splashColor: ColorConstants.secondary,
       elevation: 2,
       minWidth: buttonWidth,
       height: 50,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(buttonBorderRadius)),
+        borderRadius: BorderRadius.circular(buttonBorderRadius),
+      ),
       padding: EdgeInsets.all(15),
     );
   }

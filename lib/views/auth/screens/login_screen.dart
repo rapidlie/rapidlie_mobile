@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/country_code_picker.dart';
 import 'package:rapidlie/components/text_field_template.dart';
-import 'package:rapidlie/constants/color_system.dart';
+import 'package:rapidlie/constants/color_constants.dart';
 
-import 'create_account_screen.dart';
+import 'signup_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  static const String routeName = 'signup';
+class LoginScreen extends StatefulWidget {
+  static const String routeName = "login";
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController controller;
 
   String countryCode = '+233';
@@ -26,10 +26,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: ColorConstants.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -39,9 +40,6 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  /* IntlPhoneField(
-                    controller: controller,
-                  ), */
                   Stack(
                     alignment: AlignmentDirectional.centerStart,
                     children: [
@@ -76,15 +74,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ButtonTemplate(
-                      buttonName: "Register",
-                      buttonColor: ColorSystem.secondary,
+                      buttonName: "Login",
+                      buttonColor: ColorConstants.primary,
                       buttonWidth: width,
                       buttonHeight: 50,
                       buttonAction: () {
-                        Navigator.pushNamed(
-                            context, CreateAccountScreen.routeName);
+                        Navigator.pushNamed(context, SignupScreen.routeName);
                       },
-                      fontColor: ColorSystem.white,
+                      fontColor: ColorConstants.white,
                       textSize: 14,
                       buttonBorderRadius: 10.0,
                     ),

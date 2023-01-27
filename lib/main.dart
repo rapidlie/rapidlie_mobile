@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/views/auth/create_account_screen.dart';
-import 'package:rapidlie/views/auth/login_screen.dart';
-import 'package:rapidlie/views/auth/signup_screen.dart';
-import 'package:rapidlie/views/events_screen.dart';
-import 'package:rapidlie/views/home_screen.dart';
-import 'package:rapidlie/views/invites_screen.dart';
+import 'package:get/get.dart';
+import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
+import 'package:rapidlie/views/auth/screens/login_screen.dart';
+import 'package:rapidlie/views/events/screens/events_screen.dart';
+import 'package:rapidlie/views/home/screens/home_screen.dart';
+import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/rapid_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
+
+import 'views/auth/screens/signup_screen.dart';
+import 'views/events/screens/events_screen.dart';
+import 'views/invites/screens/invites_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());
@@ -16,7 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rapidlie',
       theme: ThemeData(
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         InvitesScreen.routeName: (context) => InvitesScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
       },
-      initialRoute: LoginScreen.routeName,
+      initialRoute: RapidScreen.routeName,
       onGenerateRoute: (RouteSettings settings) {
         return null;
       },
