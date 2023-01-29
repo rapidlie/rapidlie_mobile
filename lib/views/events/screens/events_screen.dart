@@ -31,6 +31,26 @@ class _EventsScreenState extends State<EventsScreen> {
   //DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime _currentDay = DateTime.now();
+  String selectedStartTime = "";
+  String slectedStartTimeOfDay = "am";
+  String selectedEndTime = "";
+  String slectedEndTimeOfDay = "am";
+  List eventTimes = [
+    '12:00',
+    '1:00',
+    '2:00',
+    '3:00',
+    '4:00',
+    '5:00',
+    '6:00',
+    '7:00',
+    '8:00',
+    '9:00',
+    '10:00',
+    '11:00',
+  ];
+
+  List eventTimeOfDay = ['am', 'pm'];
 
   @override
   void initState() {
@@ -56,20 +76,39 @@ class _EventsScreenState extends State<EventsScreen> {
     isMenuOpen = !isMenuOpen;
   }
 
-  void openMenu(StateSetter setState, GlobalKey _key) {
+  void openDateMenu(StateSetter setState, GlobalKey _key) {
     findButton(_key);
-    _overlayEntry = _overlayEntryBuilder(setState);
+    _overlayEntry = _overlayEntryBuilder(setState, tableCalendar(setState),
+        buttonPosition.dx, buttonSize.width, null);
     Overlay.of(context)!.insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
-  OverlayEntry _overlayEntryBuilder(StateSetter setState) {
+  void openStartTimeMenu(StateSetter setState, GlobalKey _key) {
+    findButton(_key);
+    _overlayEntry = _overlayEntryBuilder(setState, startTimeDropDown(setState),
+        null, buttonSize.width / 1.5, buttonPosition.dx);
+    Overlay.of(context)!.insert(_overlayEntry!);
+    isMenuOpen = !isMenuOpen;
+  }
+
+  void openEndTimeMenu(StateSetter setState, GlobalKey _key) {
+    findButton(_key);
+    _overlayEntry = _overlayEntryBuilder(setState, endTimeDropDown(setState),
+        null, buttonSize.width / 1.5, buttonPosition.dx);
+    Overlay.of(context)!.insert(_overlayEntry!);
+    isMenuOpen = !isMenuOpen;
+  }
+
+  OverlayEntry _overlayEntryBuilder(StateSetter setState, Widget overlayToOpen,
+      double? left, double width, double? right) {
     return OverlayEntry(
       builder: (context) {
         return Positioned(
           top: buttonPosition.dy + buttonSize.height,
-          left: buttonPosition.dx,
-          width: buttonSize.width,
+          left: left,
+          right: right,
+          width: width,
           child: Material(
             color: Colors.transparent,
             child: Padding(
@@ -79,10 +118,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   color: ColorConstants.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.all(0),
-                  child: tableCalendar(setState),
-                ),
+                child: overlayToOpen,
               ),
             ),
           ),
@@ -137,7 +173,7 @@ class _EventsScreenState extends State<EventsScreen> {
                               },
                             );
                           },
-                        );
+                        ).whenComplete(() => closeMenu());
                       },
                       child: Container(
                         height: 50,
@@ -351,9 +387,8 @@ class _EventsScreenState extends State<EventsScreen> {
               if (isMenuOpen) {
                 closeMenu();
               } else {
-                openMenu(setState, _keyDate);
+                openDateMenu(setState, _keyDate);
               }
-              //dateController.text = 'Hello';
             },
             child: Container(
               key: _keyDate,
@@ -369,7 +404,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      convertDate(_selectedDay) ?? 'Date',
+                      convertDate(_selectedDay),
                       style: TextStyle(
                         color: ColorConstants.black,
                         fontSize: 17.0,
@@ -411,9 +446,9 @@ class _EventsScreenState extends State<EventsScreen> {
                     GestureDetector(
                       onTap: () {
                         if (isMenuOpen) {
-                          //closeMenu();
+                          closeMenu();
                         } else {
-                          //openMenu(setState, _keyStartTime);
+                          openStartTimeMenu(setState, _keyEndTime);
                         }
                         //dateController.text = 'Hello';
                       },
@@ -431,7 +466,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Start time',
+                                '00:00 am',
                                 style: TextStyle(
                                   color: ColorConstants.black,
                                   fontSize: 17.0,
@@ -452,7 +487,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 ),
               ),
               SizedBox(
-                width: 20,
+                width: 10,
               ),
               Expanded(
                 child: Column(
@@ -473,9 +508,9 @@ class _EventsScreenState extends State<EventsScreen> {
                     GestureDetector(
                       onTap: () {
                         if (isMenuOpen) {
-                          //closeMenu();
+                          closeMenu();
                         } else {
-                          //openMenu(setState, _keyEndTime);
+                          openEndTimeMenu(setState, _keyStartTime);
                         }
                         //dateController.text = 'Hello';
                       },
@@ -493,7 +528,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'End time',
+                                '00:00 pm',
                                 style: TextStyle(
                                   color: ColorConstants.black,
                                   fontSize: 17.0,
@@ -528,6 +563,86 @@ class _EventsScreenState extends State<EventsScreen> {
               buttonBorderRadius: 10,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  startTimeDropDown(StateSetter setState) {
+    return Container(
+      height: 200,
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                shrinkWrap: true,
+                itemCount: eventTimes.length,
+                itemBuilder: ((context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      eventTimes[index],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Metropolis",
+                        fontWeight: FontWeight.w600,
+                        color: ColorConstants.colorFromHex("#AEB2BF"),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+        ],
+      ),
+    );
+  }
+
+  endTimeDropDown(StateSetter setState) {
+    return Container(
+      height: 200,
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                shrinkWrap: true,
+                itemCount: eventTimes.length,
+                itemBuilder: ((context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      eventTimes[index],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Metropolis",
+                        fontWeight: FontWeight.w600,
+                        color: ColorConstants.colorFromHex("#AEB2BF"),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          ListView.builder(
+            itemCount: 2,
+            itemBuilder: (context, index) {},
+          )
         ],
       ),
     );
@@ -655,7 +770,7 @@ class _EventsScreenState extends State<EventsScreen> {
   String convertDate(DateTime? dateToConvert) {
     final dateFormat = DateFormat('dd.MM.yyyy');
     if (dateToConvert == null) {
-      return 'Date';
+      return '00.00.00';
     } else {
       return dateFormat.format(dateToConvert);
     }
