@@ -31,10 +31,10 @@ class _EventsScreenState extends State<EventsScreen> {
   //DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime _currentDay = DateTime.now();
-  String selectedStartTime = "";
-  String slectedStartTimeOfDay = "am";
-  String selectedEndTime = "";
-  String slectedEndTimeOfDay = "am";
+  String selectedStartTime = '00:00 am';
+  String selectedStartTimeOfDay = "am";
+  String selectedEndTime = '00:00 pm';
+  String selectedEndTimeOfDay = "pm";
   List eventTimes = [
     '12:00',
     '1:00',
@@ -51,6 +51,10 @@ class _EventsScreenState extends State<EventsScreen> {
   ];
 
   List eventTimeOfDay = ['am', 'pm'];
+  int selectedStartTimeOfDayChecker = 0;
+  int selectedEndTimeOfDayChecker = 1;
+  int selectedStartTimeChecker = 1000000000;
+  int selectedEndTimeChecker = 1000000000;
 
   @override
   void initState() {
@@ -78,30 +82,30 @@ class _EventsScreenState extends State<EventsScreen> {
 
   void openDateMenu(StateSetter setState, GlobalKey _key) {
     findButton(_key);
-    _overlayEntry = _overlayEntryBuilder(setState, tableCalendar(setState),
-        buttonPosition.dx, buttonSize.width, null);
+    _overlayEntry = _overlayEntryBuilder(
+        tableCalendar(setState), buttonPosition.dx, buttonSize.width, null);
     Overlay.of(context)!.insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
   void openStartTimeMenu(StateSetter setState, GlobalKey _key) {
     findButton(_key);
-    _overlayEntry = _overlayEntryBuilder(setState, startTimeDropDown(setState),
-        null, buttonSize.width / 1.5, buttonPosition.dx);
+    _overlayEntry = _overlayEntryBuilder(startTimeDropDown(setState, _key),
+        null, buttonSize.width / 1.2, buttonPosition.dx);
     Overlay.of(context)!.insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
   void openEndTimeMenu(StateSetter setState, GlobalKey _key) {
     findButton(_key);
-    _overlayEntry = _overlayEntryBuilder(setState, endTimeDropDown(setState),
-        null, buttonSize.width / 1.5, buttonPosition.dx);
+    _overlayEntry = _overlayEntryBuilder(endTimeDropDown(setState, _key), null,
+        buttonSize.width / 1.2, buttonPosition.dx);
     Overlay.of(context)!.insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
-  OverlayEntry _overlayEntryBuilder(StateSetter setState, Widget overlayToOpen,
-      double? left, double width, double? right) {
+  OverlayEntry _overlayEntryBuilder(
+      Widget overlayToOpen, double? left, double width, double? right) {
     return OverlayEntry(
       builder: (context) {
         return Positioned(
@@ -168,7 +172,10 @@ class _EventsScreenState extends State<EventsScreen> {
                                   (BuildContext context, StateSetter setState) {
                                 return SingleChildScrollView(
                                   primary: true,
-                                  child: bottomSheetLayout(setState),
+                                  child: GestureDetector(
+                                    onTap: () => closeMenu(),
+                                    child: bottomSheetLayout(setState),
+                                  ),
                                 );
                               },
                             );
@@ -466,7 +473,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '00:00 am',
+                                selectedStartTime,
                                 style: TextStyle(
                                   color: ColorConstants.black,
                                   fontSize: 17.0,
@@ -528,7 +535,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '00:00 pm',
+                                selectedEndTime,
                                 style: TextStyle(
                                   color: ColorConstants.black,
                                   fontSize: 17.0,
@@ -568,7 +575,7 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  startTimeDropDown(StateSetter setState) {
+  startTimeDropDown(StateSetter setState, GlobalKey _key) {
     return Container(
       height: 200,
       child: Row(
@@ -581,16 +588,28 @@ class _EventsScreenState extends State<EventsScreen> {
                 shrinkWrap: true,
                 itemCount: eventTimes.length,
                 itemBuilder: ((context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      eventTimes[index],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Metropolis",
-                        fontWeight: FontWeight.w600,
-                        color: ColorConstants.colorFromHex("#AEB2BF"),
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedStartTimeChecker = index;
+                        selectedStartTime =
+                            eventTimes[index] + " " + selectedStartTimeOfDay;
+                        closeMenu();
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        eventTimes[index],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Metropolis",
+                          fontWeight: FontWeight.w600,
+                          color: selectedStartTimeChecker == index
+                              ? ColorConstants.primary
+                              : ColorConstants.colorFromHex("#AEB2BF"),
+                        ),
                       ),
                     ),
                   );
@@ -598,15 +617,62 @@ class _EventsScreenState extends State<EventsScreen> {
               ),
             ),
           ),
-          SizedBox(
-            width: 5,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: eventTimeOfDay.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedStartTimeOfDayChecker = index;
+                          selectedStartTimeOfDay = eventTimeOfDay[index];
+                          closeMenu();
+                          openStartTimeMenu(setState, _key);
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: selectedStartTimeOfDayChecker == index
+                                ? ColorConstants.primary
+                                : ColorConstants.white,
+                            border: Border.all(
+                              color: selectedStartTimeOfDayChecker == index
+                                  ? ColorConstants.primary
+                                  : ColorConstants.colorFromHex("#AEB2BF"),
+                            )),
+                        child: Text(
+                          eventTimeOfDay[index],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: selectedStartTimeOfDayChecker == index
+                                ? ColorConstants.white
+                                : ColorConstants.colorFromHex("#AEB2BF"),
+                            fontSize: 15,
+                            fontFamily: "Metropolis",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  endTimeDropDown(StateSetter setState) {
+  endTimeDropDown(StateSetter setState, GlobalKey _key) {
     return Container(
       height: 200,
       child: Row(
@@ -619,16 +685,28 @@ class _EventsScreenState extends State<EventsScreen> {
                 shrinkWrap: true,
                 itemCount: eventTimes.length,
                 itemBuilder: ((context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      eventTimes[index],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Metropolis",
-                        fontWeight: FontWeight.w600,
-                        color: ColorConstants.colorFromHex("#AEB2BF"),
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedEndTimeChecker = index;
+                        selectedEndTime =
+                            eventTimes[index] + " " + selectedEndTimeOfDay;
+                        closeMenu();
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        eventTimes[index],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: "Metropolis",
+                          fontWeight: FontWeight.w600,
+                          color: selectedEndTimeChecker == index
+                              ? ColorConstants.primary
+                              : ColorConstants.colorFromHex("#AEB2BF"),
+                        ),
                       ),
                     ),
                   );
@@ -636,13 +714,56 @@ class _EventsScreenState extends State<EventsScreen> {
               ),
             ),
           ),
-          SizedBox(
-            width: 5,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: eventTimeOfDay.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedEndTimeOfDayChecker = index;
+                          selectedEndTimeOfDay = eventTimeOfDay[index];
+                          closeMenu();
+                          openEndTimeMenu(setState, _key);
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: selectedEndTimeOfDayChecker == index
+                                ? ColorConstants.primary
+                                : ColorConstants.white,
+                            border: Border.all(
+                              color: selectedEndTimeOfDayChecker == index
+                                  ? ColorConstants.primary
+                                  : ColorConstants.colorFromHex("#AEB2BF"),
+                            )),
+                        child: Text(
+                          eventTimeOfDay[index],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: selectedEndTimeOfDayChecker == index
+                                ? ColorConstants.white
+                                : ColorConstants.colorFromHex("#AEB2BF"),
+                            fontSize: 15,
+                            fontFamily: "Metropolis",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
-          ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) {},
-          )
         ],
       ),
     );
