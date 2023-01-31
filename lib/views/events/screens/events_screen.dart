@@ -55,6 +55,7 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedEndTimeOfDayChecker = 1;
   int selectedStartTimeChecker = 1000000000;
   int selectedEndTimeChecker = 1000000000;
+  bool allDay = false;
 
   @override
   void initState() {
@@ -455,9 +456,11 @@ class _EventsScreenState extends State<EventsScreen> {
                         if (isMenuOpen) {
                           closeMenu();
                         } else {
-                          openStartTimeMenu(setState, _keyEndTime);
+                          if (allDay) {
+                          } else {
+                            openStartTimeMenu(setState, _keyEndTime);
+                          }
                         }
-                        //dateController.text = 'Hello';
                       },
                       child: Container(
                         key: _keyStartTime,
@@ -473,9 +476,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedStartTime,
+                                allDay ? "00:00 am" : selectedStartTime,
                                 style: TextStyle(
-                                  color: ColorConstants.black,
+                                  color: allDay
+                                      ? ColorConstants.colorFromHex("#C6CDD3")
+                                      : ColorConstants.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -517,9 +522,11 @@ class _EventsScreenState extends State<EventsScreen> {
                         if (isMenuOpen) {
                           closeMenu();
                         } else {
-                          openEndTimeMenu(setState, _keyStartTime);
+                          if (allDay) {
+                          } else {
+                            openEndTimeMenu(setState, _keyStartTime);
+                          }
                         }
-                        //dateController.text = 'Hello';
                       },
                       child: Container(
                         key: _keyEndTime,
@@ -535,9 +542,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedEndTime,
+                                allDay ? "00:00 pm" : selectedEndTime,
                                 style: TextStyle(
-                                  color: ColorConstants.black,
+                                  color: allDay
+                                      ? ColorConstants.colorFromHex("#C6CDD3")
+                                      : ColorConstants.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -556,6 +565,56 @@ class _EventsScreenState extends State<EventsScreen> {
                 ),
               )
             ],
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                allDay = !allDay;
+              });
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      width: 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: allDay
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'All day',
+                  style: TextStyle(
+                    fontFamily: "Metropolis",
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w600,
+                    color: allDay
+                        ? ColorConstants.primary
+                        : ColorConstants.colorFromHex("#C6CDD3"),
+                  ),
+                )
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 60.0),
