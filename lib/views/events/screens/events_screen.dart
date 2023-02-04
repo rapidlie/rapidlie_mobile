@@ -56,7 +56,7 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedStartTimeChecker = 1000000000;
   int selectedEndTimeChecker = 1000000000;
   bool allDay = false;
-  bool showBackButton = false;
+  int showBackButton = 0;
 
   @override
   void initState() {
@@ -184,7 +184,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           },
                         ).whenComplete(() {
                           closeMenu();
-                          showBackButton = false;
+                          showBackButton = 0;
                         });
                       },
                       child: Container(
@@ -244,8 +244,15 @@ class _EventsScreenState extends State<EventsScreen> {
                   GestureDetector(
                     onTap: () {
                       closeMenu();
+                      setState(() {
+                        showBackButton = showBackButton - 1;
+                      });
+                      _pageViewController.previousPage(
+                        duration: new Duration(milliseconds: 200),
+                        curve: Curves.easeOut,
+                      );
                     },
-                    child: showBackButton
+                    child: showBackButton > 0
                         ? Container(
                             height: 30,
                             width: 30,
@@ -277,7 +284,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       closeMenu();
                       Get.back();
                       setState(() {
-                        showBackButton = false;
+                        showBackButton = 0;
                       });
                     },
                     child: Container(
@@ -390,7 +397,7 @@ class _EventsScreenState extends State<EventsScreen> {
               buttonHeight: 50,
               buttonAction: () {
                 setState(() {
-                  showBackButton = true;
+                  showBackButton = showBackButton + 1;
                 });
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width,
@@ -660,6 +667,7 @@ class _EventsScreenState extends State<EventsScreen> {
               buttonWidth: Get.width,
               buttonHeight: 50,
               buttonAction: () {
+                showBackButton = showBackButton + 1;
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width * 2,
                   duration: new Duration(milliseconds: 200),
