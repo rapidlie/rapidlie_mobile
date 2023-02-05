@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rapidlie/constants/color_constants.dart';
 
 class AppBarTemplate extends StatelessWidget {
@@ -11,8 +12,16 @@ class AppBarTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
-      elevation: 1,
+      elevation: 0,
       centerTitle: true,
+      automaticallyImplyLeading: false,
+      leading: GestureDetector(
+        onTap: () => Get.back(),
+        child: Icon(
+          Icons.arrow_back,
+          color: ColorConstants.black,
+        ),
+      ),
       title: Text(
         pageTitle,
         style: TextStyle(
