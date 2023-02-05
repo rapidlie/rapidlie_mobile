@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/views/contacts/contact_list_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -26,9 +27,8 @@ class _EventsScreenState extends State<EventsScreen> {
   bool isMenuOpen = false;
   late Offset buttonPosition;
   late Size buttonSize;
-  late OverlayEntry? _overlayEntry;
+  OverlayEntry? _overlayEntry;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  //DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime _currentDay = DateTime.now();
   String selectedStartTime = '00:00 am';
@@ -55,6 +55,8 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedEndTimeOfDayChecker = 1;
   int selectedStartTimeChecker = 1000000000;
   int selectedEndTimeChecker = 1000000000;
+  bool allDay = false;
+  int showBackButton = 0;
 
   @override
   void initState() {
@@ -141,20 +143,6 @@ class _EventsScreenState extends State<EventsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'You have not created any event. Click on the button below to add your event',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                        color: ColorConstants.charcoalBlack,
-                        height: 1.2,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -180,21 +168,39 @@ class _EventsScreenState extends State<EventsScreen> {
                               },
                             );
                           },
-                        ).whenComplete(() => closeMenu());
+                        ).whenComplete(() {
+                          closeMenu();
+                          showBackButton = 0;
+                        });
                       },
                       child: Container(
-                        height: 50,
-                        width: 50,
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
+                          color: ColorConstants.primaryLight,
                           shape: BoxShape.circle,
-                          color: ColorConstants.primary,
                         ),
                         child: Icon(
                           Icons.add,
-                          color: ColorConstants.white,
+                          color: ColorConstants.primary,
+                          size: 30,
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'You have not created any event. Click on the button to add your event',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: ColorConstants.charcoalBlack,
+                        height: 1.2,
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -232,12 +238,38 @@ class _EventsScreenState extends State<EventsScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 10,
+                  GestureDetector(
+                    onTap: () {
+                      closeMenu();
+                      setState(() {
+                        showBackButton = showBackButton - 1;
+                      });
+                      _pageViewController.previousPage(
+                        duration: new Duration(milliseconds: 200),
+                        curve: Curves.easeOut,
+                      );
+                    },
+                    child: showBackButton > 0
+                        ? Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConstants.colorFromHex("#FFFFFF"),
+                            ),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: ColorConstants.closeButtonColor,
+                              size: 20,
+                            ),
+                          )
+                        : SizedBox(
+                            width: 10,
+                          ),
                   ),
                   Text(
                     'Create event',
@@ -252,6 +284,9 @@ class _EventsScreenState extends State<EventsScreen> {
                     onTap: () {
                       closeMenu();
                       Get.back();
+                      setState(() {
+                        showBackButton = 0;
+                      });
                     },
                     child: Container(
                       height: 30,
@@ -266,7 +301,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         size: 20,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -282,10 +317,11 @@ class _EventsScreenState extends State<EventsScreen> {
               height: 470,
               child: PageView(
                 controller: _pageViewController,
-                pageSnapping: true,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  firstSheetContent(),
+                  firstSheetContent(setState),
                   secondSheetContent(setState),
+                  thirdSheetContent(),
                 ],
               ),
             )
@@ -295,7 +331,7 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  firstSheetContent() {
+  firstSheetContent(StateSetter setState) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Column(
@@ -360,7 +396,16 @@ class _EventsScreenState extends State<EventsScreen> {
               buttonColor: ColorConstants.primary,
               buttonWidth: Get.width,
               buttonHeight: 50,
-              buttonAction: () {},
+              buttonAction: () {
+                setState(() {
+                  showBackButton = showBackButton + 1;
+                });
+                _pageViewController.animateTo(
+                  MediaQuery.of(context).size.width,
+                  duration: new Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                );
+              },
               fontColor: Colors.white,
               textSize: 10,
               buttonBorderRadius: 10,
@@ -455,9 +500,11 @@ class _EventsScreenState extends State<EventsScreen> {
                         if (isMenuOpen) {
                           closeMenu();
                         } else {
-                          openStartTimeMenu(setState, _keyEndTime);
+                          if (allDay) {
+                          } else {
+                            openStartTimeMenu(setState, _keyEndTime);
+                          }
                         }
-                        //dateController.text = 'Hello';
                       },
                       child: Container(
                         key: _keyStartTime,
@@ -473,9 +520,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedStartTime,
+                                allDay ? "00:00 am" : selectedStartTime,
                                 style: TextStyle(
-                                  color: ColorConstants.black,
+                                  color: allDay
+                                      ? ColorConstants.colorFromHex("#C6CDD3")
+                                      : ColorConstants.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -517,9 +566,11 @@ class _EventsScreenState extends State<EventsScreen> {
                         if (isMenuOpen) {
                           closeMenu();
                         } else {
-                          openEndTimeMenu(setState, _keyStartTime);
+                          if (allDay) {
+                          } else {
+                            openEndTimeMenu(setState, _keyStartTime);
+                          }
                         }
-                        //dateController.text = 'Hello';
                       },
                       child: Container(
                         key: _keyEndTime,
@@ -535,9 +586,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedEndTime,
+                                allDay ? "00:00 pm" : selectedEndTime,
                                 style: TextStyle(
-                                  color: ColorConstants.black,
+                                  color: allDay
+                                      ? ColorConstants.colorFromHex("#C6CDD3")
+                                      : ColorConstants.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -557,6 +610,56 @@ class _EventsScreenState extends State<EventsScreen> {
               )
             ],
           ),
+          SizedBox(
+            height: 24,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                allDay = !allDay;
+              });
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      width: allDay ? 0 : 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: allDay
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'All day',
+                  style: TextStyle(
+                    fontFamily: "Metropolis",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: allDay
+                        ? ColorConstants.primary
+                        : ColorConstants.colorFromHex("#C6CDD3"),
+                  ),
+                )
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 60.0),
             child: ButtonTemplate(
@@ -564,7 +667,14 @@ class _EventsScreenState extends State<EventsScreen> {
               buttonColor: ColorConstants.primary,
               buttonWidth: Get.width,
               buttonHeight: 50,
-              buttonAction: () {},
+              buttonAction: () {
+                showBackButton = showBackButton + 1;
+                _pageViewController.animateTo(
+                  MediaQuery.of(context).size.width * 2,
+                  duration: new Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                );
+              },
               fontColor: Colors.white,
               textSize: 10,
               buttonBorderRadius: 10,
@@ -572,6 +682,43 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  thirdSheetContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.to(() => ContactListScreen());
+          },
+          child: Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              color: ColorConstants.primaryLight,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.add,
+              color: ColorConstants.primary,
+              size: 30,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          'Invite your friends.',
+          style: TextStyle(
+            fontSize: 15.0,
+            fontFamily: 'Metropolis',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 
@@ -810,7 +957,7 @@ class _EventsScreenState extends State<EventsScreen> {
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.gray900,
+          color: ColorConstants.primary,
         ),
         withinRangeDecoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -844,7 +991,7 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
         todayDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#ADDBFB"),
+          color: ColorConstants.primaryLight,
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
