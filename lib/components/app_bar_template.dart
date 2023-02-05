@@ -25,7 +25,7 @@ class AppBarTemplate extends StatelessWidget {
       title: Text(
         pageTitle,
         style: TextStyle(
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontSize: 18.0,
           fontWeight: FontWeight.w700,
           color: ColorConstants.black,
