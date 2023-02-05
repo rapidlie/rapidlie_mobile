@@ -143,20 +143,6 @@ class _EventsScreenState extends State<EventsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'You have not created any event. Click on the button below to add your event',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                        color: ColorConstants.charcoalBlack,
-                        height: 1.2,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -188,18 +174,33 @@ class _EventsScreenState extends State<EventsScreen> {
                         });
                       },
                       child: Container(
-                        height: 50,
-                        width: 50,
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
+                          color: ColorConstants.primaryLight,
                           shape: BoxShape.circle,
-                          color: ColorConstants.primary,
                         ),
                         child: Icon(
                           Icons.add,
-                          color: ColorConstants.white,
+                          color: ColorConstants.primary,
+                          size: 30,
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'You have not created any event. Click on the button to add your event',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: ColorConstants.charcoalBlack,
+                        height: 1.2,
+                      ),
+                    ),
                   ],
                 ),
               )
