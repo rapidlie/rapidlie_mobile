@@ -47,7 +47,7 @@ class ButtonTemplate extends StatelessWidget {
               ),
             ),
       color: buttonColor,
-      splashColor: ColorConstants.secondary,
+      splashColor: ColorConstants.primaryDeep,
       elevation: 2,
       minWidth: buttonWidth,
       height: 50,
