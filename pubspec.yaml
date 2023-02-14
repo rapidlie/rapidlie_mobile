@@ -35,6 +35,7 @@ dependencies:
   expandable_page_view: ^1.0.17
   table_calendar: ^3.0.8
   image_picker: ^0.8.6+1
+  permission_handler: ^10.2.0
   
 
 dev_dependencies:
