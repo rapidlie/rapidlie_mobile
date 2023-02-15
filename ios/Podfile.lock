@@ -3,51 +3,61 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - libphonenumber (0.0.1):
+  - image_picker_ios (0.0.1):
     - Flutter
-    - libPhoneNumber-iOS
-  - libPhoneNumber-iOS (0.9.15)
   - libphonenumber_plugin (0.0.1):
     - Flutter
-    - libphonenumber
-    - libPhoneNumber-iOS
-  - path_provider_ios (0.0.1):
+    - PhoneNumberKit
+  - path_provider_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - PhoneNumberKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
+    - PhoneNumberKit/UIKit (= 3.3.4)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
+  - PhoneNumberKit/UIKit (3.3.4):
+    - PhoneNumberKit/PhoneNumberKitCore
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   trunk:
     - FMDB
-    - libPhoneNumber-iOS
+    - PhoneNumberKit
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  libphonenumber:
-    :path: ".symlinks/plugins/libphonenumber/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   libphonenumber_plugin:
     :path: ".symlinks/plugins/libphonenumber_plugin/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
-  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
+  libphonenumber_plugin: e8a7d64a6624a7c25f2c4ab0b7ead2a8e341e35e
+  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b

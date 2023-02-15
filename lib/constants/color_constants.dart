@@ -9,6 +9,7 @@ class ColorConstants {
 
   static Color primary = colorFromHex('#3F8FED');
   static Color primaryLight = colorFromHex('#DBE8F8');
+  static Color primaryDeep = colorFromHex('#137AF3');
   static Color secondary = colorFromHex('#092147');
   static Color white = colorFromHex('#FFFFFF');
   static Color black = colorFromHex('#000000');

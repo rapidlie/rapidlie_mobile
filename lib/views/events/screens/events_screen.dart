@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
@@ -56,7 +59,9 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedStartTimeChecker = 1000000000;
   int selectedEndTimeChecker = 1000000000;
   bool allDay = false;
+  bool publicEvent = false;
   int showBackButton = 0;
+  File? imageFile;
 
   @override
   void initState() {
@@ -131,6 +136,20 @@ class _EventsScreenState extends State<EventsScreen> {
         );
       },
     );
+  }
+
+  _getFromGallery(StateSetter setstate) async {
+    XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: Get.width,
+    );
+    if (pickedFile != null) {
+      final File? convertedImagefile = File(pickedFile.path);
+      setstate(() {
+        imageFile = File(convertedImagefile!.path);
+      });
+    }
   }
 
   @override
@@ -321,7 +340,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 children: [
                   firstSheetContent(setState),
                   secondSheetContent(setState),
-                  thirdSheetContent(),
+                  thirdSheetContent(setState),
                 ],
               ),
             )
@@ -375,18 +394,33 @@ class _EventsScreenState extends State<EventsScreen> {
           SizedBox(
             height: 8,
           ),
-          Container(
-            height: 200,
-            width: Get.width,
-            decoration: BoxDecoration(
-                color: ColorConstants.colorFromHex("#FFFFFF"),
-                borderRadius: BorderRadius.circular(10),
-                border:
-                    Border.all(color: ColorConstants.colorFromHex("#C6CDD3"))),
-            child: Icon(
-              Icons.add_photo_alternate,
-              size: 100,
-              color: ColorConstants.gray,
+          GestureDetector(
+            onTap: () {
+              _getFromGallery(setState);
+            },
+            child: Container(
+              height: 200,
+              width: Get.width,
+              decoration: BoxDecoration(
+                  color: ColorConstants.colorFromHex("#FFFFFF"),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"))),
+              child: imageFile == null
+                  ? Icon(
+                      Icons.add_photo_alternate,
+                      size: 100,
+                      color: ColorConstants.gray,
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        child: Image.file(
+                          imageFile!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
             ),
           ),
           Padding(
@@ -685,40 +719,92 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  thirdSheetContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Get.to(() => ContactListScreen());
-          },
-          child: Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: ColorConstants.primaryLight,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.add,
-              color: ColorConstants.primary,
-              size: 30,
+  thirdSheetContent(StateSetter setState) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                publicEvent = !publicEvent;
+              });
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      width: publicEvent ? 0 : 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: publicEvent
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Public event',
+                  style: TextStyle(
+                    fontFamily: "Metropolis",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: publicEvent
+                        ? ColorConstants.primary
+                        : ColorConstants.colorFromHex("#C6CDD3"),
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          'Invite your friends.',
-          style: TextStyle(
-            fontSize: 15.0,
-            fontFamily: 'Metropolis',
-            fontWeight: FontWeight.w500,
+          SizedBox(
+            height: 60,
           ),
-        ),
-      ],
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ContactListScreen());
+            },
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                color: ColorConstants.primaryLight,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add,
+                color: ColorConstants.primary,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Invite your friends.',
+            style: TextStyle(
+              fontSize: 14.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

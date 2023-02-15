@@ -28,7 +28,7 @@ class ContactListScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 17.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.w600,
                     color: ColorConstants.black,
                   ),
