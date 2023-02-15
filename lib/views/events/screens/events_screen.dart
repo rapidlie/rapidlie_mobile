@@ -59,6 +59,7 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedStartTimeChecker = 1000000000;
   int selectedEndTimeChecker = 1000000000;
   bool allDay = false;
+  bool publicEvent = false;
   int showBackButton = 0;
   File? imageFile;
 
@@ -339,7 +340,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 children: [
                   firstSheetContent(setState),
                   secondSheetContent(setState),
-                  thirdSheetContent(),
+                  thirdSheetContent(setState),
                 ],
               ),
             )
@@ -718,40 +719,92 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  thirdSheetContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Get.to(() => ContactListScreen());
-          },
-          child: Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: ColorConstants.primaryLight,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.add,
-              color: ColorConstants.primary,
-              size: 30,
+  thirdSheetContent(StateSetter setState) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                publicEvent = !publicEvent;
+              });
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      width: publicEvent ? 0 : 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: publicEvent
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Public event',
+                  style: TextStyle(
+                    fontFamily: "Metropolis",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: publicEvent
+                        ? ColorConstants.primary
+                        : ColorConstants.colorFromHex("#C6CDD3"),
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          'Invite your friends.',
-          style: TextStyle(
-            fontSize: 14.0,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w400,
+          SizedBox(
+            height: 60,
           ),
-        ),
-      ],
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ContactListScreen());
+            },
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                color: ColorConstants.primaryLight,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add,
+                color: ColorConstants.primary,
+                size: 30,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Invite your friends.',
+            style: TextStyle(
+              fontSize: 14.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
