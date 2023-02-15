@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/components/button_template.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
@@ -57,6 +60,7 @@ class _EventsScreenState extends State<EventsScreen> {
   int selectedEndTimeChecker = 1000000000;
   bool allDay = false;
   int showBackButton = 0;
+  File? imageFile;
 
   @override
   void initState() {
@@ -131,6 +135,20 @@ class _EventsScreenState extends State<EventsScreen> {
         );
       },
     );
+  }
+
+  _getFromGallery(StateSetter setstate) async {
+    XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+      maxWidth: Get.width,
+    );
+    if (pickedFile != null) {
+      final File? convertedImagefile = File(pickedFile.path);
+      setstate(() {
+        imageFile = File(convertedImagefile!.path);
+      });
+    }
   }
 
   @override
@@ -375,18 +393,33 @@ class _EventsScreenState extends State<EventsScreen> {
           SizedBox(
             height: 8,
           ),
-          Container(
-            height: 200,
-            width: Get.width,
-            decoration: BoxDecoration(
-                color: ColorConstants.colorFromHex("#FFFFFF"),
-                borderRadius: BorderRadius.circular(10),
-                border:
-                    Border.all(color: ColorConstants.colorFromHex("#C6CDD3"))),
-            child: Icon(
-              Icons.add_photo_alternate,
-              size: 100,
-              color: ColorConstants.gray,
+          GestureDetector(
+            onTap: () {
+              _getFromGallery(setState);
+            },
+            child: Container(
+              height: 200,
+              width: Get.width,
+              decoration: BoxDecoration(
+                  color: ColorConstants.colorFromHex("#FFFFFF"),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                      color: ColorConstants.colorFromHex("#C6CDD3"))),
+              child: imageFile == null
+                  ? Icon(
+                      Icons.add_photo_alternate,
+                      size: 100,
+                      color: ColorConstants.gray,
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        child: Image.file(
+                          imageFile!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
             ),
           ),
           Padding(
