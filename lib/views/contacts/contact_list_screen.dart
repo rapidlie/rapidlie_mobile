@@ -68,7 +68,9 @@ class ContactListScreen extends StatelessWidget {
                   buttonColor: ColorConstants.primary,
                   buttonWidth: Get.width,
                   buttonHeight: 50,
-                  buttonAction: () {},
+                  buttonAction: () {
+                    inviteFriend();
+                  },
                   fontColor: Colors.white,
                   textSize: 10,
                   buttonBorderRadius: 10,
