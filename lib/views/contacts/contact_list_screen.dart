@@ -2,10 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/components/app_bar_template.dart';
 import 'package:rapidlie/components/button_template.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/color_constants.dart';
 
 class ContactListScreen extends StatelessWidget {
+  void inviteFriend() async {
+    String message = "Hey, check out this cool event app!";
+    String encodedMessage = Uri.encodeComponent(message);
+    String smsUrl = "sms:?body=$encodedMessage";
+
+    if (await canLaunchUrl(Uri.parse(smsUrl))) {
+      await launchUrl(Uri.parse(smsUrl));
+    } else {
+      throw "Could not launch $smsUrl";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
