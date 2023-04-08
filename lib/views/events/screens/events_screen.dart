@@ -78,6 +78,8 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.colorFromHex("#F1F5F9"),
+      floatingActionButton:
+          eventsCreated.length == 0 ? Container() : buttonToShowModal(),
       body: SafeArea(
         child: eventsCreated.length == 0
             ? Padding(
@@ -85,50 +87,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16),
-                            ),
-                          ),
-                          isScrollControlled: true,
-                          builder: (context) {
-                            return StatefulBuilder(
-                              builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return SingleChildScrollView(
-                                  primary: true,
-                                  child: GestureDetector(
-                                    onTap: () => closeMenu(),
-                                    child: bottomSheetLayout(setState),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ).whenComplete(() {
-                          closeMenu();
-                          showBackButton = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: ColorConstants.primaryLight,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: ColorConstants.primary,
-                          size: 30,
-                        ),
-                      ),
-                    ),
+                    buttonToShowModal(),
                     SizedBox(
                       height: 20,
                     ),
@@ -278,6 +237,52 @@ class _EventsScreenState extends State<EventsScreen> {
                   ),
                 ),
               ),
+      ),
+    );
+  }
+
+  buttonToShowModal() {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          isScrollControlled: true,
+          builder: (context) {
+            return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return SingleChildScrollView(
+                  primary: true,
+                  child: GestureDetector(
+                    onTap: () => closeMenu(),
+                    child: bottomSheetLayout(setState),
+                  ),
+                );
+              },
+            );
+          },
+        ).whenComplete(() {
+          closeMenu();
+          showBackButton = 0;
+        });
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: ColorConstants.primaryLight,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.add,
+          color: ColorConstants.primary,
+          size: 30,
+        ),
       ),
     );
   }
