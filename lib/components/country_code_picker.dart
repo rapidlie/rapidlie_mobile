@@ -2,6 +2,7 @@ import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:rapidlie/constants/color_constants.dart';
 
+// ignore: must_be_immutable
 class CountryCodeLayout extends StatefulWidget {
   String countryCode;
 
