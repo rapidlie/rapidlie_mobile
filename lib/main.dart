@@ -9,8 +9,6 @@ import 'package:rapidlie/views/rapid_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
 
 import 'views/auth/screens/signup_screen.dart';
-import 'views/events/screens/events_screen.dart';
-import 'views/invites/screens/invites_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());

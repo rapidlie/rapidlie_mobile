@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/components/button_template.dart';
+import 'package:rapidlie/components/custom_calendar.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
 import 'package:rapidlie/views/contacts/contact_list_screen.dart';
@@ -18,7 +19,8 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
-  List eventsCreated = [];
+  List eventsCreated = ["", ""];
+  //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   int bottomSheetContentIndex = 0;
@@ -72,6 +74,219 @@ class _EventsScreenState extends State<EventsScreen> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: ColorConstants.colorFromHex("#F1F5F9"),
+      floatingActionButton:
+          eventsCreated.length == 0 ? Container() : buttonToShowModal(),
+      body: SafeArea(
+        child: eventsCreated.length == 0
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buttonToShowModal(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'You have not created any event. Click on the button to add your event',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: ColorConstants.charcoalBlack,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                  height: Get.height,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 60),
+                    child: ListView.builder(
+                      itemCount: 3,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 30.0),
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.asset(
+                                      "assets/images/dansoman.jpeg",
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Eugene weds Jedidah",
+                                          softWrap: true,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 19.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: ColorConstants.black,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Saturday, 28",
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    ColorConstants.colorFromHex(
+                                                        "#747373"),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              " - ",
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    ColorConstants.colorFromHex(
+                                                        "#747373"),
+                                              ),
+                                            ),
+                                            Text(
+                                              "11:30am",
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    ColorConstants.colorFromHex(
+                                                        "#747373"),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.group,
+                                              color:
+                                                  ColorConstants.colorFromHex(
+                                                      "#747373"),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "120",
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400,
+                                                color:
+                                                    ColorConstants.colorFromHex(
+                                                        "#747373"),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+
+  buttonToShowModal() {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          isScrollControlled: true,
+          builder: (context) {
+            return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return SingleChildScrollView(
+                  primary: true,
+                  child: GestureDetector(
+                    onTap: () => closeMenu(),
+                    child: bottomSheetLayout(setState),
+                  ),
+                );
+              },
+            );
+          },
+        ).whenComplete(() {
+          closeMenu();
+          showBackButton = 0;
+        });
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: ColorConstants.primaryLight,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.add,
+          color: ColorConstants.primary,
+          size: 30,
+        ),
+      ),
+    );
+  }
+
   findButton(GlobalKey _key) {
     RenderBox? renderBox =
         _key.currentContext!.findRenderObject() as RenderBox?;
@@ -79,7 +294,7 @@ class _EventsScreenState extends State<EventsScreen> {
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
 
-  void closeMenu() {
+  closeMenu() {
     if (_overlayEntry != null && _overlayEntry!.mounted) {
       _overlayEntry!.remove();
       _overlayEntry = null;
@@ -91,7 +306,7 @@ class _EventsScreenState extends State<EventsScreen> {
     findButton(_key);
     _overlayEntry = _overlayEntryBuilder(
         tableCalendar(setState), buttonPosition.dx, buttonSize.width, null);
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
@@ -99,7 +314,7 @@ class _EventsScreenState extends State<EventsScreen> {
     findButton(_key);
     _overlayEntry = _overlayEntryBuilder(startTimeDropDown(setState, _key),
         null, buttonSize.width / 1.2, buttonPosition.dx);
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
@@ -107,7 +322,7 @@ class _EventsScreenState extends State<EventsScreen> {
     findButton(_key);
     _overlayEntry = _overlayEntryBuilder(endTimeDropDown(setState, _key), null,
         buttonSize.width / 1.2, buttonPosition.dx);
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
 
@@ -150,94 +365,6 @@ class _EventsScreenState extends State<EventsScreen> {
         imageFile = File(convertedImagefile!.path);
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: eventsCreated.length == 0
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16),
-                            ),
-                          ),
-                          isScrollControlled: true,
-                          builder: (context) {
-                            return StatefulBuilder(
-                              builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return SingleChildScrollView(
-                                  primary: true,
-                                  child: GestureDetector(
-                                    onTap: () => closeMenu(),
-                                    child: bottomSheetLayout(setState),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ).whenComplete(() {
-                          closeMenu();
-                          showBackButton = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: ColorConstants.primaryLight,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: ColorConstants.primary,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'You have not created any event. Click on the button to add your event',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                        color: ColorConstants.charcoalBlack,
-                        height: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      child: Center(
-                        child: Text(
-                          "Events screen",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
   }
 
   Widget bottomSheetLayout(StateSetter setState) {
