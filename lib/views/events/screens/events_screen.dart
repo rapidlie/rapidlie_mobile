@@ -202,9 +202,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                           children: [
                                             Icon(
                                               Icons.group,
-                                              color:
-                                                  ColorConstants.colorFromHex(
-                                                      "#747373"),
+                                              color: ColorConstants.primary,
                                             ),
                                             SizedBox(
                                               width: 5,
@@ -216,10 +214,8 @@ class _EventsScreenState extends State<EventsScreen> {
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontSize: 15.0,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    ColorConstants.colorFromHex(
-                                                        "#747373"),
+                                                fontWeight: FontWeight.w500,
+                                                color: ColorConstants.primary,
                                               ),
                                             ),
                                           ],
