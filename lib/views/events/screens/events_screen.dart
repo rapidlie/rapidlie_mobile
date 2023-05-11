@@ -8,6 +8,7 @@ import 'package:rapidlie/components/custom_calendar.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
 import 'package:rapidlie/views/contacts/contact_list_screen.dart';
+import 'package:rapidlie/views/events/screens/event_details_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -109,122 +110,126 @@ class _EventsScreenState extends State<EventsScreen> {
                 child: Container(
                   height: Get.height,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 60),
+                    padding: const EdgeInsets.only(
+                        left: 24.0, right: 24, top: 60, bottom: 120),
                     child: ListView.builder(
-                      itemCount: 3,
+                      itemCount: 10,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 30.0),
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => EventDetailsScreeen());
+                          },
                           child: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: 100,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset(
-                                      "assets/images/dansoman.jpeg",
-                                      fit: BoxFit.fill,
+                            padding: const EdgeInsets.only(bottom: 30.0),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.asset(
+                                        "assets/images/dansoman.jpeg",
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Flexible(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Eugene weds Jedidah",
-                                          softWrap: true,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 19.0,
-                                            fontWeight: FontWeight.w500,
-                                            color: ColorConstants.black,
-                                            overflow: TextOverflow.ellipsis,
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "Eugene weds Jedidah",
+                                            softWrap: true,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 19.0,
+                                              fontWeight: FontWeight.w500,
+                                              color: ColorConstants.black,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Saturday, 28",
-                                              softWrap: true,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    ColorConstants.colorFromHex(
-                                                        "#747373"),
-                                                overflow: TextOverflow.ellipsis,
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Saturday, 28",
+                                                softWrap: true,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: ColorConstants
+                                                      .colorFromHex("#747373"),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              " - ",
-                                              softWrap: true,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    ColorConstants.colorFromHex(
-                                                        "#747373"),
+                                              Text(
+                                                " - ",
+                                                softWrap: true,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: ColorConstants
+                                                      .colorFromHex("#747373"),
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              "11:30am",
-                                              softWrap: true,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    ColorConstants.colorFromHex(
-                                                        "#747373"),
+                                              Text(
+                                                "11:30am",
+                                                softWrap: true,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: ColorConstants
+                                                      .colorFromHex("#747373"),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.group,
-                                              color: ColorConstants.primary,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "120",
-                                              softWrap: true,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w500,
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.group,
                                                 color: ColorConstants.primary,
                                               ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "120",
+                                                softWrap: true,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: ColorConstants.primary,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );
