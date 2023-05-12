@@ -44,7 +44,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       fontSize: 20.0,
                     ),
                   ),
@@ -194,9 +194,9 @@ class EventDetailsScreeen extends StatelessWidget {
                         style: TextStyle(
                           color: ColorConstants.secondary,
                           fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 16.0,
-                          fontStyle: FontStyle.italic,
+                          //fontStyle: FontStyle.italic,
                         ),
                       ),
                     ),
@@ -210,6 +210,91 @@ class EventDetailsScreeen extends StatelessWidget {
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
                         fontSize: 15.0,
+                      ),
+                    ),
+                    Container(
+                      width: double.maxFinite,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConstants.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorConstants.gray,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 200,
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: ColorConstants.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.gray,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 110,
+                            child: Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: ColorConstants.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.gray,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: -50,
+                            height: 60,
+                            child: Center(
+                              child: Text(
+                                '32 Invites',
+                                style: TextStyle(
+                                  color: ColorConstants.black,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
