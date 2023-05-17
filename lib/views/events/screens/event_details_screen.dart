@@ -225,10 +225,11 @@ class EventDetailsScreeen extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: ColorConstants.gray,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: CircleAvatar(
+                                  foregroundImage:
+                                      AssetImage("assets/images/usr1.png"),
                                 ),
                               ),
                             ),
@@ -246,10 +247,11 @@ class EventDetailsScreeen extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: ColorConstants.gray,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: CircleAvatar(
+                                    foregroundImage:
+                                        AssetImage("assets/images/usr2.png"),
                                   ),
                                 ),
                               ),
@@ -268,10 +270,11 @@ class EventDetailsScreeen extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: ColorConstants.gray,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: CircleAvatar(
+                                    foregroundImage:
+                                        AssetImage("assets/images/usr4.png"),
                                   ),
                                 ),
                               ),
