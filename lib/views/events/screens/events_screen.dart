@@ -782,15 +782,26 @@ class _EventsScreenState extends State<EventsScreen> {
               });
             },
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text(
+                  'Is this event and "all day" event?',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color:
+                        allDay ? ColorConstants.primary : ColorConstants.black,
+                  ),
+                ),
                 Container(
                   height: 18,
                   width: 18,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    shape: BoxShape.rectangle,
                     color: ColorConstants.white,
                     border: Border.all(
-                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      color: ColorConstants.black,
                       width: allDay ? 0 : 2,
                     ),
                   ),
@@ -798,49 +809,83 @@ class _EventsScreenState extends State<EventsScreen> {
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      shape: BoxShape.rectangle,
                       color: allDay
                           ? ColorConstants.primary
                           : ColorConstants.white,
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'All day',
-                  style: TextStyle(
-                    fontFamily: "Metropolis",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: allDay
-                        ? ColorConstants.primary
-                        : ColorConstants.colorFromHex("#C6CDD3"),
-                  ),
-                )
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60.0),
-            child: ButtonTemplate(
-              buttonName: "next",
-              buttonColor: ColorConstants.primary,
-              buttonWidth: Get.width,
-              buttonHeight: 50,
-              buttonAction: () {
-                showBackButton = showBackButton + 1;
-                _pageViewController.animateTo(
-                  MediaQuery.of(context).size.width * 2,
-                  duration: new Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                );
-              },
-              fontColor: Colors.white,
-              textSize: 10,
-              buttonBorderRadius: 10,
+          SizedBox(
+            height: 24,
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                publicEvent = !publicEvent;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Public event',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: publicEvent
+                        ? ColorConstants.primary
+                        : ColorConstants.black,
+                  ),
+                ),
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.black,
+                      width: publicEvent ? 0 : 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: publicEvent
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          ButtonTemplate(
+            buttonName: "next",
+            buttonColor: ColorConstants.primary,
+            buttonWidth: Get.width,
+            buttonHeight: 50,
+            buttonAction: () {
+              showBackButton = showBackButton + 1;
+              _pageViewController.animateTo(
+                MediaQuery.of(context).size.width * 2,
+                duration: new Duration(milliseconds: 200),
+                curve: Curves.easeIn,
+              );
+            },
+            fontColor: Colors.white,
+            textSize: 10,
+            buttonBorderRadius: 10,
           ),
         ],
       ),
@@ -851,57 +896,8 @@ class _EventsScreenState extends State<EventsScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                publicEvent = !publicEvent;
-              });
-            },
-            child: Row(
-              children: [
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorConstants.white,
-                    border: Border.all(
-                      color: ColorConstants.colorFromHex("#C6CDD3"),
-                      width: publicEvent ? 0 : 2,
-                    ),
-                  ),
-                  child: Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: publicEvent
-                          ? ColorConstants.primary
-                          : ColorConstants.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Public event',
-                  style: TextStyle(
-                    fontFamily: "Metropolis",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: publicEvent
-                        ? ColorConstants.primary
-                        : ColorConstants.colorFromHex("#C6CDD3"),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 60,
-          ),
           GestureDetector(
             onTap: () {
               Get.to(() => ContactListScreen());
