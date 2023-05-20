@@ -864,6 +864,52 @@ class _EventsScreenState extends State<EventsScreen> {
           SizedBox(
             height: 16,
           ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                publicEvent = !publicEvent;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Public event',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: ColorConstants.black,
+                  ),
+                ),
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: ColorConstants.white,
+                    border: Border.all(
+                      color: ColorConstants.black,
+                      width: publicEvent ? 0 : 2,
+                    ),
+                  ),
+                  child: Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: publicEvent
+                          ? ColorConstants.primary
+                          : ColorConstants.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
