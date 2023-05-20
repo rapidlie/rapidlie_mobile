@@ -68,11 +68,17 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   void initState() {
-    _pageViewController = PageController();
+    _pageViewController = PageController(keepPage: false);
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageViewController.dispose();
+    super.dispose();
   }
 
   @override
@@ -469,6 +475,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   firstSheetContent(setState),
                   secondSheetContent(setState),
                   thirdSheetContent(setState),
+                  fourthSheetContent(setState),
                 ],
               ),
             )
@@ -775,97 +782,28 @@ class _EventsScreenState extends State<EventsScreen> {
           SizedBox(
             height: 24,
           ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                allDay = !allDay;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Is this event and "all day" event?',
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color:
-                        allDay ? ColorConstants.primary : ColorConstants.black,
-                  ),
-                ),
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: ColorConstants.white,
-                    border: Border.all(
-                      color: ColorConstants.black,
-                      width: allDay ? 0 : 2,
-                    ),
-                  ),
-                  child: Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: allDay
-                          ? ColorConstants.primary
-                          : ColorConstants.white,
-                    ),
-                  ),
-                ),
-              ],
+          Text(
+            'Location',
+            style: TextStyle(
+              fontSize: 14.0,
+              color: ColorConstants.charcoalBlack,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
             ),
           ),
           SizedBox(
-            height: 24,
+            height: 8,
           ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                publicEvent = !publicEvent;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Public event',
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: publicEvent
-                        ? ColorConstants.primary
-                        : ColorConstants.black,
-                  ),
-                ),
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: ColorConstants.white,
-                    border: Border.all(
-                      color: ColorConstants.black,
-                      width: publicEvent ? 0 : 2,
-                    ),
-                  ),
-                  child: Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: publicEvent
-                          ? ColorConstants.primary
-                          : ColorConstants.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          TextFieldTemplate(
+            hintText: 'Location',
+            controller: titleController,
+            obscureText: false,
+            width: Get.width,
+            height: 50,
+            textInputType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            enabled: true,
+            textFieldColor: Colors.white,
           ),
           SizedBox(
             height: 40,
@@ -893,6 +831,67 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   thirdSheetContent(StateSetter setState) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'About',
+            style: TextStyle(
+              fontSize: 14.0,
+              color: ColorConstants.charcoalBlack,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFieldTemplate(
+            hintText: '',
+            controller: titleController,
+            obscureText: false,
+            width: Get.width,
+            height: 200,
+            textInputType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            enabled: true,
+            textFieldColor: Colors.white,
+            numberOfLines: 10,
+            maxLength: 250,
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: ButtonTemplate(
+              buttonName: "next",
+              buttonColor: ColorConstants.primary,
+              buttonWidth: Get.width,
+              buttonHeight: 50,
+              buttonAction: () {
+                setState(() {
+                  showBackButton = showBackButton + 1;
+                });
+                _pageViewController.animateTo(
+                  MediaQuery.of(context).size.width * 3,
+                  duration: new Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                );
+              },
+              fontColor: Colors.white,
+              textSize: 10,
+              buttonBorderRadius: 10,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  fourthSheetContent(StateSetter setState) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
       child: Column(
