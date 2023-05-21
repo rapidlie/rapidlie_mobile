@@ -62,10 +62,20 @@ class TextFieldTemplate extends StatelessWidget {
           readOnly: readOnly ?? false,
           maxLength: maxLength,
           decoration: InputDecoration(
-            counterText: '',
+            //counterText: null,
+            //counter: ,
+            counterStyle: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                color: ColorConstants.black,
+                fontWeight: FontWeight.w500),
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
-                left: leftContentPadding, right: 14.0, top: 10, bottom: 10),
+              left: leftContentPadding,
+              right: 14.0,
+              top: 10,
+              bottom: 10,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(

@@ -24,6 +24,8 @@ class _EventsScreenState extends State<EventsScreen> {
   //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController aboutController = TextEditingController();
   int bottomSheetContentIndex = 0;
   String dateText = 'Date';
   late PageController _pageViewController;
@@ -796,7 +798,7 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
           TextFieldTemplate(
             hintText: 'Location',
-            controller: titleController,
+            controller: locationController,
             obscureText: false,
             width: Get.width,
             height: 50,
@@ -850,7 +852,7 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
           TextFieldTemplate(
             hintText: '',
-            controller: titleController,
+            controller: aboutController,
             obscureText: false,
             width: Get.width,
             height: 200,
