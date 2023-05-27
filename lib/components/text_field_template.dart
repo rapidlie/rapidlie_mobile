@@ -65,10 +65,11 @@ class TextFieldTemplate extends StatelessWidget {
             //counterText: null,
             //counter: ,
             counterStyle: TextStyle(
-                fontSize: 12,
-                fontFamily: "Poppins",
-                color: ColorConstants.black,
-                fontWeight: FontWeight.w500),
+              fontSize: 12,
+              fontFamily: "Poppins",
+              color: ColorConstants.primary,
+              fontWeight: FontWeight.w500,
+            ),
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,

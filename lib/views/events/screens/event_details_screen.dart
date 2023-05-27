@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/views/events/screens/guest_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsScreeen extends StatelessWidget {
@@ -212,33 +213,15 @@ class EventDetailsScreeen extends StatelessWidget {
                         fontSize: 15.0,
                       ),
                     ),
-                    Container(
-                      width: double.maxFinite,
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ColorConstants.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: FittedBox(
-                                fit: BoxFit.contain,
-                                child: CircleAvatar(
-                                  foregroundImage:
-                                      AssetImage("assets/images/usr1.png"),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 200,
-                            child: Container(
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => GuestListScreen());
+                      },
+                      child: Container(
+                        width: double.maxFinite,
+                        child: Stack(
+                          children: [
+                            Container(
                               width: 60,
                               height: 60,
                               decoration: BoxDecoration(
@@ -251,53 +234,76 @@ class EventDetailsScreeen extends StatelessWidget {
                                   fit: BoxFit.contain,
                                   child: CircleAvatar(
                                     foregroundImage:
-                                        AssetImage("assets/images/usr2.png"),
+                                        AssetImage("assets/images/usr1.png"),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 110,
-                            child: Container(
-                              width: 60,
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 200,
+                              child: Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorConstants.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: CircleAvatar(
+                                      foregroundImage:
+                                          AssetImage("assets/images/usr2.png"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 110,
+                              child: Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorConstants.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: CircleAvatar(
+                                      foregroundImage:
+                                          AssetImage("assets/images/usr4.png"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: -50,
                               height: 60,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorConstants.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: CircleAvatar(
-                                    foregroundImage:
-                                        AssetImage("assets/images/usr4.png"),
+                              child: Center(
+                                child: Text(
+                                  '32 Invites',
+                                  style: TextStyle(
+                                    color: ColorConstants.black,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18.0,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: -50,
-                            height: 60,
-                            child: Center(
-                              child: Text(
-                                '32 Invites',
-                                style: TextStyle(
-                                  color: ColorConstants.black,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

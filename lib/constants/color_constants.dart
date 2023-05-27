@@ -22,4 +22,10 @@ class ColorConstants {
   static Color closeButtonColor = colorFromHex('#848489');
   static Color charcoalBlack = colorFromHex('#0E0E0E');
   static Color gray900 = colorFromHex('#0e1339');
+  static Color acceptedContainerColor = colorFromHex('#EBFAF1');
+  static Color acceptedTextColor = colorFromHex('#24AE5F');
+  static Color rejectedContainerColor = colorFromHex('#FFF1E6');
+  static Color rejectedTextColor = colorFromHex('#E57E25');
+  static Color pendingContainerColor = colorFromHex('#CDF1FF');
+  static Color pendingTextColor = colorFromHex('#00ACE9');
 }
