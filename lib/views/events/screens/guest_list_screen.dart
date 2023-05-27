@@ -59,42 +59,6 @@ class GuestListScreen extends StatelessWidget {
     ),
   ];
 
-  List profileImg = [
-    "assets/images/usr1.png",
-    "assets/images/usr2.png",
-    "assets/images/usr3.png",
-    "assets/images/usr4.png",
-    "assets/images/usr1.png",
-    "assets/images/usr2.png",
-    "assets/images/usr3.png",
-    "assets/images/usr4.png",
-    "assets/images/usr1.png",
-    "assets/images/usr2.png",
-  ];
-  List userNames = [
-    "Eugene Ofori Asiedu",
-    "Jedidah Narko Odechie Amanor",
-    "Patience Asiedu",
-    "Kofi Asiedu",
-    "Abigail Asiedu",
-    "Andrews Yawson",
-    "Ronnald Kofi Yanney",
-    "Seyram Kofi Mantey",
-    "Quincy Hagan",
-    "Alberta Hagan",
-  ];
-  List eventStatus = [
-    "ACCEPTED",
-    "PENDING",
-    "ACCEPTED",
-    "REJECTED",
-    "REJECTED",
-    "PENDING",
-    "ACCEPTED",
-    "REJECTED",
-    "REJECTED",
-    "ACCEPTED",
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
