@@ -1,10 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rapidlie/views/contacts/contact_details.dart';
 
 import '../../../components/app_bar_template.dart';
 import '../../../constants/color_constants.dart';
 
 class GuestListScreen extends StatelessWidget {
+  List<ContactDetails> invitedGuests = [
+    ContactDetails(
+      name: "Eugene Ofori Asiedu",
+      image: "assets/images/usr1.png",
+      status: Status.accepted,
+    ),
+    ContactDetails(
+      name: "Jedidah Narko Odechie Amanor",
+      image: "assets/images/usr2.png",
+      status: Status.pending,
+    ),
+    ContactDetails(
+      name: "Patience Asiedu",
+      image: "assets/images/usr3.png",
+      status: Status.accepted,
+    ),
+    ContactDetails(
+      name: "Kofi Asiedu",
+      image: "assets/images/usr4.png",
+      status: Status.rejected,
+    ),
+    ContactDetails(
+      name: "Abigail Akua Agyeiwaa Asiedu",
+      image: "assets/images/usr1.png",
+      status: Status.pending,
+    ),
+    ContactDetails(
+      name: "Ronald Kofi Yanney",
+      image: "assets/images/usr2.png",
+      status: Status.accepted,
+    ),
+    ContactDetails(
+      name: "Seyram Kofi Mantey",
+      image: "assets/images/usr3.png",
+      status: Status.rejected,
+    ),
+    ContactDetails(
+      name: "Quincy Hagan",
+      image: "assets/images/usr4.png",
+      status: Status.rejected,
+    ),
+    ContactDetails(
+      name: "Alberta Hagan",
+      image: "assets/images/usr1.png",
+      status: Status.accepted,
+    ),
+    ContactDetails(
+      name: "Andrews Yawson",
+      image: "assets/images/usr2.png",
+      status: Status.accepted,
+    ),
+  ];
+
   List profileImg = [
     "assets/images/usr1.png",
     "assets/images/usr2.png",
@@ -58,9 +112,9 @@ class GuestListScreen extends StatelessWidget {
               itemCount: 10,
               itemBuilder: (context, index) {
                 return guestListLayout(
-                  profileImg[index],
-                  userNames[index],
-                  eventStatus[index],
+                  invitedGuests[index].image!,
+                  invitedGuests[index].name,
+                  invitedGuests[index].status!,
                 );
               },
             ),
@@ -70,7 +124,7 @@ class GuestListScreen extends StatelessWidget {
     );
   }
 
-  guestListLayout(String imageUrl, String userName, String eventStatus) {
+  guestListLayout(String imageUrl, String userName, Status eventStatus) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,17 +168,29 @@ class GuestListScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: ColorConstants.acceptedContainerColor,
+              color: eventStatus == Status.accepted
+                  ? ColorConstants.acceptedContainerColor
+                  : eventStatus == Status.rejected
+                      ? ColorConstants.rejectedContainerColor
+                      : ColorConstants.pendingContainerColor,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(5.0),
               child: Text(
-                eventStatus,
+                eventStatus == Status.accepted
+                    ? "ACCEPTED"
+                    : eventStatus == Status.rejected
+                        ? "REJECTED"
+                        : "PENDING",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   fontFamily: "Poppins",
-                  color: ColorConstants.acceptedTextColor,
+                  color: eventStatus == Status.accepted
+                      ? ColorConstants.acceptedTextColor
+                      : eventStatus == Status.rejected
+                          ? ColorConstants.rejectedTextColor
+                          : ColorConstants.pendingTextColor,
                 ),
               ),
             ),
