@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import '../constants/color_constants.dart';
 
 class TextFieldTemplate extends StatelessWidget {
@@ -15,11 +17,15 @@ class TextFieldTemplate extends StatelessWidget {
   final Color? textFieldColor;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  int numberOfLines;
+  int? maxLength;
 
   TextFieldTemplate({
+    Key? key,
     required this.hintText,
     required this.controller,
     required this.obscureText,
+    this.readOnly,
     required this.width,
     required this.height,
     required this.textInputType,
@@ -29,13 +35,14 @@ class TextFieldTemplate extends StatelessWidget {
     this.textFieldColor,
     this.prefixIcon,
     this.suffixIcon,
-    this.readOnly,
-  });
+    this.numberOfLines = 1,
+    this.maxLength,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: height,
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
@@ -48,28 +55,38 @@ class TextFieldTemplate extends StatelessWidget {
           obscureText: obscureText,
           autofocus: false,
           enabled: enabled,
-          maxLines: 1,
+          maxLines: numberOfLines,
           keyboardType: textInputType,
           textInputAction: textInputAction,
           autocorrect: false,
           readOnly: readOnly ?? false,
+          maxLength: maxLength,
           decoration: InputDecoration(
-            counterText: '',
+            //counterText: null,
+            //counter: ,
+            counterStyle: TextStyle(
+              fontSize: 12,
+              fontFamily: "Poppins",
+              color: ColorConstants.primary,
+              fontWeight: FontWeight.w500,
+            ),
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,
               right: 14.0,
+              top: 10,
+              bottom: 10,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: ColorConstants.colorFromHex("#C6CDD3"),
+                color: ColorConstants.white,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: ColorConstants.primary,
+                color: ColorConstants.white,
               ),
             ),
             hintStyle: TextStyle(
