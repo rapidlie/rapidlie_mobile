@@ -1,9 +1,10 @@
 class ContactDetails {
   final String name;
-  final String telephone;
-  final String? image;
+  String? telephone;
+  String? image;
+  Status? status;
 
-  ContactDetails(this.name, this.telephone, this.image);
+  ContactDetails({required this.name, this.telephone, this.image, this.status});
 }
 
 enum Status {
