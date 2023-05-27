@@ -5,3 +5,9 @@ class ContactDetails {
 
   ContactDetails(this.name, this.telephone, this.image);
 }
+
+enum Status {
+  accepted,
+  rejected,
+  pending,
+}
