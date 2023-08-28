@@ -32,22 +32,43 @@ class EventDetailsScreeen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
+            automaticallyImplyLeading: false,
+            leading: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black,
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(20),
               child: Container(
                 color: Colors.white,
                 width: double.maxFinite,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20.0, bottom: 20, top: 20),
-                  child: Text(
-                    "Eugene weds Jedidah",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20.0,
-                    ),
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Eugene weds Jedidah",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      Icon(
+                        Icons.edit,
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -292,7 +313,7 @@ class EventDetailsScreeen extends StatelessWidget {
                               height: 60,
                               child: Center(
                                 child: Text(
-                                  '32 Invites',
+                                  '32 guests',
                                   style: TextStyle(
                                     color: ColorConstants.black,
                                     fontFamily: "Poppins",
