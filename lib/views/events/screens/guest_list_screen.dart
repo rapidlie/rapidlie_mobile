@@ -119,6 +119,8 @@ class GuestListScreen extends StatelessWidget {
                 width: 200,
                 child: Text(
                   userName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
                     color: ColorConstants.black,
