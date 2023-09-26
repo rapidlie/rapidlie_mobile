@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/components/button_template.dart';
-import 'package:rapidlie/components/custom_calendar.dart';
 import 'package:rapidlie/components/text_field_template.dart';
 import 'package:rapidlie/constants/color_constants.dart';
 import 'package:rapidlie/views/contacts/contact_list_screen.dart';
@@ -793,11 +792,20 @@ class _EventsScreenState extends State<EventsScreen> {
               fontWeight: FontWeight.w400,
             ),
           ),
+          Text(
+            'This is the name of the building',
+            style: TextStyle(
+              fontSize: 12.0,
+              color: ColorConstants.charcoalBlack,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           SizedBox(
             height: 8,
           ),
           TextFieldTemplate(
-            hintText: 'Location',
+            hintText: 'eg. Club 250',
             controller: locationController,
             obscureText: false,
             width: Get.width,
