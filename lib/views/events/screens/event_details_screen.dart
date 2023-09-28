@@ -35,14 +35,17 @@ class EventDetailsScreeen extends StatelessWidget {
             automaticallyImplyLeading: false,
             leading: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.black,
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                  ),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
