@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
         InvitesScreen.routeName: (context) => InvitesScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
       },
-      initialRoute: RapidScreen.routeName,
+      //initialRoute: RapidScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       onGenerateRoute: (RouteSettings settings) {
         return null;
       },
