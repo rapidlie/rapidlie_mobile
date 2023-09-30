@@ -45,8 +45,8 @@ class TextFieldTemplate extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: textFieldColor ?? ColorConstants.lightGray,
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.white,
       ),
       child: Center(
         child: TextField(
@@ -64,12 +64,12 @@ class TextFieldTemplate extends StatelessWidget {
           decoration: InputDecoration(
             //counterText: null,
             //counter: ,
-            counterStyle: TextStyle(
+            /*  counterStyle: TextStyle(
               fontSize: 12,
               fontFamily: "Poppins",
               color: ColorConstants.primary,
               fontWeight: FontWeight.w500,
-            ),
+            ), */
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,
@@ -78,15 +78,16 @@ class TextFieldTemplate extends StatelessWidget {
               bottom: 10,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
-                color: ColorConstants.white,
+                color: ColorConstants.black,
               ),
             ),
+
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
-                color: ColorConstants.white,
+                color: ColorConstants.black,
               ),
             ),
             hintStyle: TextStyle(
