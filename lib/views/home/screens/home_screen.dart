@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/components/homepage_actions.dart';
-import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/widgets/homepage_actions.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home";

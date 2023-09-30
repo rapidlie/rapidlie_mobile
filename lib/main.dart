@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
-import 'package:rapidlie/views/auth/screens/login_screen.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/views/events/screens/events_screen.dart';
 import 'package:rapidlie/views/home/screens/home_screen.dart';
 import 'package:rapidlie/views/invites/screens/invites_screen.dart';

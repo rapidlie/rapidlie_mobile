@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/components/button_template.dart';
-import 'package:rapidlie/components/country_code_picker.dart';
-import 'package:rapidlie/components/text_field_template.dart';
-import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/core/widgets/country_code_picker.dart';
+import 'package:rapidlie/core/widgets/text_field_template.dart';
 
 import 'create_account_screen.dart';
 
