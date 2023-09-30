@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/views/contacts/contact_details.dart';
 
-import '../../../components/app_bar_template.dart';
-import '../../../constants/color_constants.dart';
+import '../../../core/constants/color_constants.dart';
 
 class GuestListScreen extends StatelessWidget {
   List<ContactDetails> invitedGuests = [

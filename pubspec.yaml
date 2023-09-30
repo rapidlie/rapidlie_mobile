@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^0.8.6+1
   permission_handler: ^10.2.0
   url_launcher: ^6.1.9
+  bloc: ^8.1.2
   
 
 dev_dependencies:
@@ -73,31 +74,6 @@ flutter:
           weight: 400
         - asset: fonts/PoppinsSemiBold.ttf
           weight: 600
-    - family: Metropolis
-      fonts:
-        - asset: fonts/Metropolis-Black.otf
-        - asset: fonts/Metropolis-BlackItalic.otf
-        - asset: fonts/Metropolis-Bold.otf
-          weight: 700
-        - asset: fonts/Metropolis-ExtraBold.otf
-          weight: 800
-        - asset: fonts/Metropolis-ExtraBoldItalic.otf
-        - asset: fonts/Metropolis-BoldItalic.otf
-        - asset: fonts/Metropolis-ExtraLight.otf
-        - asset: fonts/Metropolis-ExtraLightItalic.otf
-        - asset: fonts/Metropolis-Light.otf
-        - asset: fonts/Metropolis-LightItalic.otf
-        - asset: fonts/Metropolis-Medium.otf
-          weight: 500
-        - asset: fonts/Metropolis-MediumItalic.otf
-        - asset: fonts/Metropolis-Regular.otf
-          weight: 400
-        - asset: fonts/Metropolis-RegularItalic.otf
-        - asset: fonts/Metropolis-SemiBold.otf
-          weight: 600
-        - asset: fonts/Metropolis-SemiBoldItalic.otf
-        - asset: fonts/Metropolis-Thin.otf
-        - asset: fonts/Metropolis-ThinItalic.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/components/app_bar_template.dart';
-import 'package:rapidlie/components/button_template.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../constants/color_constants.dart';
+import '../../core/constants/color_constants.dart';
 
 class ContactListScreen extends StatelessWidget {
   void inviteFriend() async {

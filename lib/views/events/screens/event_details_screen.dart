@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/views/events/screens/guest_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
