@@ -17,8 +17,8 @@ class TextFieldTemplate extends StatelessWidget {
   final Color? textFieldColor;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  int numberOfLines;
-  int? maxLength;
+  final int numberOfLines;
+  final int? maxLength;
 
   TextFieldTemplate({
     Key? key,
