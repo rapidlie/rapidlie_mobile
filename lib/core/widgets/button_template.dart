@@ -42,13 +42,13 @@ class ButtonTemplate extends StatelessWidget {
               style: TextStyle(
                 color: fontColor,
                 fontSize: 15.0,
-                fontFamily: 'Metropolis',
+                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
               ),
             ),
       color: Colors.black,
-      //splashColor: ColorConstants.primaryDeep,
-      elevation: 2,
+      splashColor: Colors.black45,
+      elevation: 1,
       minWidth: buttonWidth,
       height: 50,
       shape: RoundedRectangleBorder(
