@@ -67,9 +67,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: ButtonTemplate(
                     buttonName: "Create account",
-                    buttonColor: ColorConstants.primary,
                     buttonWidth: width,
-                    buttonHeight: 50,
                     buttonAction: () {
                       Navigator.push(
                         context,
@@ -80,9 +78,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                       );
                     },
-                    fontColor: ColorConstants.white,
-                    textSize: 12.0,
-                    buttonBorderRadius: 10,
                   ),
                 )
               ],

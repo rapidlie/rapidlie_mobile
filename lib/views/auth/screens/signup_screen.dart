@@ -77,18 +77,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ButtonTemplate(
                       buttonName: "Register",
-                      buttonColor: ColorConstants.primary,
                       buttonWidth: width,
-                      buttonHeight: 50,
                       buttonAction: () {
                         Navigator.pushNamed(
                           context,
                           CreateAccountScreen.routeName,
                         );
                       },
-                      fontColor: ColorConstants.white,
-                      textSize: 14,
-                      buttonBorderRadius: 10.0,
                     ),
                   ),
                 ],

@@ -65,15 +65,10 @@ class ContactListScreen extends StatelessWidget {
                 ),
                 ButtonTemplate(
                   buttonName: "invite friends",
-                  buttonColor: ColorConstants.primary,
                   buttonWidth: Get.width,
-                  buttonHeight: 50,
                   buttonAction: () {
                     inviteFriend();
                   },
-                  fontColor: Colors.white,
-                  textSize: 10,
-                  buttonBorderRadius: 10,
                 )
               ],
             ),
