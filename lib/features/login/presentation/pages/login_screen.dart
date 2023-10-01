@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Container(
               height: height,
               child: Column(
@@ -48,22 +48,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     enabled: true,
-                    //leftContentPadding: 120,
                   ),
                   SizedBox(
                     height: 30.0,
                   ),
                   ButtonTemplate(
                     buttonName: "Login",
-                    buttonColor: ColorConstants.primary,
                     buttonWidth: width,
-                    buttonHeight: 50,
                     buttonAction: () {
                       Navigator.pushNamed(context, SignupScreen.routeName);
                     },
-                    fontColor: ColorConstants.white,
-                    textSize: 14,
-                    buttonBorderRadius: 5.0,
                   ),
                 ],
               ),
