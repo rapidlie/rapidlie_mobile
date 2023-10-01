@@ -3,24 +3,17 @@ import 'package:rapidlie/core/constants/color_constants.dart';
 
 class ButtonTemplate extends StatelessWidget {
   final String buttonName;
-  final Color buttonColor;
+
   final double buttonWidth;
-  final double buttonHeight;
+
   final Function() buttonAction;
-  final Color fontColor;
-  final double textSize;
-  final double buttonBorderRadius;
+
   final bool loading;
 
   ButtonTemplate({
     required this.buttonName,
-    required this.buttonColor,
     required this.buttonWidth,
-    required this.buttonHeight,
     required this.buttonAction,
-    required this.fontColor,
-    required this.textSize,
-    required this.buttonBorderRadius,
     this.loading = false,
   });
 
@@ -40,10 +33,10 @@ class ButtonTemplate extends StatelessWidget {
           : Text(
               buttonName.toUpperCase(),
               style: TextStyle(
-                color: fontColor,
-                fontSize: 15.0,
+                color: Colors.white,
+                fontSize: 14.0,
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             ),
       color: Colors.black,
@@ -52,7 +45,7 @@ class ButtonTemplate extends StatelessWidget {
       minWidth: buttonWidth,
       height: 50,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(buttonBorderRadius),
+        borderRadius: BorderRadius.circular(5),
       ),
       padding: EdgeInsets.all(15),
     );
