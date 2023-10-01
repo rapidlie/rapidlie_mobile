@@ -13,13 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController controller;
+  late TextEditingController phoneController;
 
   String countryCode = '+233';
 
   @override
   void initState() {
-    controller = new TextEditingController();
+    phoneController = new TextEditingController();
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   TextFieldTemplate(
                     hintText: "Phone",
-                    controller: controller,
+                    controller: phoneController,
                     obscureText: false,
                     width: width,
                     height: 50,
