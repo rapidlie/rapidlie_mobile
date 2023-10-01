@@ -563,9 +563,7 @@ class _EventsScreenState extends State<EventsScreen> {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
               buttonName: "next",
-              buttonColor: ColorConstants.primary,
               buttonWidth: Get.width,
-              buttonHeight: 50,
               buttonAction: () {
                 setState(() {
                   showBackButton = showBackButton + 1;
@@ -576,9 +574,6 @@ class _EventsScreenState extends State<EventsScreen> {
                   curve: Curves.easeIn,
                 );
               },
-              fontColor: Colors.white,
-              textSize: 10,
-              buttonBorderRadius: 10,
             ),
           ),
         ],
@@ -820,9 +815,7 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
           ButtonTemplate(
             buttonName: "next",
-            buttonColor: ColorConstants.primary,
             buttonWidth: Get.width,
-            buttonHeight: 50,
             buttonAction: () {
               showBackButton = showBackButton + 1;
               _pageViewController.animateTo(
@@ -831,9 +824,6 @@ class _EventsScreenState extends State<EventsScreen> {
                 curve: Curves.easeIn,
               );
             },
-            fontColor: Colors.white,
-            textSize: 10,
-            buttonBorderRadius: 10,
           ),
         ],
       ),
@@ -924,9 +914,7 @@ class _EventsScreenState extends State<EventsScreen> {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
               buttonName: "next",
-              buttonColor: ColorConstants.primary,
               buttonWidth: Get.width,
-              buttonHeight: 50,
               buttonAction: () {
                 setState(() {
                   showBackButton = showBackButton + 1;
@@ -937,9 +925,6 @@ class _EventsScreenState extends State<EventsScreen> {
                   curve: Curves.easeIn,
                 );
               },
-              fontColor: Colors.white,
-              textSize: 10,
-              buttonBorderRadius: 10,
             ),
           ),
         ],

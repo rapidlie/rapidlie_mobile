@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/country_code_picker.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
@@ -77,18 +76,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: ButtonTemplate(
                       buttonName: "Register",
-                      buttonColor: ColorConstants.primary,
                       buttonWidth: width,
-                      buttonHeight: 50,
                       buttonAction: () {
                         Navigator.pushNamed(
                           context,
                           CreateAccountScreen.routeName,
                         );
                       },
-                      fontColor: ColorConstants.white,
-                      textSize: 14,
-                      buttonBorderRadius: 10.0,
                     ),
                   ),
                 ],
