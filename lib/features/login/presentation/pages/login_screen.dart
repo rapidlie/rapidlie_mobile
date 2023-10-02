@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                     ),
                     Text(
-                      "Welcome back! \nLet's go see some events",
+                      "Welcome back! \nLet's go see some events.",
                       style: TextStyle(
                         fontSize: 24.0,
                         color: Colors.black,
