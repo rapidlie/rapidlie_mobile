@@ -39,8 +39,25 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             height: height,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "Welcome back! \nLet's go see some events.",
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
                 Column(
                   children: [
                     TextFieldTemplate(
