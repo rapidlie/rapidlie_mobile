@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
 
@@ -51,9 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputAction: TextInputAction.next,
                     enabled: true,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  textBoxSpace(),
                   TextFieldTemplate(
                     hintText: "Password",
                     controller: passwordController,
@@ -63,6 +62,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     enabled: true,
+                  ),
+                  textBoxSpace(),
+                  SizedBox(
+                    width: width,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "Forget Password?",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 30.0,
