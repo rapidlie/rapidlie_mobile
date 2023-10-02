@@ -13,6 +13,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController phoneController;
   late TextEditingController passwordController;
+  late TextEditingController retypePasswordController;
 
   String countryCode = '+233';
 
@@ -20,6 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     phoneController = new TextEditingController();
     passwordController = new TextEditingController();
+    retypePasswordController = new TextEditingController();
     super.initState();
   }
 
@@ -54,6 +56,19 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextFieldTemplate(
                     hintText: "Password",
                     controller: passwordController,
+                    obscureText: false,
+                    width: width,
+                    height: 50,
+                    textInputType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
+                    enabled: true,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldTemplate(
+                    hintText: "Retype password",
+                    controller: retypePasswordController,
                     obscureText: false,
                     width: width,
                     height: 50,
