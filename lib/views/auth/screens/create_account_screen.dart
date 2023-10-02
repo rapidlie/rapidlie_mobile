@@ -30,7 +30,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Container(
             height: height,
             child: Column(
@@ -62,22 +62,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 SizedBox(
                   height: 30.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: ButtonTemplate(
-                    buttonName: "Create account",
-                    buttonWidth: width,
-                    buttonAction: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RapidScreen(
-                            currentIndex: 0,
-                          ),
+                ButtonTemplate(
+                  buttonName: "Create account",
+                  buttonWidth: width,
+                  buttonAction: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RapidScreen(
+                          currentIndex: 0,
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
