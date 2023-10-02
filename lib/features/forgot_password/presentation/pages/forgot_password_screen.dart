@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
-import 'package:rapidlie/features/forgot_password/presentation/pages/forgot_password_screen.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 
-import '../../../register/presentation/pages/register_screen.dart';
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = "login";
+  static const String routeName = 'forgotPassword';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late TextEditingController phoneController;
-  late TextEditingController passwordController;
-
-  String countryCode = '+233';
 
   @override
   void initState() {
-    phoneController = new TextEditingController();
-    passwordController = new TextEditingController();
+    phoneController = TextEditingController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -46,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                     ),
                     Text(
-                      "Welcome back! \nLet's go see some events.",
+                      "Don't worry! We all forget \nsometimes.",
                       style: TextStyle(
                         fontSize: 24.0,
                         color: Colors.black,
@@ -68,47 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       textInputAction: TextInputAction.next,
                       enabled: true,
                     ),
-                    textBoxSpace(),
-                    TextFieldTemplate(
-                      hintText: "Password",
-                      controller: passwordController,
-                      obscureText: false,
-                      width: width,
-                      height: 50,
-                      textInputType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
-                      enabled: true,
-                    ),
-                    textBoxSpace(),
-                    SizedBox(
-                      width: width,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ForgotPasswordScreen.routeName,
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       height: 30.0,
                     ),
                     ButtonTemplate(
-                      buttonName: "Login",
+                      buttonName: "Send",
                       buttonWidth: width,
                       buttonAction: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
+                        /* Navigator.pushNamed(
+                          context,
+                          //CreateAccountScreen.routeName,
+                        ); */
                       },
                     ),
                   ],
@@ -117,14 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      RegisterScreen.routeName,
+                      LoginScreen.routeName,
                     );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        "I remember now!",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 14.0,
@@ -134,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Text(
-                        " Register",
+                        " Login",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 14.0,
