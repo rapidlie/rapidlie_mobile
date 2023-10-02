@@ -110,30 +110,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      RegisterScreen.routeName,
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      " Register",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.orange,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        " Register",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.orange,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
