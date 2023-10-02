@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -109,30 +110,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account?",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      LoginScreen.routeName,
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already have an account?",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      " Login",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.orange,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        " Login",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.orange,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
