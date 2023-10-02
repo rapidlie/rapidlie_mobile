@@ -7,7 +7,7 @@ import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
-  static const String routeName = 'forgetPassword';
+  static const String routeName = 'forgotPassword';
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();

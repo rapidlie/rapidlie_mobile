@@ -3,6 +3,7 @@ import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
+import 'package:rapidlie/features/forgot_password/presentation/pages/forgot_password_screen.dart';
 
 import '../../../register/presentation/pages/register_screen.dart';
 
@@ -82,9 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: width,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ForgotPasswordScreen.routeName,
+                          );
+                        },
                         child: Text(
-                          "Forget Password?",
+                          "Forgot Password?",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 14.0,
