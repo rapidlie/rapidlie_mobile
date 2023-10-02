@@ -3,14 +3,14 @@ import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
 import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
 
-class SignupScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   static const String routeName = 'signup';
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController phoneController;
   late TextEditingController passwordController;
   late TextEditingController retypePasswordController;

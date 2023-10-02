@@ -8,7 +8,7 @@ import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/rapid_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
 
-import 'views/auth/screens/signup_screen.dart';
+import 'features/register/presentation/pages/register_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
         LoginScreen.routeName: (context) => LoginScreen(),
-        SignupScreen.routeName: (context) => SignupScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
         CreateAccountScreen.routeName: (context) => CreateAccountScreen(),
         RapidScreen.routeName: (context) => RapidScreen(currentIndex: 0),
         HomeScreen.routeName: (context) => HomeScreen(),

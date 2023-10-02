@@ -4,7 +4,7 @@ import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
 
-import '../../../../views/auth/screens/signup_screen.dart';
+import '../../../register/presentation/pages/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonName: "Login",
                       buttonWidth: width,
                       buttonAction: () {
-                        Navigator.pushNamed(context, SignupScreen.routeName);
+                        Navigator.pushNamed(context, RegisterScreen.routeName);
                       },
                     ),
                   ],
