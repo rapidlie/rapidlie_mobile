@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/text_field_template.dart';
+import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String routeName = 'signup';
@@ -67,7 +68,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     buttonName: "Register",
                     buttonWidth: width,
                     buttonAction: () {
-                      Navigator.pushNamed(context, SignupScreen.routeName);
+                      Navigator.pushNamed(
+                        context,
+                        CreateAccountScreen.routeName,
+                      );
                     },
                   ),
                 ],
