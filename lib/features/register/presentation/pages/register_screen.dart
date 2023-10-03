@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
-import 'package:rapidlie/core/widgets/text_field_template.dart';
+import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
-import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
+import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'signup';
@@ -14,16 +14,16 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController phoneController;
-  late TextEditingController passwordController;
-  late TextEditingController retypePasswordController;
+  late TextEditingController nameController;
+  //late TextEditingController retypePasswordController;
 
   String countryCode = '+233';
 
   @override
   void initState() {
     phoneController = new TextEditingController();
-    passwordController = new TextEditingController();
-    retypePasswordController = new TextEditingController();
+    nameController = new TextEditingController();
+    //retypePasswordController = new TextEditingController();
     super.initState();
   }
 
@@ -58,6 +58,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     TextFieldTemplate(
+                      hintText: "Full name",
+                      controller: nameController,
+                      obscureText: false,
+                      width: width,
+                      height: 50,
+                      textInputType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      enabled: true,
+                    ),
+                    textBoxSpace(),
+                    TextFieldTemplate(
                       hintText: "Phone",
                       controller: phoneController,
                       obscureText: false,
@@ -67,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textInputAction: TextInputAction.next,
                       enabled: true,
                     ),
-                    SizedBox(
+                    /* SizedBox(
                       height: 10,
                     ),
                     TextFieldTemplate(
@@ -92,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textInputType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
                       enabled: true,
-                    ),
+                    ), */
                     SizedBox(
                       height: 30.0,
                     ),
@@ -102,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       buttonAction: () {
                         Navigator.pushNamed(
                           context,
-                          CreateAccountScreen.routeName,
+                          OtpScreen.routeName,
                         );
                       },
                     ),
