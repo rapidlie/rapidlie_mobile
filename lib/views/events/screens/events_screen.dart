@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
-import 'package:rapidlie/core/widgets/text_field_template.dart';
+import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/views/contacts/contact_list_screen.dart';
 import 'package:rapidlie/views/events/screens/event_details_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
