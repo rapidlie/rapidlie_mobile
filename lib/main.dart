@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/features/forgot_password/presentation/pages/forgot_password_screen.dart';
-import 'package:rapidlie/views/auth/screens/create_account_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
+import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/views/events/screens/events_screen.dart';
 import 'package:rapidlie/views/home/screens/home_screen.dart';
 import 'package:rapidlie/views/invites/screens/invites_screen.dart';
@@ -28,13 +27,12 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        CreateAccountScreen.routeName: (context) => CreateAccountScreen(),
         RapidScreen.routeName: (context) => RapidScreen(currentIndex: 0),
         HomeScreen.routeName: (context) => HomeScreen(),
         EventsScreen.routeName: (context) => EventsScreen(),
         InvitesScreen.routeName: (context) => InvitesScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
-        ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
+        OtpScreen.routeName: (context) => OtpScreen(),
       },
       //initialRoute: RapidScreen.routeName,
       initialRoute: LoginScreen.routeName,
