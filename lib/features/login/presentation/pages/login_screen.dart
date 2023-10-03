@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
-import 'package:rapidlie/core/widgets/text_field_template.dart';
-import 'package:rapidlie/features/forgot_password/presentation/pages/forgot_password_screen.dart';
+import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 
 import '../../../register/presentation/pages/register_screen.dart';
 
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       textInputAction: TextInputAction.next,
                       enabled: true,
                     ),
-                    textBoxSpace(),
+                    /* textBoxSpace(),
                     TextFieldTemplate(
                       hintText: "Password",
                       controller: passwordController,
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                    ),
+                    ), */
                     SizedBox(
                       height: 30.0,
                     ),
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonName: "Login",
                       buttonWidth: width,
                       buttonAction: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
+                        Navigator.pushNamed(context, OtpScreen.routeName);
                       },
                     ),
                   ],
