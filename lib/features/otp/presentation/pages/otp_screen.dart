@@ -83,6 +83,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       Pinput(
                         defaultPinTheme: defaultTheme,
                         focusedPinTheme: focusedTheme,
+                        submittedPinTheme: focusedTheme,
                         autofocus: true,
                       ),
                       SizedBox(
@@ -136,7 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       border: Border.all(
-        color: Colors.black,
+        color: Colors.black12,
       ),
     ),
     textStyle: TextStyle(
@@ -148,8 +149,8 @@ class _OtpScreenState extends State<OtpScreen> {
   );
 
   PinTheme focusedTheme = PinTheme(
-    height: 60,
-    width: 60,
+    height: 55,
+    width: 55,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       border: Border.all(
