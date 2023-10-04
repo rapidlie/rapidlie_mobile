@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/features/otp/presentation/widgets/otp_field.dart';
 
@@ -77,27 +78,46 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ],
                 ),
-                RawKeyboardListener(
-                  focusNode: FocusNode(),
-                  onKey: (event) {
-                    for (var i = 0; i < controllers.length; i++) {
-                      if (event is RawKeyDownEvent && i < controllers.length) {
-                        _handleKeyPress(event, i);
-                      }
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      4,
-                      (index) => OtpField(
-                        focusNode: focusNodes[index],
-                        controller: controllers[index],
-                        otpListener: (value) {
-                          otpFieldListener(index);
-                        },
+                Center(
+                  child: Column(
+                    children: [
+                      Pinput(
+                        defaultPinTheme: defaultTheme,
+                        focusedPinTheme: focusedTheme,
+                        autofocus: true,
                       ),
-                    ),
+                      SizedBox(
+                        height: 48,
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Didn't receive code?",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              " Resend",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.orange,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -110,4 +130,32 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
+
+  PinTheme defaultTheme = PinTheme(
+    height: 50,
+    width: 50,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(
+        color: Colors.black,
+      ),
+    ),
+    textStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 14.0,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w500,
+    ),
+  );
+
+  PinTheme focusedTheme = PinTheme(
+    height: 60,
+    width: 60,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      border: Border.all(
+        color: Colors.black,
+      ),
+    ),
+  );
 }
