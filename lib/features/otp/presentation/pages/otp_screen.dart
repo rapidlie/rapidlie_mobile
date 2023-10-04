@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/views/rapid_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -84,6 +85,12 @@ class _OtpScreenState extends State<OtpScreen> {
                         defaultPinTheme: defaultTheme,
                         focusedPinTheme: focusedTheme,
                         submittedPinTheme: focusedTheme,
+                        onCompleted: (value) {
+                          Navigator.pushNamed(
+                            context,
+                            RapidScreen.routeName,
+                          );
+                        },
                         autofocus: true,
                       ),
                       SizedBox(
