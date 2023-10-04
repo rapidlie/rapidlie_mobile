@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
-import 'package:rapidlie/features/otp/presentation/widgets/otp_field.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -84,6 +83,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       Pinput(
                         defaultPinTheme: defaultTheme,
                         focusedPinTheme: focusedTheme,
+                        submittedPinTheme: focusedTheme,
                         autofocus: true,
                       ),
                       SizedBox(
@@ -137,7 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       border: Border.all(
-        color: Colors.black,
+        color: Colors.black12,
       ),
     ),
     textStyle: TextStyle(
@@ -149,8 +149,8 @@ class _OtpScreenState extends State<OtpScreen> {
   );
 
   PinTheme focusedTheme = PinTheme(
-    height: 60,
-    width: 60,
+    height: 55,
+    width: 55,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       border: Border.all(
