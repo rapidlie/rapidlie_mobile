@@ -6,6 +6,8 @@ import 'package:rapidlie/core/widgets/textfield_template.dart';
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
 
+  static const String routeName = "change_password";
+
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
@@ -36,12 +38,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 50,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                        ),
+                      ),
                     ),
                     Text(
-                      "It is  okay to change things up sometimes, specially when it comes to your security.",
+                      "It is okay to change \nthings up sometimes.",
                       style: TextStyle(
                         fontSize: 24.0,
                         color: Colors.black,
