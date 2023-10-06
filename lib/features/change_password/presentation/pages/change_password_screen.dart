@@ -41,7 +41,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       height: 50,
                     ),
                     Text(
-                      "Hello! Register to get \nstarted.",
+                      "It is  okay to change things up sometimes, specially when it comes to your security.",
                       style: TextStyle(
                         fontSize: 24.0,
                         color: Colors.black,
