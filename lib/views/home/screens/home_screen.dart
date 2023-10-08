@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'rapidlie.',
+                          'Hi, Eugene',
                           style: TextStyle(
                             color: ColorConstants.black,
                             fontSize: 22.0,
@@ -53,8 +53,13 @@ class HomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        CircleAvatar(
-                          backgroundColor: ColorConstants.black,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -63,53 +68,11 @@ class HomeScreen extends StatelessWidget {
                     height: 48.0,
                   ),
                   Row(
-                    children: [
-                      SizedBox(
-                        height: height * 0.24,
-                        width: width,
-                        child: ListView.separated(
-                          padding: EdgeInsets.only(left: 20),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return HomepageActions(
-                              color: colorSet[index],
-                              imageSource: imageSet[index],
-                              mainText: textSet[index],
-                              subText: subtextSet[index],
-                            );
-                          },
-                          itemCount: 3,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: 20,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    children: [],
                   ),
                   SizedBox(
                     height: 48,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      "Summary",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: "Metropolis",
-                        fontWeight: FontWeight.w600,
-                        color: ColorConstants.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: width,
-                    height: height * 0.25,
-                  )
                 ],
               ),
             ),
