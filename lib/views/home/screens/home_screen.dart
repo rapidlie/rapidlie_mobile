@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
-import 'package:rapidlie/core/widgets/homepage_actions.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home";
 
-  List<String> imageSet = [
+  final List<String> imageSet = [
     "assets/images/unsafe.png",
     "assets/images/unsafe.png",
     "assets/images/unsafe.png"
   ];
 
-  List<String> textSet = [
+  final List<String> textSet = [
     "Feeling unsafe?",
     "Feeling unsafe?",
     "Feeling unsafe?"
   ];
 
-  List<String> subtextSet = ["Get tracked", "Get tracked", "Get tracked"];
-
-  List<Color> colorSet = [
-    ColorConstants.unsafeBoxColor,
-    ColorConstants.addFriendsBoxColor,
-    Color.fromARGB(255, 213, 179, 77).withOpacity(0.3)
-  ];
+  final List<String> subtextSet = ["Get tracked", "Get tracked", "Get tracked"];
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
