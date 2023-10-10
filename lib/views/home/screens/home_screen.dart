@@ -59,6 +59,13 @@ class HomeScreen extends StatelessWidget {
                               Icons.add,
                               size: 30,
                             ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.filter_alt_outlined,
+                              size: 30,
+                            ),
                           ],
                         )
                       ],
