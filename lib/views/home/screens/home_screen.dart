@@ -5,20 +5,6 @@ import 'package:rapidlie/core/constants/feature_contants.dart';
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home";
 
-  final List<String> imageSet = [
-    "assets/images/unsafe.png",
-    "assets/images/unsafe.png",
-    "assets/images/unsafe.png"
-  ];
-
-  final List<String> textSet = [
-    "Feeling unsafe?",
-    "Feeling unsafe?",
-    "Feeling unsafe?"
-  ];
-
-  final List<String> subtextSet = ["Get tracked", "Get tracked", "Get tracked"];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
