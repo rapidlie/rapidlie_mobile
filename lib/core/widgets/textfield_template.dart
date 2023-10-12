@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 
 import '../constants/color_constants.dart';
 
@@ -78,14 +79,14 @@ class TextFieldTemplate extends StatelessWidget {
               bottom: 10,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
                 color: ColorConstants.black,
               ),
             ),
 
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
                 color: ColorConstants.black,
               ),

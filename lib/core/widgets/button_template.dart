@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class ButtonTemplate extends StatelessWidget {
   final String buttonName;
@@ -45,7 +46,7 @@ class ButtonTemplate extends StatelessWidget {
       minWidth: buttonWidth,
       height: 50,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       padding: EdgeInsets.all(15),
     );
