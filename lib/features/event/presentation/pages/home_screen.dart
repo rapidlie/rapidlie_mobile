@@ -10,10 +10,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: Size.fromHeight(80),
           child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20, top: 20, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -90,7 +92,17 @@ class HomeScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                    )
+                    ),
+                    normalSpacing(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: HeaderTextTemplate(
+                        titleText: "DISCOVER",
+                        titleTextColor: Colors.black,
+                        containerColor: Color.fromARGB(133, 218, 218, 218),
+                        textSize: 13,
+                      ),
+                    ),
                   ],
                 ),
               ),
