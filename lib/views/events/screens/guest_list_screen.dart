@@ -6,7 +6,7 @@ import 'package:rapidlie/views/contacts/contact_details.dart';
 import '../../../core/constants/color_constants.dart';
 
 class GuestListScreen extends StatelessWidget {
-  List<ContactDetails> invitedGuests = [
+  final List<ContactDetails> invitedGuests = [
     ContactDetails(
       name: "Eugene Ofori Asiedu",
       image: "assets/images/usr1.png",
@@ -133,7 +133,7 @@ class GuestListScreen extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(5),
               color: eventStatus == Status.accepted
                   ? ColorConstants.acceptedContainerColor
                   : eventStatus == Status.rejected
@@ -149,8 +149,8 @@ class GuestListScreen extends StatelessWidget {
                         ? "REJECTED"
                         : "PENDING",
                 style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
                   fontFamily: "Poppins",
                   color: eventStatus == Status.accepted
                       ? ColorConstants.acceptedTextColor
