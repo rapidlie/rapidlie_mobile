@@ -148,7 +148,7 @@ class _OtpScreenState extends State<OtpScreen> {
     height: 50,
     width: 50,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(borderRadius),
       border: Border.all(
         color: Colors.black12,
       ),
@@ -165,7 +165,7 @@ class _OtpScreenState extends State<OtpScreen> {
     height: 55,
     width: 55,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(borderRadius),
       border: Border.all(
         color: Colors.black,
       ),
