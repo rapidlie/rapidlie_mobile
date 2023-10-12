@@ -30,6 +30,7 @@ class ExploreCategoryListTemplate extends StatelessWidget {
               fontFamily: "Poppins",
               fontSize: 14.0,
               color: Color.fromARGB(133, 63, 59, 59),
+              fontWeight: FontWeight.w500,
             ),
           )
         ],
