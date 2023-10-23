@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/views/events/screens/events_screen.dart';
-import 'package:rapidlie/features/event/presentation/pages/home_screen.dart';
+import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/settings_screen.dart';
 

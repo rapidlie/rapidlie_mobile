@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
-import 'package:rapidlie/features/event/presentation/widgets/event_list_template.dart';
-import 'package:rapidlie/features/event/presentation/widgets/explore_categories_list_template.dart';
+import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
+import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "home";
