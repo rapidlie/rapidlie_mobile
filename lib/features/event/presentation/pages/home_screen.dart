@@ -2,10 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/features/event/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/event/presentation/widgets/explore_categories_list_template.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = "home";
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    //_scrollController.addListener(_updateScrollPhysics);
+    super.initState();
+  }
+
+  /*  void _updateScrollPhysics() {
+    double scrollPosition = _scrollController.position.pixels;
+    if (scrollPosition > 1200) {
+      _scrollController.position.physics.parent!
+          .applyTo(AlwaysScrollableScrollPhysics());
+    } else {
+      _scrollController.position.physics.parent!
+          .applyTo(BouncingScrollPhysics());
+    }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -49,107 +74,152 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Container(
-                height: height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: HeaderTextTemplate(
-                        titleText: "UPCOMING EVENTS",
-                        titleTextColor: Colors.black,
-                        containerColor: Color.fromARGB(133, 218, 218, 218),
-                        textSize: 15,
-                      ),
-                    ),
-                    verySmallSpacing(),
-                    Container(
-                      width: width,
-                      height: height * 0.25,
-                      child: ListView.builder(
-                        itemCount: 3,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(left: 20),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Container(
-                              width: width * 0.85,
-                              height: height * 0.2,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(borderRadius),
-                                color: const Color.fromARGB(255, 138, 81, 81),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    bigSpacing(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HeaderTextTemplate(
-                            titleText: "EXPLORE",
-                            titleTextColor: Colors.black,
-                            containerColor: Color.fromARGB(133, 218, 218, 218),
-                            textSize: 15,
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Text(
-                              "See all",
-                              style: TextStyle(
-                                color: Color.fromARGB(133, 63, 59, 59),
-                                fontFamily: "Poppins",
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    verySmallSpacing(),
-                    Container(
-                      width: width,
-                      height: 110,
-                      child: ListView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(left: 20),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return ExploreCategoryListTemplate(
-                            categoryName: "Tech",
-                          );
-                        },
-                      ),
-                    ),
-                    bigSpacing(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: HeaderTextTemplate(
-                        titleText: "DISCOVER",
-                        titleTextColor: Colors.black,
-                        containerColor: Color.fromARGB(133, 218, 218, 218),
-                        textSize: 15,
-                      ),
-                    ),
-                  ],
+          controller: _scrollController,
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: HeaderTextTemplate(
+                    titleText: "Upcoming events",
+                    titleTextColor: Colors.black,
+                    containerColor: Color.fromARGB(133, 218, 218, 218),
+                    textSize: 15,
+                  ),
                 ),
-              ),
+                verySmallSpacing(),
+                Container(
+                  width: width,
+                  height: height * 0.25,
+                  child: ListView.builder(
+                    itemCount: 3,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Container(
+                          width: width * 0.85,
+                          height: height * 0.2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(borderRadius),
+                            color: const Color.fromARGB(255, 138, 81, 81),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                bigSpacing(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      HeaderTextTemplate(
+                        titleText: "Explore",
+                        titleTextColor: Colors.black,
+                        containerColor: Color.fromARGB(133, 218, 218, 218),
+                        textSize: 15,
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          "See all",
+                          style: TextStyle(
+                            color: Color.fromARGB(133, 63, 59, 59),
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                verySmallSpacing(),
+                Container(
+                  width: width,
+                  height: 110,
+                  child: ListView.builder(
+                    itemCount: 6,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return ExploreCategoryListTemplate(
+                        categoryName: "Tech",
+                      );
+                    },
+                  ),
+                ),
+                bigSpacing(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: HeaderTextTemplate(
+                    titleText: "Discover",
+                    titleTextColor: Colors.black,
+                    containerColor: Color.fromARGB(133, 218, 218, 218),
+                    textSize: 15,
+                  ),
+                ),
+                verySmallSpacing(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    //controller: _scrollController,
+                    physics: BouncingScrollPhysics(
+                        parent: BouncingScrollPhysics(
+                      parent: NeverScrollableScrollPhysics(),
+                    )),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 30.0),
+                        child: EventListTemplate(),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            _scrollController.animateTo(
+              0,
+              duration:
+                  Duration(milliseconds: 700), // You can adjust the duration
+              curve: Curves.easeOut,
+            );
+          },
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+            ),
+            child: Icon(
+              Icons.arrow_drop_up,
+              color: Colors.white,
+              size: 40,
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
