@@ -7,7 +7,7 @@ import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/views/contacts/contact_list_screen.dart';
-import 'package:rapidlie/views/events/screens/event_details_screen.dart';
+import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
