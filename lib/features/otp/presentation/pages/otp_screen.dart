@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
-import 'package:rapidlie/features/change_password/presentation/pages/change_password_screen.dart';
+import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
 import 'package:rapidlie/views/rapid_screen.dart';
 
 class OtpScreen extends StatefulWidget {

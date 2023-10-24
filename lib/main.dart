@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/features/change_password/presentation/pages/change_password_screen.dart';
+import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/views/events/screens/events_screen.dart';
