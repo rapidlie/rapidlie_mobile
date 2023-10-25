@@ -23,8 +23,11 @@ class ContactListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: AppBarTemplate(pageTitle: "Contacts"),
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: "Contacts",
+          isSubPage: true,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
