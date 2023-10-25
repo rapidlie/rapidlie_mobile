@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {

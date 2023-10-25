@@ -62,9 +62,15 @@ class GuestListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: AppBarTemplate(pageTitle: "Guest List"),
+        preferredSize: Size.fromHeight(80),
+        child: SafeArea(
+          child: AppBarTemplate(
+            pageTitle: "Guest List",
+            isSubPage: true,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

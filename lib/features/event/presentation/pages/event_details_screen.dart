@@ -7,10 +7,10 @@ import 'package:url_launcher/url_launcher.dart';
 class EventDetailsScreeen extends StatelessWidget {
   void openMap() async {
     // Replace the address with your own value
-    String address = "1600 Amphitheatre Parkway, Mountain View, CA";
+    //String address = "1600 Amphitheatre Parkway, Mountain View, CA";
 
     // Encode the address for use in a URL
-    String encodedAddress = Uri.encodeComponent(address);
+    //String encodedAddress = Uri.encodeComponent(address);
 
     // Construct the Google Maps URL with the encoded address
     String mapsUrl =

@@ -1,34 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
 
 class AppBarTemplate extends StatelessWidget {
   final String pageTitle;
+  final bool isSubPage;
+  final Widget? trailingWidget;
 
-  const AppBarTemplate({Key? key, required this.pageTitle}) : super(key: key);
+  AppBarTemplate(
+      {Key? key,
+      required this.pageTitle,
+      required this.isSubPage,
+      this.trailingWidget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      centerTitle: true,
-      automaticallyImplyLeading: false,
-      leading: GestureDetector(
-        onTap: () => Get.back(),
-        child: Icon(
-          Icons.arrow_back,
-          color: ColorConstants.black,
-        ),
-      ),
-      title: Text(
-        pageTitle,
-        style: TextStyle(
-          fontFamily: "Poppins",
-          fontSize: 18.0,
-          fontWeight: FontWeight.w700,
-          color: ColorConstants.black,
-        ),
+    return Padding(
+      padding:
+          const EdgeInsets.only(left: 20.0, right: 20, top: 20, bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              isSubPage
+                  ? GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Icon(Icons.arrow_back),
+                      ),
+                    )
+                  : SizedBox(),
+              Text(
+                pageTitle,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          trailingWidget == null ? SizedBox() : trailingWidget!
+        ],
       ),
     );
   }
