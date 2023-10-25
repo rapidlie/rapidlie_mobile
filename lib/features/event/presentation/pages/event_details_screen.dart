@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/views/events/screens/guest_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -97,15 +99,13 @@ class EventDetailsScreeen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'About',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
+                    HeaderTextTemplate(
+                      titleText: "About",
+                      titleTextColor: ColorConstants.colorFromHex("#8E44AD"),
+                      containerColor: ColorConstants.colorFromHex("#EFDAF7"),
+                      textSize: 15.0,
                     ),
+                    extraSmallSpacing(),
                     Text(
                       'This is a wedding ceremony between the families of Eugene Ofori Asiedu and Jedidah Narko Odechie Amanor. These two have dated for the past 4 years ad today, the meet to make things official',
                       style: TextStyle(
@@ -115,18 +115,14 @@ class EventDetailsScreeen extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
+                    normalSpacing(),
+                    HeaderTextTemplate(
+                      titleText: "Date",
+                      titleTextColor: ColorConstants.colorFromHex("#E57E25"),
+                      containerColor: ColorConstants.colorFromHex("#FFF2E7"),
+                      textSize: 15.0,
                     ),
-                    Text(
-                      'Data',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    extraSmallSpacing(),
                     Text(
                       'Saturday, 28 April',
                       style: TextStyle(
@@ -136,18 +132,14 @@ class EventDetailsScreeen extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
+                    normalSpacing(),
+                    HeaderTextTemplate(
+                      titleText: "Time",
+                      titleTextColor: ColorConstants.colorFromHex("#0E1339"),
+                      containerColor: ColorConstants.colorFromHex("#DEE1EA"),
+                      textSize: 15.0,
                     ),
-                    Text(
-                      'Time',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    extraSmallSpacing(),
                     Row(
                       children: [
                         Text(
@@ -179,18 +171,14 @@ class EventDetailsScreeen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
+                    normalSpacing(),
+                    HeaderTextTemplate(
+                      titleText: "Venue",
+                      titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
+                      containerColor: ColorConstants.colorFromHex("#FFF2F0"),
+                      textSize: 15.0,
                     ),
-                    Text(
-                      'Venue',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    extraSmallSpacing(),
                     Text(
                       'Church of Pentecost, Dansoman',
                       style: TextStyle(
@@ -200,18 +188,14 @@ class EventDetailsScreeen extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
+                    normalSpacing(),
+                    HeaderTextTemplate(
+                      titleText: "Directions",
+                      titleTextColor: ColorConstants.colorFromHex("#0064A7"),
+                      containerColor: ColorConstants.colorFromHex("#E6F7FD"),
+                      textSize: 15.0,
                     ),
-                    Text(
-                      'Directions',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    extraSmallSpacing(),
                     GestureDetector(
                       onTap: openMap,
                       child: Text(
@@ -225,18 +209,15 @@ class EventDetailsScreeen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
+                    normalSpacing(),
+                    HeaderTextTemplate(
+                      titleText: "Invites",
+                      titleTextColor: ColorConstants.colorFromHex("#A58D0E"),
+                      containerColor:
+                          ColorConstants.colorFromHex("#F9F2B2").withAlpha(150),
+                      textSize: 15.0,
                     ),
-                    Text(
-                      'Invites',
-                      style: TextStyle(
-                        color: ColorConstants.primary,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                    extraSmallSpacing(),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => GuestListScreen());
@@ -246,14 +227,14 @@ class EventDetailsScreeen extends StatelessWidget {
                         child: Stack(
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 40,
+                              height: 40,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: ColorConstants.white,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(2.0),
                                 child: FittedBox(
                                   fit: BoxFit.contain,
                                   child: CircleAvatar(
@@ -266,16 +247,16 @@ class EventDetailsScreeen extends StatelessWidget {
                             Positioned(
                               top: 0,
                               left: 0,
-                              right: 200,
+                              right: 260,
                               child: Container(
-                                width: 60,
-                                height: 60,
+                                width: 40,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: ColorConstants.white,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: FittedBox(
                                     fit: BoxFit.contain,
                                     child: CircleAvatar(
@@ -289,16 +270,16 @@ class EventDetailsScreeen extends StatelessWidget {
                             Positioned(
                               top: 0,
                               left: 0,
-                              right: 110,
+                              right: 205,
                               child: Container(
-                                width: 60,
-                                height: 60,
+                                width: 40,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: ColorConstants.white,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: FittedBox(
                                     fit: BoxFit.contain,
                                     child: CircleAvatar(
@@ -312,16 +293,16 @@ class EventDetailsScreeen extends StatelessWidget {
                             Positioned(
                               top: 0,
                               left: 0,
-                              right: -50,
-                              height: 60,
+                              right: 50,
+                              height: 40,
                               child: Center(
                                 child: Text(
                                   '32 guests',
                                   style: TextStyle(
                                     color: ColorConstants.black,
                                     fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.0,
                                   ),
                                 ),
                               ),
