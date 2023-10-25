@@ -34,3 +34,9 @@ textBoxSpace() {
     height: 12,
   );
 }
+
+extraSmallSpacing() {
+  return SizedBox(
+    height: 8,
+  );
+}
