@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -39,36 +39,22 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20, top: 20, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: AppBarTemplate(
+            pageTitle: "Hi, Eugene",
+            isSubPage: false,
+            trailingWidget: Row(
               children: [
-                Text(
-                  'Hi, Eugene',
-                  style: TextStyle(
-                    color: ColorConstants.black,
-                    fontSize: 20.0,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w600,
-                  ),
+                Icon(
+                  Icons.add,
+                  size: 30,
                 ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.filter_alt_outlined,
-                      size: 30,
-                    ),
-                  ],
-                )
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.filter_alt_outlined,
+                  size: 30,
+                ),
               ],
             ),
           ),
@@ -178,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 30.0),
+                      padding: const EdgeInsets.only(bottom: 40.0),
                       child: EventListTemplate(),
                     );
                   },
