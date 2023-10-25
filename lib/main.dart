@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/features/change_password/presentation/pages/change_password_screen.dart';
+import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
-import 'package:rapidlie/views/events/screens/events_screen.dart';
+import 'package:rapidlie/features/event/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/views/invites/screens/invites_screen.dart';
 import 'package:rapidlie/views/rapid_screen.dart';

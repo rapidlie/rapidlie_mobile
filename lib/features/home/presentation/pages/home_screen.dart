@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Hi, Eugene',
                   style: TextStyle(
                     color: ColorConstants.black,
-                    fontSize: 22.0,
+                    fontSize: 20.0,
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
                   ),
@@ -168,23 +168,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 verySmallSpacing(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    //controller: _scrollController,
-                    physics: BouncingScrollPhysics(
-                        parent: BouncingScrollPhysics(
-                      parent: NeverScrollableScrollPhysics(),
-                    )),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        child: EventListTemplate(),
-                      );
-                    },
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  //controller: _scrollController,
+                  physics: BouncingScrollPhysics(
+                      parent: BouncingScrollPhysics(
+                    parent: NeverScrollableScrollPhysics(),
+                  )),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 30.0),
+                      child: EventListTemplate(),
+                    );
+                  },
                 )
               ],
             ),
