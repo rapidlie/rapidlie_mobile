@@ -6,8 +6,8 @@ import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/event/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/features/invite/presentation/pages/invites_screen.dart';
-import 'package:rapidlie/views/rapid_screen.dart';
-import 'package:rapidlie/views/settings_screen.dart';
+import 'package:rapidlie/rapid_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
 
 import 'features/register/presentation/pages/register_screen.dart';
 
