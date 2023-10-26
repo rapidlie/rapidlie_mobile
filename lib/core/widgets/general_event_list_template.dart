@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class GeneralEventListTemplate extends StatelessWidget {
-  const GeneralEventListTemplate({Key? key}) : super(key: key);
+  final Widget trailingWidget;
+  const GeneralEventListTemplate({Key? key, required this.trailingWidget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class GeneralEventListTemplate extends StatelessWidget {
       children: [
         Container(
           width: width,
-          height: 200,
+          height: 300,
           decoration: BoxDecoration(
             color: Colors.grey.shade300,
           ),
@@ -67,38 +69,7 @@ class GeneralEventListTemplate extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.favorite_outline_outlined,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "456M",
-                    style: TextStyle(
-                      fontSize: 11.0,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(
-                    Icons.ios_share,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
-              ),
+              trailingWidget
             ],
           ),
         )
