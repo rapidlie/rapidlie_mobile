@@ -165,7 +165,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
-                      child: EventListTemplate(),
+                      child: EventListTemplate(
+                        trailingWidget: Row(
+                          children: [
+                            Icon(
+                              Icons.favorite_outline_outlined,
+                              color: Colors.grey.shade600,
+                              size: 25,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "456M",
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              Icons.ios_share,
+                              color: Colors.grey.shade600,
+                              size: 20,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 )
