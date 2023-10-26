@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {
-  const EventListTemplate({Key? key}) : super(key: key);
+  final Widget trailingWidget;
+  const EventListTemplate({Key? key, required this.trailingWidget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,9 @@ class EventListTemplate extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          GeneralEventListTemplate()
+          GeneralEventListTemplate(
+            trailingWidget: trailingWidget,
+          )
         ],
       ),
     );
