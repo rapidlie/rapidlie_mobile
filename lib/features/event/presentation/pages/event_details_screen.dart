@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
-import 'package:rapidlie/views/events/screens/guest_list_screen.dart';
+import 'package:rapidlie/features/event/presentation/pages/guest_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsScreeen extends StatelessWidget {
@@ -52,7 +52,7 @@ class EventDetailsScreeen extends StatelessWidget {
               ),
             ),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(20),
+              preferredSize: Size.fromHeight(50),
               child: Container(
                 color: Colors.white,
                 width: double.maxFinite,
@@ -61,14 +61,25 @@ class EventDetailsScreeen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Eugene weds Jedidah",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18.0,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Eugene weds Jedidah",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          HeaderTextTemplate(
+                            titleText: "Wedding",
+                            titleTextColor: Colors.black,
+                            containerColor: Color.fromARGB(133, 218, 218, 218),
+                            textSize: 10,
+                          )
+                        ],
                       ),
                       Icon(
                         Icons.edit,
