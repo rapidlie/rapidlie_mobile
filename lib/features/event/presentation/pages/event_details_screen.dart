@@ -66,8 +66,8 @@ class EventDetailsScreeen extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: "Poppins",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.0,
                         ),
                       ),
                       Icon(
@@ -104,16 +104,16 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#8E44AD"),
                       containerColor: ColorConstants.colorFromHex("#EFDAF7"),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.info,
+                        color: ColorConstants.colorFromHex("#8E44AD"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     Text(
                       'This is a wedding ceremony between the families of Eugene Ofori Asiedu and Jedidah Narko Odechie Amanor. These two have dated for the past 4 years ad today, the meet to make things official',
-                      style: TextStyle(
-                        color: ColorConstants.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                      ),
+                      style: poppins15black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -121,16 +121,16 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#E57E25"),
                       containerColor: ColorConstants.colorFromHex("#FFF2E7"),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.date_range,
+                        color: ColorConstants.colorFromHex("#E57E25"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     Text(
                       'Saturday, 28 April',
-                      style: TextStyle(
-                        color: ColorConstants.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                      ),
+                      style: poppins15black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -138,36 +138,26 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#0E1339"),
                       containerColor: ColorConstants.colorFromHex("#DEE1EA"),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.timelapse,
+                        color: ColorConstants.colorFromHex("#0E1339"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     Row(
                       children: [
                         Text(
                           '11:30am',
-                          style: TextStyle(
-                            color: ColorConstants.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.0,
-                          ),
+                          style: poppins15black400(),
                         ),
                         Text(
                           ' - ',
-                          style: TextStyle(
-                            color: ColorConstants.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.0,
-                          ),
+                          style: poppins15black400(),
                         ),
                         Text(
                           '3:30pm',
-                          style: TextStyle(
-                            color: ColorConstants.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.0,
-                          ),
+                          style: poppins15black400(),
                         ),
                       ],
                     ),
@@ -177,16 +167,16 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
                       containerColor: ColorConstants.colorFromHex("#FFF2F0"),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.place,
+                        color: ColorConstants.colorFromHex("#E74C3C"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     Text(
                       'Church of Pentecost, Dansoman',
-                      style: TextStyle(
-                        color: ColorConstants.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                      ),
+                      style: poppins15black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -194,19 +184,18 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#0064A7"),
                       containerColor: ColorConstants.colorFromHex("#E6F7FD"),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.directions,
+                        color: ColorConstants.colorFromHex("#0064A7"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     GestureDetector(
                       onTap: openMap,
                       child: Text(
                         'Click here for directions to event',
-                        style: TextStyle(
-                          color: ColorConstants.secondary,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          //fontStyle: FontStyle.italic,
-                        ),
+                        style: poppins15black400(),
                       ),
                     ),
                     normalSpacing(),
@@ -216,6 +205,11 @@ class EventDetailsScreeen extends StatelessWidget {
                       containerColor:
                           ColorConstants.colorFromHex("#F9F2B2").withAlpha(150),
                       textSize: 15.0,
+                      iconWidget: Icon(
+                        Icons.insert_invitation,
+                        color: ColorConstants.colorFromHex("#A58D0E"),
+                        size: 20,
+                      ),
                     ),
                     extraSmallSpacing(),
                     GestureDetector(
@@ -298,12 +292,7 @@ class EventDetailsScreeen extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   '32 guests',
-                                  style: TextStyle(
-                                    color: ColorConstants.black,
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.0,
-                                  ),
+                                  style: poppins15black400(),
                                 ),
                               ),
                             ),
