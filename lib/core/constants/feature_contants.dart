@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'color_constants.dart';
+
 double width = Get.width;
 double height = Get.height;
 double borderRadius = 8.0;
@@ -38,5 +40,14 @@ textBoxSpace() {
 extraSmallSpacing() {
   return SizedBox(
     height: 8,
+  );
+}
+
+poppins15black400() {
+  return TextStyle(
+    color: ColorConstants.black,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w400,
+    fontSize: 15.0,
   );
 }
