@@ -48,6 +48,6 @@ poppins15black400() {
     color: ColorConstants.black,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w400,
-    fontSize: 15.0,
+    fontSize: 13.0,
   );
 }
