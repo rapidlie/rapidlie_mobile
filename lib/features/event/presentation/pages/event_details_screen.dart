@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
@@ -7,6 +8,11 @@ import 'package:rapidlie/features/event/presentation/pages/guest_list_screen.dar
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsScreeen extends StatelessWidget {
+  final bool isOwnEvent;
+
+  const EventDetailsScreeen({Key? key, required this.isOwnEvent})
+      : super(key: key);
+
   void openMap() async {
     // Replace the address with your own value
     //String address = "1600 Amphitheatre Parkway, Mountain View, CA";
@@ -81,9 +87,22 @@ class EventDetailsScreeen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Icon(
-                        Icons.edit,
-                      )
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          SvgPicture.asset("assets/icons/chat.svg")
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -124,7 +143,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     extraSmallSpacing(),
                     Text(
                       'This is a wedding ceremony between the families of Eugene Ofori Asiedu and Jedidah Narko Odechie Amanor. These two have dated for the past 4 years ad today, the meet to make things official',
-                      style: poppins15black400(),
+                      style: poppins13black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -141,7 +160,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     extraSmallSpacing(),
                     Text(
                       'Saturday, 28 April',
-                      style: poppins15black400(),
+                      style: poppins13black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -160,15 +179,15 @@ class EventDetailsScreeen extends StatelessWidget {
                       children: [
                         Text(
                           '11:30am',
-                          style: poppins15black400(),
+                          style: poppins13black400(),
                         ),
                         Text(
                           ' - ',
-                          style: poppins15black400(),
+                          style: poppins13black400(),
                         ),
                         Text(
                           '3:30pm',
-                          style: poppins15black400(),
+                          style: poppins13black400(),
                         ),
                       ],
                     ),
@@ -187,7 +206,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     extraSmallSpacing(),
                     Text(
                       'Church of Pentecost, Dansoman',
-                      style: poppins15black400(),
+                      style: poppins13black400(),
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
@@ -206,7 +225,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       onTap: openMap,
                       child: Text(
                         'Click here for directions to event',
-                        style: poppins15black400(),
+                        style: poppins13black400(),
                       ),
                     ),
                     normalSpacing(),
@@ -303,7 +322,7 @@ class EventDetailsScreeen extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   '32 guests',
-                                  style: poppins15black400(),
+                                  style: poppins13black400(),
                                 ),
                               ),
                             ),
