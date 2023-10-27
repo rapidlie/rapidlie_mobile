@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/features/event/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
@@ -41,6 +42,7 @@ class _RapidScreenState extends State<RapidScreen> {
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: currentScreen[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
@@ -52,44 +54,38 @@ class _RapidScreenState extends State<RapidScreen> {
             items: [
               //Home
               BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/home.png",
-                  width: 20,
-                  height: 20,
+                icon: SvgPicture.asset(
+                  "assets/icons/home_outline.svg",
+                  color: Colors.grey,
                 ),
                 label: 'Home',
-                activeIcon: Image.asset(
-                  "assets/icons/home_selected.png",
-                  width: 26,
-                  height: 26,
+                activeIcon: SvgPicture.asset(
+                  "assets/icons/home_outline.svg",
+                  color: Colors.black,
                 ),
               ),
               // Events
               BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/add_event.png",
-                  width: 20,
-                  height: 20,
+                icon: SvgPicture.asset(
+                  "assets/icons/events.svg",
+                  color: Colors.grey,
                 ),
                 label: 'Events',
-                activeIcon: Image.asset(
-                  "assets/icons/add_event_selected.png",
-                  width: 26,
-                  height: 26,
+                activeIcon: SvgPicture.asset(
+                  "assets/icons/events.svg",
+                  color: Colors.black,
                 ),
               ),
               // Invites
               BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/invites.png",
-                  width: 20,
-                  height: 20,
+                icon: SvgPicture.asset(
+                  "assets/icons/invite.svg",
+                  color: Colors.grey,
                 ),
                 label: 'Invites',
-                activeIcon: Image.asset(
-                  "assets/icons/invites_selected.png",
-                  width: 26,
-                  height: 26,
+                activeIcon: SvgPicture.asset(
+                  "assets/icons/invite.svg",
+                  color: Colors.black,
                 ),
               ),
             ],
