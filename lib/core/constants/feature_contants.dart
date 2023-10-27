@@ -43,7 +43,7 @@ extraSmallSpacing() {
   );
 }
 
-poppins15black400() {
+poppins13black400() {
   return TextStyle(
     color: ColorConstants.black,
     fontFamily: "Poppins",
