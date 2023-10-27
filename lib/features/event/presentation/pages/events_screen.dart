@@ -97,7 +97,7 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
         backgroundColor: Colors.white,
         floatingActionButton:
-            eventsCreated.length == 0 ? Container() : buttonToShowModal(),
+            eventsCreated.length == 0 ? SizedBox() : buttonToShowModal(),
         body: SafeArea(
           child: eventsCreated.length == 0
               ? Padding(
@@ -134,7 +134,9 @@ class _EventsScreenState extends State<EventsScreen> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => EventDetailsScreeen());
+                              Get.to(() => EventDetailsScreeen(
+                                    isOwnEvent: true,
+                                  ));
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 40.0),
@@ -215,11 +217,11 @@ class _EventsScreenState extends State<EventsScreen> {
         });
       },
       child: Container(
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         decoration: BoxDecoration(
-          color: Colors.black,
           shape: BoxShape.circle,
+          color: Colors.black,
         ),
         child: Icon(
           Icons.add,
