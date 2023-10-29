@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 
@@ -165,38 +168,70 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
-                      child: EventListTemplate(
-                        trailingWidget: Row(
-                          children: [
-                            Icon(
-                              Icons.favorite_outline_outlined,
-                              color: Colors.grey.shade600,
-                              size: 25,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "456M",
-                              style: TextStyle(
-                                fontSize: 13.0,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => EventDetailsScreeen(isOwnEvent: false));
+                        },
+                        child: EventListTemplate(
+                          trailingWidget: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.favorite_outline_outlined,
+                                      color: Colors.grey.shade600,
+                                      size: 25,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "456M",
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Icon(
-                              Icons.ios_share,
-                              color: Colors.grey.shade600,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                          ],
+                              SizedBox(
+                                width: 20,
+                              ),
+                              /* Icon(
+                                        Icons.ios_share,
+                                        color: Colors.grey.shade600,
+                                        size: 20,
+                                      ), */
+                              GestureDetector(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icons/send.svg",
+                                      color: Colors.grey.shade700,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "45",
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
