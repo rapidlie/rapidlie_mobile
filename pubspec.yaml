@@ -39,6 +39,7 @@ dependencies:
   url_launcher: ^6.1.9
   bloc: ^8.1.2
   pinput: ^3.0.1
+  grouped_list: ^5.1.2
 
   
 
