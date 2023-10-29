@@ -20,6 +20,7 @@ class TextFieldTemplate extends StatelessWidget {
   final Widget? suffixIcon;
   final int numberOfLines;
   final int? maxLength;
+  final double rightContentPadding;
 
   TextFieldTemplate({
     Key? key,
@@ -33,6 +34,7 @@ class TextFieldTemplate extends StatelessWidget {
     required this.textInputAction,
     required this.enabled,
     this.leftContentPadding = 14.0,
+    this.rightContentPadding = 14.0,
     this.textFieldColor,
     this.prefixIcon,
     this.suffixIcon,
@@ -74,7 +76,7 @@ class TextFieldTemplate extends StatelessWidget {
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,
-              right: 14.0,
+              right: rightContentPadding,
               top: 10,
               bottom: 10,
             ),
