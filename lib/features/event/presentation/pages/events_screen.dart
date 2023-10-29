@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
@@ -143,33 +144,60 @@ class _EventsScreenState extends State<EventsScreen> {
                               child: GeneralEventListTemplate(
                                 trailingWidget: Row(
                                   children: [
-                                    Icon(
-                                      Icons.favorite_outline_outlined,
-                                      color: Colors.grey.shade600,
-                                      size: 25,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "456M",
-                                      style: TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.favorite_outline_outlined,
+                                            color: Colors.grey.shade600,
+                                            size: 25,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "456M",
+                                            style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(
                                       width: 20,
                                     ),
-                                    Icon(
+                                    /* Icon(
                                       Icons.ios_share,
                                       color: Colors.grey.shade600,
                                       size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
+                                    ), */
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/icons/send.svg",
+                                            color: Colors.grey.shade700,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "45",
+                                            style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
