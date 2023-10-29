@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/features/chat/presentation/pages/chat_screen.dart';
 import 'package:rapidlie/features/event/presentation/pages/guest_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -90,17 +91,23 @@ class EventDetailsScreeen extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          isOwnEvent
+                              ? Icon(
+                                  Icons.edit_outlined,
+                                  color: Colors.black,
+                                )
+                              : SizedBox(),
                           SizedBox(
                             width: 20,
-                            child: Icon(
-                              Icons.edit_outlined,
-                              color: Colors.black,
-                            ),
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          SvgPicture.asset("assets/icons/chat.svg")
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => ChatScreen(
+                                    eventName: "Eugene weds Jedidah",
+                                  ));
+                            },
+                            child: SvgPicture.asset("assets/icons/chat.svg"),
+                          )
                         ],
                       ),
                     ],
