@@ -88,6 +88,18 @@ class _RapidScreenState extends State<RapidScreen> {
                   color: Colors.black,
                 ),
               ),
+              //Setings
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/icons/settings.svg",
+                  color: Colors.grey,
+                ),
+                label: 'Settings',
+                activeIcon: SvgPicture.asset(
+                  "assets/icons/settings.svg",
+                  color: Colors.black,
+                ),
+              ),
             ],
             onTap: (index) {
               setState(() {
