@@ -80,7 +80,7 @@ class EventDetailsScreeen extends StatelessWidget {
                             ),
                           ),
                           HeaderTextTemplate(
-                            titleText: "Wedding",
+                            titleText: "WEDDING",
                             titleTextColor: Colors.black,
                             containerColor: Color.fromARGB(133, 218, 218, 218),
                             textSize: 10,
@@ -133,7 +133,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: "About",
                       titleTextColor: ColorConstants.colorFromHex("#8E44AD"),
                       containerColor: ColorConstants.colorFromHex("#EFDAF7"),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.info,
                         color: ColorConstants.colorFromHex("#8E44AD"),
@@ -150,7 +150,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: "Date",
                       titleTextColor: ColorConstants.colorFromHex("#E57E25"),
                       containerColor: ColorConstants.colorFromHex("#FFF2E7"),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.date_range,
                         color: ColorConstants.colorFromHex("#E57E25"),
@@ -167,7 +167,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: "Time",
                       titleTextColor: ColorConstants.colorFromHex("#0E1339"),
                       containerColor: ColorConstants.colorFromHex("#DEE1EA"),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.timelapse,
                         color: ColorConstants.colorFromHex("#0E1339"),
@@ -196,7 +196,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: "Venue",
                       titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
                       containerColor: ColorConstants.colorFromHex("#FFF2F0"),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.place,
                         color: ColorConstants.colorFromHex("#E74C3C"),
@@ -213,7 +213,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: "Directions",
                       titleTextColor: ColorConstants.colorFromHex("#0064A7"),
                       containerColor: ColorConstants.colorFromHex("#E6F7FD"),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.directions,
                         color: ColorConstants.colorFromHex("#0064A7"),
@@ -234,7 +234,7 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#A58D0E"),
                       containerColor:
                           ColorConstants.colorFromHex("#F9F2B2").withAlpha(150),
-                      textSize: 15.0,
+                      textSize: 13.0,
                       iconWidget: Icon(
                         Icons.insert_invitation,
                         color: ColorConstants.colorFromHex("#A58D0E"),
