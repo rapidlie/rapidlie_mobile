@@ -6,10 +6,10 @@ import 'package:rapidlie/features/chat/presentation/widgets/message_item_widget.
 
 class ChatScreen extends StatelessWidget {
   final String eventName;
-  late TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
   ChatScreen({Key? key, required this.eventName}) : super(key: key);
 
-  List messagesList = [
+  final List messagesList = [
     {"message": "Hello! I was busy at work.", "date": "6/10/2022"},
     {
       "message":
