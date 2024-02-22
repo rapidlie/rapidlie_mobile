@@ -24,9 +24,11 @@ class ContactListScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
-        child: AppBarTemplate(
-          pageTitle: "Contacts",
-          isSubPage: true,
+        child: SafeArea(
+          child: AppBarTemplate(
+            pageTitle: "Contacts",
+            isSubPage: true,
+          ),
         ),
       ),
       body: SingleChildScrollView(
