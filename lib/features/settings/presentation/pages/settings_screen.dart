@@ -7,17 +7,16 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          child: AppBarTemplate(
-            pageTitle: "Setings",
-            isSubPage: false,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBarTemplate(
+              pageTitle: "Settings",
+              isSubPage: false,
+            ),
           ),
-        ),
-        body: Container(
-          child: Center(child: Text("Settings screen")),
-        ),
-      ),
+          body: SingleChildScrollView(
+            child: Container(),
+          )),
     );
   }
 }
