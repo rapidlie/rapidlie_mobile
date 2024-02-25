@@ -5,12 +5,12 @@ import 'package:rapidlie/core/widgets/app_bar_template.dart';
 class SettingsScreen extends StatelessWidget {
   static const String routeName = "settings";
 
-  List<Icon> settingdIcons = [
+  final List<Icon> settingdIcons = [
     Icon(Icons.language, color: Colors.blue),
     Icon(Icons.flag, color: Colors.green)
   ];
-  List<String> settingdTitle = ["Language", "Country"];
-  List<String> settingdValue = ["English", "Ghana"];
+  final List<String> settingdTitle = ["Language", "Country"];
+  final List<String> settingdValue = ["English", "Ghana"];
 
   @override
   Widget build(BuildContext context) {

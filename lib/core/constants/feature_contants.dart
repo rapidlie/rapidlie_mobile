@@ -51,3 +51,12 @@ poppins13black400() {
     fontSize: 13.0,
   );
 }
+
+poppins14black500() {
+  return TextStyle(
+    color: ColorConstants.black,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
+    fontSize: 14.0,
+  );
+}
