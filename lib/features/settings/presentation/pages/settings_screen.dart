@@ -62,7 +62,7 @@ class SettingsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Daniel Ofori Asiedu",
+                                    "Eugene Ofori Asiedu",
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       fontFamily: "Poppins",
