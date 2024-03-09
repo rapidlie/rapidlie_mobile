@@ -30,8 +30,9 @@ dependencies:
   connectivity:
   http:
   shared_preferences:
-  intl: ^0.18.0
-  flutter_localization: ^0.2.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
   
 
@@ -41,6 +42,7 @@ dev_dependencies:
   mockito:
 
 flutter:
+  generate: true
 
   uses-material-design: true
 
