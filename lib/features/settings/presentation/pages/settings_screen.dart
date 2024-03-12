@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String routeName = "settings";
@@ -19,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: "Settings",
+            pageTitle: AppLocalizations.of(context).settings,
             isSubPage: false,
           ),
         ),

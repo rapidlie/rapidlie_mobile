@@ -6,4 +6,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get helloWorld => 'Hallo Welt!';
+
+  @override
+  String get settings => 'Settings';
 }
