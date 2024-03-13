@@ -1,4 +1,11 @@
 {
   "helloWorld": "Hello World!",
-  "settings": "Settings"
+  "settings": "Settings",
+  "language": "Language",
+  "country": "Country",
+  "invites": "Invites",
+  "events": "Events",
+  "upcomingEvents": "Upcoming events",
+  "explore": "Explore",
+  "discover": "Discover"
 }
