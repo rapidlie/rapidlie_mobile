@@ -9,4 +9,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get language => 'Sprache';
+
+  @override
+  String get country => 'Land';
+
+  @override
+  String get invites => 'Einladungen';
+
+  @override
+  String get events => 'Veranstaltungen';
+
+  @override
+  String get upcomingEvents => 'Kommende Veranstaltungen';
+
+  @override
+  String get explore => 'Erkunden';
+
+  @override
+  String get discover => 'Entdecken';
 }
