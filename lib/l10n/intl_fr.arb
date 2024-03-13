@@ -1,0 +1,11 @@
+{
+  "helloWorld": "Bonjour le monde",
+  "settings": "Paramètres",
+  "language": "Langue",
+  "country": "Pays",
+  "invites": "Invitations",
+  "events": "Evénements",
+  "upcomingEvents": "Événements à venir",
+  "explore": "Explorer",
+  "discover": "Découvrir"
+}
