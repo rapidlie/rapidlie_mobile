@@ -1,3 +1,11 @@
 {
-  "helloWorld": "Hallo Welt!"
+  "helloWorld": "Hallo Welt!",
+  "settings": "Settings",
+  "language": "Sprache",
+  "country": "Land",
+  "invites": "Einladungen",
+  "events": "Veranstaltungen",
+  "upcomingEvents": "Kommende Veranstaltungen",
+  "explore": "Erkunden",
+  "discover": "Entdecken"
 }
