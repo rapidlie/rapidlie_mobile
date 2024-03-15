@@ -97,57 +97,111 @@ abstract class AppLocalizations {
 
   /// No description provided for @helloWorld.
   ///
-  /// In en, this message translates to:
-  /// **'Hello World!'**
+  /// In de, this message translates to:
+  /// **'Hallo Welt!'**
   String get helloWorld;
 
   /// No description provided for @settings.
   ///
-  /// In en, this message translates to:
-  /// **'Settings'**
+  /// In de, this message translates to:
+  /// **'Einstellungen'**
   String get settings;
 
   /// No description provided for @language.
   ///
-  /// In en, this message translates to:
-  /// **'Language'**
+  /// In de, this message translates to:
+  /// **'Sprache'**
   String get language;
 
   /// No description provided for @country.
   ///
-  /// In en, this message translates to:
-  /// **'Country'**
+  /// In de, this message translates to:
+  /// **'Land'**
   String get country;
 
   /// No description provided for @invites.
   ///
-  /// In en, this message translates to:
-  /// **'Invites'**
+  /// In de, this message translates to:
+  /// **'Einladungen'**
   String get invites;
 
   /// No description provided for @events.
   ///
-  /// In en, this message translates to:
-  /// **'Events'**
+  /// In de, this message translates to:
+  /// **'Veranstaltungen'**
   String get events;
 
   /// No description provided for @upcomingEvents.
   ///
-  /// In en, this message translates to:
-  /// **'Upcoming events'**
+  /// In de, this message translates to:
+  /// **'Kommende Veranstaltungen'**
   String get upcomingEvents;
 
   /// No description provided for @explore.
   ///
-  /// In en, this message translates to:
-  /// **'Explore'**
+  /// In de, this message translates to:
+  /// **'Erkunden'**
   String get explore;
 
   /// No description provided for @discover.
   ///
-  /// In en, this message translates to:
-  /// **'Discover'**
+  /// In de, this message translates to:
+  /// **'Entdecken'**
   String get discover;
+
+  /// No description provided for @general.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemein'**
+  String get general;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle sehen'**
+  String get seeAll;
+
+  /// No description provided for @hi.
+  ///
+  /// In de, this message translates to:
+  /// **'Hallo'**
+  String get hi;
+
+  /// No description provided for @noEventCreated.
+  ///
+  /// In de, this message translates to:
+  /// **'Sie haben noch keine Veranstaltung erstellt. Klicken Sie auf die Schaltfläche, um Ihre Veranstaltung hinzuzufügen'**
+  String get noEventCreated;
+
+  /// No description provided for @description.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschreibung'**
+  String get description;
+
+  /// No description provided for @date.
+  ///
+  /// In de, this message translates to:
+  /// **'Datum'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In de, this message translates to:
+  /// **'Uhrzeit'**
+  String get time;
+
+  /// No description provided for @venue.
+  ///
+  /// In de, this message translates to:
+  /// **'Veranstaltungsort'**
+  String get venue;
+
+  /// No description provided for @directions.
+  ///
+  /// In de, this message translates to:
+  /// **'Wegbeschreibung'**
+  String get directions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

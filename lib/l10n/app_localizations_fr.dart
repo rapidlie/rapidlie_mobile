@@ -30,4 +30,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get discover => 'Découvrir';
+
+  @override
+  String get general => 'Général';
+
+  @override
+  String get seeAll => 'Voir tous';
+
+  @override
+  String get hi => 'Bonjour';
+
+  @override
+  String get noEventCreated => 'Vous n\'avez pas créé d\'événement. Cliquez sur le bouton pour ajouter votre événement';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'L\'heure';
+
+  @override
+  String get venue => 'Lieu';
+
+  @override
+  String get directions => 'Itinéraire';
 }

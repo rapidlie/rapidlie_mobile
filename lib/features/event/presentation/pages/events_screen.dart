@@ -11,6 +11,7 @@ import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -22,7 +23,7 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
-  List eventsCreated = ["", ""];
+  List eventsCreated = [];
   //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -69,6 +70,7 @@ class _EventsScreenState extends State<EventsScreen> {
   bool publicEvent = false;
   int showBackButton = 0;
   File? imageFile;
+  var langugae;
 
   @override
   void initState() {
@@ -87,12 +89,13 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    langugae = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: "Events",
+            pageTitle: langugae.events,
             isSubPage: false,
           ),
         ),
@@ -111,7 +114,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         height: 20,
                       ),
                       Text(
-                        'You have not created any event. Click on the button to add your event',
+                        langugae.noEventCreated,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Poppins',

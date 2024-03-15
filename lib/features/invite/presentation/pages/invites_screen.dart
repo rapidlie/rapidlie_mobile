@@ -3,17 +3,21 @@ import 'package:get/get.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class InvitesScreen extends StatelessWidget {
   static const String routeName = "invites";
+  var language;
+
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(80),
             child: AppBarTemplate(
-              pageTitle: "Invites",
+              pageTitle: language.invites,
               isSubPage: false,
             ),
           ),

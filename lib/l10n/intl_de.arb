@@ -7,5 +7,14 @@
   "events": "Veranstaltungen",
   "upcomingEvents": "Kommende Veranstaltungen",
   "explore": "Erkunden",
-  "discover": "Entdecken"
+  "discover": "Entdecken",
+  "general": "Allgemein",
+  "seeAll": "Alle sehen",
+  "hi": "Hallo",
+  "noEventCreated": "Sie haben noch keine Veranstaltung erstellt. Klicken Sie auf die Schaltfläche, um Ihre Veranstaltung hinzuzufügen",
+  "description": "Beschreibung",
+  "date": "Datum",
+  "time": "Uhrzeit",
+  "venue": "Veranstaltungsort",
+  "directions": "Wegbeschreibung"
 }

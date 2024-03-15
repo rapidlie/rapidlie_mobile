@@ -7,5 +7,14 @@
   "events": "Events",
   "upcomingEvents": "Upcoming events",
   "explore": "Explore",
-  "discover": "Discover"
+  "discover": "Discover",
+  "general": "General",
+  "seeAll": "See all",
+  "hi": "Hi",
+  "noEventCreated": "You have not created any event. Click on the button to add your event",
+  "description": "Description",
+  "date": "Date",
+  "time": "Time",
+  "venue": "Venue",
+  "directions": "Directions"
 }
