@@ -1,18 +1,25 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/chat/presentation/pages/chat_screen.dart';
 import 'package:rapidlie/features/event/presentation/pages/guest_list_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class EventDetailsScreeen extends StatelessWidget {
   final bool isOwnEvent;
+  var language;
 
-  const EventDetailsScreeen({Key? key, required this.isOwnEvent})
-      : super(key: key);
+  EventDetailsScreeen({
+    Key? key,
+    required this.isOwnEvent,
+    this.language,
+  }) : super(key: key);
 
   void openMap() async {
     // Replace the address with your own value
@@ -35,6 +42,7 @@ class EventDetailsScreeen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -137,7 +145,7 @@ class EventDetailsScreeen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     HeaderTextTemplate(
-                      titleText: "About",
+                      titleText: language.description,
                       titleTextColor: ColorConstants.colorFromHex("#8E44AD"),
                       containerColor: ColorConstants.colorFromHex("#EFDAF7"),
                       textSize: 13.0,
@@ -154,7 +162,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
-                      titleText: "Date",
+                      titleText: language.date,
                       titleTextColor: ColorConstants.colorFromHex("#E57E25"),
                       containerColor: ColorConstants.colorFromHex("#FFF2E7"),
                       textSize: 13.0,
@@ -171,7 +179,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
-                      titleText: "Time",
+                      titleText: language.time,
                       titleTextColor: ColorConstants.colorFromHex("#0E1339"),
                       containerColor: ColorConstants.colorFromHex("#DEE1EA"),
                       textSize: 13.0,
@@ -200,7 +208,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
-                      titleText: "Venue",
+                      titleText: language.venue,
                       titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
                       containerColor: ColorConstants.colorFromHex("#FFF2F0"),
                       textSize: 13.0,
@@ -217,7 +225,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
-                      titleText: "Directions",
+                      titleText: language.directions,
                       titleTextColor: ColorConstants.colorFromHex("#0064A7"),
                       containerColor: ColorConstants.colorFromHex("#E6F7FD"),
                       textSize: 13.0,
@@ -237,7 +245,7 @@ class EventDetailsScreeen extends StatelessWidget {
                     ),
                     normalSpacing(),
                     HeaderTextTemplate(
-                      titleText: "Invites",
+                      titleText: language.invites,
                       titleTextColor: ColorConstants.colorFromHex("#A58D0E"),
                       containerColor:
                           ColorConstants.colorFromHex("#F9F2B2").withAlpha(150),

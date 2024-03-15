@@ -10,17 +10,20 @@ class SettingsScreen extends StatelessWidget {
     Icon(Icons.language, color: Colors.blue),
     Icon(Icons.flag, color: Colors.green)
   ];
-  final List<String> settingdTitle = ["Language", "Country"];
+  final List<String> settingdTitle = ["language", "country"];
   final List<String> settingdValue = ["English", "Ghana"];
+
+  var language;
 
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: AppLocalizations.of(context).settings,
+            pageTitle: language.settings,
             isSubPage: false,
           ),
         ),
@@ -94,7 +97,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   normalSpacing(),
                   Text(
-                    'General',
+                    language.general,
                     style: poppins14black500(),
                   ),
                   extraSmallSpacing(),

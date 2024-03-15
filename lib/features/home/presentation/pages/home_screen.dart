@@ -7,6 +7,8 @@ import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:rapidlie/l10n/app_localizations_de.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "home";
@@ -35,15 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   } */
 
+  var language;
+
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: "Hi, Eugene",
+            pageTitle: "${language.hi}, Eugene",
             isSubPage: false,
             trailingWidget: Row(
               children: [
@@ -74,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: HeaderTextTemplate(
-                    titleText: "Upcoming events",
+                    titleText: language.upcomingEvents,
                     titleTextColor: Colors.black,
                     containerColor: Color.fromARGB(133, 218, 218, 218),
                     textSize: 15,
@@ -111,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HeaderTextTemplate(
-                        titleText: "Explore",
+                        titleText: language.explore,
                         titleTextColor: Colors.black,
                         containerColor: Color.fromARGB(133, 218, 218, 218),
                         textSize: 15,
@@ -119,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       GestureDetector(
                         onTap: () {},
                         child: Text(
-                          "See all",
+                          language.seeAll,
                           style: TextStyle(
                             color: Color.fromARGB(133, 63, 59, 59),
                             fontFamily: "Poppins",
@@ -150,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: HeaderTextTemplate(
-                    titleText: "Discover",
+                    titleText: language.discover,
                     titleTextColor: Colors.black,
                     containerColor: Color.fromARGB(133, 218, 218, 218),
                     textSize: 15,
