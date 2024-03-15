@@ -30,4 +30,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discover => 'Discover';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get hi => 'Hi';
+
+  @override
+  String get noEventCreated => 'You have not created any event. Click on the button to add your event';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get venue => 'Venue';
+
+  @override
+  String get directions => 'Directions';
 }

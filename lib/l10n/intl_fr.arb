@@ -7,5 +7,14 @@
   "events": "Evénements",
   "upcomingEvents": "Événements à venir",
   "explore": "Explorer",
-  "discover": "Découvrir"
+  "discover": "Découvrir",
+  "general": "Général",
+  "seeAll": "Voir tous",
+  "hi": "Bonjour",
+  "noEventCreated": "Vous n'avez pas créé d'événement. Cliquez sur le bouton pour ajouter votre événement",
+  "description": "Description",
+  "date": "Date",
+  "time": "L'heure",
+  "venue": "Lieu",
+  "directions": "Itinéraire"
 }
