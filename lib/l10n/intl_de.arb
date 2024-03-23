@@ -16,5 +16,16 @@
   "date": "Datum",
   "time": "Uhrzeit",
   "venue": "Veranstaltungsort",
-  "directions": "Wegbeschreibung"
+  "directions": "Wegbeschreibung",
+  "createEvent": "Ereignis erstellen",
+  "eventTitle": "Veranstaltungstitel",
+  "uploadFlyer": "Flyer hochladen",
+  "next": "Weiter",
+  "selectDate": "Datum auswählen",
+  "startTime": "Startzeit",
+  "endTime": "Endzeit",
+  "location": "Ort",
+  "locationDescription": "Dies ist der Name des Gebäudes",
+  "publicEvent": "Öffentliches Ereignis",
+  "inviteFriends": "Freunde einladen"
 }

@@ -16,5 +16,16 @@
   "date": "Date",
   "time": "Time",
   "venue": "Venue",
-  "directions": "Directions"
+  "directions": "Directions",
+  "createEvent": "Create event",
+  "eventTitle": "Event title",
+  "uploadFlyer": "Upload flyer",
+  "next": "Next",
+  "selectDate": "Select date",
+  "startTime": "Start time",
+  "endTime": "End time",
+  "location": "Location",
+  "locationDescription": "This is the name of the building",
+  "publicEvent": "Public event",
+  "inviteFriends": "Invite friends"
 }

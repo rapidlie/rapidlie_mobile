@@ -202,6 +202,72 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Wegbeschreibung'**
   String get directions;
+
+  /// No description provided for @createEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Ereignis erstellen'**
+  String get createEvent;
+
+  /// No description provided for @eventTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Veranstaltungstitel'**
+  String get eventTitle;
+
+  /// No description provided for @uploadFlyer.
+  ///
+  /// In de, this message translates to:
+  /// **'Flyer hochladen'**
+  String get uploadFlyer;
+
+  /// No description provided for @next.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get next;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In de, this message translates to:
+  /// **'Datum auswählen'**
+  String get selectDate;
+
+  /// No description provided for @startTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Startzeit'**
+  String get startTime;
+
+  /// No description provided for @endTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Endzeit'**
+  String get endTime;
+
+  /// No description provided for @location.
+  ///
+  /// In de, this message translates to:
+  /// **'Ort'**
+  String get location;
+
+  /// No description provided for @locationDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Dies ist der Name des Gebäudes'**
+  String get locationDescription;
+
+  /// No description provided for @publicEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Öffentliches Ereignis'**
+  String get publicEvent;
+
+  /// No description provided for @inviteFriends.
+  ///
+  /// In de, this message translates to:
+  /// **'Freunde einladen'**
+  String get inviteFriends;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
