@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/settings_item_layout.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String routeName = "settings";
-
-  final List<Icon> settingdIcons = [
-    Icon(Icons.language, color: Colors.blue),
-    Icon(Icons.flag, color: Colors.green)
-  ];
-  final List<String> settingdTitle = ["language", "country"];
-  final List<String> settingdValue = ["English", "Ghana"];
 
   var language;
 
@@ -106,8 +100,42 @@ class SettingsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(borderRadius),
                       color: Colors.white,
                     ),
-                    child: ListView.separated(
+                    child: ListView(
                       shrinkWrap: true,
+                      children: [
+                        SettingsItemLayout(
+                          icon: Icons.language,
+                          title: language.language,
+                          value: "English",
+                          iconColor: Colors.blue,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40.0),
+                          child: Container(
+                            height: 1,
+                            color: const Color.fromARGB(255, 240, 239, 239),
+                          ),
+                        ),
+                        SettingsItemLayout(
+                          icon: Icons.flag,
+                          title: language.country,
+                          value: "Germany",
+                          iconColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+/* 
+shrinkWrap: true,
                       itemCount: settingdTitle.length,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -154,15 +182,4 @@ class SettingsScreen extends StatelessWidget {
                             color: const Color.fromARGB(255, 240, 239, 239),
                           ),
                         );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+                      }, */
