@@ -57,4 +57,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get directions => 'Directions';
+
+  @override
+  String get createEvent => 'Create event';
+
+  @override
+  String get eventTitle => 'Event title';
+
+  @override
+  String get uploadFlyer => 'Upload flyer';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
+  String get startTime => 'Start time';
+
+  @override
+  String get endTime => 'End time';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get locationDescription => 'This is the name of the building';
+
+  @override
+  String get publicEvent => 'Public event';
+
+  @override
+  String get inviteFriends => 'Invite friends';
 }

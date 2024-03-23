@@ -57,4 +57,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get directions => 'Wegbeschreibung';
+
+  @override
+  String get createEvent => 'Ereignis erstellen';
+
+  @override
+  String get eventTitle => 'Veranstaltungstitel';
+
+  @override
+  String get uploadFlyer => 'Flyer hochladen';
+
+  @override
+  String get next => 'Weiter';
+
+  @override
+  String get selectDate => 'Datum auswählen';
+
+  @override
+  String get startTime => 'Startzeit';
+
+  @override
+  String get endTime => 'Endzeit';
+
+  @override
+  String get location => 'Ort';
+
+  @override
+  String get locationDescription => 'Dies ist der Name des Gebäudes';
+
+  @override
+  String get publicEvent => 'Öffentliches Ereignis';
+
+  @override
+  String get inviteFriends => 'Freunde einladen';
 }
