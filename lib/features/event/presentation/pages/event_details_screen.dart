@@ -13,7 +13,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 
 class EventDetailsScreeen extends StatelessWidget {
   final bool isOwnEvent;
-  var language;
+  late final language;
 
   EventDetailsScreeen({
     Key? key,
