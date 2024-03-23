@@ -23,8 +23,8 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
+  //List eventsCreated = [""];
   List eventsCreated = [];
-  //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController locationController = TextEditingController();
