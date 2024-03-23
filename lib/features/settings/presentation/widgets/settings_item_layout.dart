@@ -24,31 +24,30 @@ class SettingsItemLayout extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(children: [
-            Icon(
-              icon,
-              color: Colors.blue,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: poppins14black500(),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  subTitle ?? "",
-                  style: poppins13black400(),
-                ),
-              ],
-            )
-          ]),
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: iconColor,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(),
+                  Text(
+                    title,
+                    style: poppins14black500(),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
+              ),
+            ],
+          ),
           Row(
             children: [
               Text(
