@@ -90,4 +90,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get inviteFriends => 'Freunde einladen';
+
+  @override
+  String get english => 'Englisch';
+
+  @override
+  String get german => 'Deutsch';
+
+  @override
+  String get french => 'Französisch';
 }

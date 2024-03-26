@@ -27,5 +27,8 @@
   "location": "Ort",
   "locationDescription": "Dies ist der Name des Gebäudes",
   "publicEvent": "Öffentliches Ereignis",
-  "inviteFriends": "Freunde einladen"
+  "inviteFriends": "Freunde einladen",
+  "english": "Englisch",
+  "german": "Deutsch",
+  "french": "Französisch"
 }

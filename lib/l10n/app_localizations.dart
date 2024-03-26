@@ -268,6 +268,24 @@ abstract class AppLocalizations {
   /// In de, this message translates to:
   /// **'Freunde einladen'**
   String get inviteFriends;
+
+  /// No description provided for @english.
+  ///
+  /// In de, this message translates to:
+  /// **'Englisch'**
+  String get english;
+
+  /// No description provided for @german.
+  ///
+  /// In de, this message translates to:
+  /// **'Deutsch'**
+  String get german;
+
+  /// No description provided for @french.
+  ///
+  /// In de, this message translates to:
+  /// **'Französisch'**
+  String get french;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
