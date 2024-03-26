@@ -27,5 +27,8 @@
   "location": "Location",
   "locationDescription": "This is the name of the building",
   "publicEvent": "Public event",
-  "inviteFriends": "Invite friends"
+  "inviteFriends": "Invite friends",
+  "english": "English",
+  "german": "German",
+  "french": "French"
 }
