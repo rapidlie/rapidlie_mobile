@@ -9,62 +9,52 @@ class SettingsItemLayout extends StatelessWidget {
     this.subTitle,
     required this.value,
     required this.iconColor,
+    this.onCLickFunction,
   }) : super(key: key);
 
   final IconData icon;
   final Color iconColor;
   final String title;
   final String? subTitle;
-  final String value;
+  final Widget value;
+  final Function()? onCLickFunction;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: iconColor,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(),
-                  Text(
-                    title,
-                    style: poppins14black500(),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                value,
-                style: poppins13black400(),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.grey.shade300,
-                size: 15,
-              ),
-            ],
-          )
-        ],
+      child: GestureDetector(
+        onTap: onCLickFunction,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  icon,
+                  color: iconColor,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(),
+                    Text(
+                      title,
+                      style: poppins14black500(),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            value
+          ],
+        ),
       ),
     );
   }
