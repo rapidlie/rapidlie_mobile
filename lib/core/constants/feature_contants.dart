@@ -60,3 +60,21 @@ poppins14black500() {
     fontSize: 14.0,
   );
 }
+
+mainAppbarTitleStyle() {
+  return TextStyle(
+    color: Colors.black,
+    fontSize: 20.0,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w600,
+  );
+}
+
+subAppbarTitleStyle() {
+  return TextStyle(
+    color: Colors.black,
+    fontSize: 18.0,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
+  );
+}

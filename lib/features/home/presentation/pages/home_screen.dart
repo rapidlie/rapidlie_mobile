@@ -8,7 +8,6 @@ import 'package:rapidlie/features/event/presentation/pages/event_details_screen.
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-import 'package:rapidlie/l10n/app_localizations_de.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "home";

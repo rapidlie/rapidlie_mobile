@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class AppBarTemplate extends StatelessWidget {
   final String pageTitle;
@@ -32,15 +33,7 @@ class AppBarTemplate extends StatelessWidget {
                       ),
                     )
                   : SizedBox(),
-              Text(
-                pageTitle,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              Text(pageTitle, style: mainAppbarTitleStyle()),
             ],
           ),
           trailingWidget == null ? SizedBox() : trailingWidget!

@@ -7,7 +7,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class SettingsScreen extends StatelessWidget {
   static const String routeName = "settings";
 
-  var language;
+  late final language;
 
   @override
   Widget build(BuildContext context) {

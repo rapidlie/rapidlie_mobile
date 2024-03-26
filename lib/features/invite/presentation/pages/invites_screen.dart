@@ -7,7 +7,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 
 class InvitesScreen extends StatelessWidget {
   static const String routeName = "invites";
-  var language;
+  late final language;
 
   @override
   Widget build(BuildContext context) {
