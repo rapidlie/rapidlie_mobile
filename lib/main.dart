@@ -26,7 +26,13 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(color: Colors.black),
+        ),
+        //primarySwatch: Colors.blue,
+        primaryColor: Colors.black,
+
+        fontFamily: "Poppins",
       ),
       routes: <String, WidgetBuilder>{
         LoginScreen.routeName: (context) => LoginScreen(),
