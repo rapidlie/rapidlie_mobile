@@ -1,13 +1,19 @@
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_item_layout.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String routeName = "settings";
+  //final bool isMenuOpen = false;
 
-  late final language;
+  late var language;
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +112,16 @@ class SettingsScreen extends StatelessWidget {
                         SettingsItemLayout(
                           icon: Icons.language,
                           title: language.language,
-                          value: "English",
+                          value: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Text(
+                              "English",
+                              style: poppins13black400(),
+                            ),
+                          ),
                           iconColor: Colors.blue,
+                          onCLickFunction: () =>
+                              showModal(language.language, context),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 40.0),
@@ -119,7 +133,7 @@ class SettingsScreen extends StatelessWidget {
                         SettingsItemLayout(
                           icon: Icons.flag,
                           title: language.country,
-                          value: "Germany",
+                          value: CountrySettingsLayout(),
                           iconColor: Colors.green,
                         ),
                       ],
@@ -133,53 +147,96 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
+
+  showModal(String menuTitle, BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, StateSetter setState) {
+            return SingleChildScrollView(
+              primary: true,
+              child: GestureDetector(
+                //onTap: () => closeMenu(),
+                child: bottomSheetLayout(setState, menuTitle),
+              ),
+            );
+          },
+        );
+      },
+    ).whenComplete(() {});
+  }
+
+  Widget bottomSheetLayout(StateSetter setState, String menuTitle) {
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: ColorConstants.colorFromHex("#F2F4F5"),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    menuTitle,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: ColorConstants.charcoalBlack,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: ColorConstants.colorFromHex("#FFFFFF"),
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: ColorConstants.closeButtonColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                color: ColorConstants.lightGray,
+                height: 1,
+                width: Get.width,
+              ),
+            ),
+            Container(
+              child: LanguageSettingsLayout(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
-/* 
-shrinkWrap: true,
-                      itemCount: settingdTitle.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(children: [
-                                settingdIcons[index],
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  settingdTitle[index],
-                                  style: poppins14black500(),
-                                )
-                              ]),
-                              Row(
-                                children: [
-                                  Text(
-                                    settingdValue[index],
-                                    style: poppins13black400(),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.grey.shade300,
-                                    size: 15,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Container(
-                            height: 1,
-                            color: const Color.fromARGB(255, 240, 239, 239),
-                          ),
-                        );
-                      }, */
