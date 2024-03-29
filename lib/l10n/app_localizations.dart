@@ -97,194 +97,194 @@ abstract class AppLocalizations {
 
   /// No description provided for @helloWorld.
   ///
-  /// In de, this message translates to:
-  /// **'Hallo Welt!'**
+  /// In en, this message translates to:
+  /// **'Hello World!'**
   String get helloWorld;
 
   /// No description provided for @settings.
   ///
-  /// In de, this message translates to:
-  /// **'Einstellungen'**
+  /// In en, this message translates to:
+  /// **'Settings'**
   String get settings;
 
   /// No description provided for @language.
   ///
-  /// In de, this message translates to:
-  /// **'Sprache'**
+  /// In en, this message translates to:
+  /// **'Language'**
   String get language;
 
   /// No description provided for @country.
   ///
-  /// In de, this message translates to:
-  /// **'Land'**
+  /// In en, this message translates to:
+  /// **'Country'**
   String get country;
 
   /// No description provided for @invites.
   ///
-  /// In de, this message translates to:
-  /// **'Einladungen'**
+  /// In en, this message translates to:
+  /// **'Invites'**
   String get invites;
 
   /// No description provided for @events.
   ///
-  /// In de, this message translates to:
-  /// **'Veranstaltungen'**
+  /// In en, this message translates to:
+  /// **'Events'**
   String get events;
 
   /// No description provided for @upcomingEvents.
   ///
-  /// In de, this message translates to:
-  /// **'Kommende Veranstaltungen'**
+  /// In en, this message translates to:
+  /// **'Upcoming events'**
   String get upcomingEvents;
 
   /// No description provided for @explore.
   ///
-  /// In de, this message translates to:
-  /// **'Erkunden'**
+  /// In en, this message translates to:
+  /// **'Explore'**
   String get explore;
 
   /// No description provided for @discover.
   ///
-  /// In de, this message translates to:
-  /// **'Entdecken'**
+  /// In en, this message translates to:
+  /// **'Discover'**
   String get discover;
 
   /// No description provided for @general.
   ///
-  /// In de, this message translates to:
-  /// **'Allgemein'**
+  /// In en, this message translates to:
+  /// **'General'**
   String get general;
 
   /// No description provided for @seeAll.
   ///
-  /// In de, this message translates to:
-  /// **'Alle sehen'**
+  /// In en, this message translates to:
+  /// **'See all'**
   String get seeAll;
 
   /// No description provided for @hi.
   ///
-  /// In de, this message translates to:
-  /// **'Hallo'**
+  /// In en, this message translates to:
+  /// **'Hi'**
   String get hi;
 
   /// No description provided for @noEventCreated.
   ///
-  /// In de, this message translates to:
-  /// **'Sie haben noch keine Veranstaltung erstellt. Klicken Sie auf die Schaltfläche, um Ihre Veranstaltung hinzuzufügen'**
+  /// In en, this message translates to:
+  /// **'You have not created any event. Click on the button to add your event'**
   String get noEventCreated;
 
   /// No description provided for @description.
   ///
-  /// In de, this message translates to:
-  /// **'Beschreibung'**
+  /// In en, this message translates to:
+  /// **'Description'**
   String get description;
 
   /// No description provided for @date.
   ///
-  /// In de, this message translates to:
-  /// **'Datum'**
+  /// In en, this message translates to:
+  /// **'Date'**
   String get date;
 
   /// No description provided for @time.
   ///
-  /// In de, this message translates to:
-  /// **'Uhrzeit'**
+  /// In en, this message translates to:
+  /// **'Time'**
   String get time;
 
   /// No description provided for @venue.
   ///
-  /// In de, this message translates to:
-  /// **'Veranstaltungsort'**
+  /// In en, this message translates to:
+  /// **'Venue'**
   String get venue;
 
   /// No description provided for @directions.
   ///
-  /// In de, this message translates to:
-  /// **'Wegbeschreibung'**
+  /// In en, this message translates to:
+  /// **'Directions'**
   String get directions;
 
   /// No description provided for @createEvent.
   ///
-  /// In de, this message translates to:
-  /// **'Ereignis erstellen'**
+  /// In en, this message translates to:
+  /// **'Create event'**
   String get createEvent;
 
   /// No description provided for @eventTitle.
   ///
-  /// In de, this message translates to:
-  /// **'Veranstaltungstitel'**
+  /// In en, this message translates to:
+  /// **'Event title'**
   String get eventTitle;
 
   /// No description provided for @uploadFlyer.
   ///
-  /// In de, this message translates to:
-  /// **'Flyer hochladen'**
+  /// In en, this message translates to:
+  /// **'Upload flyer'**
   String get uploadFlyer;
 
   /// No description provided for @next.
   ///
-  /// In de, this message translates to:
-  /// **'Weiter'**
+  /// In en, this message translates to:
+  /// **'Next'**
   String get next;
 
   /// No description provided for @selectDate.
   ///
-  /// In de, this message translates to:
-  /// **'Datum auswählen'**
+  /// In en, this message translates to:
+  /// **'Select date'**
   String get selectDate;
 
   /// No description provided for @startTime.
   ///
-  /// In de, this message translates to:
-  /// **'Startzeit'**
+  /// In en, this message translates to:
+  /// **'Start time'**
   String get startTime;
 
   /// No description provided for @endTime.
   ///
-  /// In de, this message translates to:
-  /// **'Endzeit'**
+  /// In en, this message translates to:
+  /// **'End time'**
   String get endTime;
 
   /// No description provided for @location.
   ///
-  /// In de, this message translates to:
-  /// **'Ort'**
+  /// In en, this message translates to:
+  /// **'Location'**
   String get location;
 
   /// No description provided for @locationDescription.
   ///
-  /// In de, this message translates to:
-  /// **'Dies ist der Name des Gebäudes'**
+  /// In en, this message translates to:
+  /// **'This is the name of the building'**
   String get locationDescription;
 
   /// No description provided for @publicEvent.
   ///
-  /// In de, this message translates to:
-  /// **'Öffentliches Ereignis'**
+  /// In en, this message translates to:
+  /// **'Public event'**
   String get publicEvent;
 
   /// No description provided for @inviteFriends.
   ///
-  /// In de, this message translates to:
-  /// **'Freunde einladen'**
+  /// In en, this message translates to:
+  /// **'Invite friends'**
   String get inviteFriends;
 
   /// No description provided for @english.
   ///
-  /// In de, this message translates to:
-  /// **'Englisch'**
+  /// In en, this message translates to:
+  /// **'English'**
   String get english;
 
   /// No description provided for @german.
   ///
-  /// In de, this message translates to:
-  /// **'Deutsch'**
+  /// In en, this message translates to:
+  /// **'German'**
   String get german;
 
   /// No description provided for @french.
   ///
-  /// In de, this message translates to:
-  /// **'Französisch'**
+  /// In en, this message translates to:
+  /// **'French'**
   String get french;
 }
 
