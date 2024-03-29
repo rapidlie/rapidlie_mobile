@@ -7,7 +7,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class CountrySettingsLayout extends StatelessWidget {
   CountrySettingsLayout({Key? key}) : super(key: key);
 
-  var language;
+  late final language;
 
   @override
   Widget build(BuildContext context) {
