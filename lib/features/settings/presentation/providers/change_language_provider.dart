@@ -5,16 +5,22 @@ class ChangeLanguageProvider with ChangeNotifier {
   Locale? _applicationLocale;
   Locale? get applicationLocale => _applicationLocale;
 
+  ChangeLanguageProvider() {
+    notifyListeners();
+  }
+
   void changeLanguage(Locale localeType) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    _applicationLocale = localeType;
 
     if (localeType == Locale("en")) {
-      await sharedPreferences.setString("languageCode", "en");
+      sharedPreferences.setString("languageCode", "en");
     } else if (localeType == Locale("de")) {
-      await sharedPreferences.setString("languageCode", "de");
+      sharedPreferences.setString("languageCode", "de");
     } else {
-      await sharedPreferences.setString("languageCode", "fr");
+      sharedPreferences.setString("languageCode", "fr");
     }
+
     notifyListeners();
   }
 }
