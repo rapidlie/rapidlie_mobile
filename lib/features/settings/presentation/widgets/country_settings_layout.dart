@@ -35,7 +35,7 @@ class CountrySettingsLayout extends StatelessWidget {
         isShowTitle: true,
         isShowCode: false,
         isDownIcon: false,
-        showEnglishName: true,
+        showEnglishName: false,
         alphabetSelectedBackgroundColor: Colors.black,
         labelColor: Colors.black,
       ),
