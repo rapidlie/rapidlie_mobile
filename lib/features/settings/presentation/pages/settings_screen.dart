@@ -1,18 +1,24 @@
-import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_item_layout.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   static const String routeName = "settings";
-  //final bool isMenuOpen = false;
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  //final bool isMenuOpen = false;
   late var language;
 
   @override
@@ -102,43 +108,56 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   extraSmallSpacing(),
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      color: Colors.white,
-                    ),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        SettingsItemLayout(
-                          icon: Icons.language,
-                          title: language.language,
-                          value: Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: Text(
-                              "English",
-                              style: poppins13black400(),
-                            ),
-                          ),
-                          iconColor: Colors.blue,
-                          onCLickFunction: () =>
-                              showModal(language.language, context),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: Container(
-                            height: 1,
-                            color: const Color.fromARGB(255, 240, 239, 239),
-                          ),
-                        ),
-                        SettingsItemLayout(
-                          icon: Icons.flag,
-                          title: language.country,
-                          value: CountrySettingsLayout(),
-                          iconColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                  )
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        color: Colors.white,
+                      ),
+                      child: Consumer<ChangeLanguageProvider>(
+                        builder: (context, provider, child) {
+                          return ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: [
+                              SettingsItemLayout(
+                                icon: Icons.language,
+                                title: language.language,
+                                value: Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: Text(
+                                    provider.applicationLocale == Locale("en")
+                                        ? language.english
+                                        : provider.applicationLocale ==
+                                                Locale("de")
+                                            ? language.german
+                                            : provider.applicationLocale ==
+                                                    Locale("fr")
+                                                ? language.french
+                                                : language.english,
+                                    style: poppins13black400(),
+                                  ),
+                                ),
+                                iconColor: Colors.blue,
+                                onCLickFunction: () =>
+                                    showModal(language.language, context),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 40.0),
+                                child: Container(
+                                  height: 1,
+                                  color:
+                                      const Color.fromARGB(255, 240, 239, 239),
+                                ),
+                              ),
+                              SettingsItemLayout(
+                                icon: Icons.flag,
+                                title: language.country,
+                                value: CountrySettingsLayout(),
+                                iconColor: Colors.green,
+                              ),
+                            ],
+                          );
+                        },
+                      ))
                 ],
               ),
             ),
@@ -171,7 +190,11 @@ class SettingsScreen extends StatelessWidget {
           },
         );
       },
-    ).whenComplete(() {});
+    ).whenComplete(() {
+      setState(() {
+        ChangeLanguageProvider();
+      });
+    });
   }
 
   Widget bottomSheetLayout(StateSetter setState, String menuTitle) {
@@ -204,7 +227,7 @@ class SettingsScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  GestureDetector(
+                  /* GestureDetector(
                     onTap: () {},
                     child: Container(
                       height: 30,
@@ -219,7 +242,7 @@ class SettingsScreen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),
