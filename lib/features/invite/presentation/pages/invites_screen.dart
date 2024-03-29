@@ -5,8 +5,14 @@ import 'package:rapidlie/features/event/presentation/pages/event_details_screen.
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
-class InvitesScreen extends StatelessWidget {
+class InvitesScreen extends StatefulWidget {
   static const String routeName = "invites";
+
+  @override
+  State<InvitesScreen> createState() => _InvitesScreenState();
+}
+
+class _InvitesScreenState extends State<InvitesScreen> {
   late final language;
 
   @override
