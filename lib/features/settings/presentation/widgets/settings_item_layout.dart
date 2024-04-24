@@ -7,7 +7,7 @@ class SettingsItemLayout extends StatelessWidget {
     required this.icon,
     required this.title,
     this.subTitle,
-    required this.value,
+    this.value,
     required this.iconColor,
     this.onCLickFunction,
   }) : super(key: key);
@@ -16,7 +16,7 @@ class SettingsItemLayout extends StatelessWidget {
   final Color iconColor;
   final String title;
   final String? subTitle;
-  final Widget value;
+  final Widget? value;
   final Function()? onCLickFunction;
 
   @override
@@ -52,7 +52,7 @@ class SettingsItemLayout extends StatelessWidget {
                 ),
               ],
             ),
-            value
+            value ?? SizedBox()
           ],
         ),
       ),
