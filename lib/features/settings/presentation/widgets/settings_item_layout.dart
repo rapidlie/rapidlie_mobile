@@ -37,22 +37,13 @@ class SettingsItemLayout extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(),
-                    Text(
-                      title,
-                      style: poppins14black500(),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                Text(
+                  title,
+                  style: poppins14black500(),
                 ),
               ],
             ),
-            value ?? SizedBox()
+            value ?? SizedBox.shrink()
           ],
         ),
       ),
