@@ -13,7 +13,7 @@ class InvitesScreen extends StatefulWidget {
 }
 
 class _InvitesScreenState extends State<InvitesScreen> {
-  late final language;
+  var language;
 
   @override
   Widget build(BuildContext context) {

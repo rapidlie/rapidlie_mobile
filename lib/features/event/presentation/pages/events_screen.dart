@@ -5,12 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/features/event/presentation/widgets/invites_list_item.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -60,6 +62,7 @@ class _EventsScreenState extends State<EventsScreen> {
     '10:00',
     '11:00',
   ];
+  List invitedFriendList = [""];
 
   List eventTimeOfDay = ['am', 'pm'];
   int selectedStartTimeOfDayChecker = 0;
@@ -70,7 +73,7 @@ class _EventsScreenState extends State<EventsScreen> {
   bool publicEvent = false;
   int showBackButton = 0;
   File? imageFile;
-  var langugae;
+  var language;
 
   @override
   void initState() {
@@ -89,13 +92,13 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    langugae = AppLocalizations.of(context);
+    language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: langugae.events,
+            pageTitle: language.events,
             isSubPage: false,
           ),
         ),
@@ -113,17 +116,9 @@ class _EventsScreenState extends State<EventsScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        langugae.noEventCreated,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w500,
-                          color: ColorConstants.charcoalBlack,
-                          height: 1.2,
-                        ),
-                      ),
+                      Text(language.noEventCreated,
+                          textAlign: TextAlign.center,
+                          style: poppins13black400()),
                     ],
                   ),
                 )
@@ -394,7 +389,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           ),
                   ),
                   Text(
-                    'Create event',
+                    language.createEvent,
                     style: TextStyle(
                       fontSize: 16.0,
                       color: ColorConstants.charcoalBlack,
@@ -461,7 +456,7 @@ class _EventsScreenState extends State<EventsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Event title',
+            language.eventTitle,
             style: TextStyle(
               fontSize: 14.0,
               color: ColorConstants.charcoalBlack,
@@ -487,7 +482,7 @@ class _EventsScreenState extends State<EventsScreen> {
             height: 16,
           ),
           Text(
-            'Upload flyer',
+            language.uploadFlyer,
             style: TextStyle(
               fontSize: 14.0,
               color: ColorConstants.charcoalBlack,
@@ -530,7 +525,7 @@ class _EventsScreenState extends State<EventsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
-              buttonName: "next",
+              buttonName: language.next,
               buttonWidth: Get.width,
               buttonAction: () {
                 setState(() {
@@ -556,7 +551,7 @@ class _EventsScreenState extends State<EventsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Select date',
+            language.selectDate,
             style: TextStyle(
               fontSize: 14.0,
               color: ColorConstants.charcoalBlack,
@@ -617,7 +612,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Start time',
+                      language.startTime,
                       style: TextStyle(
                         fontSize: 14.0,
                         color: ColorConstants.charcoalBlack,
@@ -683,7 +678,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'End time',
+                      language.endTime,
                       style: TextStyle(
                         fontSize: 14.0,
                         color: ColorConstants.charcoalBlack,
@@ -747,7 +742,7 @@ class _EventsScreenState extends State<EventsScreen> {
             height: 24,
           ),
           Text(
-            'Location',
+            language.location,
             style: TextStyle(
               fontSize: 14.0,
               color: ColorConstants.charcoalBlack,
@@ -756,7 +751,7 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
           ),
           Text(
-            'This is the name of the building',
+            language.locationDescription,
             style: TextStyle(
               fontSize: 12.0,
               color: ColorConstants.charcoalBlack,
@@ -782,7 +777,7 @@ class _EventsScreenState extends State<EventsScreen> {
             height: 40,
           ),
           ButtonTemplate(
-            buttonName: "next",
+            buttonName: language.next,
             buttonWidth: Get.width,
             buttonAction: () {
               showBackButton = showBackButton + 1;
@@ -805,7 +800,7 @@ class _EventsScreenState extends State<EventsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'About',
+            language.description,
             style: TextStyle(
               fontSize: 14.0,
               color: ColorConstants.charcoalBlack,
@@ -842,7 +837,7 @@ class _EventsScreenState extends State<EventsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Public event',
+                  language.publicEvent,
                   style: TextStyle(
                     fontFamily: "Poppins",
                     fontSize: 16.0,
@@ -855,20 +850,25 @@ class _EventsScreenState extends State<EventsScreen> {
                   width: 18,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(4),
                     color: ColorConstants.white,
                     border: Border.all(
                       color: ColorConstants.black,
-                      width: publicEvent ? 0 : 2,
+                      width: 1,
                     ),
                   ),
-                  child: Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: publicEvent
-                          ? ColorConstants.primary
-                          : ColorConstants.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      height: 5,
+                      width: 5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        shape: BoxShape.rectangle,
+                        color: publicEvent
+                            ? ColorConstants.black
+                            : ColorConstants.white,
+                      ),
                     ),
                   ),
                 ),
@@ -881,7 +881,7 @@ class _EventsScreenState extends State<EventsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
-              buttonName: "next",
+              buttonName: language.next,
               buttonWidth: Get.width,
               buttonAction: () {
                 setState(() {
@@ -902,41 +902,67 @@ class _EventsScreenState extends State<EventsScreen> {
 
   fourthSheetContent(StateSetter setState) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Get.to(() => ContactListScreen());
-            },
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                color: ColorConstants.primaryLight,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.add,
-                color: ColorConstants.primary,
-                size: 30,
-              ),
+      padding:
+          const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 40),
+      child: invitedFriendList.length == 0
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => ContactListScreen());
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: ColorConstants.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: ColorConstants.white,
+                      size: 30,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  language.inviteFriends,
+                  style: poppins13black400(),
+                ),
+              ],
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 8,
+                  fit: FlexFit.loose,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: InvitesListItem(),
+                      );
+                    },
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: ButtonTemplate(
+                    buttonName: "Finish",
+                    buttonWidth: width,
+                    buttonAction: () {},
+                  ),
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Invite your friends.',
-            style: TextStyle(
-              fontSize: 14.0,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
