@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
 import 'package:rapidlie/features/settings/presentation/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
@@ -44,60 +45,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey.shade300,
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => ProfileSettingsScreen());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey.shade600,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Eugene Ofori Asiedu",
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Eugene Ofori Asiedu",
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "+233 50 613 8718",
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                    Text(
+                                      "+233 50 613 8718",
+                                      style: TextStyle(
+                                        fontSize: 10.0,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey.shade300,
-                          ),
-                        ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.grey.shade300,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -108,56 +114,115 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   extraSmallSpacing(),
                   Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.white,
-                      ),
-                      child: Consumer<ChangeLanguageProvider>(
-                        builder: (context, provider, child) {
-                          return ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: [
-                              SettingsItemLayout(
-                                icon: Icons.language,
-                                title: language.language,
-                                value: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: Text(
-                                    provider.applicationLocale == Locale("en")
-                                        ? language.english
-                                        : provider.applicationLocale ==
-                                                Locale("de")
-                                            ? language.german
-                                            : provider.applicationLocale ==
-                                                    Locale("fr")
-                                                ? language.french
-                                                : language.english,
-                                    style: poppins13black400(),
-                                  ),
-                                ),
-                                iconColor: Colors.blue,
-                                onCLickFunction: () =>
-                                    showModal(language.language, context),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 40.0),
-                                child: Container(
-                                  height: 1,
-                                  color:
-                                      const Color.fromARGB(255, 240, 239, 239),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      color: Colors.white,
+                    ),
+                    child: Consumer<ChangeLanguageProvider>(
+                      builder: (context, provider, child) {
+                        return Column(
+                          children: [
+                            SettingsItemLayout(
+                              icon: Icons.language,
+                              title: language.language,
+                              value: Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: Text(
+                                  provider.applicationLocale == Locale("en")
+                                      ? language.english
+                                      : provider.applicationLocale ==
+                                              Locale("de")
+                                          ? language.german
+                                          : provider.applicationLocale ==
+                                                  Locale("fr")
+                                              ? language.french
+                                              : language.english,
+                                  style: poppins13black400(),
                                 ),
                               ),
-                              SettingsItemLayout(
-                                icon: Icons.flag,
-                                title: language.country,
-                                value: CountrySettingsLayout(),
-                                iconColor: Colors.green,
+                              iconColor: Colors.blue,
+                              onCLickFunction: () =>
+                                  showModal(language.language, context),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 40.0),
+                              child: Container(
+                                height: 1,
+                                color: const Color.fromARGB(255, 240, 239, 239),
                               ),
-                            ],
-                          );
-                        },
-                      ))
+                            ),
+                            SettingsItemLayout(
+                              icon: Icons.flag,
+                              title: language.country,
+                              value: Container(
+                                height: 30,
+                                child: CountrySettingsLayout(),
+                              ),
+                              iconColor: Colors.green,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  normalSpacing(),
+                  Text(
+                    "App",
+                    style: poppins14black500(),
+                  ),
+                  extraSmallSpacing(),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        SettingsItemLayout(
+                          icon: Icons.description,
+                          title: "About",
+                          iconColor: Colors.blue,
+                          onCLickFunction: () {},
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40.0),
+                          child: Container(
+                            height: 1,
+                            color: const Color.fromARGB(255, 240, 239, 239),
+                          ),
+                        ),
+                        SettingsItemLayout(
+                          icon: Icons.rule,
+                          title: "Terms and conditions",
+                          iconColor: Colors.black,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40.0),
+                          child: Container(
+                            height: 1,
+                            color: const Color.fromARGB(255, 240, 239, 239),
+                          ),
+                        ),
+                        SettingsItemLayout(
+                          icon: Icons.privacy_tip,
+                          title: "Privacy policy",
+                          iconColor: Colors.red,
+                        ),
+                      ],
+                    ),
+                  ),
+                  normalSpacing(),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      color: Colors.white,
+                    ),
+                    child: SettingsItemLayout(
+                      icon: Icons.logout,
+                      title: "Logout",
+                      iconColor: Colors.black,
+                    ),
+                  )
                 ],
               ),
             ),
