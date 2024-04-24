@@ -65,7 +65,6 @@ class TextFieldTemplate extends StatelessWidget {
           readOnly: readOnly ?? false,
           maxLength: maxLength,
           decoration: InputDecoration(
-            //counterText: null,
             //counter: ,
             /*  counterStyle: TextStyle(
               fontSize: 12,
@@ -73,6 +72,8 @@ class TextFieldTemplate extends StatelessWidget {
               color: ColorConstants.primary,
               fontWeight: FontWeight.w500,
             ), */
+            counterText: '',
+            counter: SizedBox.shrink(),
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,

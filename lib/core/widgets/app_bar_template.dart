@@ -16,28 +16,30 @@ class AppBarTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 20.0, right: 20, top: 20, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              isSubPage
-                  ? GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Icon(Icons.arrow_back),
-                      ),
-                    )
-                  : SizedBox(),
-              Text(pageTitle, style: mainAppbarTitleStyle()),
-            ],
-          ),
-          trailingWidget == null ? SizedBox() : trailingWidget!
-        ],
+    return SafeArea(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 20.0, right: 20, top: 20, bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                isSubPage
+                    ? GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Icon(Icons.arrow_back),
+                        ),
+                      )
+                    : SizedBox(),
+                Text(pageTitle, style: mainAppbarTitleStyle()),
+              ],
+            ),
+            trailingWidget == null ? SizedBox() : trailingWidget!
+          ],
+        ),
       ),
     );
   }
