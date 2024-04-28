@@ -155,12 +155,12 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     Text(
                       'This is a wedding ceremony between the families of Eugene Ofori Asiedu and Jedidah Narko Odechie Amanor. These two have dated for the past 4 years ad today, the meet to make things official',
                       style: poppins13black400(),
                     ),
-                    normalSpacing(),
+                    normalHeight(),
                     HeaderTextTemplate(
                       titleText: language.date,
                       titleTextColor: ColorConstants.colorFromHex("#E57E25"),
@@ -172,12 +172,12 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     Text(
                       'Saturday, 28 April',
                       style: poppins13black400(),
                     ),
-                    normalSpacing(),
+                    normalHeight(),
                     HeaderTextTemplate(
                       titleText: language.time,
                       titleTextColor: ColorConstants.colorFromHex("#0E1339"),
@@ -189,7 +189,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     Row(
                       children: [
                         Text(
@@ -206,7 +206,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    normalSpacing(),
+                    normalHeight(),
                     HeaderTextTemplate(
                       titleText: language.venue,
                       titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
@@ -218,12 +218,12 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     Text(
                       'Church of Pentecost, Dansoman',
                       style: poppins13black400(),
                     ),
-                    normalSpacing(),
+                    normalHeight(),
                     HeaderTextTemplate(
                       titleText: language.directions,
                       titleTextColor: ColorConstants.colorFromHex("#0064A7"),
@@ -235,7 +235,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     GestureDetector(
                       onTap: openMap,
                       child: Text(
@@ -243,7 +243,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         style: poppins13black400(),
                       ),
                     ),
-                    normalSpacing(),
+                    normalHeight(),
                     HeaderTextTemplate(
                       titleText: language.invites,
                       titleTextColor: ColorConstants.colorFromHex("#A58D0E"),
@@ -256,7 +256,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         size: 20,
                       ),
                     ),
-                    extraSmallSpacing(),
+                    extraSmallHeight(),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => GuestListScreen());

@@ -7,25 +7,25 @@ double width = Get.width;
 double height = Get.height;
 double borderRadius = 8.0;
 
-bigSpacing() {
+bigHeight() {
   return SizedBox(
     height: 48,
   );
 }
 
-normalSpacing() {
+normalHeight() {
   return SizedBox(
     height: 32,
   );
 }
 
-smallSpacing() {
+smallHeight() {
   return SizedBox(
     height: 24,
   );
 }
 
-verySmallSpacing() {
+verySmallHeight() {
   return SizedBox(
     height: 16,
   );
@@ -37,7 +37,7 @@ textBoxSpace() {
   );
 }
 
-extraSmallSpacing() {
+extraSmallHeight() {
   return SizedBox(
     height: 8,
   );
@@ -76,6 +76,24 @@ mainAppbarTitleStyle() {
     fontSize: 20.0,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w600,
+  );
+}
+
+poppins14CharcoalBlack400() {
+  return TextStyle(
+    fontSize: 14.0,
+    color: ColorConstants.charcoalBlack,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w400,
+  );
+}
+
+poppins12CharcoalBlack500() {
+  return TextStyle(
+    fontSize: 12.0,
+    color: ColorConstants.charcoalBlack,
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w500,
   );
 }
 
