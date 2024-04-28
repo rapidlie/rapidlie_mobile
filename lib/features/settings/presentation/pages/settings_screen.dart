@@ -107,12 +107,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  normalSpacing(),
+                  normalHeight(),
                   Text(
                     language.general,
                     style: poppins14black500(),
                   ),
-                  extraSmallSpacing(),
+                  extraSmallHeight(),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),
@@ -165,12 +165,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                   ),
-                  normalSpacing(),
+                  normalHeight(),
                   Text(
                     "App",
                     style: poppins14black500(),
                   ),
-                  extraSmallSpacing(),
+                  extraSmallHeight(),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),
@@ -211,7 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     ),
                   ),
-                  normalSpacing(),
+                  normalHeight(),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),

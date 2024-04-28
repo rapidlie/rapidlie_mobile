@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     textSize: 15,
                   ),
                 ),
-                verySmallSpacing(),
+                verySmallHeight(),
                 Container(
                   width: width,
                   height: height * 0.25,
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                bigSpacing(),
+                bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                verySmallSpacing(),
+                verySmallHeight(),
                 Container(
                   width: width,
                   height: 110,
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                bigSpacing(),
+                bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: HeaderTextTemplate(
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     textSize: 15,
                   ),
                 ),
-                verySmallSpacing(),
+                verySmallHeight(),
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: 10,
