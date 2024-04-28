@@ -11,8 +11,8 @@ import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
+import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
-import 'package:rapidlie/features/event/presentation/widgets/invites_list_item.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -457,16 +457,9 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.eventTitle,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
+            style: poppins14CharcoalBlack400(),
           ),
-          SizedBox(
-            height: 8,
-          ),
+          extraSmallHeight(),
           TextFieldTemplate(
             hintText: 'Title',
             controller: titleController,
@@ -478,27 +471,18 @@ class _EventsScreenState extends State<EventsScreen> {
             enabled: true,
             textFieldColor: Colors.white,
           ),
-          SizedBox(
-            height: 16,
-          ),
+          smallHeight(),
           Text(
             language.uploadFlyer,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
+            style: poppins14CharcoalBlack400(),
           ),
-          SizedBox(
-            height: 8,
-          ),
+          extraSmallHeight(),
           GestureDetector(
             onTap: () {
               _getFromGallery(setState);
             },
             child: Container(
-              height: 200,
+              height: 160,
               width: Get.width,
               decoration: BoxDecoration(
                   color: ColorConstants.colorFromHex("#FFFFFF"),
@@ -523,7 +507,7 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            padding: const EdgeInsets.symmetric(vertical: 32.0),
             child: ButtonTemplate(
               buttonName: language.next,
               buttonWidth: Get.width,
@@ -552,16 +536,9 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.selectDate,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
+            style: poppins14CharcoalBlack400(),
           ),
-          SizedBox(
-            height: 8,
-          ),
+          extraSmallHeight(),
           GestureDetector(
             onTap: () {
               if (isMenuOpen) {
@@ -601,9 +578,7 @@ class _EventsScreenState extends State<EventsScreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          smallHeight(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -613,16 +588,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.startTime,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: ColorConstants.charcoalBlack,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: poppins14CharcoalBlack400(),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    extraSmallHeight(),
                     GestureDetector(
                       onTap: () {
                         if (isMenuOpen) {
@@ -679,16 +647,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.endTime,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: ColorConstants.charcoalBlack,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: poppins14CharcoalBlack400(),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    extraSmallHeight(),
                     GestureDetector(
                       onTap: () {
                         if (isMenuOpen) {
@@ -738,30 +699,16 @@ class _EventsScreenState extends State<EventsScreen> {
               )
             ],
           ),
-          SizedBox(
-            height: 24,
-          ),
+          smallHeight(),
           Text(
             language.location,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
+            style: poppins14CharcoalBlack400(),
           ),
           Text(
             language.locationDescription,
-            style: TextStyle(
-              fontSize: 12.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-            ),
+            style: poppins12CharcoalBlack500(),
           ),
-          SizedBox(
-            height: 8,
-          ),
+          extraSmallHeight(),
           TextFieldTemplate(
             hintText: 'eg. Club 250',
             controller: locationController,
@@ -774,7 +721,7 @@ class _EventsScreenState extends State<EventsScreen> {
             textFieldColor: Colors.white,
           ),
           SizedBox(
-            height: 40,
+            height: 32,
           ),
           ButtonTemplate(
             buttonName: language.next,
@@ -801,32 +748,27 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.description,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ColorConstants.charcoalBlack,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w400,
-            ),
+            style: poppins14CharcoalBlack400(),
           ),
-          SizedBox(
-            height: 8,
+          Text(
+            "Only 250 characters allowed",
+            style: poppins12CharcoalBlack500(),
           ),
+          extraSmallHeight(),
           TextFieldTemplate(
             hintText: '',
             controller: aboutController,
             obscureText: false,
             width: Get.width,
-            height: 200,
+            height: 150,
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
             enabled: true,
             textFieldColor: Colors.white,
             numberOfLines: 10,
-            maxLength: 250,
+            //maxLength: 250,
           ),
-          SizedBox(
-            height: 16,
-          ),
+          smallHeight(),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -838,12 +780,7 @@ class _EventsScreenState extends State<EventsScreen> {
               children: [
                 Text(
                   language.publicEvent,
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: ColorConstants.black,
-                  ),
+                  style: poppins14CharcoalBlack400(),
                 ),
                 Container(
                   height: 18,
@@ -876,7 +813,7 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 32,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -947,7 +884,9 @@ class _EventsScreenState extends State<EventsScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
-                        child: InvitesListItem(),
+                        child: InvitedContactListItem(
+                          contactName: 'Eugene Ofori Asiedu',
+                        ),
                       );
                     },
                   ),
