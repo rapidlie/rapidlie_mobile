@@ -28,6 +28,8 @@
 	<string>Main</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires access to your contacts.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera</string>
 	<key>NSMicrophoneUsageDescription</key>
