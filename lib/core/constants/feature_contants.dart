@@ -61,6 +61,15 @@ poppins10black400() {
   );
 }
 
+poppins10white400() {
+  return TextStyle(
+    fontSize: 10.0,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+}
+
 poppins14black500() {
   return TextStyle(
     color: ColorConstants.black,

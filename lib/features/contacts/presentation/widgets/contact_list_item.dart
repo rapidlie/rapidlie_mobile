@@ -14,15 +14,21 @@ class ContactListItem extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(
+            color: Colors.black,
+            /* border: Border.all(
               color: Colors.black,
-            ),
+            ), */
           ),
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(15.0),
             child: Text(
               contactName[0],
-              style: poppins10black400(),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
