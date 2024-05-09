@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AppBarTemplate(
             pageTitle: "${language.hi}, Eugene",
             isSubPage: false,
-            trailingWidget: Row(
+            /* trailingWidget: Row(
               children: [
                 Icon(
                   Icons.add,
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   size: 30,
                 ),
               ],
-            ),
+            ), */
           ),
         ),
         body: SingleChildScrollView(
