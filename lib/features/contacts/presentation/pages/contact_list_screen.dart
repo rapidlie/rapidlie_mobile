@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/constants/color_constants.dart';
-
 class ContactListScreen extends StatelessWidget {
+  List contacts = [
+    "Eugene Asiedu",
+    "Daniel Rodriguez",
+    "Jedidah Amanor",
+    "Sylivia Nataka",
+    "Yaw Asiedu"
+  ];
+
   void inviteFriend() async {
     String message = "Hey, check out this cool event app!";
     String encodedMessage = Uri.encodeComponent(message);
@@ -35,47 +41,16 @@ class ContactListScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 180,
-                ),
-                Text(
-                  'Invite your friends',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: ColorConstants.black,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'None of your contacts are using RAPIDLIE. Click on the button below to invite them.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
-                    color: ColorConstants.charcoalBlack,
-                    height: 1.2,
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                ButtonTemplate(
-                  buttonName: "invite friends",
-                  buttonWidth: Get.width,
-                  buttonAction: () {
-                    inviteFriend();
-                  },
-                )
-              ],
+            height: height,
+            width: width,
+            child: ListView.builder(
+              itemCount: contacts.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return ContactListItem(
+                  contactName: contacts[index],
+                );
+              },
             ),
           ),
         ),
