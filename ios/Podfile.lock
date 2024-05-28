@@ -5,9 +5,6 @@ PODS:
   - contacts_service (0.2.2):
     - Flutter
   - Flutter (1.0.0)
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
   - image_picker_ios (0.0.1):
     - Flutter
   - libphonenumber_plugin (0.0.1):
@@ -16,7 +13,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.1.1):
+  - permission_handler_apple (9.3.0):
     - Flutter
   - PhoneNumberKit (3.3.4):
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
@@ -32,7 +29,7 @@ PODS:
     - Flutter
   - sqflite (0.0.3):
     - Flutter
-    - FMDB (>= 2.7.5)
+    - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -46,12 +43,11 @@ DEPENDENCIES:
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
-  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
-    - FMDB
     - PhoneNumberKit
     - Reachability
 
@@ -75,26 +71,25 @@ EXTERNAL SOURCES:
   smart_auth:
     :path: ".symlinks/plugins/smart_auth/ios"
   sqflite:
-    :path: ".symlinks/plugins/sqflite/ios"
+    :path: ".symlinks/plugins/sqflite/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
-  libphonenumber_plugin: e8a7d64a6624a7c25f2c4ab0b7ead2a8e341e35e
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
-  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  libphonenumber_plugin: 48bf4078546377eedaab4aa54978cd0f6fa23072
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
-  sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
-  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
+  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
-PODFILE CHECKSUM: 88d4d113ac8b6e614d7e53464c42d3551ee19165
+PODFILE CHECKSUM: fe8256672158c13e6f1a80cf123ab64ddc87057f
 
 COCOAPODS: 1.11.3
