@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: Colors.orange,
+                          color: Colors.deepOrange,
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w500,
                         ),
