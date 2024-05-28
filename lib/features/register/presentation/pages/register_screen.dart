@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already have an account?",
+                        "Do you already have an account?",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 14.0,
