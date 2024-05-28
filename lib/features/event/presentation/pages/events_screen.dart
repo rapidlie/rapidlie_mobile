@@ -10,6 +10,7 @@ import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/contacts/data/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
@@ -62,7 +63,6 @@ class _EventsScreenState extends State<EventsScreen> {
     '10:00',
     '11:00',
   ];
-  List invitedFriendList = [""];
 
   List eventTimeOfDay = ['am', 'pm'];
   int selectedStartTimeOfDayChecker = 0;
@@ -74,6 +74,7 @@ class _EventsScreenState extends State<EventsScreen> {
   int showBackButton = 0;
   File? imageFile;
   var language;
+  List<ContactDetails> selectedContacts = [];
 
   @override
   void initState() {
@@ -838,16 +839,29 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   fourthSheetContent(StateSetter setState) {
+    void _navigateAndSelectContacts() async {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ContactListScreen()),
+      );
+
+      if (result != null && result is List<ContactDetails>) {
+        setState(() {
+          selectedContacts = result;
+        });
+      }
+    }
+
     return Padding(
       padding:
           const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 40),
-      child: invitedFriendList.length == 0
+      child: selectedContacts.length == 0
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => ContactListScreen());
+                    _navigateAndSelectContacts();
                   },
                   child: Container(
                     width: 50,
@@ -880,13 +894,27 @@ class _EventsScreenState extends State<EventsScreen> {
                   fit: FlexFit.loose,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 5,
+                    itemCount: selectedContacts.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: InvitedContactListItem(
-                          contactName: 'Eugene Ofori Asiedu',
-                        ),
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ContactListItem(
+                            contactName: selectedContacts[index].name,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedContacts.removeAt(index);
+                              });
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -894,12 +922,24 @@ class _EventsScreenState extends State<EventsScreen> {
                 Flexible(
                   flex: 1,
                   fit: FlexFit.tight,
-                  child: ButtonTemplate(
-                    buttonName: "Finish",
-                    buttonWidth: width,
-                    buttonAction: () {
-                      Get.to(() => ContactListScreen());
-                    },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ButtonTemplate(
+                        buttonName: "Add",
+                        buttonWidth: width * 0.43,
+                        buttonAction: () {
+                          _navigateAndSelectContacts();
+                        },
+                      ),
+                      ButtonTemplate(
+                        buttonName: "Finish",
+                        buttonWidth: width * 0.43,
+                        buttonAction: () {
+                          //_navigateAndSelectContacts();
+                        },
+                      ),
+                    ],
                   ),
                 )
               ],
