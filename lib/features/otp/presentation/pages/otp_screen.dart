@@ -122,7 +122,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: Colors.orange,
+                                color: Colors.deepOrange,
                                 fontFamily: "Poppins",
                                 fontWeight: FontWeight.w500,
                               ),
