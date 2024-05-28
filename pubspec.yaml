@@ -13,6 +13,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  intl: any
+  provider: ^6.1.2
+  contacts_service: ^0.6.3
+  flutter_screenutil: ^5.9.0
+  permission_handler: ^11.3.1
   intl_phone_number_input: ^0.7.0+2
   flutter_svg: ^1.1.4
   country_list_pick: ^1.0.1+6
@@ -21,7 +26,6 @@ dependencies:
   expandable_page_view: ^1.0.17
   table_calendar: ^3.0.8
   image_picker: ^0.8.6+1
-  permission_handler: ^10.2.0
   url_launcher: ^6.1.9
   bloc: ^8.1.2
   pinput: ^3.0.1
@@ -32,9 +36,10 @@ dependencies:
   shared_preferences:
   flutter_localizations:
     sdk: flutter
-  intl: any
-  provider: ^6.1.2
-  contacts_service: ^0.6.3
+  
+  
+  
+  
 
 
 dev_dependencies:
