@@ -1,45 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'color_constants.dart';
 
-double width = Get.width;
-double height = Get.height;
-double borderRadius = 8.0;
+double width = Get.width.w;
+double height = Get.height.h;
+double borderRadius = 8.r;
 
 bigHeight() {
   return SizedBox(
-    height: 48,
+    height: 48.h,
   );
 }
 
 normalHeight() {
   return SizedBox(
-    height: 32,
+    height: 32.h,
   );
 }
 
 smallHeight() {
   return SizedBox(
-    height: 24,
+    height: 24.h,
   );
 }
 
 verySmallHeight() {
   return SizedBox(
-    height: 16,
+    height: 16.h,
   );
 }
 
 textBoxSpace() {
   return SizedBox(
-    height: 12,
+    height: 12.h,
   );
 }
 
 extraSmallHeight() {
   return SizedBox(
-    height: 8,
+    height: 8.h,
   );
 }
 
@@ -54,7 +55,7 @@ poppins13black400() {
 
 poppins10black400() {
   return TextStyle(
-    fontSize: 10.0,
+    fontSize: 10.sp,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w400,
     color: Colors.black,
@@ -63,9 +64,18 @@ poppins10black400() {
 
 poppins10white400() {
   return TextStyle(
-    fontSize: 10.0,
+    fontSize: 10.sp,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+}
+
+poppins10white500() {
+  return TextStyle(
+    fontSize: 10.sp,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
     color: Colors.white,
   );
 }
@@ -75,14 +85,14 @@ poppins14black500() {
     color: ColorConstants.black,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
-    fontSize: 14.0,
+    fontSize: 14.sp,
   );
 }
 
 mainAppbarTitleStyle() {
   return TextStyle(
     color: Colors.black,
-    fontSize: 20.0,
+    fontSize: 20.sp,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w600,
   );
@@ -90,7 +100,7 @@ mainAppbarTitleStyle() {
 
 poppins14CharcoalBlack400() {
   return TextStyle(
-    fontSize: 14.0,
+    fontSize: 14.sp,
     color: ColorConstants.charcoalBlack,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
@@ -99,7 +109,7 @@ poppins14CharcoalBlack400() {
 
 poppins12CharcoalBlack500() {
   return TextStyle(
-    fontSize: 12.0,
+    fontSize: 12.sp,
     color: ColorConstants.charcoalBlack,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
@@ -109,7 +119,7 @@ poppins12CharcoalBlack500() {
 subAppbarTitleStyle() {
   return TextStyle(
     color: Colors.black,
-    fontSize: 18.0,
+    fontSize: 18.sp,
     fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
   );
