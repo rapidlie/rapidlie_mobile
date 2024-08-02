@@ -22,7 +22,7 @@ dependencies:
   flutter_svg: ^1.1.4
   country_list_pick: ^1.0.1+6
   get:
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.3.1
   expandable_page_view: ^1.0.17
   table_calendar: ^3.0.8
   image_picker: ^0.8.6+1
@@ -31,11 +31,14 @@ dependencies:
   pinput: ^3.0.1
   grouped_list: ^5.1.2
   get_it:
-  connectivity:
+  connectivity: 
   http:
   shared_preferences:
   flutter_localizations:
     sdk: flutter
+  retrofit: ^4.1.0
+  build_runner: ^2.4.9
+  equatable: ^2.0.5
   
   
   
