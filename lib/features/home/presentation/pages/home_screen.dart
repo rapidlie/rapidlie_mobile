@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
-import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';

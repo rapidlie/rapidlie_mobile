@@ -13,7 +13,7 @@ import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/data/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
-import 'package:rapidlie/features/event/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
