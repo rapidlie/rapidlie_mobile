@@ -38,6 +38,7 @@ dependencies:
     sdk: flutter
   retrofit: ^4.1.0
   build_runner: ^2.4.9
+  equatable: ^2.0.5
   
   
   
