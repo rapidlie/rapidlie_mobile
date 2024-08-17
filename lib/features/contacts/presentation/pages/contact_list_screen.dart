@@ -6,7 +6,7 @@ import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../data/models/contact_details.dart';
+import '../../models/contact_details.dart';
 
 class ContactListScreen extends StatefulWidget {
   @override

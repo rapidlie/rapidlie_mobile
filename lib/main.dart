@@ -8,7 +8,7 @@ import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart';
-import 'package:rapidlie/features/settings/presentation/providers/change_language_provider.dart';
+import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:rapidlie/rapid_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
@@ -17,7 +17,6 @@ import 'features/register/presentation/pages/register_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(MyApp());
 }
 
