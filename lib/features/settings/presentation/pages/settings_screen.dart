@@ -5,7 +5,7 @@ import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
-import 'package:rapidlie/features/settings/presentation/providers/change_language_provider.dart';
+import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_item_layout.dart';

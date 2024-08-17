@@ -27,7 +27,6 @@ dependencies:
   table_calendar: ^3.0.8
   image_picker: ^0.8.6+1
   url_launcher: ^6.1.9
-  bloc: ^8.1.2
   pinput: ^3.0.1
   grouped_list: ^5.1.2
   get_it:
@@ -37,8 +36,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   retrofit: ^4.1.0
-  build_runner: ^2.4.9
   equatable: ^2.0.5
+  flutter_hooks: ^0.20.5
+  dio: ^5.0.0
+  flutter_bloc: ^8.1.6
+  
   
   
   
@@ -49,6 +51,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito:
+  retrofit_generator:
+  floor_generator:
+  build_runner: ^2.4.9
 
 flutter:
   generate: true
