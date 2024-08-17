@@ -35,10 +35,9 @@ dependencies:
   shared_preferences:
   flutter_localizations:
     sdk: flutter
-  retrofit: ^4.1.0
+  
   equatable: ^2.0.5
-  flutter_hooks: ^0.20.5
-  dio: ^5.0.0
+  
   flutter_bloc: ^8.1.6
   
   
