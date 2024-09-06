@@ -71,13 +71,13 @@ class ContactListItemWithSelector extends StatelessWidget {
             contactName: contactName,
           ),
           Container(
-            width: 20.0,
-            height: 20.0,
+            width: 18.0,
+            height: 18.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
                 color: value ? Colors.deepOrange : Colors.grey,
-                width: 2.0,
+                width: 1.5,
               ),
               color: value ? Colors.deepOrange : Colors.transparent,
             ),
