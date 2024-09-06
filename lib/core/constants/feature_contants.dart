@@ -89,6 +89,15 @@ poppins14black500() {
   );
 }
 
+poppins15black500() {
+  return TextStyle(
+    color: ColorConstants.black,
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w500,
+    fontSize: 15.sp,
+  );
+}
+
 mainAppbarTitleStyle() {
   return TextStyle(
     color: Colors.black,
