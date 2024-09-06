@@ -9,6 +9,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/categories/repository/category_repository.dart';
+import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/events/bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
@@ -122,8 +123,10 @@ class MyApp extends StatelessWidget {
                       ChangePasswordScreen(),
                   SplashScreen.routeName: (context) => SplashScreen(),
                   CategoryScreen.routeName: (context) => CategoryScreen(),
+                  ContactListScreen.routeName: (context) => ContactListScreen(),
                 },
-                initialRoute: SplashScreen.routeName,
+                //initialRoute: SplashScreen.routeName,
+                initialRoute: ContactListScreen.routeName,
                 onGenerateRoute: (RouteSettings settings) {
                   return null;
                 },
