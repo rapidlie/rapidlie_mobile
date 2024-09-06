@@ -3,29 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/contact_details.dart';
 
 class ContactListScreen extends StatefulWidget {
+  static const String routeName = "contacts";
   @override
   State<ContactListScreen> createState() => _ContactListScreenState();
 }
 
 class _ContactListScreenState extends State<ContactListScreen> {
-  List contacts = [
-    "Eugene Asiedu",
-    "Daniel Rodriguez",
-    "Jedidah Amanor",
-    "Sylivia Nataka",
-    "Yaw Asiedu"
-  ];
-
   bool isLoading = true;
 
   List<ContactDetails> _contacts = [];
   List<ContactDetails> _selectedContacts = [];
+  late TextEditingController searchController;
 
   void inviteFriend() async {
     String message = "Hey, check out this cool event app!";
@@ -42,6 +37,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
   @override
   void initState() {
     super.initState();
+    searchController = SearchController();
     _fetchContacts();
   }
 
@@ -113,6 +109,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: SafeArea(
@@ -137,51 +134,119 @@ class _ContactListScreenState extends State<ContactListScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Container(
-                  height: height,
-                  width: width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 150.0),
-                    child: ListView.builder(
-                      itemCount: _contacts.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        /* String contactNumber =
-                            _contacts[index].telephone!.isNotEmpty
-                                ? _contacts[index].telephone!.first.value ??
-                                    'No Number'
-                                : 'No Number'; */
-                        return Tooltip(
-                          message: _contacts[index].telephone,
-                          verticalOffset: 0,
-                          preferBelow: true,
-                          showDuration: Duration(seconds: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(10),
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextFieldTemplate(
+                    hintText: "Search name or number",
+                    controller: searchController,
+                    obscureText: false,
+                    width: width,
+                    height: 40,
+                    textInputType: TextInputType.text,
+                    textInputAction: TextInputAction.go,
+                    enabled: true,
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          smallHeight(),
+                          Text(
+                            'Contacts on Flockr',
+                            style: poppins15black500(),
                           ),
-                          textStyle: poppins10white500(),
-                          child: ContactListItemWithSelector(
-                            contactName: _contacts[index].name,
-                            value: _contacts[index].isSelected,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _contacts[index].isSelected = value ?? false;
-                                _selectedContacts = _contacts
-                                    .where((contact) => contact.isSelected)
-                                    .toList();
-                              });
-                            },
+                          SizedBox(
+                            height: 12,
                           ),
-                        );
-                      },
+                          Flexible(
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 10,
+                              itemBuilder: (context, index) {
+                                return Tooltip(
+                                  message: _contacts[index].telephone,
+                                  verticalOffset: 0,
+                                  preferBelow: true,
+                                  showDuration: Duration(seconds: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  textStyle: poppins10white500(),
+                                  child: ContactListItemWithSelector(
+                                    contactName: _contacts[index].name,
+                                    value: _contacts[index].isSelected,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _contacts[index].isSelected =
+                                            value ?? false;
+                                        _selectedContacts = _contacts
+                                            .where(
+                                                (contact) => contact.isSelected)
+                                            .toList();
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          //smallHeight(),
+                          Text(
+                            'Invite to Flockr',
+                            style: poppins15black500(),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Flexible(
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: _contacts.length,
+                              itemBuilder: (context, index) {
+                                return Tooltip(
+                                  message: _contacts[index].telephone,
+                                  verticalOffset: 0,
+                                  preferBelow: true,
+                                  showDuration: Duration(seconds: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  textStyle: poppins10white500(),
+                                  child: ContactListItemWithSelector(
+                                    contactName: _contacts[index].name,
+                                    value: _contacts[index].isSelected,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _contacts[index].isSelected =
+                                            value ?? false;
+                                        _selectedContacts = _contacts
+                                            .where(
+                                                (contact) => contact.isSelected)
+                                            .toList();
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
     );
   }
