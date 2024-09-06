@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,7 +16,10 @@ import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
+import 'package:rapidlie/features/events/bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -82,6 +88,7 @@ class _EventsScreenState extends State<EventsScreen> {
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
+    context.read<EventBloc>().add(GetEvents());
     super.initState();
   }
 
@@ -106,110 +113,138 @@ class _EventsScreenState extends State<EventsScreen> {
         backgroundColor: Colors.white,
         floatingActionButton:
             eventsCreated.length == 0 ? SizedBox() : buttonToShowModal(),
-        body: SafeArea(
-          child: eventsCreated.length == 0
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buttonToShowModal(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(language.noEventCreated,
-                          textAlign: TextAlign.center,
-                          style: poppins13black400()),
-                    ],
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Container(
-                    height: Get.height,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 120),
-                      child: ListView.builder(
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(() => EventDetailsScreeen(
-                                    isOwnEvent: true,
-                                  ));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 40.0),
-                              child: GeneralEventListTemplate(
-                                trailingWidget: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.favorite_outline_outlined,
-                                            color: Colors.grey.shade600,
-                                            size: 25,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "456M",
-                                            style: TextStyle(
-                                              fontSize: 13.0,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    /* Icon(
-                                      Icons.ios_share,
-                                      color: Colors.grey.shade600,
-                                      size: 20,
-                                    ), */
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/icons/send.svg",
-                                            color: Colors.grey.shade700,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "45",
-                                            style: TextStyle(
-                                              fontSize: 13.0,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+        body: BlocBuilder<EventBloc, EventState>(
+          builder: (context, state) {
+            if (state is InitialEventState) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buttonToShowModal(),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
+                    Text(language.noEventCreated,
+                        textAlign: TextAlign.center,
+                        style: poppins13black400()),
+                  ],
                 ),
+              );
+            } else if (state is EventLoading) {
+              print("Jetzt loading");
+              return Center(child: CupertinoActivityIndicator());
+            } else if (state is EventLoaded) {
+              return buildBody(state.events);
+            }
+            return Container();
+          },
         ),
       ),
+    );
+  }
+
+  Container buildBody(List<EventDataModel> eventDataModel) {
+    return Container(
+      child: eventsCreated.length == 0
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buttonToShowModal(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(language.noEventCreated,
+                      textAlign: TextAlign.center, style: poppins13black400()),
+                ],
+              ),
+            )
+          : Container(
+              height: Get.height,
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 70),
+                physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                itemCount: eventDataModel.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => EventDetailsScreeen(
+                            isOwnEvent: true,
+                          ));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 40.0),
+                      child: GeneralEventListTemplate(
+                        eventName: eventDataModel[index].name,
+                        trailingWidget: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.favorite_outline_outlined,
+                                    color: Colors.grey.shade600,
+                                    size: 25,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "456M",
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            /* Icon(
+                              Icons.ios_share,
+                              color: Colors.grey.shade600,
+                              size: 20,
+                            ), */
+                            GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/send.svg",
+                                    color: Colors.grey.shade700,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "45",
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 
@@ -326,16 +361,31 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   _getFromGallery(StateSetter setstate) async {
-    XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 200,
-      maxWidth: Get.width,
-    );
-    if (pickedFile != null) {
-      final File? convertedImagefile = File(pickedFile.path);
-      setstate(() {
-        imageFile = File(convertedImagefile!.path);
-      });
+    try {
+      XFile? pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxHeight: 200,
+        maxWidth: Get.width,
+        imageQuality: 80,
+      );
+      if (pickedFile != null) {
+        final File? convertedImagefile = File(pickedFile.path);
+        setstate(() {
+          imageFile = File(convertedImagefile!.path);
+        });
+      }
+    } catch (e) {
+      print("Error picking image: $e");
+    }
+  }
+
+  Future<String?> convertImageToBase64(File imageFile) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+      return base64Encode(bytes);
+    } catch (e) {
+      print("Error converting image to Base64: $e");
+      return null;
     }
   }
 
@@ -512,10 +562,13 @@ class _EventsScreenState extends State<EventsScreen> {
             child: ButtonTemplate(
               buttonName: language.next,
               buttonWidth: Get.width,
-              buttonAction: () {
+              buttonAction: () async {
                 setState(() {
                   showBackButton = showBackButton + 1;
                 });
+                context.read<CreateEventProvider>().updateEvent(
+                    name: titleController.text,
+                    image: await convertImageToBase64(imageFile!));
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width,
                   duration: new Duration(milliseconds: 200),
@@ -729,6 +782,12 @@ class _EventsScreenState extends State<EventsScreen> {
             buttonWidth: Get.width,
             buttonAction: () {
               showBackButton = showBackButton + 1;
+              context.read<CreateEventProvider>().updateEvent(
+                    date: dateController.text,
+                    startTime: selectedStartTime.toString(),
+                    endTime: selectedEndTime.toString(),
+                    venue: locationController.text,
+                  );
               _pageViewController.animateTo(
                 MediaQuery.of(context).size.width * 2,
                 duration: new Duration(milliseconds: 200),
@@ -825,6 +884,10 @@ class _EventsScreenState extends State<EventsScreen> {
                 setState(() {
                   showBackButton = showBackButton + 1;
                 });
+                context.read<CreateEventProvider>().updateEvent(
+                      description: aboutController.text,
+                      eventType: publicEvent ? "public" : "private",
+                    );
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width * 3,
                   duration: new Duration(milliseconds: 200),
