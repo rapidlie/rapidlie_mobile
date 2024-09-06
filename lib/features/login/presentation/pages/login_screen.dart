@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
-import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
+import 'package:rapidlie/features/login/bloc/login_bloc.dart';
+import 'package:rapidlie/rapid_screen.dart';
 
 import '../../../register/presentation/pages/register_screen.dart';
 
@@ -15,14 +17,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController phoneController;
+  late TextEditingController emailController;
   late TextEditingController passwordController;
+  String token = '';
+  String userName = '';
 
   String countryCode = '+233';
 
   @override
   void initState() {
-    phoneController = new TextEditingController();
+    emailController = new TextEditingController();
     passwordController = new TextEditingController();
     super.initState();
   }
@@ -33,123 +37,145 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: ColorConstants.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-          child: Container(
-            height: height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      "Welcome back! \nLet's go see some events.",
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w600,
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+            child: BlocConsumer<LoginBloc, LoginState>(
+              listener: (context, state) async {
+                if (state is LoginSuccessState) {
+                  // Registration was successful
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Registration Successful')),
+                  );
+
+                  Navigator.pushReplacementNamed(
+                    context,
+                    RapidScreen.routeName,
+                  );
+                } else if (state is LoginErrorState) {
+                  // Registration failed
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text('Registration Failed: ${state.error}')),
+                  );
+                }
+              },
+              builder: (context, state) {
+                return Container(
+                  height: height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Text(
+                            "Welcome back!",
+                            style: mainAppbarTitleStyle(),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    TextFieldTemplate(
-                      hintText: "Phone",
-                      controller: phoneController,
-                      obscureText: false,
-                      width: width,
-                      height: 50,
-                      textInputType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
-                      enabled: true,
-                    ),
-                    /* textBoxSpace(),
-                    TextFieldTemplate(
-                      hintText: "Password",
-                      controller: passwordController,
-                      obscureText: false,
-                      width: width,
-                      height: 50,
-                      textInputType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
-                      enabled: true,
-                    ),
-                    textBoxSpace(),
-                    SizedBox(
-                      width: width,
-                      child: GestureDetector(
+                      Column(
+                        children: [
+                          TextFieldTemplate(
+                            hintText: "Email",
+                            controller: emailController,
+                            obscureText: false,
+                            width: width,
+                            height: 50,
+                            textInputType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            enabled: true,
+                          ),
+                          extraSmallHeight(),
+                          TextFieldTemplate(
+                            hintText: "Password",
+                            controller: passwordController,
+                            obscureText: true,
+                            width: width,
+                            height: 50,
+                            textInputType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            enabled: true,
+                          ),
+                          textBoxSpace(),
+                          SizedBox(
+                            width: width,
+                            child: GestureDetector(
+                              onTap: () {
+                                /* Navigator.pushNamed(
+                            context,
+                            ForgotPasswordScreen.routeName,
+                          ); */
+                              },
+                              child: Text(
+                                "Forgot Password?",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.black,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          ButtonTemplate(
+                            buttonName: "Login",
+                            buttonWidth: width,
+                            buttonAction: () {
+                              BlocProvider.of<LoginBloc>(context).add(
+                                SubmitLoginEvent(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            ForgotPasswordScreen.routeName,
+                            RegisterScreen.routeName,
                           );
                         },
-                        child: Text(
-                          "Forgot Password?",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ), */
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    ButtonTemplate(
-                      buttonName: "Login",
-                      buttonWidth: width,
-                      buttonAction: () {
-                        Navigator.pushNamed(context, OtpScreen.routeName);
-                      },
-                    ),
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      RegisterScreen.routeName,
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account?",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        " Register",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.deepOrange,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an account?",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              " Register",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.deepOrange,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
+                );
+              },
+            )),
       ),
     );
   }
