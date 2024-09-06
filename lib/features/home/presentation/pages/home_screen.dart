@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
+import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -18,25 +23,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = ScrollController();
+  var language;
+  String name = "";
 
   @override
   void initState() {
     //_scrollController.addListener(_updateScrollPhysics);
+    getUserName();
+    context.read<CategoryBloc>().add(FetchCategoriesEvent());
     super.initState();
   }
 
-  /*  void _updateScrollPhysics() {
-    double scrollPosition = _scrollController.position.pixels;
-    if (scrollPosition > 1200) {
-      _scrollController.position.physics.parent!
-          .applyTo(AlwaysScrollableScrollPhysics());
-    } else {
-      _scrollController.position.physics.parent!
-          .applyTo(BouncingScrollPhysics());
-    }
-  } */
-
-  var language;
+  void getUserName() async {
+    name = UserPreferences().getUserName().toString().split(' ').first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: "${language.hi}, Eugene",
+            pageTitle: language.hi + " " + name,
             isSubPage: false,
-            /* trailingWidget: Row(
-              children: [
-                Icon(
-                  Icons.add,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(
-                  Icons.filter_alt_outlined,
-                  size: 30,
-                ),
-              ],
-            ), */
           ),
         ),
         body: SingleChildScrollView(
@@ -80,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: HeaderTextTemplate(
                     titleText: language.upcomingEvents,
                     titleTextColor: Colors.black,
-                    containerColor: Color.fromARGB(133, 218, 218, 218),
-                    textSize: 15,
+                    containerColor: ColorConstants.gray,
+                    textSize: 13,
                   ),
                 ),
                 verySmallHeight(),
@@ -117,11 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       HeaderTextTemplate(
                         titleText: language.explore,
                         titleTextColor: Colors.black,
-                        containerColor: Color.fromARGB(133, 218, 218, 218),
-                        textSize: 15,
+                        containerColor: ColorConstants.gray,
+                        textSize: 13,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CategoryScreen.routeName,
+                          );
+                        },
                         child: Text(
                           language.seeAll,
                           style: TextStyle(
@@ -136,28 +126,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 verySmallHeight(),
                 Container(
-                  width: width,
-                  height: 110,
-                  child: ListView.builder(
-                    itemCount: 6,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(left: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return ExploreCategoryListTemplate(
-                        categoryName: "Tech",
-                      );
-                    },
-                  ),
-                ),
+                    width: width,
+                    height: 110,
+                    child: BlocBuilder<CategoryBloc, CategoryState>(
+                      builder: (context, state) {
+                        if (state is CategoryLoadingState) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is CategoryLoadedState) {
+                          return ListView.builder(
+                            itemCount: state.categories.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(left: 20),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return ExploreCategoryListTemplate(
+                                categoryName: state.categories[index].name,
+                                imageSrc: state.categories[index].image,
+                              );
+                            },
+                          );
+                        } else if (state is CategoryErrorState) {
+                          return Center(
+                              child: Text('Failed to load categories'));
+                        }
+                        return Center(child: Text('No categories found'));
+                      },
+                    )),
                 bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: HeaderTextTemplate(
                     titleText: language.discover,
                     titleTextColor: Colors.black,
-                    containerColor: Color.fromARGB(133, 218, 218, 218),
-                    textSize: 15,
+                    containerColor: ColorConstants.gray,
+                    textSize: 13,
                   ),
                 ),
                 verySmallHeight(),
