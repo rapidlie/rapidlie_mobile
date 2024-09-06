@@ -3,9 +3,11 @@ import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class GeneralEventListTemplate extends StatelessWidget {
   final Widget trailingWidget;
-  const GeneralEventListTemplate({Key? key, required this.trailingWidget})
+  final String eventName;
+  const GeneralEventListTemplate(
+      {Key? key, required this.trailingWidget, required this.eventName})
       : super(key: key);
-
+ 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +31,7 @@ class GeneralEventListTemplate extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Pridal Rave",
+                    eventName,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontFamily: "Poppins",
