@@ -38,7 +38,7 @@ class HeaderTextTemplate extends StatelessWidget {
               titleText,
               style: TextStyle(
                 fontSize: textSize,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 fontFamily: "Poppins",
                 color: titleTextColor,
               ),
