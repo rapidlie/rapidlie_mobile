@@ -1,4 +1,7 @@
-class EventResponseModel {
+import 'package:equatable/equatable.dart';
+import 'package:rapidlie/features/categories/models/category_model.dart';
+
+class EventResponseModel extends Equatable {
   final List<EventDataModel> data;
   final LinksModel links;
   final MetaModel meta;
@@ -7,7 +10,7 @@ class EventResponseModel {
     required this.data,
     required this.links,
     required this.meta,
-  });
+  }) : super();
 
   factory EventResponseModel.fromJson(Map<String, dynamic> json) {
     return EventResponseModel(
@@ -25,9 +28,12 @@ class EventResponseModel {
       'meta': meta.toJson(),
     };
   }
+
+  @override
+  List<Object?> get props => [data, links, meta];
 }
 
-class EventDataModel {
+class EventDataModel extends Equatable {
   final String id;
   final String name;
   final String eventType;
@@ -58,7 +64,7 @@ class EventDataModel {
     required this.invitations,
     required this.likes,
     required this.formattedLikes,
-  });
+  }) : super();
 
   factory EventDataModel.fromJson(Map<String, dynamic> json) {
     return EventDataModel(
@@ -97,9 +103,27 @@ class EventDataModel {
       'formatted_likes': formattedLikes,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        eventType,
+        category,
+        description,
+        date,
+        startTime,
+        endTime,
+        venue,
+        mapLocation,
+        image,
+        invitations,
+        likes,
+        formattedLikes,
+      ];
 }
 
-class CategoryModel {
+/* class CategoryModel extends Equatable {
   final String id;
   final String name;
   final String image;
@@ -108,7 +132,7 @@ class CategoryModel {
     required this.id,
     required this.name,
     required this.image,
-  });
+  }) : super();
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
@@ -125,9 +149,12 @@ class CategoryModel {
       'image': image,
     };
   }
-}
 
-class LinksModel {
+  @override
+  List<Object?> get props => [id, name, image];
+} */
+
+class LinksModel extends Equatable {
   final String? first;
   final String? last;
   final String? prev;
@@ -138,7 +165,7 @@ class LinksModel {
     this.last,
     this.prev,
     this.next,
-  });
+  }) : super();
 
   factory LinksModel.fromJson(Map<String, dynamic> json) {
     return LinksModel(
@@ -157,9 +184,12 @@ class LinksModel {
       'next': next,
     };
   }
+
+  @override
+  List<Object?> get props => [first, last, prev, next];
 }
 
-class MetaModel {
+class MetaModel extends Equatable {
   final int currentPage;
   final int from;
   final int lastPage;
@@ -178,7 +208,7 @@ class MetaModel {
     required this.perPage,
     required this.to,
     required this.total,
-  });
+  }) : super();
 
   factory MetaModel.fromJson(Map<String, dynamic> json) {
     return MetaModel(
@@ -206,9 +236,21 @@ class MetaModel {
       'total': total,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        currentPage,
+        from,
+        lastPage,
+        links,
+        path,
+        perPage,
+        to,
+        total,
+      ];
 }
 
-class LinkModel {
+class LinkModel extends Equatable {
   final String? url;
   final String label;
   final bool active;
@@ -217,7 +259,7 @@ class LinkModel {
     this.url,
     required this.label,
     required this.active,
-  });
+  }) : super();
 
   factory LinkModel.fromJson(Map<String, dynamic> json) {
     return LinkModel(
@@ -234,4 +276,7 @@ class LinkModel {
       'active': active,
     };
   }
+
+  @override
+  List<Object?> get props => [url, label, active];
 }
