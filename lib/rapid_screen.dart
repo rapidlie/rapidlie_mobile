@@ -32,13 +32,14 @@ class _RapidScreenState extends State<RapidScreen> {
   @override
   void initState() {
     _currentIndex = widget.currentIndex;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
