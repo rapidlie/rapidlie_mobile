@@ -84,19 +84,19 @@ class TextFieldTemplate extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: ColorConstants.black,
+                color: ColorConstants.lightGray,
               ),
             ),
 
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: ColorConstants.black,
+                color: ColorConstants.gray,
               ),
             ),
             hintStyle: TextStyle(
               color: ColorConstants.hintTextColor,
-              fontSize: 14.0,
+              fontSize: 12.0,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
             ),
@@ -104,7 +104,7 @@ class TextFieldTemplate extends StatelessWidget {
           ),
           style: TextStyle(
             color: ColorConstants.black,
-            fontSize: 17.0,
+            fontSize: 14.0,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
           ),
