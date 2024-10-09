@@ -1,9 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +23,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
   List<ContactDetails> _contacts = [];
   List<ContactDetails> _selectedContacts = [];
   late TextEditingController searchController;
+  List<ContactDetails> flockrContacts = [];
 
   void inviteFriend() async {
     String message = "Hey, check out this cool event app!";
@@ -38,6 +41,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
   void initState() {
     super.initState();
     searchController = SearchController();
+    context.read<TelephoneNumbersBloc>().add(GetNumbers());
     _fetchContacts();
   }
 
@@ -166,35 +170,55 @@ class _ContactListScreenState extends State<ContactListScreen> {
                             height: 12,
                           ),
                           Flexible(
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return Tooltip(
-                                  message: _contacts[index].telephone,
-                                  verticalOffset: 0,
-                                  preferBelow: true,
-                                  showDuration: Duration(seconds: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  textStyle: poppins10white500(),
-                                  child: ContactListItemWithSelector(
-                                    contactName: _contacts[index].name,
-                                    value: _contacts[index].isSelected,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        _contacts[index].isSelected =
-                                            value ?? false;
-                                        _selectedContacts = _contacts
-                                            .where(
-                                                (contact) => contact.isSelected)
-                                            .toList();
-                                      });
-                                    },
-                                  ),
+                            child: BlocBuilder<TelephoneNumbersBloc,
+                                TelephoneNumbersState>(
+                              builder: (context, state) {
+                                if (state is TelephoneNumbersLoaded) {
+                                   flockrContacts.clear();
+                                  for (int i = 0; i < _contacts.length; i++) {
+                                    String? contactPhone =
+                                        _contacts[i].telephone;
+
+                                    if (contactPhone != null &&
+                                        contactPhone.length >= 9) {
+                                      String contactLastNine = contactPhone
+                                          .substring(contactPhone.length - 9);
+
+                                      contactLastNine = contactLastNine
+                                          .replaceAll(RegExp(r'\D'), '');
+
+                                      if (state.numbers.any((number) {
+                                        String cleanedStateNumber = number
+                                            .replaceAll(RegExp(r'\D'), '');
+                                        return cleanedStateNumber
+                                            .endsWith(contactLastNine);
+                                      })) {
+                                        flockrContacts.add(_contacts[i]);
+                                      }
+                                    }
+                                  }
+                                }
+
+                                return ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: flockrContacts.length,
+                                  itemBuilder: (context, index) {
+                                    return ContactListItemWithSelector(
+                                      contactName: flockrContacts[index].name,
+                                      value: flockrContacts[index].isSelected,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          flockrContacts[index].isSelected =
+                                              value ?? false;
+                                          _selectedContacts = flockrContacts
+                                              .where((contact) =>
+                                                  contact.isSelected)
+                                              .toList();
+                                        });
+                                      },
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -223,19 +247,8 @@ class _ContactListScreenState extends State<ContactListScreen> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   textStyle: poppins10white500(),
-                                  child: ContactListItemWithSelector(
+                                  child: ContactListItemWithText(
                                     contactName: _contacts[index].name,
-                                    value: _contacts[index].isSelected,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        _contacts[index].isSelected =
-                                            value ?? false;
-                                        _selectedContacts = _contacts
-                                            .where(
-                                                (contact) => contact.isSelected)
-                                            .toList();
-                                      });
-                                    },
                                   ),
                                 );
                               },
