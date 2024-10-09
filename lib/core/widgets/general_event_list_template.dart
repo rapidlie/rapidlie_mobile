@@ -4,20 +4,39 @@ import 'package:rapidlie/core/constants/feature_contants.dart';
 class GeneralEventListTemplate extends StatelessWidget {
   final Widget trailingWidget;
   final String eventName;
-  const GeneralEventListTemplate(
-      {Key? key, required this.trailingWidget, required this.eventName})
-      : super(key: key);
- 
+  String? eventImageString;
+  final String eventDate;
+  final String eventDay;
+  GeneralEventListTemplate({
+    Key? key,
+    required this.trailingWidget,
+    required this.eventName,
+    this.eventImageString,
+    required this.eventDate,
+    required this.eventDay,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           width: width,
-          height: 300,
+          height: 250,
           decoration: BoxDecoration(
-            color: Colors.grey.shade300,
+            color: Colors.grey,
           ),
+          child: eventImageString == null
+              ? Container()
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    child: Image.network(
+                      eventImageString!,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
         ),
         SizedBox(
           height: 10,
@@ -42,7 +61,7 @@ class GeneralEventListTemplate extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Sunday",
+                        eventDay,
                         style: TextStyle(
                           fontSize: 11.0,
                           fontFamily: "Poppins",
@@ -59,7 +78,7 @@ class GeneralEventListTemplate extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "04.10.2024",
+                        eventDate,
                         style: TextStyle(
                           fontSize: 11.0,
                           fontFamily: "Poppins",
