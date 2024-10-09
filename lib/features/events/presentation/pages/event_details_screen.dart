@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:rapidlie/core/constants/color_constants.dart';
@@ -42,6 +44,7 @@ class EventDetailsScreeen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     language = AppLocalizations.of(context);
+    EventDataModel eventDetails = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -79,7 +82,7 @@ class EventDetailsScreeen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Eugene weds Jedidah",
+                            eventDetails.name,
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: "Poppins",
@@ -88,7 +91,7 @@ class EventDetailsScreeen extends StatelessWidget {
                             ),
                           ),
                           HeaderTextTemplate(
-                            titleText: "WEDDING",
+                            titleText: eventDetails.category.name,
                             titleTextColor: Colors.black,
                             containerColor: Color.fromARGB(133, 218, 218, 218),
                             textSize: 10,
@@ -122,10 +125,10 @@ class EventDetailsScreeen extends StatelessWidget {
             backgroundColor: Colors.white,
             expandedHeight: 450,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/images/dansoman.jpeg",
-                width: double.maxFinite,
-                fit: BoxFit.cover,
+              background: Image.network(
+                eventDetails.image!,
+                //width: double.maxFinite,
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),
@@ -143,16 +146,16 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: language.description,
                       titleTextColor: ColorConstants.colorFromHex("#8E44AD"),
                       containerColor: ColorConstants.colorFromHex("#EFDAF7"),
-                      textSize: 13.0,
+                      textSize: 11.0,
                       iconWidget: Icon(
                         Icons.info,
                         color: ColorConstants.colorFromHex("#8E44AD"),
-                        size: 20,
+                        size: 16,
                       ),
                     ),
                     extraSmallHeight(),
                     Text(
-                      'This is a wedding ceremony between the families of Eugene Ofori Asiedu and Jedidah Narko Odechie Amanor. These two have dated for the past 4 years ad today, the meet to make things official',
+                      eventDetails.description,
                       style: poppins13black400(),
                     ),
                     normalHeight(),
@@ -160,35 +163,62 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: language.date,
                       titleTextColor: ColorConstants.colorFromHex("#E57E25"),
                       containerColor: ColorConstants.colorFromHex("#FFF2E7"),
-                      textSize: 13.0,
+                      textSize: 11.0,
                       iconWidget: Icon(
                         Icons.date_range,
                         color: ColorConstants.colorFromHex("#E57E25"),
-                        size: 20,
-                      ),
-                    ),
-                    extraSmallHeight(),
-                    Text(
-                      'Saturday, 28 April',
-                      style: poppins13black400(),
-                    ),
-                    normalHeight(),
-                    HeaderTextTemplate(
-                      titleText: language.time,
-                      titleTextColor: ColorConstants.colorFromHex("#0E1339"),
-                      containerColor: ColorConstants.colorFromHex("#DEE1EA"),
-                      textSize: 13.0,
-                      iconWidget: Icon(
-                        Icons.timelapse,
-                        color: ColorConstants.colorFromHex("#0E1339"),
-                        size: 20,
+                        size: 16,
                       ),
                     ),
                     extraSmallHeight(),
                     Row(
                       children: [
                         Text(
-                          '11:30am',
+                          getDayName(eventDetails.date),
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 10,
+                            width: 1,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          convertDateDotFormat(
+                              DateTime.parse(eventDetails.date)),
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    normalHeight(),
+                    HeaderTextTemplate(
+                      titleText: language.time,
+                      titleTextColor: ColorConstants.colorFromHex("#0E1339"),
+                      containerColor: ColorConstants.colorFromHex("#DEE1EA"),
+                      textSize: 11.0,
+                      iconWidget: Icon(
+                        Icons.timelapse,
+                        color: ColorConstants.colorFromHex("#0E1339"),
+                        size: 16,
+                      ),
+                    ),
+                    extraSmallHeight(),
+                    Row(
+                      children: [
+                        Text(
+                          eventDetails.startTime,
                           style: poppins13black400(),
                         ),
                         Text(
@@ -196,7 +226,7 @@ class EventDetailsScreeen extends StatelessWidget {
                           style: poppins13black400(),
                         ),
                         Text(
-                          '3:30pm',
+                          eventDetails.endTime,
                           style: poppins13black400(),
                         ),
                       ],
@@ -206,16 +236,16 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: language.venue,
                       titleTextColor: ColorConstants.colorFromHex("#E74C3C"),
                       containerColor: ColorConstants.colorFromHex("#FFF2F0"),
-                      textSize: 13.0,
+                      textSize: 11.0,
                       iconWidget: Icon(
                         Icons.place,
                         color: ColorConstants.colorFromHex("#E74C3C"),
-                        size: 20,
+                        size: 16,
                       ),
                     ),
                     extraSmallHeight(),
                     Text(
-                      'Church of Pentecost, Dansoman',
+                      eventDetails.mapLocation,
                       style: poppins13black400(),
                     ),
                     normalHeight(),
@@ -223,11 +253,11 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleText: language.directions,
                       titleTextColor: ColorConstants.colorFromHex("#0064A7"),
                       containerColor: ColorConstants.colorFromHex("#E6F7FD"),
-                      textSize: 13.0,
+                      textSize: 11.0,
                       iconWidget: Icon(
                         Icons.directions,
                         color: ColorConstants.colorFromHex("#0064A7"),
-                        size: 20,
+                        size: 16,
                       ),
                     ),
                     extraSmallHeight(),
@@ -244,11 +274,11 @@ class EventDetailsScreeen extends StatelessWidget {
                       titleTextColor: ColorConstants.colorFromHex("#A58D0E"),
                       containerColor:
                           ColorConstants.colorFromHex("#F9F2B2").withAlpha(150),
-                      textSize: 13.0,
+                      textSize: 11.0,
                       iconWidget: Icon(
                         Icons.insert_invitation,
                         color: ColorConstants.colorFromHex("#A58D0E"),
-                        size: 20,
+                        size: 16,
                       ),
                     ),
                     extraSmallHeight(),

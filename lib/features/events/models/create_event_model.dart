@@ -11,19 +11,20 @@ class CreateEventModel extends Equatable {
   String? endTime;
   String? venue;
   String? mapLocation;
+  List<String>? guests;
 
-  CreateEventModel({
-    this.image,
-    this.name,
-    this.eventType,
-    this.category,
-    this.description,
-    this.date,
-    this.startTime,
-    this.endTime,
-    this.venue,
-    this.mapLocation,
-  });
+  CreateEventModel(
+      {this.image,
+      this.name,
+      this.eventType,
+      this.category,
+      this.description,
+      this.date,
+      this.startTime,
+      this.endTime,
+      this.venue,
+      this.mapLocation,
+      this.guests});
 
   // Factory constructor to create an instance from JSON
   factory CreateEventModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +39,7 @@ class CreateEventModel extends Equatable {
       endTime: json['end_time'],
       venue: json['venue'],
       mapLocation: json['map_location'],
+      guests: List<String>.from(json['guests']),
     );
   }
 
@@ -54,6 +56,7 @@ class CreateEventModel extends Equatable {
       'end_time': endTime,
       'venue': venue,
       'map_location': mapLocation,
+      'guests': guests,
     };
   }
 
@@ -68,6 +71,7 @@ class CreateEventModel extends Equatable {
         startTime,
         endTime,
         venue,
-        mapLocation
+        mapLocation,
+        guests
       ];
 }
