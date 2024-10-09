@@ -9,10 +9,16 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/categories/repository/category_repository.dart';
+import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
+import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
+import 'package:rapidlie/features/events/bloc/create_event_bloc.dart';
 import 'package:rapidlie/features/events/bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
+import 'package:rapidlie/features/events/repository/create_event_repository.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
+import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
+import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
 import 'package:rapidlie/features/login/repository/login_repository.dart';
 import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
@@ -85,6 +91,23 @@ class MyApp extends StatelessWidget {
                 categoryRepository: CategoryRepository(dio: Dio()),
               ),
             ),
+            BlocProvider(
+              create: (context) {
+                final telephoneNumbersRepository =
+                    locator<TelephoneNumbersRepository>();
+                return TelephoneNumbersBloc(
+                    telephoneNumbersRepository: telephoneNumbersRepository);
+              },
+            ),
+            BlocProvider(
+              create: (context) => FileUploadBloc(
+                fileUploadRepository: FileUploadRepository(dio: Dio()),
+              ),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  CreateEventBloc(CreateEventRepository(dio: Dio())),
+            ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
             ),
@@ -125,8 +148,7 @@ class MyApp extends StatelessWidget {
                   CategoryScreen.routeName: (context) => CategoryScreen(),
                   ContactListScreen.routeName: (context) => ContactListScreen(),
                 },
-                //initialRoute: SplashScreen.routeName,
-                initialRoute: ContactListScreen.routeName,
+                initialRoute: SplashScreen.routeName,
                 onGenerateRoute: (RouteSettings settings) {
                   return null;
                 },
