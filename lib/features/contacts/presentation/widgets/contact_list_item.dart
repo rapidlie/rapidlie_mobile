@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 
 class ContactListItem extends StatelessWidget {
@@ -95,30 +96,34 @@ class ContactListItemWithSelector extends StatelessWidget {
   }
 }
 
-/* class InvitedContactListItem extends StatelessWidget {
+class ContactListItemWithText extends StatelessWidget {
   final String contactName;
-  final Function removeInvite;
-  const InvitedContactListItem(
-      {Key? key, required this.contactName, required this.removeInvite})
-      : super(key: key);
+
+  const ContactListItemWithText({
+    Key? key,
+    required this.contactName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ContactListItem(
-          contactName: contactName,
-        ),
-        GestureDetector(
-          onTap: removeInvite(),
-          child: Icon(
-            Icons.close,
-            color: Colors.grey,
-            size: 20,
+    return GestureDetector(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ContactListItem(
+            contactName: contactName,
           ),
-        ),
-      ],
+          Text(
+            "Invite",
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.deepOrange,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.w500,
+            ),
+          )
+        ],
+      ),
     );
   }
-} */
+}
