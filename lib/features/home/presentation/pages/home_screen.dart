@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        floatingActionButton: GestureDetector(
+        /* floatingActionButton: GestureDetector(
           onTap: () {
             _scrollController.animateTo(
               0,
@@ -269,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 40,
             ),
           ),
-        ),
+        ), */
       ),
     );
   }
