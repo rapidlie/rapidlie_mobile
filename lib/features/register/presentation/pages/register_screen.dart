@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/core/widgets/country_code_picker.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
@@ -21,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
-  String countryCode = '+233';
+  String countryCode = '+49';
 
   @override
   void initState() {
@@ -35,6 +36,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  String removeLeadingZero(String phoneNumber) {
+    if (phoneNumber.startsWith('0')) {
+      return phoneNumber.substring(1);
+    }
+    return phoneNumber;
   }
 
   @override
@@ -58,13 +66,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     OtpScreen.routeName,
                     arguments: emailController.text,
                   );
-                  ; // Example: Navigate to home
+                  // Example: Navigate to home
                 } else if (state is RegisterErrorState) {
-                  // Registration failed
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text('Registration Failed: ${state.error}')),
-                  );
+                  print("failed");
                 }
               },
               builder: (context, state) {
@@ -109,15 +113,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             enabled: true,
                           ),
                           extraSmallHeight(),
-                          TextFieldTemplate(
-                            hintText: "Phone",
-                            controller: phoneController,
-                            obscureText: false,
-                            width: width,
-                            height: 50,
-                            textInputType: TextInputType.phone,
-                            textInputAction: TextInputAction.next,
-                            enabled: true,
+                          Row(
+                            children: [
+                              CountryCodeLayout(countryCode: countryCode),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: TextFieldTemplate(
+                                  hintText: "Phone",
+                                  controller: phoneController,
+                                  obscureText: false,
+                                  width: width,
+                                  height: 50,
+                                  textInputType: TextInputType.phone,
+                                  textInputAction: TextInputAction.next,
+                                  enabled: true,
+                                ),
+                              ),
+                            ],
                           ),
                           extraSmallHeight(),
                           TextFieldTemplate(
@@ -137,13 +151,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             buttonName: "Register",
                             buttonWidth: width,
                             buttonAction: () {
+                              print(
+                                nameController.text +
+                                    emailController.text +
+                                    passwordController.text +
+                                    phoneController.text +
+                                    countryCode,
+                              );
                               BlocProvider.of<RegisterBloc>(context).add(
                                 SubmitRegisterEvent(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  phone: phoneController.text,
-                                ),
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    phone:
+                                        removeLeadingZero(phoneController.text),
+                                    countryCode: countryCode),
                               );
                             },
                           ),
