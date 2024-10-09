@@ -59,6 +59,8 @@ class EventListTemplate extends StatelessWidget {
           GeneralEventListTemplate(
             trailingWidget: trailingWidget,
             eventName: 'No name',
+            eventDate: '',
+            eventDay: '',
           )
         ],
       ),
