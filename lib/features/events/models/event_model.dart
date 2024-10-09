@@ -44,7 +44,7 @@ class EventDataModel extends Equatable {
   final String endTime;
   final String venue;
   final String mapLocation;
-  final String image;
+  final String? image;
   final List<dynamic> invitations;
   final int likes;
   final int formattedLikes;
@@ -60,7 +60,7 @@ class EventDataModel extends Equatable {
     required this.endTime,
     required this.venue,
     required this.mapLocation,
-    required this.image,
+    this.image,
     required this.invitations,
     required this.likes,
     required this.formattedLikes,

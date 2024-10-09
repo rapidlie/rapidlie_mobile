@@ -20,7 +20,7 @@ class EventRepositoryImpl implements EventRepository {
     String bearerToken = await UserPreferences().getBearerToken();
     try {
       final response = await _dio.get(
-        '$flockrAPIBaseUrl/events',
+        '$flockrAPIBaseUrl/events/public',
         options: Options(
           headers: {
             'Authorization': "Bearer " + bearerToken,

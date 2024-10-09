@@ -7,19 +7,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
+import 'package:rapidlie/features/categories/models/category_model.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
+import 'package:rapidlie/features/events/bloc/create_event_bloc.dart';
 import 'package:rapidlie/features/events/bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
+import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -37,6 +43,7 @@ class _EventsScreenState extends State<EventsScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController venueController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
   int bottomSheetContentIndex = 0;
   String dateText = 'Date';
@@ -81,6 +88,7 @@ class _EventsScreenState extends State<EventsScreen> {
   File? imageFile;
   var language;
   List<ContactDetails> selectedContacts = [];
+  CategoryModel? selectedCategory;
 
   @override
   void initState() {
@@ -125,14 +133,15 @@ class _EventsScreenState extends State<EventsScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(language.noEventCreated,
-                        textAlign: TextAlign.center,
-                        style: poppins13black400()),
+                    Text(
+                      language.noEventCreated,
+                      textAlign: TextAlign.center,
+                      style: poppins13black400(),
+                    ),
                   ],
                 ),
               );
             } else if (state is EventLoading) {
-              print("Jetzt loading");
               return Center(child: CupertinoActivityIndicator());
             } else if (state is EventLoaded) {
               return buildBody(state.events);
@@ -172,14 +181,21 @@ class _EventsScreenState extends State<EventsScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => EventDetailsScreeen(
-                            isOwnEvent: true,
-                          ));
+                      Get.to(
+                        () => EventDetailsScreeen(
+                          isOwnEvent: true,
+                        ),
+                        arguments: eventDataModel[index],
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
                       child: GeneralEventListTemplate(
                         eventName: eventDataModel[index].name,
+                        eventImageString: eventDataModel[index].image,
+                        eventDay: getDayName(eventDataModel[index].date),
+                        eventDate: convertDateDotFormat(
+                            DateTime.parse(eventDataModel[index].date)),
                         trailingWidget: Row(
                           children: [
                             GestureDetector(
@@ -567,8 +583,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   showBackButton = showBackButton + 1;
                 });
                 context.read<CreateEventProvider>().updateEvent(
-                    name: titleController.text,
-                    image: await convertImageToBase64(imageFile!));
+                      name: titleController.text,
+                      file: imageFile,
+                    );
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width,
                   duration: new Duration(milliseconds: 200),
@@ -615,7 +632,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      convertDate(_selectedDay),
+                      convertDateDotFormat(_selectedDay),
                       style: TextStyle(
                         color: ColorConstants.black,
                         fontSize: 17.0,
@@ -765,7 +782,7 @@ class _EventsScreenState extends State<EventsScreen> {
           extraSmallHeight(),
           TextFieldTemplate(
             hintText: 'eg. Club 250',
-            controller: locationController,
+            controller: venueController,
             obscureText: false,
             width: Get.width,
             height: 50,
@@ -783,10 +800,10 @@ class _EventsScreenState extends State<EventsScreen> {
             buttonAction: () {
               showBackButton = showBackButton + 1;
               context.read<CreateEventProvider>().updateEvent(
-                    date: dateController.text,
+                    date: convertDateDashFormat(_selectedDay),
                     startTime: selectedStartTime.toString(),
                     endTime: selectedEndTime.toString(),
-                    venue: locationController.text,
+                    venue: venueController.text,
                   );
               _pageViewController.animateTo(
                 MediaQuery.of(context).size.width * 2,
@@ -811,7 +828,7 @@ class _EventsScreenState extends State<EventsScreen> {
             style: poppins14CharcoalBlack400(),
           ),
           Text(
-            "Only 250 characters allowed",
+            "Only 150 characters allowed",
             style: poppins12CharcoalBlack500(),
           ),
           extraSmallHeight(),
@@ -820,13 +837,72 @@ class _EventsScreenState extends State<EventsScreen> {
             controller: aboutController,
             obscureText: false,
             width: Get.width,
-            height: 150,
+            height: 100,
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
             enabled: true,
             textFieldColor: Colors.white,
             numberOfLines: 10,
             //maxLength: 250,
+          ),
+          smallHeight(),
+          Text(
+            "Category",
+            style: poppins14CharcoalBlack400(),
+          ),
+          extraSmallHeight(),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: ColorConstants.gray,
+                  width: 2,
+                ),
+                color: Colors.white),
+            child: BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (context, state) {
+              if (state is CategoryLoadingState) {
+                return CircularProgressIndicator();
+              }
+              if (state is CategoryLoadedState) {
+                List<CategoryModel> categories = state.categories;
+                return DropdownButton<CategoryModel>(
+                  value: selectedCategory, // Current selected value
+                  hint: Text(
+                    'Choose an item',
+                    style: poppins14black500(),
+                  ), // Hint text before selection
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                  borderRadius: BorderRadius.circular(8),
+                  isExpanded: true, // Make dropdown cover the width of parent
+                  icon: Icon(Icons.arrow_drop_down),
+                  underline: SizedBox.shrink(),
+                  items: categories.map((CategoryModel category) {
+                    return DropdownMenuItem<CategoryModel>(
+                      value: category,
+                      child: Text(
+                        category.name,
+                        style: poppins14black500(),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (CategoryModel? newValue) {
+                    setState(() {
+                      selectedCategory = newValue; // Update the selected value
+                    });
+                  },
+                );
+              }
+              if (state is CategoryErrorState) {
+                return Center(
+                    child: Text(
+                  'Error loading categories',
+                  style: poppins14black500(),
+                ));
+              }
+              return Container();
+            }),
           ),
           smallHeight(),
           GestureDetector(
@@ -887,6 +963,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 context.read<CreateEventProvider>().updateEvent(
                       description: aboutController.text,
                       eventType: publicEvent ? "public" : "private",
+                      category: selectedCategory!.id,
                     );
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width * 3,
@@ -915,98 +992,193 @@ class _EventsScreenState extends State<EventsScreen> {
       }
     }
 
-    return Padding(
-      padding:
-          const EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 40),
-      child: selectedContacts.length == 0
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _navigateAndSelectContacts();
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: ColorConstants.black,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.add,
-                      color: ColorConstants.white,
-                      size: 30,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  language.inviteFriends,
-                  style: poppins13black400(),
-                ),
-              ],
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 8,
-                  fit: FlexFit.loose,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: selectedContacts.length,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ContactListItem(
-                            contactName: selectedContacts[index].name,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedContacts.removeAt(index);
-                              });
-                            },
+    return BlocConsumer<FileUploadBloc, FileUploadState>(
+      listener: (context, state) {
+        if (state is FileUploadSuccessState) {
+          debugPrint("File uploaded successfully");
+
+          context.read<CreateEventProvider>().updateEvent(
+                image: state.fileName,
+              );
+          print(Provider.of<CreateEventProvider>(context, listen: false).event);
+          BlocProvider.of<CreateEventBloc>(context).add(
+            SubmitCreateEventEvent(
+              image: state.fileName,
+              name: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .name!,
+              eventType:
+                  Provider.of<CreateEventProvider>(context, listen: false)
+                      .event
+                      .eventType!,
+              category: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .category!,
+              description:
+                  Provider.of<CreateEventProvider>(context, listen: false)
+                      .event
+                      .description!,
+              date: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .date!,
+              startTime:
+                  Provider.of<CreateEventProvider>(context, listen: false)
+                      .event
+                      .startTime!,
+              endTime: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .endTime!,
+              venue: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .venue!,
+              mapLocation:
+                  Provider.of<CreateEventProvider>(context, listen: false)
+                      .event
+                      .mapLocation!,
+              guests: Provider.of<CreateEventProvider>(context, listen: false)
+                  .event
+                  .guests!,
+            ),
+          );
+        } else if (state is FileUploadFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('File upload Failed: ${state.error}')),
+          );
+
+          print(state.error);
+        }
+      },
+      builder: (context, fileUploadState) {
+        return BlocConsumer<CreateEventBloc, CreateEventState>(
+          listener: (context, state) {
+            if (state is CreateEventSuccessful) {
+              // Event creation was successful, display success message
+              debugPrint("Event created successfully");
+            } else if (state is CreateEventError) {
+              // Event creation failed, display error message
+              debugPrint("Event creation faled");
+            }
+          },
+          builder: (context, eventState) {
+            if (eventState is CreateEventLoading) {
+              return Center(
+                  child:
+                      CircularProgressIndicator()); // Show loading indicator during event creation
+            }
+            return Padding(
+              padding: const EdgeInsets.only(
+                  top: 20.0, left: 20, right: 20, bottom: 40),
+              child: selectedContacts.length == 0
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _navigateAndSelectContacts();
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: ColorConstants.black,
+                              shape: BoxShape.circle,
+                            ),
                             child: Icon(
-                              Icons.close,
-                              color: Colors.grey,
-                              size: 20,
+                              Icons.add,
+                              color: ColorConstants.white,
+                              size: 30,
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ButtonTemplate(
-                        buttonName: "Add",
-                        buttonWidth: width * 0.43,
-                        buttonAction: () {
-                          _navigateAndSelectContacts();
-                        },
-                      ),
-                      ButtonTemplate(
-                        buttonName: "Finish",
-                        buttonWidth: width * 0.43,
-                        buttonAction: () {
-                          //_navigateAndSelectContacts();
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          language.inviteFriends,
+                          style: poppins13black400(),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 8,
+                          fit: FlexFit.loose,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: selectedContacts.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ContactListItem(
+                                    contactName: selectedContacts[index].name,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedContacts.removeAt(index);
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.grey,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ButtonTemplate(
+                                buttonName: "Add",
+                                buttonWidth: width * 0.43,
+                                buttonAction: () {
+                                  _navigateAndSelectContacts();
+                                },
+                              ),
+                              ButtonTemplate(
+                                buttonName: "Finish",
+                                buttonWidth: width * 0.43,
+                                buttonAction: () {
+                                  context
+                                      .read<CreateEventProvider>()
+                                      .updateEvent(
+                                        guests: selectedContacts
+                                            .map(
+                                                (contact) => contact.telephone!)
+                                            .toList(),
+                                        mapLocation: "somewhere in Africa",
+                                      );
+                                  BlocProvider.of<FileUploadBloc>(context).add(
+                                    FileUploadEvent(
+                                      file: Provider.of<CreateEventProvider>(
+                                              context,
+                                              listen: false)
+                                          .fileUpload
+                                          .file!,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+            );
+          },
+        );
+      },
     );
   }
 
@@ -1038,9 +1210,9 @@ class _EventsScreenState extends State<EventsScreen> {
                         eventTimes[index],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 17,
-                          fontFamily: "Metropolis",
-                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
                           color: selectedStartTimeChecker == index
                               ? ColorConstants.primary
                               : ColorConstants.colorFromHex("#AEB2BF"),
@@ -1090,9 +1262,9 @@ class _EventsScreenState extends State<EventsScreen> {
                             color: selectedStartTimeOfDayChecker == index
                                 ? ColorConstants.white
                                 : ColorConstants.colorFromHex("#AEB2BF"),
-                            fontSize: 15,
-                            fontFamily: "Metropolis",
-                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -1135,9 +1307,9 @@ class _EventsScreenState extends State<EventsScreen> {
                         eventTimes[index],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 17,
-                          fontFamily: "Metropolis",
-                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
                           color: selectedEndTimeChecker == index
                               ? ColorConstants.primary
                               : ColorConstants.colorFromHex("#AEB2BF"),
@@ -1188,8 +1360,8 @@ class _EventsScreenState extends State<EventsScreen> {
                                 ? ColorConstants.white
                                 : ColorConstants.colorFromHex("#AEB2BF"),
                             fontSize: 15,
-                            fontFamily: "Metropolis",
-                            fontWeight: FontWeight.w600,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -1219,10 +1391,11 @@ class _EventsScreenState extends State<EventsScreen> {
         rightChevronPadding: EdgeInsets.zero,
         rightChevronMargin: EdgeInsets.zero,
         titleTextStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: ColorConstants.gray900,
-            fontFamily: "Metropolis"),
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: ColorConstants.gray900,
+          fontFamily: "Popppins",
+        ),
       ),
       daysOfWeekHeight: 24,
       startingDayOfWeek: StartingDayOfWeek.monday,
@@ -1230,12 +1403,12 @@ class _EventsScreenState extends State<EventsScreen> {
         weekdayStyle: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           color: ColorConstants.colorFromHex("#0E1339"),
         ),
         weekendStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w500,
           color: ColorConstants.colorFromHex("#0E1339"),
         ),
@@ -1243,7 +1416,7 @@ class _EventsScreenState extends State<EventsScreen> {
       calendarStyle: CalendarStyle(
         todayTextStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: ColorConstants.primary,
         ),
@@ -1253,19 +1426,19 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
         defaultTextStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: ColorConstants.colorFromHex("#34405E"),
         ),
         outsideTextStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: ColorConstants.colorFromHex("#AEB2BF"),
         ),
         weekendTextStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: ColorConstants.colorFromHex("#34405E"),
         ),
@@ -1287,7 +1460,7 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
         selectedTextStyle: TextStyle(
           fontSize: 12,
-          fontFamily: "Metropolis",
+          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ), //
@@ -1321,14 +1494,5 @@ class _EventsScreenState extends State<EventsScreen> {
       },
       onPageChanged: (focusedDay) {},
     );
-  }
-
-  String convertDate(DateTime? dateToConvert) {
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    if (dateToConvert == null) {
-      return '00.00.00';
-    } else {
-      return dateFormat.format(dateToConvert);
-    }
   }
 }
