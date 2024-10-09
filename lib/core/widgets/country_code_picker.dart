@@ -1,6 +1,7 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/feature_contants.dart';
 
 // ignore: must_be_immutable
 class CountryCodeLayout extends StatefulWidget {
@@ -16,54 +17,30 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 48,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: ColorConstants.gray,
-          border: Border.all(color: ColorConstants.gray, width: 1.0)),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: ColorConstants.gray, width: 2),
+      ),
       child: CountryListPick(
         appBar: AppBar(
-          backgroundColor: ColorConstants.secondary,
+          backgroundColor: ColorConstants.white,
           title: Text(
             'Choose a country',
-            style: TextStyle(
-              fontFamily: 'Metropolis',
-              fontWeight: FontWeight.w500,
-            ),
+            style: poppins14black500(),
           ),
         ),
         pickerBuilder: (context, CountryCode? countryCode) {
-          return Container(
-            width: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  countryCode?.flagUri ?? "",
-                  package: 'country_list_pick',
-                  width: 30,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  countryCode!.dialCode ?? "",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontFamily: 'Metropolis',
-                    fontWeight: FontWeight.w500,
-                    color: ColorConstants.black,
-                  ),
-                ),
-              ],
-            ),
+          return Text(
+            countryCode!.dialCode ?? "",
+            style: poppins14black500(),
           );
         },
         // to show or hide flag
         theme: CountryTheme(
           alphabetSelectedBackgroundColor: ColorConstants.secondary,
           searchHintText: 'Enter name of country here',
-          isShowFlag: true,
+          isShowFlag: false,
           isShowTitle: false,
           isShowCode: true,
           isDownIcon: false,
