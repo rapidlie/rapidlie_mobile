@@ -12,12 +12,14 @@ class SubmitRegisterEvent extends RegisterEvent {
   final String email;
   final String password;
   final String phone;
+  final String countryCode;
 
   const SubmitRegisterEvent({
     required this.name,
     required this.email,
     required this.password,
     required this.phone,
+    required this.countryCode,
   });
 
   @override

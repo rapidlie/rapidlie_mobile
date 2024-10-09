@@ -27,6 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
@@ -53,6 +54,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadius),
                         color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 6,
+                            offset: Offset(0, 5), // changes position of shadow
+                          ),
+                        ],
                       ),
                       child: Padding(
                         padding:
@@ -117,6 +126,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 6,
+                          offset: Offset(0, 5), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Consumer<ChangeLanguageProvider>(
                       builder: (context, provider, child) {
@@ -175,6 +192,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 6,
+                          offset: Offset(0, 5), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Column(
                       children: [
@@ -216,6 +241,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(borderRadius),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 6,
+                          offset: Offset(0, 5), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: SettingsItemLayout(
                       icon: Icons.logout,

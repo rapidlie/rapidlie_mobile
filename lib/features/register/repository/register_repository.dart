@@ -13,8 +13,10 @@ class RegisterRepository {
     required String email,
     required String password,
     required String phone,
+    required String countryCode,
   }) async {
     try {
+      print("User creation started");
       final response = await dio.post(
         '$flockrAPIBaseUrl/register',
         data: {
@@ -22,18 +24,21 @@ class RegisterRepository {
           'email': email,
           'password': password,
           'phone': phone,
+          'country_code': countryCode,
         },
         options: Options(
           headers: {
             'Accept': acceptString,
-            'Content-Type': acceptString,
           },
         ),
       );
+
       if (response.statusCode == 201) {
+        print("User creation done");
         final registerResponse = RegisterResponse.fromJson(response.data);
         return DataSuccess(registerResponse);
       } else {
+        print("User creation failed");
         return DataFailed(DioException(
           error: response.statusMessage,
           response: response,
@@ -43,9 +48,6 @@ class RegisterRepository {
       }
     } on DioException catch (e) {
       return DataFailed(e);
-    } catch (e) {
-      return DataFailed(DioException(
-          error: e.toString(), requestOptions: RequestOptions(path: '')));
     }
   }
 }

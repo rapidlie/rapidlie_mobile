@@ -27,14 +27,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         email: event.email,
         password: event.password,
         phone: event.phone,
+        countryCode: event.countryCode,
       );
-      print(result);
+
       if (result is DataSuccess) {
         UserPreferences().setLoginStatus(true);
         UserPreferences().setUserEmail(result.data!.user.email);
         emit(RegisterSuccessState());
+      } else if (result is DataFailed) {
+        print("Error from server: ${result.error!.message}");
+        emit(RegisterErrorState(error: result.error.toString()));
       } else {
-        emit(RegisterErrorState(error: "Registration failed"));
+        emit(RegisterErrorState(error: "Unknown error occurred"));
       }
     } catch (e) {
       emit(RegisterErrorState(error: e.toString()));
