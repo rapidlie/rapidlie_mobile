@@ -28,7 +28,6 @@ import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 
 class EventsScreen extends StatefulWidget {
   static const String routeName = "events";
