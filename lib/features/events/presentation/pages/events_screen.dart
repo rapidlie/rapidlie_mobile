@@ -96,7 +96,7 @@ class _EventsScreenState extends State<EventsScreen> {
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
-    context.read<EventBloc>().add(GetEvents());
+    context.read<EventBloc>().add(GetPrivateEvents());
     super.initState();
   }
 
