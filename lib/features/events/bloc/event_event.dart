@@ -19,6 +19,10 @@ class GetPrivateEvents extends EventEvent {
   const GetPrivateEvents();
 }
 
+class GetUpcomingEvents extends EventEvent {
+  const GetUpcomingEvents();
+}
+
 class GetEventsByCategory extends EventEvent {
   final String categoryId;
 
@@ -27,5 +31,3 @@ class GetEventsByCategory extends EventEvent {
   @override
   List<Object> get props => [categoryId];
 }
-
-

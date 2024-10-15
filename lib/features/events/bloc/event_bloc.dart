@@ -38,6 +38,13 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     await _onGetEvents(emit, eventRepository.getPublicEvents);
   }
 
+  Future<void> _onGetUpcomingEvents(
+    GetPublicEvents event,
+    Emitter<EventState> emit,
+  ) async {
+    await _onGetEvents(emit, eventRepository.getUpcomingEvents);
+  }
+
   Future<void> _onGetEventsByCategory(
     GetEventsByCategory event,
     Emitter<EventState> emit,

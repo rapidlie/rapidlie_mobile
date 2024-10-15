@@ -10,6 +10,7 @@ abstract class EventRepository {
   Future<DataState<List<EventDataModel>>> getAllEvents();
   Future<DataState<List<EventDataModel>>> getPrivateEvents();
   Future<DataState<List<EventDataModel>>> getPublicEvents();
+  Future<DataState<List<EventDataModel>>> getUpcomingEvents();
   Future<DataState<List<EventDataModel>>> getEventsByCategory(
       String categoryId);
 }
@@ -32,6 +33,10 @@ class EventRepositoryImpl implements EventRepository {
   @override
   Future<DataState<List<EventDataModel>>> getPublicEvents() async {
     return _getEvents('$flockrAPIBaseUrl/events/public');
+  }
+
+  Future<DataState<List<EventDataModel>>> getUpcomingEvents() async {
+    return _getEvents('$flockrAPIBaseUrl/events/upcoming');
   }
 
   @override
