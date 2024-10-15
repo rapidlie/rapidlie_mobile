@@ -7,9 +7,9 @@ abstract class EventEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetAllEvents extends EventEvent {
+/* class GetAllEvents extends EventEvent {
   const GetAllEvents();
-}
+} */
 
 class GetPublicEvents extends EventEvent {
   const GetPublicEvents();
