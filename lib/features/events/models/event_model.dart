@@ -48,6 +48,7 @@ class EventDataModel extends Equatable {
   final List<dynamic> invitations;
   final int likes;
   final int formattedLikes;
+  final String username;
 
   EventDataModel({
     required this.id,
@@ -64,6 +65,7 @@ class EventDataModel extends Equatable {
     required this.invitations,
     required this.likes,
     required this.formattedLikes,
+    required this.username,
   }) : super();
 
   factory EventDataModel.fromJson(Map<String, dynamic> json) {
@@ -82,6 +84,7 @@ class EventDataModel extends Equatable {
       invitations: List<dynamic>.from(json['invitations']),
       likes: json['likes'],
       formattedLikes: json['formatted_likes'],
+      username: json['username'],
     );
   }
 
@@ -101,6 +104,7 @@ class EventDataModel extends Equatable {
       'invitations': invitations,
       'likes': likes,
       'formatted_likes': formattedLikes,
+      'username': username,
     };
   }
 
@@ -120,6 +124,7 @@ class EventDataModel extends Equatable {
         invitations,
         likes,
         formattedLikes,
+        username,
       ];
 }
 
