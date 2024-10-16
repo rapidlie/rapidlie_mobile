@@ -60,10 +60,28 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       child: MultiProvider(
           providers: [
-            BlocProvider<EventBloc>(
+            BlocProvider<PrivateEventBloc>(
               create: (context) {
                 final eventRepository = locator<EventRepository>();
-                return EventBloc(eventRepository: eventRepository);
+                return PrivateEventBloc(eventRepository: eventRepository);
+              },
+            ),
+            BlocProvider<PublicEventBloc>(
+              create: (context) {
+                final eventRepository = locator<EventRepository>();
+                return PublicEventBloc(eventRepository: eventRepository);
+              },
+            ),
+            BlocProvider<UpcomingEventBloc>(
+              create: (context) {
+                final eventRepository = locator<EventRepository>();
+                return UpcomingEventBloc(eventRepository: eventRepository);
+              },
+            ),
+            BlocProvider<EventByCategoryBloc>(
+              create: (context) {
+                final eventRepository = locator<EventRepository>();
+                return EventByCategoryBloc(eventRepository: eventRepository);
               },
             ),
             BlocProvider<VerifyOtpBloc>(
