@@ -1,14 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/color_constants.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
+import 'package:rapidlie/features/events/bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -31,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //_scrollController.addListener(_updateScrollPhysics);
     getUserName();
     context.read<CategoryBloc>().add(FetchCategoriesEvent());
+    context.read<EventBloc>().add(GetPublicEvents());
+    context.read<EventBloc>().add(GetUpcomingEvents());
     super.initState();
   }
 
@@ -70,28 +75,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 verySmallHeight(),
-                Container(
-                  width: width,
-                  height: height * 0.25,
-                  child: ListView.builder(
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(left: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Container(
-                          width: width * 0.85,
-                          height: height * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                            color: const Color.fromARGB(255, 138, 81, 81),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                BlocBuilder<EventBloc, EventState>(
+                  builder: (context, state) {
+                    // if(state is Eve)
+                    return Container(
+                      width: width,
+                      height: height * 0.25,
+                      child: ListView.builder(
+                        itemCount: 3,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(left: 20),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Container(
+                              width: width * 0.85,
+                              height: height * 0.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(borderRadius),
+                                color: const Color.fromARGB(255, 138, 81, 81),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
                 ),
                 bigHeight(),
                 Padding(
@@ -126,32 +136,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 verySmallHeight(),
                 Container(
-                    width: width,
-                    height: 110,
-                    child: BlocBuilder<CategoryBloc, CategoryState>(
-                      builder: (context, state) {
-                        if (state is CategoryLoadingState) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (state is CategoryLoadedState) {
-                          return ListView.builder(
-                            itemCount: state.categories.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(left: 20),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return ExploreCategoryListTemplate(
-                                categoryName: state.categories[index].name,
-                                imageSrc: state.categories[index].image,
-                              );
-                            },
-                          );
-                        } else if (state is CategoryErrorState) {
-                          return Center(
-                              child: Text('Failed to load categories'));
-                        }
-                        return Center(child: Text('No categories found'));
-                      },
-                    )),
+                  width: width,
+                  height: 110,
+                  child: BlocBuilder<CategoryBloc, CategoryState>(
+                    builder: (context, state) {
+                      if (state is CategoryLoadingState) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is CategoryLoadedState) {
+                        return ListView.builder(
+                          itemCount: state.categories.length,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(left: 20),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return ExploreCategoryListTemplate(
+                              categoryName: state.categories[index].name,
+                              imageSrc: state.categories[index].image,
+                            );
+                          },
+                        );
+                      } else if (state is CategoryErrorState) {
+                        return Center(child: Text('Failed to load categories'));
+                      }
+                      return Center(child: Text('No categories found'));
+                    },
+                  ),
+                ),
                 bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -163,84 +173,108 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 verySmallHeight(),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  //controller: _scrollController,
-                  physics: BouncingScrollPhysics(
-                      parent: BouncingScrollPhysics(
-                    parent: NeverScrollableScrollPhysics(),
-                  )),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 40.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => EventDetailsScreeen(isOwnEvent: false));
+                BlocBuilder<EventBloc, EventState>(
+                  builder: (context, state) {
+                    if (state is InitialEventState) {
+                      return Text(
+                        "No invites",
+                        textAlign: TextAlign.center,
+                        style: poppins13black400(),
+                      );
+                    } else if (state is EventLoading) {
+                      return Center(child: CupertinoActivityIndicator());
+                    } else if (state is EventLoaded) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.events.length,
+                        //controller: _scrollController,
+                        physics: BouncingScrollPhysics(
+                            parent: BouncingScrollPhysics(
+                          parent: NeverScrollableScrollPhysics(),
+                        )),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 40.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(() =>
+                                    EventDetailsScreeen(isOwnEvent: false));
+                              },
+                              child: EventListTemplate(
+                                eventOwner: state.events[index].username,
+                                eventName: state.events[index].name,
+                                eventLocation: state.events[index].venue,
+                                eventDay: getDayName(state.events[index].date),
+                                eventDate: convertDateDotFormat(
+                                    DateTime.parse(state.events[index].date)),
+                                eventImageString: state.events[index].image!,
+                                trailingWidget: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.favorite_outline_outlined,
+                                            color: Colors.grey.shade600,
+                                            size: 25,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "456M",
+                                            style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    /* Icon(
+                                            Icons.ios_share,
+                                            color: Colors.grey.shade600,
+                                            size: 20,
+                                          ), */
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/icons/send.svg",
+                                            color: Colors.grey.shade700,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "45",
+                                            style: TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
-                        child: EventListTemplate(
-                          trailingWidget: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.favorite_outline_outlined,
-                                      color: Colors.grey.shade600,
-                                      size: 25,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "456M",
-                                      style: TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              /* Icon(
-                                        Icons.ios_share,
-                                        color: Colors.grey.shade600,
-                                        size: 20,
-                                      ), */
-                              GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icons/send.svg",
-                                      color: Colors.grey.shade700,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "45",
-                                      style: TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return Container();
+                    }
                   },
                 )
               ],
