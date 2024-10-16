@@ -3,8 +3,22 @@ import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {
   final Widget trailingWidget;
-  const EventListTemplate({Key? key, required this.trailingWidget})
-      : super(key: key);
+  final String eventOwner;
+  final String eventName;
+  final String eventLocation;
+  final String eventDate;
+  final String eventDay;
+  final String eventImageString;
+  const EventListTemplate({
+    Key? key,
+    required this.trailingWidget,
+    required this.eventOwner,
+    required this.eventName,
+    required this.eventLocation,
+    required this.eventDate,
+    required this.eventDay,
+    required this.eventImageString,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +45,7 @@ class EventListTemplate extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Eugene Ofori Asiedu",
+                      eventOwner,
                       style: TextStyle(
                         fontSize: 12.0,
                         fontFamily: "Poppins",
@@ -40,7 +54,7 @@ class EventListTemplate extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Accra Business Centre",
+                      eventLocation,
                       style: TextStyle(
                         fontSize: 12.0,
                         fontFamily: "Poppins",
@@ -58,9 +72,10 @@ class EventListTemplate extends StatelessWidget {
           ),
           GeneralEventListTemplate(
             trailingWidget: trailingWidget,
-            eventName: 'No name',
-            eventDate: '',
-            eventDay: '',
+            eventName: eventName,
+            eventDate: eventDate,
+            eventDay: eventDay,
+            eventImageString: eventImageString,
           )
         ],
       ),
