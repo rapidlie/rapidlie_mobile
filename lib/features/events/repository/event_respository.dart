@@ -7,7 +7,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 
 abstract class EventRepository {
-  Future<DataState<List<EventDataModel>>> getAllEvents();
+  //Future<DataState<List<EventDataModel>>> getAllEvents();
   Future<DataState<List<EventDataModel>>> getPrivateEvents();
   Future<DataState<List<EventDataModel>>> getPublicEvents();
   Future<DataState<List<EventDataModel>>> getUpcomingEvents();
@@ -20,10 +20,10 @@ class EventRepositoryImpl implements EventRepository {
 
   EventRepositoryImpl(this._dio);
 
-   @override
+  /* @override
   Future<DataState<List<EventDataModel>>> getAllEvents() async {
     return _getEvents('$flockrAPIBaseUrl/events');
-  }
+  } */
 
   @override
   Future<DataState<List<EventDataModel>>> getPrivateEvents() async {
@@ -45,7 +45,6 @@ class EventRepositoryImpl implements EventRepository {
     return _getEvents('$flockrAPIBaseUrl/events/category/$categoryId');
   }
 
-  @override
   Future<DataState<List<EventDataModel>>> _getEvents(String url) async {
     String bearerToken = await UserPreferences().getBearerToken();
     try {
