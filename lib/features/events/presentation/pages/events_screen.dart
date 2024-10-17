@@ -95,7 +95,7 @@ class _EventsScreenState extends State<EventsScreen> {
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
-    context.read<EventBloc>().add(GetPrivateEvents());
+    context.read<PrivateEventBloc>().add(GetPrivateEvents());
     super.initState();
   }
 
@@ -120,9 +120,9 @@ class _EventsScreenState extends State<EventsScreen> {
         backgroundColor: Colors.white,
         floatingActionButton:
             eventsCreated.length == 0 ? SizedBox() : buttonToShowModal(),
-        body: BlocBuilder<EventBloc, EventState>(
+        body: BlocBuilder<PrivateEventBloc, PrivateEventState>(
           builder: (context, state) {
-            if (state is InitialEventState) {
+            if (state is InitialPrivateEventState) {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.0),
                 child: Column(
@@ -140,9 +140,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   ],
                 ),
               );
-            } else if (state is EventLoading) {
+            } else if (state is PrivateEventLoading) {
               return Center(child: CupertinoActivityIndicator());
-            } else if (state is EventLoaded) {
+            } else if (state is PrivateEventLoaded) {
               return buildBody(state.events);
             }
             return Container();
