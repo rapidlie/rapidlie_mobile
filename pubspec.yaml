@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   dio: ^5.6.0
   crypto: ^3.0.6
+  google_fonts: ^6.2.1
   
 
 
@@ -60,13 +61,10 @@ flutter:
     - assets/images/
 
   
-  fonts:
-    - family: Poppins
-      fonts: 
-        - asset: fonts/PoppinsMedium.ttf
-          weight: 500
-        - asset: fonts/PoppinsRegular.ttf
-          weight: 400
-        - asset: fonts/PoppinsSemiBold.ttf
-          weight: 600
+  # fonts:
+  #   - family: Inter
+  #     fonts: 
+  #       - asset: fonts/Inter_24pt-Medium.ttf 
+  #       - asset: fonts/Inter_24pt-Regular.ttf
+  #       - asset: fonts/Inter_24pt-SemiBold.ttf
   
