@@ -1,6 +1,6 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 
 // ignore: must_be_immutable
@@ -20,11 +20,11 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
       height: 48,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ColorConstants.gray, width: 2),
+        border: Border.all(color: CustomColors.gray, width: 2),
       ),
       child: CountryListPick(
         appBar: AppBar(
-          backgroundColor: ColorConstants.white,
+          backgroundColor: CustomColors.white,
           title: Text(
             'Choose a country',
             style: poppins14black500(),
@@ -38,7 +38,7 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
         },
         // to show or hide flag
         theme: CountryTheme(
-          alphabetSelectedBackgroundColor: ColorConstants.secondary,
+          alphabetSelectedBackgroundColor: CustomColors.secondary,
           searchHintText: 'Enter name of country here',
           isShowFlag: false,
           isShowTitle: false,

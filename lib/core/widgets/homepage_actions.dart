@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 
 class HomepageActions extends StatelessWidget {
   final Color color;
@@ -25,8 +25,6 @@ class HomepageActions extends StatelessWidget {
       height: height * 0.16,
       width: width * 0.76,
       decoration: BoxDecoration(
-        //color: ColorSystem.unsafeBoxColor,
-        //color: Color.fromARGB(255, 213, 179, 77).withOpacity(0.3),
         color: color,
         borderRadius: BorderRadius.circular(30.0),
       ),
@@ -51,19 +49,19 @@ class HomepageActions extends StatelessWidget {
                   children: [
                     Text(
                       mainText,
-                      style: TextStyle(
-                          color: ColorConstants.black,
-                          fontSize: 14.0,
-                          fontFamily: "Metroplis",
-                          fontWeight: FontWeight.w500),
+                      style: GoogleFonts.inter(
+                        color: CustomColors.black,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Text(
                       subText,
-                      style: TextStyle(
-                          color: ColorConstants.black,
-                          fontSize: 14.0,
-                          fontFamily: "Metroplis",
-                          fontWeight: FontWeight.w500),
+                      style: GoogleFonts.inter(
+                        color: CustomColors.black,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),

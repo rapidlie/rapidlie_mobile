@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../constants/color_constants.dart';
+import '../constants/custom_colors.dart';
 
 class CustomCalendar extends StatefulWidget {
   late final CalendarFormat calendarFormat;
@@ -44,7 +44,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
         titleTextStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: ColorConstants.gray900,
+            color: CustomColors.gray900,
             fontFamily: "Metropolis"),
       ),
       daysOfWeekHeight: 24,
@@ -54,13 +54,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
           fontSize: 12,
           fontWeight: FontWeight.w500,
           fontFamily: "Metropolis",
-          color: ColorConstants.colorFromHex("#0E1339"),
+          color: CustomColors.colorFromHex("#0E1339"),
         ),
         weekendStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w500,
-          color: ColorConstants.colorFromHex("#0E1339"),
+          color: CustomColors.colorFromHex("#0E1339"),
         ),
       ),
       calendarStyle: CalendarStyle(
@@ -68,45 +68,45 @@ class _CustomCalendarState extends State<CustomCalendar> {
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.primary,
+          color: CustomColors.primary,
         ),
         withinRangeDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         defaultTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#34405E"),
+          color: CustomColors.colorFromHex("#34405E"),
         ),
         outsideTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#AEB2BF"),
+          color: CustomColors.colorFromHex("#AEB2BF"),
         ),
         weekendTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#34405E"),
+          color: CustomColors.colorFromHex("#34405E"),
         ),
         defaultDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         weekendDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         todayDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.primaryLight,
+          color: CustomColors.primaryLight,
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.primary,
+          color: CustomColors.primary,
         ),
         selectedTextStyle: TextStyle(
           fontSize: 12,
@@ -125,8 +125,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
             "Selected day cannot be in the past",
             snackPosition: SnackPosition.BOTTOM,
             duration: Duration(seconds: 3),
-            backgroundColor: ColorConstants.white,
-            colorText: ColorConstants.black,
+            backgroundColor: CustomColors.white,
+            colorText: CustomColors.black,
           );
         } else if (!isSameDay(selectedDay, selectedDay)) {
           debugPrint("selectedDay");
