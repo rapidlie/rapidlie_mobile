@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
@@ -12,11 +13,13 @@ import 'package:rapidlie/features/categories/repository/category_repository.dart
 import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
-import 'package:rapidlie/features/events/bloc/create_event_bloc.dart';
-import 'package:rapidlie/features/events/bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/create_bloc/create_event_bloc.dart';
+import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/features/events/repository/create_event_repository.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
+import 'package:rapidlie/features/events/repository/like_event_repository.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
@@ -126,6 +129,10 @@ class MyApp extends StatelessWidget {
               create: (context) =>
                   CreateEventBloc(CreateEventRepository(dio: Dio())),
             ),
+            BlocProvider(
+              create: (context) => LikeEventBloc(
+                  likeEventRepository: LikeEventRepository(dio: Dio())),
+            ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
             ),
@@ -137,19 +144,11 @@ class MyApp extends StatelessWidget {
             builder: (context, language, child) {
               return GetMaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Rapidlie',
+                title: 'Flockr',
                 locale: language.applicationLocale,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
-                theme: ThemeData(
-                  textTheme: TextTheme(
-                    bodyLarge: TextStyle(color: Colors.black),
-                  ),
-                  //primarySwatch: Colors.blue,
-                  primaryColor: Colors.black,
-
-                  fontFamily: "Poppins",
-                ),
+                theme: ThemeData(textTheme: GoogleFonts.interTextTheme()),
                 routes: <String, WidgetBuilder>{
                   LoginScreen.routeName: (context) => LoginScreen(),
                   RegisterScreen.routeName: (context) => RegisterScreen(),
