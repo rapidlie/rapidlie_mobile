@@ -62,7 +62,7 @@ class CreateEventRepository {
         ));
       }
     } on DioException catch (e) {
-      //print(e.message);
+      
       return DataFailed(e);
     }
   }
