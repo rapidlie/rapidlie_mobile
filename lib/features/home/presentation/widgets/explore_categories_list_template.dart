@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
+import 'package:rapidlie/core/widgets/header_title_template.dart';
 
 class ExploreCategoryListTemplate extends StatelessWidget {
   final String categoryName;
@@ -13,59 +13,52 @@ class ExploreCategoryListTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+      padding: const EdgeInsets.only(right: 5.0),
       child: Container(
-        width: 80,
         child: Column(
           children: [
-            Container(
-              width: 80,
-              height: 80,
+            /* Container(
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-                color: ColorConstants.lightGray,
+                  color: CustomColors.lightGray, shape: BoxShape.circle),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                    child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/placeholder.png',
+                  image: imageSrc,
+                  height: 10,
+                  width: 10,
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                        'assets/images/error.png'); // Fallback image on error
+                  },
+                )),
               ),
-              child: ClipRRect(
-                  child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/placeholder.png',
-                image: imageSrc,
-                imageErrorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                      'assets/images/error.png'); // Fallback image on error
-                },
-              )),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
+            ), */
+            HeaderTextTemplate(
+              titleText: categoryName,
+              titleTextColor: Colors.black,
+              containerColor: CustomColors.white,
+              containerBorderColor: CustomColors.gray,
+              textSize: 12,
+            )
+            /* Text(
               categoryName,
               softWrap: false,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: ColorConstants.black,
+                color: CustomColors.black,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w400,
-                fontSize: 13.0,
+                fontSize: 10.0,
                 overflow: TextOverflow.fade,
-              ),
-            )
+              ), 
+            )*/
           ],
         ),
       ),
     );
   }
 }
-
-
-
-/* 
-
-FadeInImage.assetNetwork(
-    placeholder: 'assets/images/placeholder.png', // Local placeholder image
-    image: category.image,
-    imageErrorBuilder: (context, error, stackTrace) {
-      return Image.asset('assets/images/error.png'); // Fallback image on error
-    },
-
- */

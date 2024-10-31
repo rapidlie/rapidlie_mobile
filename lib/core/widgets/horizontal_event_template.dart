@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 
 class HorizontalEventTemplate extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class HorizontalEventTemplate extends StatelessWidget {
         child: Container(
           width: width * 0.65,
           decoration: BoxDecoration(
-            color: ColorConstants.white,
+            color: CustomColors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -26,7 +26,7 @@ class HorizontalEventTemplate extends StatelessWidget {
               Text(
                 "Andy's Wedding",
                 style: TextStyle(
-                    color: ColorConstants.secondary,
+                    color: CustomColors.secondary,
                     fontSize: 13.0,
                     fontFamily: "Metropolis",
                     fontWeight: FontWeight.w700),

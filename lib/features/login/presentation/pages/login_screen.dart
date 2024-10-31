@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.white,
+      backgroundColor: CustomColors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -53,8 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               } else if (state is LoginErrorState) {
                 // Registration failed
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('Login Failed: ${state.error}')),
+                  SnackBar(content: Text('Login Failed: ${state.error}')),
                 );
               }
             },

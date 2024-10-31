@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 
-import '../../../../core/constants/color_constants.dart';
+import '../../../../core/constants/custom_colors.dart';
 
 class GuestListScreen extends StatelessWidget {
   final List<ContactDetails> invitedGuests = [
@@ -106,7 +106,7 @@ class GuestListScreen extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ColorConstants.white,
+                  color: CustomColors.white,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -129,7 +129,7 @@ class GuestListScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
-                    color: ColorConstants.black,
+                    color: CustomColors.black,
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
                   ),
@@ -141,10 +141,10 @@ class GuestListScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: eventStatus == Status.accepted
-                  ? ColorConstants.acceptedContainerColor
+                  ? CustomColors.acceptedContainerColor
                   : eventStatus == Status.rejected
-                      ? ColorConstants.rejectedContainerColor
-                      : ColorConstants.pendingContainerColor,
+                      ? CustomColors.rejectedContainerColor
+                      : CustomColors.pendingContainerColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -159,10 +159,10 @@ class GuestListScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   fontFamily: "Poppins",
                   color: eventStatus == Status.accepted
-                      ? ColorConstants.acceptedTextColor
+                      ? CustomColors.acceptedTextColor
                       : eventStatus == Status.rejected
-                          ? ColorConstants.rejectedTextColor
-                          : ColorConstants.pendingTextColor,
+                          ? CustomColors.rejectedTextColor
+                          : CustomColors.pendingTextColor,
                 ),
               ),
             ),

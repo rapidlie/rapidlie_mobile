@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/country_code_picker.dart';
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.white,
+      backgroundColor: CustomColors.white,
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),

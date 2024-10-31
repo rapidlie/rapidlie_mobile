@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
-import 'package:rapidlie/features/events/bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -34,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //_scrollController.addListener(_updateScrollPhysics);
     getUserName();
     context.read<CategoryBloc>().add(FetchCategoriesEvent());
-    context.read<EventBloc>().add(GetPublicEvents());
-    context.read<EventBloc>().add(GetUpcomingEvents());
+    context.read<PublicEventBloc>().add(GetPublicEvents());
+    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     super.initState();
   }
 
@@ -67,17 +66,23 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: HeaderTextTemplate(
-                    titleText: language.upcomingEvents,
-                    titleTextColor: Colors.black,
-                    containerColor: ColorConstants.gray,
-                    textSize: 13,
+                  child: Text(
+                    language.upcomingEvents,
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 verySmallHeight(),
-                BlocBuilder<EventBloc, EventState>(
-                  builder: (context, state) {
-                    // if(state is Eve)
+                BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
+                    builder: (context, state) {
+                  if (state is InitialUpcomingEventState) {
+                    return Text('No upcoming events at the moment');
+                  } else if (state is UpcomingEventLoading) {
+                    return Text('No upcoming events at the moment');
+                  } else if (state is UpcomingEventLoaded) {
                     return Container(
                       width: width,
                       height: height * 0.25,
@@ -93,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: width * 0.85,
                               height: height * 0.2,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(borderRadius),
+                                borderRadius:
+                                    BorderRadius.circular(borderRadius),
                                 color: const Color.fromARGB(255, 138, 81, 81),
                               ),
                             ),
@@ -101,19 +107,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Text(
+                        'No upcoming events at the moment',
+                        style: poppins13black400(),
+                      ),
+                    );
                   }
-                ),
+                }),
                 bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      HeaderTextTemplate(
-                        titleText: language.explore,
-                        titleTextColor: Colors.black,
-                        containerColor: ColorConstants.gray,
-                        textSize: 13,
+                      Text(
+                        language.explore,
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -124,9 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           language.seeAll,
-                          style: TextStyle(
-                            color: Color.fromARGB(133, 63, 59, 59),
-                            fontFamily: "Poppins",
+                          style: GoogleFonts.inter(
+                            color: CustomColors.primary,
+                            fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
                         ),
@@ -137,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 verySmallHeight(),
                 Container(
                   width: width,
-                  height: 110,
+                  height: 80,
                   child: BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoadingState) {
@@ -146,12 +162,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ListView.builder(
                           itemCount: state.categories.length,
                           shrinkWrap: true,
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.only(left: 10),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return ExploreCategoryListTemplate(
-                              categoryName: state.categories[index].name,
-                              imageSrc: state.categories[index].image,
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 0),
+                              child: ExploreCategoryListTemplate(
+                                categoryName: state.categories[index].name,
+                                imageSrc: state.categories[index].image,
+                              ),
                             );
                           },
                         );
@@ -162,28 +181,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                bigHeight(),
+                //bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: HeaderTextTemplate(
-                    titleText: language.discover,
-                    titleTextColor: Colors.black,
-                    containerColor: ColorConstants.gray,
-                    textSize: 13,
+                  child: Text(
+                    language.discover,
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 verySmallHeight(),
-                BlocBuilder<EventBloc, EventState>(
+                BlocBuilder<PublicEventBloc, PublicEventState>(
                   builder: (context, state) {
-                    if (state is InitialEventState) {
+                    if (state is InitialPublicEventState) {
                       return Text(
                         "No invites",
                         textAlign: TextAlign.center,
                         style: poppins13black400(),
                       );
-                    } else if (state is EventLoading) {
+                    } else if (state is PublicEventLoading) {
                       return Center(child: CupertinoActivityIndicator());
-                    } else if (state is EventLoaded) {
+                    } else if (state is PublicEventLoaded) {
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: state.events.length,
@@ -208,65 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 eventDate: convertDateDotFormat(
                                     DateTime.parse(state.events[index].date)),
                                 eventImageString: state.events[index].image!,
-                                trailingWidget: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.favorite_outline_outlined,
-                                            color: Colors.grey.shade600,
-                                            size: 25,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "456M",
-                                            style: TextStyle(
-                                              fontSize: 13.0,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    /* Icon(
-                                            Icons.ios_share,
-                                            color: Colors.grey.shade600,
-                                            size: 20,
-                                          ), */
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/icons/send.svg",
-                                            color: Colors.grey.shade700,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "45",
-                                            style: TextStyle(
-                                              fontSize: 13.0,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                eventId: state.events[index].id,
                               ),
                             ),
                           );
@@ -281,29 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        /* floatingActionButton: GestureDetector(
-          onTap: () {
-            _scrollController.animateTo(
-              0,
-              duration:
-                  Duration(milliseconds: 700), // You can adjust the duration
-              curve: Curves.easeOut,
-            );
-          },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black,
-            ),
-            child: Icon(
-              Icons.arrow_drop_up,
-              color: Colors.white,
-              size: 40,
-            ),
-          ),
-        ), */
       ),
     );
   }
