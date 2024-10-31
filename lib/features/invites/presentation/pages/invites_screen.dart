@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/features/events/bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
@@ -21,7 +22,7 @@ class _InvitesScreenState extends State<InvitesScreen> {
 
   @override
   void initState() {
-    context.read<EventBloc>().add(GetPrivateEvents());
+    context.read<PrivateEventBloc>().add(GetPrivateEvents());
     super.initState();
   }
 
@@ -37,61 +38,53 @@ class _InvitesScreenState extends State<InvitesScreen> {
               isSubPage: false,
             ),
           ),
+          backgroundColor: Colors.white,
           body: SingleChildScrollView(
-            child:
-                BlocBuilder<EventBloc, EventState>(builder: (context, state) {
-              if (state is InitialEventState) {
-                return Text(
-                  "No invites",
-                  textAlign: TextAlign.center,
-                  style: poppins13black400(),
-                );
-              } else if (state is EventLoading) {
-                return Center(child: CupertinoActivityIndicator());
-              }
-              if (state is EventLoaded) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  //controller: _scrollController,
-                  physics: BouncingScrollPhysics(
-                      parent: NeverScrollableScrollPhysics()),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 40.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => EventDetailsScreeen(isOwnEvent: false));
-                        },
-                        child: EventListTemplate(
-                          trailingWidget: Row(
-                            children: [
-                              Icon(
-                                Icons.thumb_up,
-                                color: Colors.grey.shade600,
-                                size: 25,
-                              ),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Icon(
-                                Icons.thumb_down,
-                                color: Colors.grey.shade600,
-                                size: 25,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                            ],
+            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+              builder: (context, state) {
+                if (state is InitialPrivateEventState) {
+                  return Text(
+                    "No invites",
+                    textAlign: TextAlign.center,
+                    style: poppins13black400(),
+                  );
+                } else if (state is PrivateEventLoading) {
+                  return Center(child: CupertinoActivityIndicator());
+                }
+                if (state is PrivateEventLoaded) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.events.length,
+                    physics: BouncingScrollPhysics(
+                        parent: NeverScrollableScrollPhysics()),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 40.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => EventDetailsScreeen(isOwnEvent: false),
+                              arguments: state.events[index],
+                            );
+                          },
+                          child: EventListTemplate(
+                            eventOwner: state.events[index].username,
+                            eventName: state.events[index].name,
+                            eventLocation: state.events[index].venue,
+                            eventDay: getDayName(state.events[index].date),
+                            eventDate: convertDateDotFormat(
+                                DateTime.parse(state.events[index].date)),
+                            eventImageString: state.events[index].image!,
+                            eventId: state.events[index].id,
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }
-              return Container();
-            }),
+                      );
+                    },
+                  );
+                }
+                return Container();
+              },
+            ),
           )),
     );
   }
