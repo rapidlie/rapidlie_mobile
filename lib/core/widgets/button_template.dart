@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 
 class ButtonTemplate extends StatelessWidget {
   final String buttonName;
-
   final double buttonWidth;
-
   final Function() buttonAction;
-
   final bool loading;
+  final Color? textColor;
 
   ButtonTemplate({
     required this.buttonName,
     required this.buttonWidth,
     required this.buttonAction,
     this.loading = false,
+    this.textColor,
   });
 
   @override
@@ -27,28 +27,26 @@ class ButtonTemplate extends StatelessWidget {
               height: 16,
               width: 16,
               child: CircularProgressIndicator(
-                backgroundColor: ColorConstants.white,
+                backgroundColor: CustomColors.white,
                 strokeWidth: 1,
               ),
             )
           : Text(
               buttonName.toUpperCase(),
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 color: Colors.white,
-                fontSize: 12.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
+                fontSize: 13.r,
+                fontWeight: FontWeight.w800,
               ),
             ),
-      color: Colors.black,
-      splashColor: Colors.black45,
+      color: CustomColors.black,
       elevation: 1,
       minWidth: buttonWidth,
       height: 50,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: EdgeInsets.all(15),
+      //padding: EdgeInsets.all(15),
     );
   }
 }

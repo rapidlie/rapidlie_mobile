@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 
-import '../constants/color_constants.dart';
+import '../constants/custom_colors.dart';
 
 class TextFieldTemplate extends StatelessWidget {
   final String hintText;
@@ -84,18 +84,18 @@ class TextFieldTemplate extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: ColorConstants.lightGray,
+                color: CustomColors.lightGray,
               ),
             ),
 
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: ColorConstants.gray,
+                color: CustomColors.gray,
               ),
             ),
             hintStyle: TextStyle(
-              color: ColorConstants.hintTextColor,
+              color: CustomColors.hintTextColor,
               fontSize: 12.0,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class TextFieldTemplate extends StatelessWidget {
             hintText: hintText,
           ),
           style: TextStyle(
-            color: ColorConstants.black,
+            color: CustomColors.black,
             fontSize: 14.0,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
