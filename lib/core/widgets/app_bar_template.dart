@@ -27,7 +27,6 @@ class AppBarTemplate extends StatelessWidget {
                 isSubPage
                     ? GestureDetector(
                         onTap: () {
-                          print("Pressed");
                           Navigator.pop(context);
                         },
                         child: Padding(
