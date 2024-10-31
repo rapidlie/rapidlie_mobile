@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/features/events/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart';
@@ -25,8 +25,8 @@ class _RapidScreenState extends State<RapidScreen> {
     InvitesScreen(),
     SettingsScreen()
   ];
-  Color activeTextColor = ColorConstants.primary;
-  Color inactiveTextColor = ColorConstants.black;
+  Color activeTextColor = CustomColors.primary;
+  Color inactiveTextColor = CustomColors.black;
   bool active = false;
 
   @override
@@ -47,11 +47,11 @@ class _RapidScreenState extends State<RapidScreen> {
           body: currentScreen[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
-            showUnselectedLabels: false,
-            showSelectedLabels: false,
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
             unselectedFontSize: 10.0,
             selectedFontSize: 10.0,
-            selectedItemColor: ColorConstants.black,
+            selectedItemColor: CustomColors.secondary,
             items: [
               //Home
               BottomNavigationBarItem(
@@ -108,6 +108,7 @@ class _RapidScreenState extends State<RapidScreen> {
               });
             },
             type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
           ),
         ),
       ),
