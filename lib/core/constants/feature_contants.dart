@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'color_constants.dart';
+import 'custom_colors.dart';
 
 double width = Get.width.w;
 double height = Get.height.h;
@@ -40,96 +41,102 @@ textBoxSpace() {
 
 extraSmallHeight() {
   return SizedBox(
-    height: 8.h,
+    height: 5.h,
   );
 }
 
 poppins13black400() {
-  return TextStyle(
-    color: ColorConstants.black,
-    fontFamily: "Poppins",
+  return GoogleFonts.inter(
+    color: CustomColors.black,
     fontWeight: FontWeight.w400,
     fontSize: 13.0,
   );
 }
 
 poppins10black400() {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: 10.sp,
-    fontFamily: "Poppins",
     fontWeight: FontWeight.w400,
     color: Colors.black,
   );
 }
 
+poppins12black400() {
+  return GoogleFonts.inter(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  );
+}
+
+poppins11black600() {
+  return GoogleFonts.inter(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+}
+
 poppins10white400() {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: 10.sp,
-    fontFamily: "Poppins",
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
 }
 
 poppins10white500() {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: 10.sp,
-    fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );
 }
 
 poppins14black500() {
-  return TextStyle(
-    color: ColorConstants.black,
-    fontFamily: "Poppins",
+  return GoogleFonts.inter(
+    color: CustomColors.black,
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
   );
 }
 
-poppins15black500() {
-  return TextStyle(
-    color: ColorConstants.black,
-    fontFamily: "Poppins",
+inter15black500() {
+  return GoogleFonts.inter(
+    color: CustomColors.black,
     fontWeight: FontWeight.w500,
     fontSize: 15.sp,
   );
 }
 
 mainAppbarTitleStyle() {
-  return TextStyle(
+  return GoogleFonts.inter(
     color: Colors.black,
     fontSize: 20.sp,
-    fontFamily: "Poppins",
     fontWeight: FontWeight.w600,
   );
 }
 
-poppins14CharcoalBlack400() {
-  return TextStyle(
+inter14CharcoalBlack400() {
+  return GoogleFonts.inter(
     fontSize: 14.sp,
-    color: ColorConstants.charcoalBlack,
-    fontFamily: 'Poppins',
+    color: CustomColors.charcoalBlack,
     fontWeight: FontWeight.w400,
   );
 }
 
 poppins12CharcoalBlack500() {
-  return TextStyle(
+  return GoogleFonts.inter(
     fontSize: 12.sp,
-    color: ColorConstants.charcoalBlack,
-    fontFamily: 'Poppins',
+    color: CustomColors.charcoalBlack,
     fontWeight: FontWeight.w500,
   );
 }
 
 subAppbarTitleStyle() {
-  return TextStyle(
+  return GoogleFonts.inter(
     color: Colors.black,
     fontSize: 18.sp,
-    fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
   );
 }
