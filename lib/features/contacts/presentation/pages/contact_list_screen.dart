@@ -164,7 +164,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                           smallHeight(),
                           Text(
                             'Contacts on Flockr',
-                            style: poppins15black500(),
+                            style: inter15black500(),
                           ),
                           SizedBox(
                             height: 12,
@@ -174,7 +174,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                                 TelephoneNumbersState>(
                               builder: (context, state) {
                                 if (state is TelephoneNumbersLoaded) {
-                                   flockrContacts.clear();
+                                  flockrContacts.clear();
                                   for (int i = 0; i < _contacts.length; i++) {
                                     String? contactPhone =
                                         _contacts[i].telephone;
@@ -226,7 +226,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                           //smallHeight(),
                           Text(
                             'Invite to Flockr',
-                            style: poppins15black500(),
+                            style: inter15black500(),
                           ),
                           SizedBox(
                             height: 12,
