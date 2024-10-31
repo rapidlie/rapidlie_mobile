@@ -4,11 +4,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
@@ -20,8 +19,8 @@ import 'package:rapidlie/features/categories/models/category_model.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
-import 'package:rapidlie/features/events/bloc/create_event_bloc.dart';
-import 'package:rapidlie/features/events/bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/create_bloc/create_event_bloc.dart';
+import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
@@ -195,65 +194,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         eventDay: getDayName(eventDataModel[index].date),
                         eventDate: convertDateDotFormat(
                             DateTime.parse(eventDataModel[index].date)),
-                        trailingWidget: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.favorite_outline_outlined,
-                                    color: Colors.grey.shade600,
-                                    size: 25,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "456M",
-                                    style: TextStyle(
-                                      fontSize: 13.0,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            /* Icon(
-                              Icons.ios_share,
-                              color: Colors.grey.shade600,
-                              size: 20,
-                            ), */
-                            GestureDetector(
-                              onTap: () {},
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/send.svg",
-                                    color: Colors.grey.shade700,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "45",
-                                    style: TextStyle(
-                                      fontSize: 13.0,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        likedButtonTaped: () {},
                       ),
                     ),
                   );
@@ -363,7 +304,7 @@ class _EventsScreenState extends State<EventsScreen> {
               padding: const EdgeInsets.only(top: 15.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: ColorConstants.white,
+                  color: CustomColors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: overlayToOpen,
@@ -408,7 +349,7 @@ class _EventsScreenState extends State<EventsScreen> {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
-        color: ColorConstants.colorFromHex("#F2F4F5"),
+        color: CustomColors.colorFromHex("#F2F4F5"),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16.0),
           topRight: Radius.circular(16.0),
@@ -442,11 +383,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             width: 30,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: ColorConstants.colorFromHex("#FFFFFF"),
+                              color: CustomColors.colorFromHex("#FFFFFF"),
                             ),
                             child: Icon(
                               Icons.arrow_back,
-                              color: ColorConstants.closeButtonColor,
+                              color: CustomColors.closeButtonColor,
                               size: 20,
                             ),
                           )
@@ -458,7 +399,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     language.createEvent,
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: ColorConstants.charcoalBlack,
+                      color: CustomColors.charcoalBlack,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),
@@ -476,11 +417,11 @@ class _EventsScreenState extends State<EventsScreen> {
                       width: 30,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: ColorConstants.colorFromHex("#FFFFFF"),
+                        color: CustomColors.colorFromHex("#FFFFFF"),
                       ),
                       child: Icon(
                         Icons.close,
-                        color: ColorConstants.closeButtonColor,
+                        color: CustomColors.closeButtonColor,
                         size: 20,
                       ),
                     ),
@@ -491,7 +432,7 @@ class _EventsScreenState extends State<EventsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Container(
-                color: ColorConstants.lightGray,
+                color: CustomColors.lightGray,
                 height: 1,
                 width: Get.width,
               ),
@@ -523,7 +464,7 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.eventTitle,
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
@@ -540,7 +481,7 @@ class _EventsScreenState extends State<EventsScreen> {
           smallHeight(),
           Text(
             language.uploadFlyer,
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -551,15 +492,15 @@ class _EventsScreenState extends State<EventsScreen> {
               height: 160,
               width: Get.width,
               decoration: BoxDecoration(
-                  color: ColorConstants.colorFromHex("#FFFFFF"),
+                  color: CustomColors.colorFromHex("#FFFFFF"),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                      color: ColorConstants.colorFromHex("#C6CDD3"))),
+                  border:
+                      Border.all(color: CustomColors.colorFromHex("#C6CDD3"))),
               child: imageFile == null
                   ? Icon(
                       Icons.add_photo_alternate,
                       size: 100,
-                      color: ColorConstants.gray,
+                      color: CustomColors.gray,
                     )
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -606,7 +547,7 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.selectDate,
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -633,7 +574,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     Text(
                       convertDateDotFormat(_selectedDay),
                       style: TextStyle(
-                        color: ColorConstants.black,
+                        color: CustomColors.black,
                         fontSize: 17.0,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
@@ -641,7 +582,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     ),
                     Icon(
                       Icons.keyboard_arrow_down,
-                      color: ColorConstants.colorFromHex("#C6CDD3"),
+                      color: CustomColors.colorFromHex("#C6CDD3"),
                     ),
                   ],
                 ),
@@ -658,7 +599,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.startTime,
-                      style: poppins14CharcoalBlack400(),
+                      style: inter14CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -689,8 +630,8 @@ class _EventsScreenState extends State<EventsScreen> {
                                 allDay ? "00:00 am" : selectedStartTime,
                                 style: TextStyle(
                                   color: allDay
-                                      ? ColorConstants.colorFromHex("#C6CDD3")
-                                      : ColorConstants.black,
+                                      ? CustomColors.colorFromHex("#C6CDD3")
+                                      : CustomColors.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -698,7 +639,7 @@ class _EventsScreenState extends State<EventsScreen> {
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
-                                color: ColorConstants.colorFromHex("#C6CDD3"),
+                                color: CustomColors.colorFromHex("#C6CDD3"),
                               ),
                             ],
                           ),
@@ -717,7 +658,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.endTime,
-                      style: poppins14CharcoalBlack400(),
+                      style: inter14CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -748,8 +689,8 @@ class _EventsScreenState extends State<EventsScreen> {
                                 allDay ? "00:00 pm" : selectedEndTime,
                                 style: TextStyle(
                                   color: allDay
-                                      ? ColorConstants.colorFromHex("#C6CDD3")
-                                      : ColorConstants.black,
+                                      ? CustomColors.colorFromHex("#C6CDD3")
+                                      : CustomColors.black,
                                   fontSize: 17.0,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -757,7 +698,7 @@ class _EventsScreenState extends State<EventsScreen> {
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
-                                color: ColorConstants.colorFromHex("#C6CDD3"),
+                                color: CustomColors.colorFromHex("#C6CDD3"),
                               ),
                             ],
                           ),
@@ -772,7 +713,7 @@ class _EventsScreenState extends State<EventsScreen> {
           smallHeight(),
           Text(
             language.location,
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           Text(
             language.locationDescription,
@@ -824,7 +765,7 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.description,
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           Text(
             "Only 150 characters allowed",
@@ -847,7 +788,7 @@ class _EventsScreenState extends State<EventsScreen> {
           smallHeight(),
           Text(
             "Category",
-            style: poppins14CharcoalBlack400(),
+            style: inter14CharcoalBlack400(),
           ),
           extraSmallHeight(),
           Container(
@@ -855,7 +796,7 @@ class _EventsScreenState extends State<EventsScreen> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: ColorConstants.gray,
+                  color: CustomColors.gray,
                   width: 2,
                 ),
                 color: Colors.white),
@@ -915,7 +856,7 @@ class _EventsScreenState extends State<EventsScreen> {
               children: [
                 Text(
                   language.publicEvent,
-                  style: poppins14CharcoalBlack400(),
+                  style: inter14CharcoalBlack400(),
                 ),
                 Container(
                   height: 18,
@@ -923,9 +864,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(4),
-                    color: ColorConstants.white,
+                    color: CustomColors.white,
                     border: Border.all(
-                      color: ColorConstants.black,
+                      color: CustomColors.black,
                       width: 1,
                     ),
                   ),
@@ -938,8 +879,8 @@ class _EventsScreenState extends State<EventsScreen> {
                         borderRadius: BorderRadius.circular(4),
                         shape: BoxShape.rectangle,
                         color: publicEvent
-                            ? ColorConstants.black
-                            : ColorConstants.white,
+                            ? CustomColors.black
+                            : CustomColors.white,
                       ),
                     ),
                   ),
@@ -1079,12 +1020,12 @@ class _EventsScreenState extends State<EventsScreen> {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: ColorConstants.black,
+                              color: CustomColors.black,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.add,
-                              color: ColorConstants.white,
+                              color: CustomColors.white,
                               size: 30,
                             ),
                           ),
@@ -1213,8 +1154,8 @@ class _EventsScreenState extends State<EventsScreen> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w500,
                           color: selectedStartTimeChecker == index
-                              ? ColorConstants.primary
-                              : ColorConstants.colorFromHex("#AEB2BF"),
+                              ? CustomColors.primary
+                              : CustomColors.colorFromHex("#AEB2BF"),
                         ),
                       ),
                     ),
@@ -1247,20 +1188,20 @@ class _EventsScreenState extends State<EventsScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedStartTimeOfDayChecker == index
-                                ? ColorConstants.primary
-                                : ColorConstants.white,
+                                ? CustomColors.primary
+                                : CustomColors.white,
                             border: Border.all(
                               color: selectedStartTimeOfDayChecker == index
-                                  ? ColorConstants.primary
-                                  : ColorConstants.colorFromHex("#AEB2BF"),
+                                  ? CustomColors.primary
+                                  : CustomColors.colorFromHex("#AEB2BF"),
                             )),
                         child: Text(
                           eventTimeOfDay[index],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: selectedStartTimeOfDayChecker == index
-                                ? ColorConstants.white
-                                : ColorConstants.colorFromHex("#AEB2BF"),
+                                ? CustomColors.white
+                                : CustomColors.colorFromHex("#AEB2BF"),
                             fontSize: 14,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w500,
@@ -1310,8 +1251,8 @@ class _EventsScreenState extends State<EventsScreen> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w500,
                           color: selectedEndTimeChecker == index
-                              ? ColorConstants.primary
-                              : ColorConstants.colorFromHex("#AEB2BF"),
+                              ? CustomColors.primary
+                              : CustomColors.colorFromHex("#AEB2BF"),
                         ),
                       ),
                     ),
@@ -1344,20 +1285,20 @@ class _EventsScreenState extends State<EventsScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedEndTimeOfDayChecker == index
-                                ? ColorConstants.primary
-                                : ColorConstants.white,
+                                ? CustomColors.primary
+                                : CustomColors.white,
                             border: Border.all(
                               color: selectedEndTimeOfDayChecker == index
-                                  ? ColorConstants.primary
-                                  : ColorConstants.colorFromHex("#AEB2BF"),
+                                  ? CustomColors.primary
+                                  : CustomColors.colorFromHex("#AEB2BF"),
                             )),
                         child: Text(
                           eventTimeOfDay[index],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: selectedEndTimeOfDayChecker == index
-                                ? ColorConstants.white
-                                : ColorConstants.colorFromHex("#AEB2BF"),
+                                ? CustomColors.white
+                                : CustomColors.colorFromHex("#AEB2BF"),
                             fontSize: 15,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w500,
@@ -1392,7 +1333,7 @@ class _EventsScreenState extends State<EventsScreen> {
         titleTextStyle: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: ColorConstants.gray900,
+          color: CustomColors.gray900,
           fontFamily: "Popppins",
         ),
       ),
@@ -1403,13 +1344,13 @@ class _EventsScreenState extends State<EventsScreen> {
           fontSize: 12,
           fontWeight: FontWeight.w500,
           fontFamily: "Poppins",
-          color: ColorConstants.colorFromHex("#0E1339"),
+          color: CustomColors.colorFromHex("#0E1339"),
         ),
         weekendStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Poppins",
           fontWeight: FontWeight.w500,
-          color: ColorConstants.colorFromHex("#0E1339"),
+          color: CustomColors.colorFromHex("#0E1339"),
         ),
       ),
       calendarStyle: CalendarStyle(
@@ -1417,45 +1358,45 @@ class _EventsScreenState extends State<EventsScreen> {
           fontSize: 12,
           fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.primary,
+          color: CustomColors.primary,
         ),
         withinRangeDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         defaultTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#34405E"),
+          color: CustomColors.colorFromHex("#34405E"),
         ),
         outsideTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#AEB2BF"),
+          color: CustomColors.colorFromHex("#AEB2BF"),
         ),
         weekendTextStyle: TextStyle(
           fontSize: 12,
           fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
-          color: ColorConstants.colorFromHex("#34405E"),
+          color: CustomColors.colorFromHex("#34405E"),
         ),
         defaultDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         weekendDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.colorFromHex("#F4F5FB"),
+          color: CustomColors.colorFromHex("#F4F5FB"),
         ),
         todayDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.primaryLight,
+          color: CustomColors.primaryLight,
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: ColorConstants.primary,
+          color: CustomColors.primary,
         ),
         selectedTextStyle: TextStyle(
           fontSize: 12,
@@ -1474,8 +1415,8 @@ class _EventsScreenState extends State<EventsScreen> {
             "Selected day cannot be in the past",
             snackPosition: SnackPosition.BOTTOM,
             duration: Duration(seconds: 3),
-            backgroundColor: ColorConstants.white,
-            colorText: ColorConstants.black,
+            backgroundColor: CustomColors.white,
+            colorText: CustomColors.black,
           );
         } else if (!isSameDay(_selectedDay, selectedDay)) {
           setState((() {

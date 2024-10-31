@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:rapidlie/core/constants/color_constants.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
@@ -299,7 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
-        color: ColorConstants.colorFromHex("#F2F4F5"),
+        color: CustomColors.colorFromHex("#F2F4F5"),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16.0),
           topRight: Radius.circular(16.0),
@@ -320,7 +320,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     menuTitle,
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: ColorConstants.charcoalBlack,
+                      color: CustomColors.charcoalBlack,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),
@@ -347,7 +347,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Container(
-                color: ColorConstants.lightGray,
+                color: CustomColors.lightGray,
                 height: 1,
                 width: Get.width,
               ),

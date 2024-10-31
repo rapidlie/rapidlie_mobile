@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/gravata_to_image.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
@@ -7,8 +8,11 @@ import '../widgets/settings_item_layout.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
   late var language;
+  String email = "yawsonandrews@gmail.com";
+
   @override
   Widget build(BuildContext context) {
+    String imageUrl = getGitHubIdenticonUrl("asiedu", size: 200);
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -36,6 +40,13 @@ class ProfileSettingsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey.shade600,
+                      ),
+                      child: ClipOval(
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/placeholder.png',
+                          image: imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     SizedBox(

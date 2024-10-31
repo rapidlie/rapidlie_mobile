@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {
-  final Widget trailingWidget;
+  //final Widget trailingWidget;
   final String eventOwner;
   final String eventName;
   final String eventLocation;
   final String eventDate;
   final String eventDay;
   final String eventImageString;
+  final String? eventId;
   const EventListTemplate({
     Key? key,
-    required this.trailingWidget,
     required this.eventOwner,
     required this.eventName,
     required this.eventLocation,
     required this.eventDate,
     required this.eventDay,
     required this.eventImageString,
+    this.eventId,
   }) : super(key: key);
 
   @override
@@ -31,15 +32,15 @@ class EventListTemplate extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 35,
+                  height: 35,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.grey.shade300,
                   ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,18 +48,18 @@ class EventListTemplate extends StatelessWidget {
                     Text(
                       eventOwner,
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 13.0,
                         fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       eventLocation,
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 10.0,
                         fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         color: Colors.black,
                       ),
                     )
@@ -71,11 +72,12 @@ class EventListTemplate extends StatelessWidget {
             height: 5,
           ),
           GeneralEventListTemplate(
-            trailingWidget: trailingWidget,
             eventName: eventName,
             eventDate: eventDate,
             eventDay: eventDay,
             eventImageString: eventImageString,
+            likedButtonTaped: () {},
+            eventId: eventId,
           )
         ],
       ),
