@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/features/events/like_bloc/like_event_bloc.dart';
@@ -55,6 +56,15 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
       throw "Could not launch $mapsUrl";
     }
   } */
+
+  late GoogleMapController mapController;
+
+  final LatLng _initialPosition =
+      LatLng(53.5317925, 8.1237688); // Coordinates for initial map location
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   void initState() {
@@ -189,7 +199,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                 ),
                 centerTitle: false,
                 backgroundColor: Colors.white,
-                expandedHeight: 450,
+                expandedHeight: 400,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Image.network(
                     eventDetails.image!,
@@ -204,114 +214,148 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 30),
+                        horizontal: 20.0, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Container(
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(borderRadius),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 6,
+                                offset:
+                                    Offset(0, 5), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.language.date,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    extraSmallHeight(),
+                                    Text(
+                                      convertDateDotFormat(
+                                          DateTime.parse(eventDetails.date)),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      getDayName(eventDetails.date),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  height: 20,
+                                  width: 1,
+                                  color: CustomColors.lightGray,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.language.time,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    extraSmallHeight(),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          eventDetails.startTime,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        /* Text(
+                                          ' - ',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          eventDetails.endTime,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                        ), */
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  height: 20,
+                                  width: 1,
+                                  color: CustomColors.lightGray,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.language.venue,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    extraSmallHeight(),
+                                    Text(
+                                      "Africa",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        smallHeight(),
                         Text(
-                          widget.language.description + ":",
+                          widget.language.description,
                           style: GoogleFonts.inter(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        extraSmallHeight(),
                         Text(
                           eventDetails.description,
                           style: GoogleFonts.inter(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        normalHeight(),
-                        Text(
-                          widget.language.date + ":",
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        extraSmallHeight(),
-                        Row(
-                          children: [
-                            Text(
-                              getDayName(eventDetails.date),
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              child: Container(
-                                height: 10,
-                                width: 1,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              convertDateDotFormat(
-                                  DateTime.parse(eventDetails.date)),
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        normalHeight(),
-                        Text(
-                          widget.language.time + ":",
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        extraSmallHeight(),
-                        Row(
-                          children: [
-                            Text(
-                              eventDetails.startTime,
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              ' - ',
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              eventDetails.endTime,
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        normalHeight(),
-                        Text(
-                          widget.language.venue + ":",
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        extraSmallHeight(),
-                        Text(
-                          eventDetails.mapLocation,
-                          style: GoogleFonts.inter(
-                            fontSize: 14.0,
+                            fontSize: 12.0,
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
                           ),
@@ -320,19 +364,45 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         Text(
                           widget.language.directions + ":",
                           style: GoogleFonts.inter(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        extraSmallHeight(),
                         GestureDetector(
-                          //onTap: //openMap,
-                          child: Text(
-                            'Click here for directions to event',
-                            style: GoogleFonts.inter(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                          child: Container(
+                            height: 200,
+                            width: width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(borderRadius),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
+                                  offset: Offset(
+                                      0, 5), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: GoogleMap(
+                              onMapCreated: _onMapCreated,
+                              scrollGesturesEnabled: true,
+                              myLocationButtonEnabled: false,
+                              initialCameraPosition: CameraPosition(
+                                target: _initialPosition,
+                                zoom: 16.0,
+                              ),
+                              mapType: MapType.normal,
+                              markers: {
+                                Marker(
+                                  markerId: MarkerId("eventLocation"),
+                                  position: _initialPosition,
+                                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueCyan,
+                                  ),
+                                )
+                              },
                             ),
                           ),
                         ),
@@ -366,7 +436,8 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                       fit: BoxFit.contain,
                                       child: CircleAvatar(
                                         foregroundImage: AssetImage(
-                                            "assets/images/usr1.png"),
+                                          "assets/images/usr1.png",
+                                        ),
                                       ),
                                     ),
                                   ),
