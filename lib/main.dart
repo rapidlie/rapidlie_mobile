@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,13 +14,15 @@ import 'package:rapidlie/features/categories/repository/category_repository.dart
 import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
-import 'package:rapidlie/features/events/create_bloc/create_event_bloc.dart';
-import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
-import 'package:rapidlie/features/events/like_bloc/like_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/features/events/repository/create_event_repository.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
 import 'package:rapidlie/features/events/repository/like_event_repository.dart';
+import 'package:rapidlie/features/events/repository/unlike_event_repository.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
@@ -45,6 +48,7 @@ import 'package:rapidlie/splash_screen.dart';
 import 'features/register/presentation/pages/register_screen.dart';
 
 Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await UserPreferences().init();
   setupLocator();
@@ -52,6 +56,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   runApp(MyApp());
 }
 
@@ -132,6 +137,10 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => LikeEventBloc(
                   likeEventRepository: LikeEventRepository(dio: Dio())),
+            ),
+            BlocProvider(
+              create: (context) => UnlikeEventBloc(
+                  unlikeEventRepository: UnlikeEventRepository(dio: Dio())),
             ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
