@@ -4,12 +4,17 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/utils/autocomplete_predictions.dart';
+import 'package:rapidlie/core/utils/autocomplete_response.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/network_utility.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
@@ -19,8 +24,10 @@ import 'package:rapidlie/features/categories/models/category_model.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
-import 'package:rapidlie/features/events/create_bloc/create_event_bloc.dart';
-import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_state.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
@@ -35,7 +42,8 @@ class EventsScreen extends StatefulWidget {
   State<EventsScreen> createState() => _EventsScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen> {
+class _EventsScreenState extends State<EventsScreen>
+    with AutomaticKeepAliveClientMixin {
   List eventsCreated = [""];
   //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
@@ -87,6 +95,8 @@ class _EventsScreenState extends State<EventsScreen> {
   var language;
   List<ContactDetails> selectedContacts = [];
   CategoryModel? selectedCategory;
+  List<AutocompletePrediction> predictionLiist = [];
+  String mapId = "";
 
   @override
   void initState() {
@@ -94,9 +104,15 @@ class _EventsScreenState extends State<EventsScreen> {
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
-    context.read<PrivateEventBloc>().add(GetPrivateEvents());
+    final bloc = context.read<PrivateEventBloc>();
+    if (bloc.state is! PrivateEventLoaded) {
+      bloc.add(GetPrivateEvents());
+    }
     super.initState();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -106,6 +122,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
@@ -119,33 +136,42 @@ class _EventsScreenState extends State<EventsScreen> {
         backgroundColor: Colors.white,
         floatingActionButton:
             eventsCreated.length == 0 ? SizedBox() : buttonToShowModal(),
-        body: BlocBuilder<PrivateEventBloc, PrivateEventState>(
-          builder: (context, state) {
-            if (state is InitialPrivateEventState) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buttonToShowModal(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      language.noEventCreated,
-                      textAlign: TextAlign.center,
-                      style: poppins13black400(),
-                    ),
-                  ],
-                ),
-              );
-            } else if (state is PrivateEventLoading) {
-              return Center(child: CupertinoActivityIndicator());
-            } else if (state is PrivateEventLoaded) {
-              return buildBody(state.events);
+        body: BlocListener<LikeEventBloc, LikeEventState>(
+          listener: (context, state) {
+            if (state is LikeEventLoaded) {
+              context
+                  .read<PrivateEventBloc>()
+                  .add(GetPrivateEvents()); // Reload specific events
             }
-            return Container();
           },
+          child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+            builder: (context, state) {
+              if (state is InitialPrivateEventState) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buttonToShowModal(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        language.noEventCreated,
+                        textAlign: TextAlign.center,
+                        style: poppins13black400(),
+                      ),
+                    ],
+                  ),
+                );
+              } else if (state is PrivateEventLoading) {
+                return Center(child: CupertinoActivityIndicator());
+              } else if (state is PrivateEventLoaded) {
+                return buildBody(state.events);
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );
@@ -185,6 +211,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         ),
                         arguments: eventDataModel[index],
                       );
+                      print("Hello");
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
@@ -193,8 +220,10 @@ class _EventsScreenState extends State<EventsScreen> {
                         eventImageString: eventDataModel[index].image,
                         eventDay: getDayName(eventDataModel[index].date),
                         eventDate: convertDateDotFormat(
-                            DateTime.parse(eventDataModel[index].date)),
-                        likedButtonTaped: () {},
+                          DateTime.parse(eventDataModel[index].date),
+                        ),
+                        eventId: eventDataModel[index].id,
+                        hasLikedEvent: eventDataModel[index].hasLikedEvent,
                       ),
                     ),
                   );
@@ -437,8 +466,8 @@ class _EventsScreenState extends State<EventsScreen> {
                 width: Get.width,
               ),
             ),
-            Container(
-              height: 470,
+            SizedBox(
+              height: 500,
               child: PageView(
                 controller: _pageViewController,
                 physics: NeverScrollableScrollPhysics(),
@@ -464,7 +493,7 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.eventTitle,
-            style: inter14CharcoalBlack400(),
+            style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
@@ -481,7 +510,7 @@ class _EventsScreenState extends State<EventsScreen> {
           smallHeight(),
           Text(
             language.uploadFlyer,
-            style: inter14CharcoalBlack400(),
+            style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -540,6 +569,23 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   secondSheetContent(StateSetter setState) {
+    void placeAutoComplete(String query) async {
+      Uri uri = Uri.https(
+          "maps.googleapis.com",
+          "maps/api/place/autocomplete/json",
+          {"input": query, "key": dotenv.get("API_KEY")});
+      String? response = await NetworkUtility.fetchUrl(uri);
+      if (response != null) {
+        PlaceAutocompleteResponse result =
+            PlaceAutocompleteResponse.parseAutocompleteResult(response);
+        if (result.predictions != null) {
+          setState(() {
+            predictionLiist = result.predictions!;
+          });
+        }
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Column(
@@ -547,7 +593,7 @@ class _EventsScreenState extends State<EventsScreen> {
         children: [
           Text(
             language.selectDate,
-            style: inter14CharcoalBlack400(),
+            style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -573,10 +619,9 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       convertDateDotFormat(_selectedDay),
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: CustomColors.black,
-                        fontSize: 17.0,
-                        fontFamily: 'Poppins',
+                        fontSize: 12.0,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -599,7 +644,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.startTime,
-                      style: inter14CharcoalBlack400(),
+                      style: inter12CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -628,12 +673,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             children: [
                               Text(
                                 allDay ? "00:00 am" : selectedStartTime,
-                                style: TextStyle(
+                                style: GoogleFonts.inter(
                                   color: allDay
                                       ? CustomColors.colorFromHex("#C6CDD3")
                                       : CustomColors.black,
-                                  fontSize: 17.0,
-                                  fontFamily: 'Poppins',
+                                  fontSize: 12.0,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -658,7 +702,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     Text(
                       language.endTime,
-                      style: inter14CharcoalBlack400(),
+                      style: inter12CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -687,12 +731,11 @@ class _EventsScreenState extends State<EventsScreen> {
                             children: [
                               Text(
                                 allDay ? "00:00 pm" : selectedEndTime,
-                                style: TextStyle(
+                                style: GoogleFonts.inter(
                                   color: allDay
                                       ? CustomColors.colorFromHex("#C6CDD3")
                                       : CustomColors.black,
-                                  fontSize: 17.0,
-                                  fontFamily: 'Poppins',
+                                  fontSize: 12.0,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -713,11 +756,7 @@ class _EventsScreenState extends State<EventsScreen> {
           smallHeight(),
           Text(
             language.location,
-            style: inter14CharcoalBlack400(),
-          ),
-          Text(
-            language.locationDescription,
-            style: poppins12CharcoalBlack500(),
+            style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
@@ -730,9 +769,49 @@ class _EventsScreenState extends State<EventsScreen> {
             textInputAction: TextInputAction.done,
             enabled: true,
             textFieldColor: Colors.white,
+            suffixIcon: GestureDetector(
+              onTap: () {
+                //placeAutoComplete("Mühlenweg 103");
+              },
+              child: Icon(
+                Icons.my_location,
+                size: 20,
+              ),
+            ),
+            onChanged: (value) {
+              placeAutoComplete(value);
+            },
           ),
           SizedBox(
-            height: 32,
+            height: 100,
+            child: ListView.builder(
+              itemCount: predictionLiist.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(
+                      () {
+                        venueController.text =
+                            predictionLiist[index].description!;
+                        mapId = predictionLiist[index].placeId!;
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      predictionLiist[index].description!,
+                      style: inter12CharcoalBlack400(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           ButtonTemplate(
             buttonName: language.next,
@@ -744,6 +823,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     startTime: selectedStartTime.toString(),
                     endTime: selectedEndTime.toString(),
                     venue: venueController.text,
+                    mapLocation: mapId,
                   );
               _pageViewController.animateTo(
                 MediaQuery.of(context).size.width * 2,
@@ -940,7 +1020,7 @@ class _EventsScreenState extends State<EventsScreen> {
           context.read<CreateEventProvider>().updateEvent(
                 image: state.fileName,
               );
-          print(Provider.of<CreateEventProvider>(context, listen: false).event);
+          //print(Provider.of<CreateEventProvider>(context, listen: false).event);
           BlocProvider.of<CreateEventBloc>(context).add(
             SubmitCreateEventEvent(
               image: state.fileName,
@@ -1097,7 +1177,6 @@ class _EventsScreenState extends State<EventsScreen> {
                                             .map(
                                                 (contact) => contact.telephone!)
                                             .toList(),
-                                        mapLocation: "somewhere in Africa",
                                       );
                                   BlocProvider.of<FileUploadBloc>(context).add(
                                     FileUploadEvent(

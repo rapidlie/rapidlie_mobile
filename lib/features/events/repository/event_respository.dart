@@ -20,11 +20,6 @@ class EventRepositoryImpl implements EventRepository {
 
   EventRepositoryImpl(this._dio);
 
-  /* @override
-  Future<DataState<List<EventDataModel>>> getAllEvents() async {
-    return _getEvents('$flockrAPIBaseUrl/events');
-  } */
-
   @override
   Future<DataState<List<EventDataModel>>> getPrivateEvents() async {
     return _getEvents('$flockrAPIBaseUrl/events/private');

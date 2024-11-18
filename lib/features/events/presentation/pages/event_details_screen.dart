@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_stack/image_stack.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
-import 'package:rapidlie/features/events/like_bloc/like_event_bloc.dart';
-import 'package:rapidlie/features/events/like_bloc/like_event_event.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
@@ -18,13 +19,13 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class EventDetailsScreeen extends StatefulWidget {
   final bool isOwnEvent;
   var language;
-  final bool? initialEventLiked;
+  //final bool? initialEventLiked;
+  EventDataModel eventDetails = Get.arguments;
 
   EventDetailsScreeen({
     Key? key,
     required this.isOwnEvent,
     this.language,
-    this.initialEventLiked = false,
   }) : super(key: key);
 
   @override
@@ -32,30 +33,9 @@ class EventDetailsScreeen extends StatefulWidget {
 }
 
 class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
-  late bool isLiked;
-
+  late bool isLiked = widget.eventDetails.hasLikedEvent;
   bool inviteAccepted = false;
-
   bool inviteDeclined = false;
-
-  /* void openMap() async {
-    // Replace the address with your own value
-    //String address = "1600 Amphitheatre Parkway, Mountain View, CA";
-
-    // Encode the address for use in a URL
-    //String encodedAddress = Uri.encodeComponent(address);
-
-    // Construct the Google Maps URL with the encoded address
-    String mapsUrl =
-        "https://www.google.com/maps/place/Kosmos+Innovation+Center+-+Incubation+Hub/@5.6179446,-0.1903505,17z/data=!3m1!4b1!4m6!3m5!1s0xfdf9bc563e448cf:0x617eb06c3af71e8d!8m2!3d5.6179446!4d-0.1877756!16s%2Fg%2F11h5h3x86v";
-
-    // Launch the URL
-    if (await canLaunchUrl(Uri.parse(mapsUrl))) {
-      await launchUrl(Uri.parse(mapsUrl));
-    } else {
-      throw "Could not launch $mapsUrl";
-    }
-  } */
 
   late GoogleMapController mapController;
 
@@ -69,7 +49,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   @override
   void initState() {
     super.initState();
-    isLiked = widget.initialEventLiked ?? false;
+    //isLiked = widget.initialEventLiked ?? false;
   }
 
   void toggleLike(eventId) async {
@@ -86,10 +66,23 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     }
   }
 
+  List<String> imgs = [
+    "assets/images/usr4.png",
+    "assets/images/usr4.png",
+    "assets/images/usr4.png"
+  ];
+
   @override
   Widget build(BuildContext context) {
     widget.language = AppLocalizations.of(context);
-    EventDataModel eventDetails = Get.arguments;
+
+    List<Widget> widgets = [
+      ...imgs.map<Widget>((img) => Image.asset(
+            img,
+            fit: BoxFit.cover,
+          ))
+    ];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -135,7 +128,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  eventDetails.name,
+                                  widget.eventDetails.name,
                                   style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
@@ -143,7 +136,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   ),
                                 ),
                                 HeaderTextTemplate(
-                                  titleText: eventDetails.category.name,
+                                  titleText: widget.eventDetails.category.name,
                                   titleTextColor: Colors.black,
                                   containerColor:
                                       Color.fromARGB(133, 218, 218, 218),
@@ -171,7 +164,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  toggleLike(eventDetails.id);
+                                  toggleLike(widget.eventDetails.id);
                                 },
                                 child: Icon(
                                   isLiked
@@ -202,7 +195,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                 expandedHeight: 400,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Image.network(
-                    eventDetails.image!,
+                    widget.eventDetails.image!,
                     //width: double.maxFinite,
                     fit: BoxFit.fitWidth,
                   ),
@@ -250,8 +243,8 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     ),
                                     extraSmallHeight(),
                                     Text(
-                                      convertDateDotFormat(
-                                          DateTime.parse(eventDetails.date)),
+                                      convertDateDotFormat(DateTime.parse(
+                                          widget.eventDetails.date)),
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -259,7 +252,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                       ),
                                     ),
                                     Text(
-                                      getDayName(eventDetails.date),
+                                      getDayName(widget.eventDetails.date),
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -287,7 +280,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     Row(
                                       children: [
                                         Text(
-                                          eventDetails.startTime,
+                                          widget.eventDetails.startTime,
                                           style: GoogleFonts.inter(
                                             fontSize: 10.0,
                                             fontWeight: FontWeight.w400,
@@ -353,7 +346,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           ),
                         ),
                         Text(
-                          eventDetails.description,
+                          widget.eventDetails.description,
                           style: GoogleFonts.inter(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w400,
@@ -362,7 +355,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         ),
                         normalHeight(),
                         Text(
-                          widget.language.directions + ":",
+                          widget.language.directions,
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -408,7 +401,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         ),
                         normalHeight(),
                         Text(
-                          widget.language.invites + ":",
+                          widget.language.invites,
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -419,93 +412,13 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           onTap: () {
                             Get.to(() => GuestListScreen());
                           },
-                          child: Container(
-                            width: double.maxFinite,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CustomColors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: CircleAvatar(
-                                        foregroundImage: AssetImage(
-                                          "assets/images/usr1.png",
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 260,
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: CustomColors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: FittedBox(
-                                        fit: BoxFit.contain,
-                                        child: CircleAvatar(
-                                          foregroundImage: AssetImage(
-                                              "assets/images/usr2.png"),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 205,
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: CustomColors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: FittedBox(
-                                        fit: BoxFit.contain,
-                                        child: CircleAvatar(
-                                          foregroundImage: AssetImage(
-                                              "assets/images/usr4.png"),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 50,
-                                  height: 40,
-                                  child: Center(
-                                    child: Text(
-                                      '32 guests',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: ImageStack.widgets(
+                            children: widgets,
+                            totalCount: widget.eventDetails.invitations.length,
+                            widgetRadius: 45,
+                            widgetCount: 4,
+                            widgetBorderWidth: 3,
+                            widgetBorderColor: Colors.white,
                           ),
                         ),
                       ],
