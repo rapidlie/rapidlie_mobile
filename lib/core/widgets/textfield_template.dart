@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
 
 import '../constants/custom_colors.dart';
@@ -21,6 +22,7 @@ class TextFieldTemplate extends StatelessWidget {
   final int numberOfLines;
   final int? maxLength;
   final double rightContentPadding;
+  final ValueChanged? onChanged;
 
   TextFieldTemplate({
     Key? key,
@@ -40,6 +42,7 @@ class TextFieldTemplate extends StatelessWidget {
     this.suffixIcon,
     this.numberOfLines = 1,
     this.maxLength,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -94,18 +97,17 @@ class TextFieldTemplate extends StatelessWidget {
                 color: CustomColors.gray,
               ),
             ),
-            hintStyle: TextStyle(
+            hintStyle: GoogleFonts.inter(
               color: CustomColors.hintTextColor,
               fontSize: 12.0,
-              fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
             ),
             hintText: hintText,
           ),
-          style: TextStyle(
+          onChanged: onChanged,
+          style: GoogleFonts.inter(
             color: CustomColors.black,
-            fontSize: 14.0,
-            fontFamily: 'Poppins',
+            fontSize: 12.0,
             fontWeight: FontWeight.w500,
           ),
         ),
