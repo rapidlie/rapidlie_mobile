@@ -26,6 +26,7 @@ class LikeEventRepository {
       );
 
       if (response.statusCode == HttpStatus.ok) {
+        print("Event Liked");
         return DataSuccess("success");
       } else {
         return DataFailed(
@@ -38,6 +39,7 @@ class LikeEventRepository {
         );
       }
     } on DioException catch (e) {
+      print("Event Liked Failed");
       print(e);
       return DataFailed(e);
     }
