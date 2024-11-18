@@ -10,6 +10,7 @@ class EventListTemplate extends StatelessWidget {
   final String eventDay;
   final String eventImageString;
   final String? eventId;
+  final bool hasLikedEvent;
   const EventListTemplate({
     Key? key,
     required this.eventOwner,
@@ -19,6 +20,7 @@ class EventListTemplate extends StatelessWidget {
     required this.eventDay,
     required this.eventImageString,
     this.eventId,
+    required this.hasLikedEvent,
   }) : super(key: key);
 
   @override
@@ -76,8 +78,8 @@ class EventListTemplate extends StatelessWidget {
             eventDate: eventDate,
             eventDay: eventDay,
             eventImageString: eventImageString,
-            likedButtonTaped: () {},
             eventId: eventId,
+            hasLikedEvent: hasLikedEvent,
           )
         ],
       ),
