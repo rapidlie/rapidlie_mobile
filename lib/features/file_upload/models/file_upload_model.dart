@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
-class FileUploadModel extends Equatable{
+class FileUploadModel extends Equatable {
   File? file;
 
   FileUploadModel({

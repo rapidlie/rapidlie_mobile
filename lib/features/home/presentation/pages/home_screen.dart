@@ -10,7 +10,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
-import 'package:rapidlie/features/events/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -23,27 +23,37 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
   var language;
   String name = "";
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
-    //_scrollController.addListener(_updateScrollPhysics);
     getUserName();
-    context.read<CategoryBloc>().add(FetchCategoriesEvent());
-    context.read<PublicEventBloc>().add(GetPublicEvents());
-    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
+    final bloc1 = context.read<CategoryBloc>();
+    final bloc2 = context.read<PublicEventBloc>();
+    final bloc3 = context.read<UpcomingEventBloc>();
+    if (bloc3.state is! UpcomingEventLoaded) {
+      bloc1.add(FetchCategoriesEvent());
+      bloc2.add(GetPublicEvents());
+      bloc3.add(GetUpcomingEvents());
+    }
     super.initState();
   }
 
   void getUserName() async {
     name = UserPreferences().getUserName().toString().split(' ').first;
+    print(UserPreferences().getBearerToken());
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
@@ -218,8 +228,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(bottom: 40.0),
                             child: GestureDetector(
                               onTap: () {
-                                Get.to(() =>
-                                    EventDetailsScreeen(isOwnEvent: false));
+                                Get.to(
+                                    () =>
+                                        EventDetailsScreeen(isOwnEvent: false),
+                                    arguments: state.events[index]);
                               },
                               child: EventListTemplate(
                                 eventOwner: state.events[index].username,
@@ -230,6 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     DateTime.parse(state.events[index].date)),
                                 eventImageString: state.events[index].image!,
                                 eventId: state.events[index].id,
+                                hasLikedEvent:
+                                    state.events[index].hasLikedEvent,
                               ),
                             ),
                           );
