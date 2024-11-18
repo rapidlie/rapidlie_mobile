@@ -47,6 +47,7 @@ class EventDataModel extends Equatable {
   final String? image;
   final List<dynamic> invitations;
   final int likes;
+  final bool hasLikedEvent;
   final int formattedLikes;
   final String username;
 
@@ -62,6 +63,7 @@ class EventDataModel extends Equatable {
     required this.venue,
     required this.mapLocation,
     this.image,
+    required this.hasLikedEvent,
     required this.invitations,
     required this.likes,
     required this.formattedLikes,
@@ -83,6 +85,7 @@ class EventDataModel extends Equatable {
       image: json['image'],
       invitations: List<dynamic>.from(json['invitations']),
       likes: json['likes'],
+      hasLikedEvent: json['hasLikedEvent'],
       formattedLikes: json['formatted_likes'],
       username: json['username'],
     );
@@ -103,6 +106,7 @@ class EventDataModel extends Equatable {
       'image': image,
       'invitations': invitations,
       'likes': likes,
+      'hasLikedEvent': hasLikedEvent,
       'formatted_likes': formattedLikes,
       'username': username,
     };
@@ -125,6 +129,7 @@ class EventDataModel extends Equatable {
         likes,
         formattedLikes,
         username,
+        hasLikedEvent,
       ];
 }
 
