@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/feature_contants.dart';
-import 'package:rapidlie/features/events/like_bloc/like_event_bloc.dart';
-import 'package:rapidlie/features/events/like_bloc/like_event_event.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
+import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_event.dart';
 
 class GeneralEventListTemplate extends StatefulWidget {
   //final Widget trailingWidget;
@@ -12,19 +15,17 @@ class GeneralEventListTemplate extends StatefulWidget {
   final String eventDate;
   final String eventDay;
   final bool? eventLiked;
-  final Function likedButtonTaped;
   final String? eventId;
-  final bool? initialEventLiked;
+  final bool hasLikedEvent;
   GeneralEventListTemplate({
     Key? key,
     required this.eventName,
     this.eventImageString,
     required this.eventDate,
     required this.eventDay,
-    this.eventLiked = false,
-    required this.likedButtonTaped,
+    this.eventLiked,
     this.eventId,
-    this.initialEventLiked = false,
+    required this.hasLikedEvent,
   }) : super(key: key);
 
   @override
@@ -38,20 +39,24 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
   @override
   void initState() {
     super.initState();
-    isLiked = widget.initialEventLiked ?? false;
+    isLiked = widget.hasLikedEvent;
   }
 
-  void toggleLike() async {
-    setState(() {
-      isLiked = !isLiked;
-    });
-
-    try {
-      context.read<LikeEventBloc>().add(LikeToggled(widget.eventId!));
-    } catch (error) {
+  void toggleLike() {
+    if (isLiked == false) {
       setState(() {
-        isLiked = !isLiked;
+        isLiked = true;
       });
+
+      context.read<LikeEventBloc>().add(LikeToggled(widget.eventId!));
+      context.read<PrivateEventBloc>().add(GetPrivateEvents());
+    } else {
+      setState(() {
+        isLiked = false;
+      });
+
+      context.read<UnlikeEventBloc>().add(UnlikeToggled(widget.eventId!));
+      context.read<PrivateEventBloc>().add(GetPrivateEvents());
     }
   }
 
@@ -131,7 +136,9 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                   children: [
                     GestureDetector(
                       onTap: () {
+                        //print(isLiked.toString());
                         toggleLike();
+                        //print(isLiked.toString());
                       },
                       child: Icon(
                         isLiked
