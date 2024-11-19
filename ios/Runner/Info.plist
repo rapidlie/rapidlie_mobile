@@ -73,5 +73,7 @@
 	<true/>
 	<key>GMS_API_KEY</key>
 	<string>AIzaSyD1sBjHqhdUgzW7mLC_6NGWnRw7q6ArBoA</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location.</string>
 </dict>
 </plist>
