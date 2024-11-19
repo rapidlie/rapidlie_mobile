@@ -46,6 +46,8 @@ dependencies:
   image_stack: ^2.1.1
   libphonenumber_plugin:
   flutter_contacts: ^1.1.9+2
+  geocoding: ^3.0.0
+  geolocator: ^13.0.2
 
 
 dev_dependencies:
