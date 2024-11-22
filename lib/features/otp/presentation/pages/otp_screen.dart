@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
 import 'package:rapidlie/features/otp/verrify_bloc/verify_otp_bloc.dart';

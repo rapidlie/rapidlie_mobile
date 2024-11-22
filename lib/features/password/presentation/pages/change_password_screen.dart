@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 

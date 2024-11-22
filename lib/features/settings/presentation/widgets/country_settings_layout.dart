@@ -1,7 +1,7 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class CountrySettingsLayout extends StatelessWidget {

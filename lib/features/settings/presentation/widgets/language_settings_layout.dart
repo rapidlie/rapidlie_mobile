@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 

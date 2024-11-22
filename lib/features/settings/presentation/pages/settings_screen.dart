@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
