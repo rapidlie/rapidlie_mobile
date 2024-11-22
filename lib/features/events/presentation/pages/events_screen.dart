@@ -5,15 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/autocomplete_predictions.dart';
 import 'package:rapidlie/core/utils/autocomplete_response.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/getUserCurrentLocation.dart';
 import 'package:rapidlie/core/utils/network_utility.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
@@ -95,8 +99,10 @@ class _EventsScreenState extends State<EventsScreen>
   var language;
   List<ContactDetails> selectedContacts = [];
   CategoryModel? selectedCategory;
-  List<AutocompletePrediction> predictionLiist = [];
+  List<AutocompletePrediction> predictionList = [];
+  LatLng latLngOfUserLocation = LatLng(0.0, 0.0);
   String mapId = "";
+  bool locationVisibility = false;
 
   @override
   void initState() {
@@ -467,7 +473,7 @@ class _EventsScreenState extends State<EventsScreen>
               ),
             ),
             SizedBox(
-              height: 500,
+              height: 520,
               child: PageView(
                 controller: _pageViewController,
                 physics: NeverScrollableScrollPhysics(),
@@ -571,16 +577,35 @@ class _EventsScreenState extends State<EventsScreen>
   secondSheetContent(StateSetter setState) {
     void placeAutoComplete(String query) async {
       Uri uri = Uri.https(
-          "maps.googleapis.com",
-          "maps/api/place/autocomplete/json",
-          {"input": query, "key": dotenv.get("API_KEY")});
+        "maps.googleapis.com",
+        "maps/api/place/autocomplete/json",
+        {"input": query, "key": dotenv.get("API_KEY")},
+      );
       String? response = await NetworkUtility.fetchUrl(uri);
       if (response != null) {
         PlaceAutocompleteResponse result =
             PlaceAutocompleteResponse.parseAutocompleteResult(response);
         if (result.predictions != null) {
           setState(() {
-            predictionLiist = result.predictions!;
+            predictionList = result.predictions!;
+          });
+        }
+      }
+    }
+
+    void getLatLong(String placeId) async {
+      Uri uri = Uri.https(
+        "maps.googleapis.com",
+        "maps/api/place/details/json",
+        {"place_id": placeId, "key": dotenv.get("API_KEY")},
+      );
+      String? response = await NetworkUtility.fetchUrl(uri);
+      if (response != null) {
+        final Map<String, dynamic> data = json.decode(response);
+        if (data['status'] == 'OK') {
+          final location = data['result']['geometry']['location'];
+          setState(() {
+            latLngOfUserLocation = LatLng(location['lat'], location['lng']);
           });
         }
       }
@@ -760,7 +785,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
           extraSmallHeight(),
           TextFieldTemplate(
-            hintText: 'eg. Club 250',
+            hintText: 'Straße 123, Germany',
             controller: venueController,
             obscureText: false,
             width: Get.width,
@@ -770,8 +795,19 @@ class _EventsScreenState extends State<EventsScreen>
             enabled: true,
             textFieldColor: Colors.white,
             suffixIcon: GestureDetector(
-              onTap: () {
-                //placeAutoComplete("Mühlenweg 103");
+              onTap: () async {
+                Map locationItems = await getLocation();
+                String currentLocation = locationItems['loc'];
+                print("Location is $currentLocation");
+                setState(
+                  () {
+                    venueController.text = currentLocation;
+                    latLngOfUserLocation =
+                        LatLng(locationItems['lat'], locationItems['lng']);
+                    mapId = latLngOfUserLocation.toString();
+                    locationVisibility = false;
+                  },
+                );
               },
               child: Icon(
                 Icons.my_location,
@@ -780,38 +816,54 @@ class _EventsScreenState extends State<EventsScreen>
             ),
             onChanged: (value) {
               placeAutoComplete(value);
+              setState(() {
+                locationVisibility = true;
+              });
             },
           ),
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              itemCount: predictionLiist.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(
-                      () {
-                        venueController.text =
-                            predictionLiist[index].description!;
-                        mapId = predictionLiist[index].placeId!;
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      predictionLiist[index].description!,
-                      style: inter12CharcoalBlack400(),
+          Visibility(
+            visible: locationVisibility,
+            child: SizedBox(
+              height: 120,
+              child: ListView.separated(
+                itemCount: predictionList.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(
+                        () {
+                          getLatLong(predictionList[index].placeId!);
+                          print(latLngOfUserLocation);
+                          venueController.text =
+                              predictionList[index].description!;
+                          mapId = latLngOfUserLocation.toString();
+                          locationVisibility = false;
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                      child: Text(
+                        predictionList[index].description!,
+                        style: inter12CharcoalBlack400(),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Divider(),
+                  );
+                },
+              ),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           ButtonTemplate(
             buttonName: language.next,
@@ -890,7 +942,7 @@ class _EventsScreenState extends State<EventsScreen>
                 return DropdownButton<CategoryModel>(
                   value: selectedCategory, // Current selected value
                   hint: Text(
-                    'Choose an item',
+                    'Select category',
                     style: poppins14black500(),
                   ), // Hint text before selection
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
