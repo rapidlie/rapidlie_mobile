@@ -7,6 +7,10 @@ PODS:
   - Flutter (1.0.0)
   - flutter_contacts (0.0.1):
     - Flutter
+  - geocoding_ios (1.0.5):
+    - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
   - Google-Maps-iOS-Utils (5.0.0):
     - GoogleMaps (~> 8.0)
   - google_maps_flutter_ios (0.0.1):
@@ -51,6 +55,8 @@ DEPENDENCIES:
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - Flutter (from `Flutter`)
   - flutter_contacts (from `.symlinks/plugins/flutter_contacts/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
@@ -78,6 +84,10 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_contacts:
     :path: ".symlinks/plugins/flutter_contacts/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_picker_ios:
@@ -102,6 +112,8 @@ SPEC CHECKSUMS:
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_contacts: edb1c5ce76aa433e20e6cb14c615f4c0b66e0983
+  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
+  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
@@ -116,6 +128,6 @@ SPEC CHECKSUMS:
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
-PODFILE CHECKSUM: 872c8239ce9da5fcbb5d142203fd9342be24466b
+PODFILE CHECKSUM: 091b52ec52a39448353ebb019b0ddda397e97d2e
 
 COCOAPODS: 1.16.2
