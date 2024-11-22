@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/gravata_to_image.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';

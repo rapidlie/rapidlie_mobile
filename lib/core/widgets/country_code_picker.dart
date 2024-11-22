@@ -1,7 +1,7 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 
 // ignore: must_be_immutable
 class CountryCodeLayout extends StatefulWidget {
