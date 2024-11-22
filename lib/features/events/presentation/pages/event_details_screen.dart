@@ -11,7 +11,7 @@ import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/events/presentation/pages/guest_list_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
