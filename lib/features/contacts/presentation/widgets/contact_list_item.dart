@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 
 class ContactListItem extends StatelessWidget {
   final String contactName;
