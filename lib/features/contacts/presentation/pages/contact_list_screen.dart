@@ -1,15 +1,13 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:rapidlie/core/constants/feature_contants.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
+import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../models/contact_details.dart';
 
 class ContactListScreen extends StatefulWidget {
   static const String routeName = "contacts";
@@ -20,7 +18,7 @@ class ContactListScreen extends StatefulWidget {
 class _ContactListScreenState extends State<ContactListScreen> {
   bool isLoading = true;
 
-  List<ContactDetails> _contacts = [];
+  List<ContactDetails> fetchedContacts = [];
   List<ContactDetails> _selectedContacts = [];
   late TextEditingController searchController;
   List<ContactDetails> flockrContacts = [];
@@ -42,72 +40,28 @@ class _ContactListScreenState extends State<ContactListScreen> {
     super.initState();
     searchController = SearchController();
     context.read<TelephoneNumbersBloc>().add(GetNumbers());
-    _fetchContacts();
+    getCustomContacts();
   }
 
-  Future<void> _fetchContacts() async {
-    // Check current permission status
-    PermissionStatus permissionStatus = await Permission.contacts.status;
+  Future<void> getCustomContacts() async {
+    if (await FlutterContacts.requestPermission()) {
+      
+      List<Contact> contacts =
+          await FlutterContacts.getContacts(withProperties: true);
 
-    // Request permission if not already granted
-    if (permissionStatus.isDenied || permissionStatus.isRestricted) {
-      permissionStatus = await Permission.contacts.request();
-    }
-
-    // If permission is granted, fetch contacts
-    if (permissionStatus.isGranted) {
-      Iterable<Contact> contacts = await ContactsService.getContacts();
       setState(() {
-        _contacts = contacts.map((contact) {
+        fetchedContacts = contacts.map((contact) {
           return ContactDetails(
-            name: contact.displayName ?? contact.phones!.first.value ?? '',
-            telephone: contact.phones!.isNotEmpty
-                ? contact.phones!.first.value ?? ''
-                : '',
+            name: contact.displayName,
+            telephone:
+                contact.phones.isNotEmpty ? contact.phones.first.number : null,
           );
         }).toList();
         isLoading = false;
       });
-    } else if (permissionStatus.isPermanentlyDenied) {
-      // Show dialog guiding user to app settings
-      _showOpenAppSettingsDialog();
-      setState(() {
-        isLoading = false;
-      });
     } else {
-      setState(() {
-        isLoading = false;
-      });
+      print("Permission denied");
     }
-  }
-
-  void _showOpenAppSettingsDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Permission required"),
-          content: Text(
-            "This app needs contact permissions to function. Please go to settings and enable the permissions.",
-          ),
-          actions: [
-            TextButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Open Settings"),
-              onPressed: () {
-                openAppSettings();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -175,10 +129,11 @@ class _ContactListScreenState extends State<ContactListScreen> {
                               builder: (context, state) {
                                 if (state is TelephoneNumbersLoaded) {
                                   flockrContacts.clear();
-                                  for (int i = 0; i < _contacts.length; i++) {
+                                  for (int i = 0;
+                                      i < fetchedContacts.length;
+                                      i++) {
                                     String? contactPhone =
-                                        _contacts[i].telephone;
-
+                                        fetchedContacts[i].telephone;
                                     if (contactPhone != null &&
                                         contactPhone.length >= 9) {
                                       String contactLastNine = contactPhone
@@ -193,7 +148,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                                         return cleanedStateNumber
                                             .endsWith(contactLastNine);
                                       })) {
-                                        flockrContacts.add(_contacts[i]);
+                                        flockrContacts.add(fetchedContacts[i]);
                                       }
                                     }
                                   }
@@ -235,22 +190,17 @@ class _ContactListScreenState extends State<ContactListScreen> {
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: _contacts.length,
+                              itemCount: fetchedContacts.length,
                               itemBuilder: (context, index) {
-                                return Tooltip(
-                                  message: _contacts[index].telephone,
-                                  verticalOffset: 0,
-                                  preferBelow: true,
-                                  showDuration: Duration(seconds: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  textStyle: poppins10white500(),
+                                return GestureDetector(
+                                  onTap: () {
+                                    print(fetchedContacts[index].telephone);
+                                  },
                                   child: ContactListItemWithText(
-                                    contactName: _contacts[index].name,
+                                    contactName: fetchedContacts[index].name,
                                   ),
                                 );
+                                //return Container();
                               },
                             ),
                           ),
