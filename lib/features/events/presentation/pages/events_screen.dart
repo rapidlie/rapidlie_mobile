@@ -64,7 +64,7 @@ class _EventsScreenState extends State<EventsScreen>
   late Size buttonSize;
   OverlayEntry? _overlayEntry;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime? _selectedDay;
+  DateTime _selectedDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
   String selectedStartTime = '00:00 am';
   String selectedStartTimeOfDay = "am";
@@ -215,7 +215,6 @@ class _EventsScreenState extends State<EventsScreen>
                         ),
                         arguments: eventDataModel[index],
                       );
-                      print("Hello");
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
@@ -591,7 +590,7 @@ class _EventsScreenState extends State<EventsScreen>
       }
     }
 
-    void getLatLong(String placeId) async {
+    Future<void> getLatLong(String placeId) async {
       Uri uri = Uri.https(
         "maps.googleapis.com",
         "maps/api/place/details/json",
@@ -796,7 +795,7 @@ class _EventsScreenState extends State<EventsScreen>
               onTap: () async {
                 Map locationItems = await getLocation();
                 String currentLocation = locationItems['loc'];
-                print("Location is $currentLocation");
+
                 setState(
                   () {
                     venueController.text = currentLocation;
@@ -829,14 +828,15 @@ class _EventsScreenState extends State<EventsScreen>
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      await getLatLong(predictionList[index].placeId!);
                       setState(
                         () {
-                          getLatLong(predictionList[index].placeId!);
-                          print(latLngOfUserLocation);
+                          
                           venueController.text =
                               predictionList[index].description!;
                           mapId = latLngOfUserLocation.toString();
+                          print("map id is $mapId");
                           locationVisibility = false;
                         },
                       );
@@ -1203,22 +1203,27 @@ class _EventsScreenState extends State<EventsScreen>
                             },
                           ),
                         ),
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ButtonTemplate(
-                                buttonName: "Add",
-                                buttonWidth: width * 0.43,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              flex: 2,
+                              child: ButtonTemplate(
+                                buttonName: "+",
+                                buttonWidth: width,
                                 buttonAction: () {
                                   _navigateAndSelectContacts();
                                 },
                               ),
-                              ButtonTemplate(
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Flexible(
+                              flex: 8,
+                              child: ButtonTemplate(
                                 buttonName: "Finish",
-                                buttonWidth: width * 0.43,
+                                buttonWidth: width,
                                 buttonAction: () {
                                   context
                                       .read<CreateEventProvider>()
@@ -1239,8 +1244,8 @@ class _EventsScreenState extends State<EventsScreen>
                                   );
                                 },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         )
                       ],
                     ),
