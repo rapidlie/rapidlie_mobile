@@ -25,7 +25,7 @@ class ContactListItem extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              contactName[0],
+              contactName.length > 0 ? contactName[0] : contactName,
               style: TextStyle(
                 fontSize: 16.0,
                 fontFamily: "Poppins",
