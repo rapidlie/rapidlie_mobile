@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_state.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
@@ -49,63 +50,68 @@ class _InvitesScreenState extends State<InvitesScreen>
             ),
           ),
           backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: BlocListener<LikeEventBloc, LikeEventState>(
-              listener: (context, state) {
-                if (state is LikeEventLoaded) {
-                  context
-                      .read<PrivateEventBloc>()
-                      .add(GetPrivateEvents()); // Reload specific events
+          body: BlocListener<LikeEventBloc, LikeEventState>(
+            listener: (context, state) {
+              if (state is LikeEventLoaded) {
+                context
+                    .read<PrivateEventBloc>()
+                    .add(GetPrivateEvents()); // Reload specific events
+              }
+            },
+            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+              builder: (context, state) {
+                if (state is InitialPrivateEventState) {
+                  return Center(child: CupertinoActivityIndicator());
+                } else if (state is PrivateEventLoading) {
+                  return Center(child: CupertinoActivityIndicator());
                 }
+                if (state is PrivateEventLoaded) {
+                  return buildBody(state.events);
+                }
+                return Container();
               },
-              child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
-                builder: (context, state) {
-                  if (state is InitialPrivateEventState) {
-                    return Text(
-                      "No invites",
-                      textAlign: TextAlign.center,
-                      style: poppins13black400(),
-                    );
-                  } else if (state is PrivateEventLoading) {
-                    return Center(child: CupertinoActivityIndicator());
-                  }
-                  if (state is PrivateEventLoaded) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.events.length,
-                      physics: BouncingScrollPhysics(
-                          parent: NeverScrollableScrollPhysics()),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 40.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(
-                                () => EventDetailsScreeen(isOwnEvent: false),
-                                arguments: state.events[index],
-                              );
-                            },
-                            child: EventListTemplate(
-                              eventOwner: state.events[index].username,
-                              eventName: state.events[index].name,
-                              eventLocation: state.events[index].venue,
-                              eventDay: getDayName(state.events[index].date),
-                              eventDate: convertDateDotFormat(
-                                  DateTime.parse(state.events[index].date)),
-                              eventImageString: state.events[index].image!,
-                              eventId: state.events[index].id,
-                              hasLikedEvent: state.events[index].hasLikedEvent,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  return Container();
-                },
-              ),
             ),
           )),
+    );
+  }
+
+  Widget buildBody(List<EventDataModel> eventDataModel) {
+    return Center(
+      child: eventDataModel.length == 0
+          ? emptyStateFullView(
+              headerText: "No invites",
+              bodyText:
+                  "Your friends have not sent you any invitation. Explore some public events while you wait.")
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: eventDataModel.length,
+              physics:
+                  BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => EventDetailsScreeen(isOwnEvent: false),
+                        arguments: eventDataModel[index],
+                      );
+                    },
+                    child: EventListTemplate(
+                      eventOwner: eventDataModel[index].username,
+                      eventName: eventDataModel[index].name,
+                      eventLocation: eventDataModel[index].venue,
+                      eventDay: getDayName(eventDataModel[index].date),
+                      eventDate: convertDateDotFormat(
+                          DateTime.parse(eventDataModel[index].date)),
+                      eventImageString: eventDataModel[index].image!,
+                      eventId: eventDataModel[index].id,
+                      hasLikedEvent: eventDataModel[index].hasLikedEvent,
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
