@@ -46,6 +46,8 @@ class ProfileSettingsScreen extends StatelessWidget {
                           placeholder: 'assets/images/placeholder.png',
                           image: imageUrl,
                           fit: BoxFit.cover,
+                          imageCacheHeight: 300,
+                          imageCacheWidth: 300,
                         ),
                       ),
                     ),
