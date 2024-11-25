@@ -136,9 +136,9 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        //print(isLiked.toString());
+                        
                         toggleLike();
-                        //print(isLiked.toString());
+                        
                       },
                       child: Icon(
                         isLiked
