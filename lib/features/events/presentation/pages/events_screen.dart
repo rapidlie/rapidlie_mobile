@@ -19,6 +19,7 @@ import 'package:rapidlie/core/utils/getUserCurrentLocation.dart';
 import 'package:rapidlie/core/utils/network_utility.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
@@ -46,7 +47,7 @@ class EventsScreen extends StatefulWidget {
 
 class _EventsScreenState extends State<EventsScreen>
     with AutomaticKeepAliveClientMixin {
-  List eventsCreated = [""];
+  //List eventsCreated = [""];
   //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -138,8 +139,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
         ),
         backgroundColor: Colors.white,
-        floatingActionButton:
-            eventsCreated.length == 0 ? SizedBox() : buttonToShowModal(),
+        floatingActionButton: buttonToShowModal(),
         body: BlocListener<LikeEventBloc, LikeEventState>(
           listener: (context, state) {
             if (state is LikeEventLoaded) {
@@ -151,29 +151,21 @@ class _EventsScreenState extends State<EventsScreen>
           child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
             builder: (context, state) {
               if (state is InitialPrivateEventState) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buttonToShowModal(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        language.noEventCreated,
-                        textAlign: TextAlign.center,
-                        style: poppins13black400(),
-                      ),
-                    ],
-                  ),
+                return emptyStateFullView(
+                  headerText: "No events",
+                  bodyText:
+                      "Get started by hitting the button on the bottom right corner of your screen. It is easy",
                 );
               } else if (state is PrivateEventLoading) {
                 return Center(child: CupertinoActivityIndicator());
               } else if (state is PrivateEventLoaded) {
                 return buildBody(state.events);
               }
-              return Container();
+              return Center(
+                  child: Text(
+                "Empty",
+                style: TextStyle(fontSize: 30),
+              ));
             },
           ),
         ),
@@ -183,55 +175,45 @@ class _EventsScreenState extends State<EventsScreen>
 
   Container buildBody(List<EventDataModel> eventDataModel) {
     return Container(
-      child: eventsCreated.length == 0
-          ? Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buttonToShowModal(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(language.noEventCreated,
-                      textAlign: TextAlign.center, style: poppins13black400()),
-                ],
-              ),
+      height: height,
+      width: width,
+      child: eventDataModel.length == 0
+          ? emptyStateFullView(
+              headerText: "No events",
+              bodyText:
+                  "Get started by hitting the button on the bottom right corner of your screen. It is easy",
             )
-          : Container(
-              height: Get.height,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 70),
-                physics: AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                itemCount: eventDataModel.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => EventDetailsScreeen(
-                          isOwnEvent: true,
-                        ),
-                        arguments: eventDataModel[index],
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 40.0),
-                      child: GeneralEventListTemplate(
-                        eventName: eventDataModel[index].name,
-                        eventImageString: eventDataModel[index].image,
-                        eventDay: getDayName(eventDataModel[index].date),
-                        eventDate: convertDateDotFormat(
-                          DateTime.parse(eventDataModel[index].date),
-                        ),
-                        eventId: eventDataModel[index].id,
-                        hasLikedEvent: eventDataModel[index].hasLikedEvent,
+          : ListView.builder(
+              padding: const EdgeInsets.only(bottom: 70),
+              physics: AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+              itemCount: eventDataModel.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => EventDetailsScreeen(
+                        isOwnEvent: true,
                       ),
+                      arguments: eventDataModel[index],
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 40.0),
+                    child: GeneralEventListTemplate(
+                      eventName: eventDataModel[index].name,
+                      eventImageString: eventDataModel[index].image,
+                      eventDay: getDayName(eventDataModel[index].date),
+                      eventDate: convertDateDotFormat(
+                        DateTime.parse(eventDataModel[index].date),
+                      ),
+                      eventId: eventDataModel[index].id,
+                      hasLikedEvent: eventDataModel[index].hasLikedEvent,
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
     );
   }
@@ -832,7 +814,6 @@ class _EventsScreenState extends State<EventsScreen>
                       await getLatLong(predictionList[index].placeId!);
                       setState(
                         () {
-                          
                           venueController.text =
                               predictionList[index].description!;
                           mapId = latLngOfUserLocation.toString();
