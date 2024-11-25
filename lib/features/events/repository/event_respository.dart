@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/core/constants/strings.dart';
@@ -42,6 +41,7 @@ class EventRepositoryImpl implements EventRepository {
 
   Future<DataState<List<EventDataModel>>> _getEvents(String url) async {
     String bearerToken = await UserPreferences().getBearerToken();
+
     try {
       final response = await _dio.get(
         url,
@@ -57,6 +57,7 @@ class EventRepositoryImpl implements EventRepository {
         final eventResponse = EventResponseModel.fromJson(response.data);
 
         final List<EventDataModel> events = eventResponse.data;
+
         return DataSuccess(events);
       } else {
         return DataFailed(DioException(
