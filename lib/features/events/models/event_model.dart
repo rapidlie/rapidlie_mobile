@@ -3,8 +3,8 @@ import 'package:rapidlie/features/categories/models/category_model.dart';
 
 class EventResponseModel extends Equatable {
   final List<EventDataModel> data;
-  final LinksModel links;
-  final MetaModel meta;
+  final LinksModel? links;
+  final MetaModel? meta;
 
   EventResponseModel({
     required this.data,
@@ -14,18 +14,34 @@ class EventResponseModel extends Equatable {
 
   factory EventResponseModel.fromJson(Map<String, dynamic> json) {
     return EventResponseModel(
-      data: List<EventDataModel>.from(
-          json['data'].map((x) => EventDataModel.fromJson(x))),
-      links: LinksModel.fromJson(json['links']),
-      meta: MetaModel.fromJson(json['meta']),
+      data: json['data'] != null
+          ? List<EventDataModel>.from((json['data'] as List<dynamic>)
+              .map((x) => EventDataModel.fromJson(x)))
+          : [],
+      links: json['links'] != null
+          ? LinksModel.fromJson(json['links'])
+          : LinksModel(), // Provide default or nullable LinksModel
+      meta: json['meta'] != null
+          ? MetaModel.fromJson(json['meta'])
+          : MetaModel(
+              // Provide default values
+              currentPage: 0,
+              from: 0,
+              lastPage: 0,
+              links: [],
+              path: '',
+              perPage: 0,
+              to: 0,
+              total: 0,
+            ),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'data': data.map((x) => x.toJson()).toList(),
-      'links': links.toJson(),
-      'meta': meta.toJson(),
+      'links': links!.toJson(),
+      'meta': meta!.toJson(),
     };
   }
 
@@ -200,14 +216,14 @@ class LinksModel extends Equatable {
 }
 
 class MetaModel extends Equatable {
-  final int currentPage;
-  final int from;
-  final int lastPage;
-  final List<LinkModel> links;
-  final String path;
-  final int perPage;
-  final int to;
-  final int total;
+  final int? currentPage;
+  final int? from;
+  final int? lastPage;
+  final List<LinkModel>? links;
+  final String? path;
+  final int? perPage;
+  final int? to;
+  final int? total;
 
   MetaModel({
     required this.currentPage,
@@ -239,7 +255,7 @@ class MetaModel extends Equatable {
       'current_page': currentPage,
       'from': from,
       'last_page': lastPage,
-      'links': links.map((x) => x.toJson()).toList(),
+      'links': links!.map((x) => x.toJson()).toList(),
       'path': path,
       'per_page': perPage,
       'to': to,
