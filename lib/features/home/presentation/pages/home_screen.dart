@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
-import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
+import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
-  ScrollController _scrollController = ScrollController();
+  
   var language;
   String name = "";
 
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         body: SingleChildScrollView(
-          controller: _scrollController,
+          
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>
                   child: Text(
                     language.upcomingEvents,
                     style: GoogleFonts.inter(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
@@ -96,26 +96,45 @@ class _HomeScreenState extends State<HomeScreen>
                     return Container(
                       width: width,
                       height: height * 0.25,
-                      child: ListView.builder(
-                        itemCount: 3,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(left: 20),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Container(
-                              width: width * 0.85,
-                              height: height * 0.2,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(borderRadius),
-                                color: const Color.fromARGB(255, 138, 81, 81),
-                              ),
+                      child: state.events.isEmpty
+                          ? emptyStateSingleView(
+                              "Accepts invitations to see upcoming events here,")
+                          : ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 70),
+                              physics: AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
+                              itemCount: state.events.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => EventDetailsScreeen(
+                                        isOwnEvent: true,
+                                      ),
+                                      arguments: state.events[index],
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 40.0),
+                                    child: UpcomingEventListTemplate(
+                                      eventName: state.events[index].name,
+                                      eventImageString:
+                                          state.events[index].image,
+                                      eventDay:
+                                          getDayName(state.events[index].date),
+                                      eventDate: convertDateDotFormat(
+                                        DateTime.parse(
+                                            state.events[index].date),
+                                      ),
+                                      eventId: state.events[index].id,
+                                      eventLocation: state.events[index].venue,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     );
                   } else {
                     return Padding(
@@ -130,34 +149,13 @@ class _HomeScreenState extends State<HomeScreen>
                 bigHeight(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        language.explore,
-                        style: GoogleFonts.inter(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            CategoryScreen.routeName,
-                          );
-                        },
-                        child: Text(
-                          language.seeAll,
-                          style: GoogleFonts.inter(
-                            color: CustomColors.primary,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    language.explore,
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 verySmallHeight(),
@@ -197,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen>
                   child: Text(
                     language.discover,
                     style: GoogleFonts.inter(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
@@ -262,9 +260,4 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 }
