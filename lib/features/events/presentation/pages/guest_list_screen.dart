@@ -1,66 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 
 import '../../../../core/constants/custom_colors.dart';
 
-class GuestListScreen extends StatelessWidget {
-  final List<ContactDetails> invitedGuests = [
-    ContactDetails(
-      name: "Eugene Ofori Asiedu",
-      image: "assets/images/usr1.png",
-      status: Status.accepted,
-    ),
-    ContactDetails(
-      name: "Jedidah Narko Odechie Amanor",
-      image: "assets/images/usr2.png",
-      status: Status.pending,
-    ),
-    ContactDetails(
-      name: "Patience Asiedu",
-      image: "assets/images/usr3.png",
-      status: Status.accepted,
-    ),
-    ContactDetails(
-      name: "Kofi Asiedu",
-      image: "assets/images/usr4.png",
-      status: Status.rejected,
-    ),
-    ContactDetails(
-      name: "Abigail Akua Agyeiwaa Asiedu",
-      image: "assets/images/usr1.png",
-      status: Status.pending,
-    ),
-    ContactDetails(
-      name: "Ronald Kofi Yanney",
-      image: "assets/images/usr2.png",
-      status: Status.accepted,
-    ),
-    ContactDetails(
-      name: "Seyram Kofi Mantey",
-      image: "assets/images/usr3.png",
-      status: Status.rejected,
-    ),
-    ContactDetails(
-      name: "Quincy Hagan",
-      image: "assets/images/usr4.png",
-      status: Status.rejected,
-    ),
-    ContactDetails(
-      name: "Alberta Hagan",
-      image: "assets/images/usr1.png",
-      status: Status.accepted,
-    ),
-    ContactDetails(
-      name: "Andrews Yawson",
-      image: "assets/images/usr2.png",
-      status: Status.accepted,
-    ),
-  ];
+class GuestListScreen extends StatefulWidget {
+  List<dynamic> guests = Get.arguments as List<dynamic>;
 
   @override
+  State<GuestListScreen> createState() => _GuestListScreenState();
+}
+
+class _GuestListScreenState extends State<GuestListScreen> {
+  @override
   Widget build(BuildContext context) {
+    //debugPrint(Get.arguments.runtimeType.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -79,12 +35,11 @@ class GuestListScreen extends StatelessWidget {
             height: Get.height,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 10,
+              itemCount: widget.guests.length,
               itemBuilder: (context, index) {
                 return guestListLayout(
-                  invitedGuests[index].image!,
-                  invitedGuests[index].name,
-                  invitedGuests[index].status!,
+                  userName: widget.guests[index]['user']['name'],
+                  eventStatus: widget.guests[index]['status'],
                 );
               },
             ),
@@ -94,7 +49,8 @@ class GuestListScreen extends StatelessWidget {
     );
   }
 
-  guestListLayout(String imageUrl, String userName, Status eventStatus) {
+  guestListLayout(
+      {String? imageUrl, String? userName, required String eventStatus}) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,8 +58,8 @@ class GuestListScreen extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 60,
-                height: 60,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: CustomColors.white,
@@ -112,9 +68,7 @@ class GuestListScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: FittedBox(
                     fit: BoxFit.contain,
-                    child: CircleAvatar(
-                      foregroundImage: AssetImage(imageUrl),
-                    ),
+                    child: CircleAvatar(),
                   ),
                 ),
               ),
@@ -124,13 +78,12 @@ class GuestListScreen extends StatelessWidget {
               SizedBox(
                 width: 200,
                 child: Text(
-                  userName,
+                  userName!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
                     color: CustomColors.black,
-                    fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -144,7 +97,7 @@ class GuestListScreen extends StatelessWidget {
                   ? CustomColors.acceptedContainerColor
                   : eventStatus == Status.rejected
                       ? CustomColors.rejectedContainerColor
-                      : CustomColors.pendingContainerColor,
+                      : CustomColors.rejectedContainerColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -154,15 +107,14 @@ class GuestListScreen extends StatelessWidget {
                     : eventStatus == Status.rejected
                         ? "REJECTED"
                         : "PENDING",
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  fontFamily: "Poppins",
                   color: eventStatus == Status.accepted
                       ? CustomColors.acceptedTextColor
                       : eventStatus == Status.rejected
                           ? CustomColors.rejectedTextColor
-                          : CustomColors.pendingTextColor,
+                          : CustomColors.rejectedTextColor,
                 ),
               ),
             ),
