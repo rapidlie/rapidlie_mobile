@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
 
 Widget emptyStateFullView(
     {required String headerText, required String bodyText}) {
@@ -42,7 +41,7 @@ Widget emptyStateFullView(
   );
 }
 
-Widget emptyStateSingleView(String bodyText) {
+Widget emptyStateSingleView() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     //mainAxisAlignment: MainAxisAlignment.center,
@@ -53,6 +52,26 @@ Widget emptyStateSingleView(String bodyText) {
           //height: height * 0.45,
           child: Image.asset(
             "assets/images/empty_view.png",
+            cacheHeight: 603,
+            cacheWidth: 1026,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget emptyStateCategoryView() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    //mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Container(
+          //height: height * 0.45,
+          child: Image.asset(
+            "assets/images/empty_category_view.png",
             cacheHeight: 603,
             cacheWidth: 1026,
           ),
