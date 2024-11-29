@@ -25,7 +25,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
-  
   var language;
   String name = "";
 
@@ -66,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         body: SingleChildScrollView(
-          
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
@@ -89,16 +87,15 @@ class _HomeScreenState extends State<HomeScreen>
                 BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
                     builder: (context, state) {
                   if (state is InitialUpcomingEventState) {
-                    return Text('No upcoming events at the moment');
+                    return emptyStateSingleView();
                   } else if (state is UpcomingEventLoading) {
-                    return Text('No upcoming events at the moment');
+                    return Center(child: CupertinoActivityIndicator());
                   } else if (state is UpcomingEventLoaded) {
                     return Container(
                       width: width,
                       height: height * 0.25,
                       child: state.events.isEmpty
-                          ? emptyStateSingleView(
-                              "Accepts invitations to see upcoming events here,")
+                          ? emptyStateSingleView()
                           : ListView.builder(
                               padding: const EdgeInsets.only(bottom: 70),
                               physics: AlwaysScrollableScrollPhysics(
@@ -165,7 +162,9 @@ class _HomeScreenState extends State<HomeScreen>
                   child: BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoadingState) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                          child: CupertinoActivityIndicator(),
+                        );
                       } else if (state is CategoryLoadedState) {
                         return ListView.builder(
                           itemCount: state.categories.length,
@@ -205,14 +204,13 @@ class _HomeScreenState extends State<HomeScreen>
                 BlocBuilder<PublicEventBloc, PublicEventState>(
                   builder: (context, state) {
                     if (state is InitialPublicEventState) {
-                      return Text(
-                        "No invites",
-                        textAlign: TextAlign.center,
-                        style: poppins13black400(),
-                      );
+                      return emptyStateCategoryView();
                     } else if (state is PublicEventLoading) {
                       return Center(child: CupertinoActivityIndicator());
                     } else if (state is PublicEventLoaded) {
+                      if (state.events.isEmpty) {
+                        return emptyStateCategoryView();
+                      }
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: state.events.length,
@@ -251,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen>
                       return Container();
                     }
                   },
-                )
+                ),
               ],
             ),
           ),
@@ -259,5 +257,4 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     );
   }
-
 }
