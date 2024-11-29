@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -47,8 +48,6 @@ class EventsScreen extends StatefulWidget {
 
 class _EventsScreenState extends State<EventsScreen>
     with AutomaticKeepAliveClientMixin {
-  //List eventsCreated = [""];
-  //List eventsCreated = [];
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -123,6 +122,21 @@ class _EventsScreenState extends State<EventsScreen>
   void dispose() {
     _pageViewController.dispose();
     super.dispose();
+  }
+
+  void clearFields() {
+    titleController.dispose();
+    dateController.dispose();
+    locationController.dispose();
+    venueController.dispose();
+    aboutController.dispose();
+    imageFile = null;
+    mapId = "";
+    latLngOfUserLocation = LatLng(0.0, 0.0);
+    selectedStartTime = '00:00 am';
+    selectedEndTime = '00:00 pm';
+    selectedContacts = [];
+    showBackButton = 0;
   }
 
   @override
@@ -391,7 +405,7 @@ class _EventsScreenState extends State<EventsScreen>
                         curve: Curves.easeOut,
                       );
                     },
-                    child: showBackButton > 0
+                    child: showBackButton > 0 && showBackButton < 4
                         ? Container(
                             height: 30,
                             width: 30,
@@ -418,28 +432,27 @@ class _EventsScreenState extends State<EventsScreen>
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      closeMenu();
-                      Get.back();
-                      setState(() {
-                        showBackButton = 0;
-                      });
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: CustomColors.colorFromHex("#FFFFFF"),
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: CustomColors.closeButtonColor,
-                        size: 20,
-                      ),
-                    ),
-                  ),
+                  showBackButton > 3
+                      ? SizedBox.shrink()
+                      : GestureDetector(
+                          onTap: () {
+                            clearFields();
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: CustomColors.colorFromHex("#FFFFFF"),
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              color: CustomColors.closeButtonColor,
+                              size: 20,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -461,6 +474,7 @@ class _EventsScreenState extends State<EventsScreen>
                   secondSheetContent(setState),
                   thirdSheetContent(setState),
                   fourthSheetContent(setState),
+                  fifthSheetContent(setState),
                 ],
               ),
             )
@@ -1051,7 +1065,7 @@ class _EventsScreenState extends State<EventsScreen>
           context.read<CreateEventProvider>().updateEvent(
                 image: state.fileName,
               );
-          //print(Provider.of<CreateEventProvider>(context, listen: false).event);
+
           BlocProvider.of<CreateEventBloc>(context).add(
             SubmitCreateEventEvent(
               image: state.fileName,
@@ -1092,29 +1106,38 @@ class _EventsScreenState extends State<EventsScreen>
             ),
           );
         } else if (state is FileUploadFailureState) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          /* ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('File upload Failed: ${state.error}')),
-          );
+          ); */
 
           print(state.error);
+        } else if (state is FileUploadInitial) {
+          print("process started");
+        } else if (state is FileUploadingState) {
+          print("process loading");
         }
       },
       builder: (context, fileUploadState) {
         return BlocConsumer<CreateEventBloc, CreateEventState>(
           listener: (context, state) {
             if (state is CreateEventSuccessful) {
-              // Event creation was successful, display success message
-              debugPrint("Event created successfully");
+              print("Successssss");
             } else if (state is CreateEventError) {
-              // Event creation failed, display error message
-              debugPrint("Event creation faled");
+              print("Failedddd");
             }
           },
           builder: (context, eventState) {
             if (eventState is CreateEventLoading) {
+              print("Event creation loading....");
               return Center(
                   child:
                       CircularProgressIndicator()); // Show loading indicator during event creation
+            } else if (eventState is CreateEventSuccessful) {
+              _pageViewController.animateTo(
+                MediaQuery.of(context).size.width * 4,
+                duration: new Duration(milliseconds: 200),
+                curve: Curves.easeIn,
+              );
             }
             return Padding(
               padding: const EdgeInsets.only(
@@ -1206,6 +1229,9 @@ class _EventsScreenState extends State<EventsScreen>
                                 buttonName: "Finish",
                                 buttonWidth: width,
                                 buttonAction: () {
+                                  setState(() {
+                                    showBackButton += 1;
+                                  });
                                   context
                                       .read<CreateEventProvider>()
                                       .updateEvent(
@@ -1232,6 +1258,61 @@ class _EventsScreenState extends State<EventsScreen>
                     ),
             );
           },
+        );
+      },
+    );
+  }
+
+  fifthSheetContent(StateSetter setState) {
+    return BlocBuilder<CreateEventBloc, CreateEventState>(
+      builder: (context, state) {
+        if (state is CreateEventLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is CreateEventSuccessful) {
+          Future.delayed(Duration(seconds: 3), () {
+            Get.back();
+          });
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("assets/images/success_view.png"),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "You did it!!",
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/failed_view.png"),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Oops.. Something went wrrong. Please try again",
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
