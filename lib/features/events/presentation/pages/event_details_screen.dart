@@ -39,8 +39,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
 
   late GoogleMapController mapController;
 
-  final LatLng _initialPosition =
-      LatLng(53.5317925, 8.1237688); // Coordinates for initial map location
+  late LatLng _initialPosition; // Coordinates for initial map location
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -49,7 +48,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   @override
   void initState() {
     super.initState();
-    //isLiked = widget.initialEventLiked ?? false;
+    extractLatLngFromString(widget.eventDetails.mapLocation);
   }
 
   void toggleLike(eventId) async {
@@ -72,6 +71,22 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     "assets/images/usr4.png"
   ];
 
+  void extractLatLngFromString(String latLngString) {
+    final regex = RegExp(r"LatLng\(([^,]+), ([^)]+)\)");
+    final match = regex.firstMatch(latLngString);
+
+    if (match != null) {
+      double latitude = double.parse(match.group(1)!);
+      double longitude = double.parse(match.group(2)!);
+
+      _initialPosition = LatLng(latitude, longitude);
+
+      print("Converted LatLng: $_initialPosition");
+    } else {
+      print("Invalid format");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     widget.language = AppLocalizations.of(context);
@@ -82,6 +97,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
             fit: BoxFit.cover,
           ))
     ];
+    print(widget.eventDetails.mapLocation);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -324,7 +340,9 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     ),
                                     extraSmallHeight(),
                                     Text(
-                                      "Africa",
+                                      widget.eventDetails.venue
+                                          .split(",")
+                                          .first,
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -410,7 +428,8 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         extraSmallHeight(),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => GuestListScreen());
+                            Get.to(() => GuestListScreen(),
+                                arguments: widget.eventDetails.invitations);
                           },
                           child: ImageStack.widgets(
                             children: widgets,
