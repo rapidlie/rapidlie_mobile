@@ -76,42 +76,39 @@ class _InvitesScreenState extends State<InvitesScreen>
   }
 
   Widget buildBody(List<EventDataModel> eventDataModel) {
-    return Center(
-      child: eventDataModel.length == 0
-          ? emptyStateFullView(
-              headerText: "No invites",
-              bodyText:
-                  "Your friends have not sent you any invitation. Explore some public events while you wait.")
-          : ListView.builder(
-              shrinkWrap: true,
-              itemCount: eventDataModel.length,
-              physics:
-                  BouncingScrollPhysics(parent: NeverScrollableScrollPhysics()),
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 40.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => EventDetailsScreeen(isOwnEvent: false),
-                        arguments: eventDataModel[index],
-                      );
-                    },
-                    child: EventListTemplate(
-                      eventOwner: eventDataModel[index].username,
-                      eventName: eventDataModel[index].name,
-                      eventLocation: eventDataModel[index].venue,
-                      eventDay: getDayName(eventDataModel[index].date),
-                      eventDate: convertDateDotFormat(
-                          DateTime.parse(eventDataModel[index].date)),
-                      eventImageString: eventDataModel[index].image!,
-                      eventId: eventDataModel[index].id,
-                      hasLikedEvent: eventDataModel[index].hasLikedEvent,
-                    ),
+    return eventDataModel.length == 0
+        ? emptyStateFullView(
+            headerText: "No invites",
+            bodyText:
+                "Your friends have not sent you any invitation. Explore some public events while you wait.")
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: eventDataModel.length,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 40.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => EventDetailsScreeen(isOwnEvent: false),
+                      arguments: eventDataModel[index],
+                    );
+                  },
+                  child: EventListTemplate(
+                    eventOwner: eventDataModel[index].username,
+                    eventName: eventDataModel[index].name,
+                    eventLocation: eventDataModel[index].venue.split(",").first,
+                    eventDay: getDayName(eventDataModel[index].date),
+                    eventDate: convertDateDotFormat(
+                        DateTime.parse(eventDataModel[index].date)),
+                    eventImageString: eventDataModel[index].image!,
+                    eventId: eventDataModel[index].id,
+                    hasLikedEvent: eventDataModel[index].hasLikedEvent,
                   ),
-                );
-              },
-            ),
-    );
+                ),
+              );
+            },
+          );
   }
 }
