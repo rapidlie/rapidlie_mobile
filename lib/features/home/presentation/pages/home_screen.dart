@@ -9,6 +9,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
+import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
@@ -174,9 +175,17 @@ class _HomeScreenState extends State<HomeScreen>
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 0),
-                              child: ExploreCategoryListTemplate(
-                                categoryName: state.categories[index].name,
-                                imageSrc: state.categories[index].image,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => CategoryScreen(), arguments: [
+                                    state.categories[index].id,
+                                    state.categories[index].name,
+                                  ]);
+                                },
+                                child: ExploreCategoryListTemplate(
+                                  categoryName: state.categories[index].name,
+                                  imageSrc: state.categories[index].image,
+                                ),
                               ),
                             );
                           },
@@ -232,7 +241,8 @@ class _HomeScreenState extends State<HomeScreen>
                               child: EventListTemplate(
                                 eventOwner: state.events[index].username,
                                 eventName: state.events[index].name,
-                                eventLocation: state.events[index].venue,
+                                eventLocation:
+                                    state.events[index].venue.split(',').first,
                                 eventDay: getDayName(state.events[index].date),
                                 eventDate: convertDateDotFormat(
                                     DateTime.parse(state.events[index].date)),
