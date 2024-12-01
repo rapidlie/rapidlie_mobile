@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {
@@ -49,18 +50,16 @@ class EventListTemplate extends StatelessWidget {
                   children: [
                     Text(
                       eventOwner,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 13.0,
-                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       eventLocation,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 10.0,
-                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                       ),
