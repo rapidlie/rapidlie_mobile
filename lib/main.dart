@@ -68,6 +68,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       child: MultiProvider(
           providers: [
+            Provider<EventRepository>(
+              create: (_) => EventRepositoryImpl(Dio()),
+            ),
             BlocProvider<PrivateEventBloc>(
               create: (context) {
                 final eventRepository = locator<EventRepository>();
