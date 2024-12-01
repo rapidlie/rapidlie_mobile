@@ -47,14 +47,12 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
       setState(() {
         isLiked = true;
       });
-
       context.read<LikeEventBloc>().add(LikeToggled(widget.eventId!));
       context.read<PrivateEventBloc>().add(GetPrivateEvents());
     } else {
       setState(() {
         isLiked = false;
       });
-
       context.read<UnlikeEventBloc>().add(UnlikeToggled(widget.eventId!));
       context.read<PrivateEventBloc>().add(GetPrivateEvents());
     }
@@ -136,9 +134,7 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        
                         toggleLike();
-                        
                       },
                       child: Icon(
                         isLiked
