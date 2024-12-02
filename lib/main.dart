@@ -27,6 +27,8 @@ import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
 import 'package:rapidlie/features/login/repository/login_repository.dart';
+import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
+import 'package:rapidlie/features/logout/repository/logout_repository.dart';
 import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
 import 'package:rapidlie/features/otp/verrify_bloc/verify_otp_bloc.dart';
@@ -108,6 +110,11 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => LoginBloc(
                 loginRepository: LoginRepository(dio: Dio()),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => LogoutBloc(
+                logoutRepository: LogoutRepository(dio: Dio()),
               ),
             ),
             BlocProvider(
