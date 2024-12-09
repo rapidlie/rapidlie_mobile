@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/core/constants/strings.dart';
@@ -15,7 +12,6 @@ class LogoutRepository {
     try {
       final response = await dio.post(
         '$flockrAPIBaseUrl/logout',
-         
         options: Options(
           headers: {
             'Authorization': "Bearer " + UserPreferences().getBearerToken(),
@@ -24,9 +20,11 @@ class LogoutRepository {
         ),
       );
 
-      if (response.statusCode == HttpStatus.ok) {
-        final result = json.decode(response.data);
-        return DataSuccess(result.toString());
+      print(response.statusCode);
+      print(response.statusMessage);
+
+      if (response.statusCode == 201) {
+        return DataSuccess("success");
       } else {
         return DataFailed(DioException(
           error: response.statusMessage,
