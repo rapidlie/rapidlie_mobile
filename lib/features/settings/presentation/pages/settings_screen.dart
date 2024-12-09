@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
+import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
@@ -237,23 +243,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   normalHeight(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 6,
-                          offset: Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: SettingsItemLayout(
-                      icon: Icons.logout,
-                      title: "Logout",
-                      iconColor: Colors.black,
+                  GestureDetector(
+                    onTap: () => _showLogoutDialog(context),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 6,
+                            offset: Offset(0, 5), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: SettingsItemLayout(
+                        icon: Icons.logout,
+                        title: "Logout",
+                        iconColor: Colors.black,
+                      ),
                     ),
                   )
                 ],
@@ -262,6 +271,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text(
+            'Logout',
+            style: GoogleFonts.inter(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to log out?',
+            style: GoogleFonts.inter(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ButtonTemplate(
+              buttonName: "Cancel",
+              buttonWidth: 100,
+              buttonAction: () => Navigator.of(context).pop(),
+              buttonColor: Colors.white,
+              textColor: Colors.black,
+            ),
+            BlocListener<LogoutBloc, LogoutState>(
+              listener: (context, state) {
+                print(state);
+                if (state is LogoutSuccessState) {
+                  Navigator.pop(context);
+                  UserPreferences().clearAll();
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                } else if (state is LogoutErrorState) {
+                  Navigator.pop(context);
+                }
+              },
+              child: ButtonTemplate(
+                buttonName: "Logout",
+                buttonWidth: 100,
+                buttonAction: () {
+                  context.read<LogoutBloc>().add(
+                        SubmitLogoutEvent(),
+                      );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
