@@ -28,6 +28,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -53,12 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                     Text(
                       "It is okay to change \nthings up sometimes.",
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: mainAppbarTitleStyle(),
                     ),
                   ],
                 ),
@@ -67,10 +63,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFieldTemplate(
                       hintText: "Old password",
                       controller: oldPasswordController,
-                      obscureText: false,
+                      obscureText: true,
                       width: width,
                       height: 50,
-                      textInputType: TextInputType.phone,
+                      textInputType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.next,
                       enabled: true,
                     ),
@@ -78,10 +74,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFieldTemplate(
                       hintText: "New password",
                       controller: newPasswordController,
-                      obscureText: false,
+                      obscureText: true,
                       width: width,
                       height: 50,
-                      textInputType: TextInputType.phone,
+                      textInputType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.next,
                       enabled: true,
                     ),
@@ -89,11 +85,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFieldTemplate(
                       hintText: "Retype password",
                       controller: retypePasswordController,
-                      obscureText: false,
+                      obscureText: true,
                       width: width,
                       height: 50,
-                      textInputType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
                       enabled: true,
                     ),
                     SizedBox(
