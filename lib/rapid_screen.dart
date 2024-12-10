@@ -51,14 +51,11 @@ class _RapidScreenState extends State<RapidScreen> {
             showUnselectedLabels: true,
             showSelectedLabels: true,
             unselectedFontSize: 10.0,
-            selectedFontSize: 10.0,
+            selectedFontSize: 12.0,
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.grey,
             selectedLabelStyle: GoogleFonts.inter(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Colors.black
-            ),
+                fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
             unselectedLabelStyle: GoogleFonts.inter(
               fontSize: 10,
               fontWeight: FontWeight.w400,

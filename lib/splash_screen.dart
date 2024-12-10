@@ -35,6 +35,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100.0),
+          child: Image.asset("assets/images/flockrLG.png"),
+        ),
+      ),
+    );
   }
 }
