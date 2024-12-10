@@ -15,6 +15,7 @@ import 'package:rapidlie/features/events/presentation/pages/event_details_screen
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     getUserName();
+    //checkLoggedInStatus();
     final bloc1 = context.read<CategoryBloc>();
     final bloc2 = context.read<PublicEventBloc>();
     final bloc3 = context.read<UpcomingEventBloc>();
@@ -48,12 +50,18 @@ class _HomeScreenState extends State<HomeScreen>
 
   void getUserName() async {
     name = UserPreferences().getUserName().toString().split(' ').first;
-    print(UserPreferences().getBearerToken());
+  }
+
+  void checkLoggedInStatus() async {
+    if (await UserPreferences().getLoginStatus() == false) {
+      Get.to(() => LoginScreen());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print(UserPreferences().getBearerToken());
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
