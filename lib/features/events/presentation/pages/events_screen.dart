@@ -439,10 +439,9 @@ class _EventsScreenState extends State<EventsScreen>
                   ),
                   Text(
                     language.createEvent,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 16.0,
                       color: CustomColors.charcoalBlack,
-                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -1398,12 +1397,11 @@ class _EventsScreenState extends State<EventsScreen>
                       child: Text(
                         eventTimes[index],
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: "Poppins",
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: selectedStartTimeChecker == index
-                              ? CustomColors.primary
+                              ? Colors.black
                               : CustomColors.colorFromHex("#AEB2BF"),
                         ),
                       ),
@@ -1437,7 +1435,7 @@ class _EventsScreenState extends State<EventsScreen>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedStartTimeOfDayChecker == index
-                                ? CustomColors.primary
+                                ? CustomColors.black
                                 : CustomColors.white,
                             border: Border.all(
                               color: selectedStartTimeOfDayChecker == index
@@ -1447,12 +1445,11 @@ class _EventsScreenState extends State<EventsScreen>
                         child: Text(
                           eventTimeOfDay[index],
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: selectedStartTimeOfDayChecker == index
                                 ? CustomColors.white
                                 : CustomColors.colorFromHex("#AEB2BF"),
                             fontSize: 14,
-                            fontFamily: "Poppins",
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -1529,10 +1526,10 @@ class _EventsScreenState extends State<EventsScreen>
                         eventTimes[index],
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
-                          fontSize: 15,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: selectedEndTimeChecker == index
-                              ? CustomColors.primary
+                              ? Colors.black
                               : CustomColors.colorFromHex("#AEB2BF"),
                         ),
                       ),
@@ -1566,7 +1563,7 @@ class _EventsScreenState extends State<EventsScreen>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedEndTimeOfDayChecker == index
-                                ? CustomColors.primary
+                                ? Colors.black
                                 : CustomColors.white,
                             border: Border.all(
                               color: selectedEndTimeOfDayChecker == index
@@ -1576,12 +1573,11 @@ class _EventsScreenState extends State<EventsScreen>
                         child: Text(
                           eventTimeOfDay[index],
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             color: selectedEndTimeOfDayChecker == index
                                 ? CustomColors.white
                                 : CustomColors.colorFromHex("#AEB2BF"),
-                            fontSize: 15,
-                            fontFamily: "Poppins",
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -1611,25 +1607,22 @@ class _EventsScreenState extends State<EventsScreen>
         leftChevronMargin: EdgeInsets.zero,
         rightChevronPadding: EdgeInsets.zero,
         rightChevronMargin: EdgeInsets.zero,
-        titleTextStyle: TextStyle(
+        titleTextStyle: GoogleFonts.inter(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: CustomColors.gray900,
-          fontFamily: "Popppins",
         ),
       ),
       daysOfWeekHeight: 24,
       startingDayOfWeek: StartingDayOfWeek.monday,
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle(
+        weekdayStyle: GoogleFonts.inter(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          fontFamily: "Poppins",
           color: CustomColors.colorFromHex("#0E1339"),
         ),
-        weekendStyle: TextStyle(
+        weekendStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w500,
           color: CustomColors.colorFromHex("#0E1339"),
         ),
