@@ -9,6 +9,8 @@ class ButtonTemplate extends StatelessWidget {
   final Function() buttonAction;
   final bool loading;
   final Color? textColor;
+  final Color? buttonColor;
+  final Color? borderColor;
 
   ButtonTemplate({
     required this.buttonName,
@@ -16,6 +18,8 @@ class ButtonTemplate extends StatelessWidget {
     required this.buttonAction,
     this.loading = false,
     this.textColor,
+    this.buttonColor,
+    this.borderColor,
   });
 
   @override
@@ -34,18 +38,20 @@ class ButtonTemplate extends StatelessWidget {
           : Text(
               buttonName.toUpperCase(),
               style: GoogleFonts.inter(
-                color: Colors.white,
-                fontSize: 13.r,
-                fontWeight: FontWeight.w800,
+                color: textColor ?? Colors.white,
+                fontSize: 12.r,
+                fontWeight: FontWeight.w500,
               ),
             ),
-      color: CustomColors.black,
-      elevation: 1,
+      color: buttonColor ?? CustomColors.black,
+      elevation: 2,
       minWidth: buttonWidth,
-      height: 50,
+      height: 45,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(
+            color: borderColor ?? Colors.transparent,
+          )),
       //padding: EdgeInsets.all(15),
     );
   }
