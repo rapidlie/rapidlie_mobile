@@ -461,7 +461,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         buttonName: "Accept",
                         buttonWidth: width,
                         buttonAction: () {},
-                        textColor: CustomColors.secondary,
+                        textColor: Colors.white,
                       ),
                     ),
                   )
