@@ -5,6 +5,7 @@ import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
+import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
 import 'package:rapidlie/rapid_screen.dart';
 
 import '../../../register/presentation/pages/register_screen.dart';
@@ -103,10 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: width,
                           child: GestureDetector(
                             onTap: () {
-                              /* Navigator.pushNamed(
-                            context,
-                            ForgotPasswordScreen.routeName,
-                          ); */
+                              Navigator.pushNamed(
+                                context,
+                                RequestResetPasswordScreen.routeName,
+                              );
                             },
                             child: Text(
                               "Forgot Password?",
