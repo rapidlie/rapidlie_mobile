@@ -58,6 +58,7 @@ class _EventsScreenState extends State<EventsScreen>
   late GlobalKey _keyDate;
   late GlobalKey _keyStartTime;
   late GlobalKey _keyEndTime;
+  late GlobalKey _keyCategory;
   bool isMenuOpen = false;
   late Offset buttonPosition;
   late Size buttonSize;
@@ -95,7 +96,8 @@ class _EventsScreenState extends State<EventsScreen>
   File? imageFile;
   var language;
   List<ContactDetails> selectedContacts = [];
-  CategoryModel? selectedCategory;
+  String? idOfSelectedCategory;
+  String nameOfSelectedCategory = "Select category";
   List<AutocompletePrediction> predictionList = [];
   LatLng latLngOfUserLocation = LatLng(0.0, 0.0);
   String mapId = "";
@@ -107,6 +109,7 @@ class _EventsScreenState extends State<EventsScreen>
     _keyDate = LabeledGlobalKey("button_icon");
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
+    _keyCategory = LabeledGlobalKey("button_icon");
     final bloc = context.read<PrivateEventBloc>();
     if (bloc.state is! PrivateEventLoaded) {
       bloc.add(GetPrivateEvents());
@@ -312,6 +315,18 @@ class _EventsScreenState extends State<EventsScreen>
     findButton(_key);
     _overlayEntry = _overlayEntryBuilder(endTimeDropDown(setState, _key), null,
         buttonSize.width / 1.2, buttonPosition.dx);
+    Overlay.of(context).insert(_overlayEntry!);
+    isMenuOpen = !isMenuOpen;
+  }
+
+  void openCategoryMenu(
+      StateSetter setState, GlobalKey _key, List<CategoryModel> categoryList) {
+    findButton(_key);
+    _overlayEntry = _overlayEntryBuilder(
+        categoryDropDown(setState, _key, categoryList),
+        buttonPosition.dx,
+        buttonSize.width,
+        null);
     Overlay.of(context).insert(_overlayEntry!);
     isMenuOpen = !isMenuOpen;
   }
@@ -931,7 +946,45 @@ class _EventsScreenState extends State<EventsScreen>
               }
               if (state is CategoryLoadedState) {
                 List<CategoryModel> categories = state.categories;
-                return DropdownButton<CategoryModel>(
+                return GestureDetector(
+                  onTap: () {
+                    if (isMenuOpen) {
+                      closeMenu();
+                    } else {
+                      openCategoryMenu(setState, _keyCategory, categories);
+                    }
+                  },
+                  child: Container(
+                    key: _keyCategory,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            nameOfSelectedCategory,
+                            style: GoogleFonts.inter(
+                              color: CustomColors.black,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: CustomColors.colorFromHex("#C6CDD3"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+                /* return DropdownButton<CategoryModel>(
                   value: selectedCategory, // Current selected value
                   hint: Text(
                     'Select category',
@@ -956,7 +1009,7 @@ class _EventsScreenState extends State<EventsScreen>
                       selectedCategory = newValue; // Update the selected value
                     });
                   },
-                );
+                ); */
               }
               if (state is CategoryErrorState) {
                 return Center(
@@ -1021,13 +1074,14 @@ class _EventsScreenState extends State<EventsScreen>
               buttonName: language.next,
               buttonWidth: Get.width,
               buttonAction: () {
+                print(idOfSelectedCategory);
                 setState(() {
                   showBackButton = showBackButton + 1;
                 });
                 context.read<CreateEventProvider>().updateEvent(
                       description: aboutController.text,
                       eventType: publicEvent ? "public" : "private",
-                      category: selectedCategory!.id,
+                      category: idOfSelectedCategory,
                     );
                 _pageViewController.animateTo(
                   MediaQuery.of(context).size.width * 3,
@@ -1304,7 +1358,7 @@ class _EventsScreenState extends State<EventsScreen>
                 height: 20,
               ),
               Text(
-                "Oops.. Something went wrrong. Please try again",
+                "Oops.. Something went wrong. Please try again",
                 style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -1414,6 +1468,39 @@ class _EventsScreenState extends State<EventsScreen>
     );
   }
 
+  categoryDropDown(
+      StateSetter setState, GlobalKey _key, List<CategoryModel> categoryList) {
+    return Container(
+      height: 150,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+        child: ListView.builder(
+          //shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          itemCount: categoryList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                idOfSelectedCategory = categoryList[index].id;
+                setState(() {
+                  nameOfSelectedCategory = categoryList[index].name;
+                });
+                closeMenu();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  categoryList[index].name,
+                  style: poppins14black500(),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   endTimeDropDown(StateSetter setState, GlobalKey _key) {
     return Container(
       height: 200,
@@ -1441,9 +1528,8 @@ class _EventsScreenState extends State<EventsScreen>
                       child: Text(
                         eventTimes[index],
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 15,
-                          fontFamily: "Poppins",
                           fontWeight: FontWeight.w500,
                           color: selectedEndTimeChecker == index
                               ? CustomColors.primary
@@ -1549,9 +1635,8 @@ class _EventsScreenState extends State<EventsScreen>
         ),
       ),
       calendarStyle: CalendarStyle(
-        todayTextStyle: TextStyle(
+        todayTextStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: CustomColors.primary,
         ),
@@ -1559,21 +1644,18 @@ class _EventsScreenState extends State<EventsScreen>
           shape: BoxShape.circle,
           color: CustomColors.colorFromHex("#F4F5FB"),
         ),
-        defaultTextStyle: TextStyle(
+        defaultTextStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: CustomColors.colorFromHex("#34405E"),
         ),
-        outsideTextStyle: TextStyle(
+        outsideTextStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: CustomColors.colorFromHex("#AEB2BF"),
         ),
-        weekendTextStyle: TextStyle(
+        weekendTextStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: CustomColors.colorFromHex("#34405E"),
         ),
@@ -1591,11 +1673,10 @@ class _EventsScreenState extends State<EventsScreen>
         ),
         selectedDecoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: CustomColors.primary,
+          color: Colors.black,
         ),
-        selectedTextStyle: TextStyle(
+        selectedTextStyle: GoogleFonts.inter(
           fontSize: 12,
-          fontFamily: "Poppins",
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ), //
