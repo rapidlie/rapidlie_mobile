@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rapidlie/config/data_state.dart';
-import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/logout/repository/logout_repository.dart';
 
 part 'logout_event.dart';
@@ -23,9 +22,10 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
       final result = await logoutRepository.logoutUser();
 
       if (result is DataSuccess<String>) {
-        UserPreferences().clearAll();
+        print("Yes my state got emitted");
         emit(LogoutSuccessState());
       } else {
+        print("No my didn't emitted");
         emit(LogoutErrorState(error: "Login failed"));
       }
     } catch (e) {
