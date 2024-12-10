@@ -33,12 +33,18 @@ import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
 import 'package:rapidlie/features/otp/verrify_bloc/verify_otp_bloc.dart';
 import 'package:rapidlie/features/otp/repository/verify_otp_repositoy.dart';
+import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
+import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
 import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart';
+import 'package:rapidlie/features/password/presentation/pages/new_password_screen.dart';
+import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
+import 'package:rapidlie/features/password/repositories/new_password_repository.dart';
+import 'package:rapidlie/features/password/repositories/request_repository.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 import 'package:rapidlie/features/register/repository/register_repository.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
@@ -152,6 +158,14 @@ class MyApp extends StatelessWidget {
               create: (context) => UnlikeEventBloc(
                   unlikeEventRepository: UnlikeEventRepository(dio: Dio())),
             ),
+            BlocProvider(
+              create: (context) =>
+                  RequestBloc(requestRepository: RequestRepository(dio: Dio())),
+            ),
+            BlocProvider(
+              create: (context) => NewPasswordBloc(
+                  newPasswordRepository: NewPasswordRepository(dio: Dio())),
+            ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
             ),
@@ -180,9 +194,12 @@ class MyApp extends StatelessWidget {
                   OtpScreen.routeName: (context) => OtpScreen(),
                   ChangePasswordScreen.routeName: (context) =>
                       ChangePasswordScreen(),
+                  RequestResetPasswordScreen.routeName: (context) =>
+                      RequestResetPasswordScreen(),
                   SplashScreen.routeName: (context) => SplashScreen(),
                   CategoryScreen.routeName: (context) => CategoryScreen(),
                   ContactListScreen.routeName: (context) => ContactListScreen(),
+                  NewPasswordScreen.routeName: (context) => NewPasswordScreen(),
                 },
                 initialRoute: SplashScreen.routeName,
                 onGenerateRoute: (RouteSettings settings) {
