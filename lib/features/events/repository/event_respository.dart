@@ -8,6 +8,7 @@ import 'package:rapidlie/features/events/models/event_model.dart';
 abstract class EventRepository {
   //Future<DataState<List<EventDataModel>>> getAllEvents();
   Future<DataState<List<EventDataModel>>> getPrivateEvents();
+  Future<DataState<List<EventDataModel>>> getInvitedEvents();
   Future<DataState<List<EventDataModel>>> getPublicEvents();
   Future<DataState<List<EventDataModel>>> getUpcomingEvents();
   Future<DataState<List<EventDataModel>>> getEventsByCategory(
@@ -29,6 +30,12 @@ class EventRepositoryImpl implements EventRepository {
     return _getEvents('$flockrAPIBaseUrl/events/public');
   }
 
+  @override
+  Future<DataState<List<EventDataModel>>> getInvitedEvents() {
+    return _getEvents('$flockrAPIBaseUrl/events/invited');
+  }
+
+  @override
   Future<DataState<List<EventDataModel>>> getUpcomingEvents() async {
     return _getEvents('$flockrAPIBaseUrl/events/upcoming');
   }

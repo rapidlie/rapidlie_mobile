@@ -46,6 +46,45 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   }
 }
 
+/** Public Events Bloc */
+class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
+  final EventRepository eventRepository;
+
+  InvitedEventBloc({required this.eventRepository})
+      : super(InitialInvitedEventState()) {
+    on<GetInvitedEvents>(_onGetInvitedEvents);
+  }
+
+  Future<void> _onGetInvitedEvents(
+    GetInvitedEvents event,
+    Emitter<EventState> emit,
+  ) async {
+    await _onGetEvents(emit, eventRepository.getInvitedEvents, 'public');
+  }
+
+  Future<void> _onGetEvents(
+    emit,
+    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
+    String eventType,
+  ) async {
+    emit(InvitedEventLoading());
+
+    try {
+      final eventResponse = await fetchFunction();
+
+      if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        emit(
+          InvitedEventLoaded(events: eventResponse.data!),
+        );
+      } else if (eventResponse is DataFailed) {
+        emit(InvitedEventError(message: eventResponse.error.toString()));
+      }
+    } catch (e) {
+      emit(InvitedEventError(message: e.toString()));
+    }
+  }
+}
+
 /** Private Event Bloc **/
 class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   final EventRepository eventRepository;
