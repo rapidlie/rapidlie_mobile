@@ -67,6 +67,36 @@ class PrivateEventError extends PrivateEventState {
   List<Object> get props => [message];
 }
 
+/*** Invited Events ***/
+abstract class InvitedEventState extends EventState {
+  const InvitedEventState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class InitialInvitedEventState extends InvitedEventState {}
+
+class InvitedEventLoading extends InvitedEventState {}
+
+class InvitedEventLoaded extends InvitedEventState {
+  final List<EventDataModel> events;
+
+  const InvitedEventLoaded({required this.events});
+
+  @override
+  List<Object> get props => [events];
+}
+
+class InvitedEventError extends PublicEventState {
+  final String message;
+
+  const InvitedEventError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
 /*** Events by category ***/
 abstract class UpcomingEventState extends EventState {
   const UpcomingEventState();
