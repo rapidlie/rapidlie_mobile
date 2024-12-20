@@ -61,7 +61,7 @@ class EventDataModel extends Equatable {
   final String venue;
   final String mapLocation;
   final String? image;
-  final List<dynamic> invitations;
+  final List<Invitation> invitations;
   final int likes;
   final bool hasLikedEvent;
   final int formattedLikes;
@@ -99,7 +99,8 @@ class EventDataModel extends Equatable {
       venue: json['venue'],
       mapLocation: json['map_location'],
       image: json['image'],
-      invitations: List<dynamic>.from(json['invitations']),
+      invitations: List<Invitation>.from(
+          json["invitations"].map((x) => Invitation.fromJson(x))),
       likes: json['likes'],
       hasLikedEvent: json['hasLikedEvent'],
       formattedLikes: json['formatted_likes'],
@@ -120,7 +121,7 @@ class EventDataModel extends Equatable {
       'venue': venue,
       'map_location': mapLocation,
       'image': image,
-      'invitations': invitations,
+      "invitations": List<dynamic>.from(invitations.map((x) => x.toJson())),
       'likes': likes,
       'hasLikedEvent': hasLikedEvent,
       'formatted_likes': formattedLikes,
@@ -179,6 +180,58 @@ class EventDataModel extends Equatable {
   @override
   List<Object?> get props => [id, name, image];
 } */
+
+class Invitation {
+  final String status;
+  final User user;
+
+  Invitation({
+    required this.status,
+    required this.user,
+  });
+
+  factory Invitation.fromJson(Map<String, dynamic> json) => Invitation(
+        status: json["status"],
+        user: User.fromJson(json["user"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "user": user.toJson(),
+      };
+}
+
+class User {
+  final String uuid;
+  final String name;
+  final String email;
+  final String phone;
+  final String? avatar;
+
+  User({
+    required this.uuid,
+    required this.name,
+    required this.email,
+    required this.phone,
+    this.avatar,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        uuid: json["uuid"],
+        name: json["name"],
+        email: json["email"],
+        phone: json["phone"],
+        avatar: json["avatar"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "uuid": uuid,
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "avatar": avatar,
+      };
+}
 
 class LinksModel extends Equatable {
   final String? first;
