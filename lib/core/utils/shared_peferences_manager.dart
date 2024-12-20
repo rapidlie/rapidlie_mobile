@@ -8,6 +8,7 @@ class UserPreferences {
   static const String _keyUserName = 'user_name';
   static const String _keyBearerToken = 'bearer_token';
   static const String _keySignUpCompleted = 'is_sign_up_completed';
+  static const String _keyUserId = 'user_id';
 
   static final UserPreferences _instance = UserPreferences._ctor();
   factory UserPreferences() {
@@ -30,6 +31,16 @@ class UserPreferences {
   // Get Email
   getUserEmail() {
     return _prefs.getString(_keyUserEmail) ?? "";
+  }
+
+  // Save User ID
+  setUserId(String userId) {
+    _prefs.setString(_keyUserId, userId);
+  }
+
+  // Get User ID
+  getUserId() {
+    return _prefs.getString(_keyUserId) ?? "";
   }
 
   // Save Login Status

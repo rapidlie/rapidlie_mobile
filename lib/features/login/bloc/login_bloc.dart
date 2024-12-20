@@ -30,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (result is DataSuccess<LoginResponse>) {
         UserPreferences().setBearerToken(result.data!.accessToken);
         UserPreferences().setUserName(result.data!.user.name);
+        UserPreferences().setUserId(result.data!.user.uuid);
         UserPreferences().setLoginStatus(true);
         emit(LoginSuccessState(loginResponse: result.data!));
       } else {

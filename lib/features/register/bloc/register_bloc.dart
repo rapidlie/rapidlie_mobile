@@ -33,6 +33,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (result is DataSuccess) {
         UserPreferences().setLoginStatus(true);
         UserPreferences().setUserEmail(result.data!.user.email);
+        UserPreferences().setUserId(result.data!.user.uuid);
         emit(RegisterSuccessState());
       } else if (result is DataFailed) {
         print("Error from server: ${result.error!.message}");
