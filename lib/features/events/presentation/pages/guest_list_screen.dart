@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 
 import '../../../../core/constants/custom_colors.dart';
 
 class GuestListScreen extends StatefulWidget {
-  List<dynamic> guests = Get.arguments as List<dynamic>;
+  final List<Invitation> guests = Get.arguments as List<Invitation>;
 
   @override
   State<GuestListScreen> createState() => _GuestListScreenState();
@@ -37,9 +38,10 @@ class _GuestListScreenState extends State<GuestListScreen> {
               shrinkWrap: true,
               itemCount: widget.guests.length,
               itemBuilder: (context, index) {
+                print(widget.guests[index].status);
                 return guestListLayout(
-                  userName: widget.guests[index]['user']['name'],
-                  eventStatus: widget.guests[index]['status'],
+                  userName: widget.guests[index].user.name,
+                  eventStatus: widget.guests[index].status,
                 );
               },
             ),
@@ -93,26 +95,26 @@ class _GuestListScreenState extends State<GuestListScreen> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: eventStatus == Status.accepted
+              color: eventStatus == "accepted"
                   ? CustomColors.acceptedContainerColor
-                  : eventStatus == Status.rejected
+                  : eventStatus == "declined"
                       ? CustomColors.rejectedContainerColor
                       : CustomColors.rejectedContainerColor,
             ),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(
-                eventStatus == Status.accepted
+                eventStatus == "accepted"
                     ? "ACCEPTED"
-                    : eventStatus == Status.rejected
-                        ? "REJECTED"
+                    : eventStatus == "declined"
+                        ? "DECLINED"
                         : "PENDING",
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: eventStatus == Status.accepted
+                  color: eventStatus == "accepted"
                       ? CustomColors.acceptedTextColor
-                      : eventStatus == Status.rejected
+                      : eventStatus == "declined"
                           ? CustomColors.rejectedTextColor
                           : CustomColors.rejectedTextColor,
                 ),
