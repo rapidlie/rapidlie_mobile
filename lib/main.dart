@@ -16,9 +16,11 @@ import 'package:rapidlie/features/contacts/presentation/pages/contact_list_scree
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
 import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
+import 'package:rapidlie/features/events/repository/consent_repository.dart';
 import 'package:rapidlie/features/events/repository/create_event_repository.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
 import 'package:rapidlie/features/events/repository/like_event_repository.dart';
@@ -89,6 +91,12 @@ class MyApp extends StatelessWidget {
               create: (context) {
                 final eventRepository = locator<EventRepository>();
                 return PublicEventBloc(eventRepository: eventRepository);
+              },
+            ),
+            BlocProvider<InvitedEventBloc>(
+              create: (context) {
+                final eventRepository = locator<EventRepository>();
+                return InvitedEventBloc(eventRepository: eventRepository);
               },
             ),
             BlocProvider<UpcomingEventBloc>(
@@ -165,6 +173,10 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => NewPasswordBloc(
                   newPasswordRepository: NewPasswordRepository(dio: Dio())),
+            ),
+            BlocProvider(
+              create: (context) => ConsentBloc(
+                  consentRepository: ConsentRepository(dio: Dio())),
             ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
