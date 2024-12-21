@@ -25,9 +25,9 @@ class ButtonTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: buttonAction,
+      onPressed: loading ? null : buttonAction,
       child: loading
-          ? Container(
+          ? Container(  
               height: 16,
               width: 16,
               child: CircularProgressIndicator(
