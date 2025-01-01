@@ -15,7 +15,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: any
   provider: ^6.1.2
-  contacts_service: ^0.6.3
   flutter_screenutil: ^5.9.0
   permission_handler: ^11.3.1
   intl_phone_number_input: ^0.7.0+2
@@ -27,10 +26,10 @@ dependencies:
   table_calendar: ^3.0.8
   image_picker: ^1.1.2
   url_launcher: ^6.1.9
+  connectivity_plus: ^6.1.1
   pinput: ^5.0.0
   grouped_list: ^6.0.0
   get_it:
-  connectivity: 
   http:
   shared_preferences:
   flutter_localizations:
@@ -41,7 +40,6 @@ dependencies:
   crypto: ^3.0.6
   google_fonts: ^4.0.4
   google_maps_flutter: ^2.9.0
-  flutter_google_places: ^0.3.0
   flutter_dotenv: ^5.0.2
   image_stack: ^2.1.1
   libphonenumber_plugin:
@@ -49,6 +47,7 @@ dependencies:
   geocoding: ^3.0.0
   geolocator: ^13.0.2
   flutter_launcher_icons: ^0.14.1
+  flutter_google_places_sdk: ^0.3.2+1
 
 flutter_icons:
   android: true
