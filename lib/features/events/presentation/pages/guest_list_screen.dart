@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 
 import '../../../../core/constants/custom_colors.dart';
