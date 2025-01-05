@@ -45,7 +45,6 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   Future<void> getCustomContacts() async {
     if (await FlutterContacts.requestPermission()) {
-      
       List<Contact> contacts =
           await FlutterContacts.getContacts(withProperties: true);
 
