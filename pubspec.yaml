@@ -49,10 +49,11 @@ dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_google_places_sdk: ^0.3.2+1
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/flockr_icon.png"
+  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_test:
