@@ -61,8 +61,9 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print(UserPreferences().getBearerToken());
+
     language = AppLocalizations.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -106,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen>
                       child: state.events.isEmpty
                           ? emptyStateSingleView()
                           : ListView.builder(
-                              padding: const EdgeInsets.only(bottom: 70),
+                              scrollDirection: Axis.horizontal,
+                              //padding: const EdgeInsets.only(bottom: 70),
                               physics: AlwaysScrollableScrollPhysics(
                                   parent: BouncingScrollPhysics()),
                               itemCount: state.events.length,
