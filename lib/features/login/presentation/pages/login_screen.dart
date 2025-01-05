@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
           child: BlocConsumer<LoginBloc, LoginState>(
@@ -112,10 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               "Forgot Password?",
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 fontSize: 14.0,
                                 color: Colors.black,
-                                fontFamily: "Poppins",
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -151,20 +151,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             "Don't have an account?",
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               fontSize: 14.0,
                               color: Colors.black,
-                              fontFamily: "Poppins",
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
                             " Register",
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               fontSize: 14.0,
                               color: Colors.deepOrange,
-                              fontFamily: "Poppins",
+                              
                               fontWeight: FontWeight.w500,
                             ),
                           ),
