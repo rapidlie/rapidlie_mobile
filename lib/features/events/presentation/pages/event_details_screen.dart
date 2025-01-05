@@ -6,7 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_stack/image_stack.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
@@ -37,6 +39,9 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   bool inviteAccepted = false;
   bool inviteDeclined = false;
 
+  late String userId;
+  late String inviteStatus;
+
   late GoogleMapController mapController;
 
   late LatLng _initialPosition; // Coordinates for initial map location
@@ -49,6 +54,12 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   void initState() {
     super.initState();
     extractLatLngFromString(widget.eventDetails.mapLocation);
+    getUserID();
+    getInviteStatus();
+  }
+
+  void getUserID() async {
+    userId = UserPreferences().getUserId().toString();
   }
 
   void toggleLike(eventId) async {
@@ -80,11 +91,19 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
       double longitude = double.parse(match.group(2)!);
 
       _initialPosition = LatLng(latitude, longitude);
-
-      print("Converted LatLng: $_initialPosition");
     } else {
       print("Invalid format");
     }
+  }
+
+  void getInviteStatus() {
+    inviteStatus = widget.isOwnEvent
+        ? "accepted"
+        : widget.eventDetails.invitations
+            .firstWhere(
+              (invitation) => invitation.user.uuid == userId,
+            )
+            .status;
   }
 
   @override
@@ -97,7 +116,6 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
             fit: BoxFit.cover,
           ))
     ];
-    print(widget.eventDetails.mapLocation);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -163,19 +181,6 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                               ],
                             ),
                           ),
-                          /* Flexible(
-                            flex: 4,
-                            child: widget.isOwnEvent
-                                ? HeaderTextTemplate(
-                                    titleText: "Edit",
-                                    titleTextColor: ColorConstants.secondary,
-                                    containerColor: ColorConstants.primary,
-                                    textSize: 10,
-                                    containerBorderColor:
-                                        ColorConstants.primary,
-                                  )
-                                : SizedBox.shrink(),
-                          ), */
                           Row(
                             children: [
                               GestureDetector(
@@ -303,22 +308,6 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                             color: Colors.black,
                                           ),
                                         ),
-                                        /* Text(
-                                          ' - ',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        Text(
-                                          eventDetails.endTime,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                          ),
-                                        ), */
                                       ],
                                     ),
                                   ],
@@ -448,41 +437,54 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
             ],
           ),
           Positioned(
-              bottom: 20.0,
-              left: 20.0,
-              right: 20.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: ButtonTemplate(
-                        buttonName: "Accept",
-                        buttonWidth: width,
-                        buttonAction: () {},
-                        textColor: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
-              )),
+            bottom: 20.0,
+            left: 20.0,
+            right: 20.0,
+            child: widget.isOwnEvent
+                ? Container()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: BlocBuilder<ConsentBloc, ConsentState>(
+                            builder: (context, state) {
+                              bool acceptButtonLoading =
+                                  state is ConsentLoadingState;
+
+                              if (state is ConsentLoadedState) {
+                                inviteStatus = inviteStatus == "accepted"
+                                    ? "declined"
+                                    : "accepted";
+                              }
+                              return ButtonTemplate(
+                                buttonName: inviteStatus == "accepted"
+                                    ? "Decline"
+                                    : "Accept",
+                                buttonWidth: width,
+                                loading: acceptButtonLoading,
+                                buttonAction: () {
+                                  context
+                                      .read<ConsentBloc>()
+                                      .add(GiveConsentEvent(
+                                        status: inviteStatus == "accepted"
+                                            ? 'declined'
+                                            : 'accepted',
+                                        eventId: widget.eventDetails.id,
+                                      ));
+                                },
+                                textColor: Colors.white,
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+          ),
         ],
       ),
     );
-  }
-
-  acceptInvitation() {
-    setState(() {
-      inviteAccepted = true;
-      inviteDeclined = false;
-    });
-  }
-
-  declineInvitation() {
-    setState(() {
-      inviteDeclined = true;
-      inviteAccepted = false;
-    });
   }
 }
