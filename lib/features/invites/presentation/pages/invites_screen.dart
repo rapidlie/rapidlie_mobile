@@ -29,9 +29,9 @@ class _InvitesScreenState extends State<InvitesScreen>
 
   @override
   void initState() {
-    final bloc = context.read<PrivateEventBloc>();
-    if (bloc.state is! PrivateEventLoaded) {
-      bloc.add(GetPrivateEvents());
+    final bloc = context.read<InvitedEventBloc>();
+    if (bloc.state is! InvitedEventLoaded) {
+      bloc.add(GetInvitedEvents());
     }
     super.initState();
   }
@@ -58,14 +58,14 @@ class _InvitesScreenState extends State<InvitesScreen>
                     .add(GetPrivateEvents()); // Reload specific events
               }
             },
-            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+            child: BlocBuilder<InvitedEventBloc, InvitedEventState>(
               builder: (context, state) {
-                if (state is InitialPrivateEventState) {
+                if (state is InitialInvitedEventState) {
                   return Center(child: CupertinoActivityIndicator());
-                } else if (state is PrivateEventLoading) {
+                } else if (state is InvitedEventLoading) {
                   return Center(child: CupertinoActivityIndicator());
                 }
-                if (state is PrivateEventLoaded) {
+                if (state is InvitedEventLoaded) {
                   return buildBody(state.events);
                 }
                 return Container();
