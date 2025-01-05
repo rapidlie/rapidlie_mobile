@@ -8,11 +8,10 @@ import '../widgets/settings_item_layout.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
   late var language;
-  String email = "yawsonandrews@gmail.com";
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = getGitHubIdenticonUrl("asiedu", size: 200);
+    String imageUrl = getGitHubIdenticonUrl("easiedu");
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -22,6 +21,7 @@ class ProfileSettingsScreen extends StatelessWidget {
           isSubPage: true,
         ),
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         child: Container(
@@ -46,8 +46,6 @@ class ProfileSettingsScreen extends StatelessWidget {
                           placeholder: 'assets/images/placeholder.png',
                           image: imageUrl,
                           fit: BoxFit.cover,
-                          imageCacheHeight: 300,
-                          imageCacheWidth: 300,
                         ),
                       ),
                     ),
