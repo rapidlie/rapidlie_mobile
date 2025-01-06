@@ -49,6 +49,7 @@ import 'package:rapidlie/features/password/repositories/new_password_repository.
 import 'package:rapidlie/features/password/repositories/request_repository.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 import 'package:rapidlie/features/register/repository/register_repository.dart';
+import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
@@ -175,8 +176,8 @@ class MyApp extends StatelessWidget {
                   newPasswordRepository: NewPasswordRepository(dio: Dio())),
             ),
             BlocProvider(
-              create: (context) => ConsentBloc(
-                  consentRepository: ConsentRepository(dio: Dio())),
+              create: (context) =>
+                  ConsentBloc(consentRepository: ConsentRepository(dio: Dio())),
             ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
@@ -212,6 +213,8 @@ class MyApp extends StatelessWidget {
                   CategoryScreen.routeName: (context) => CategoryScreen(),
                   ContactListScreen.routeName: (context) => ContactListScreen(),
                   NewPasswordScreen.routeName: (context) => NewPasswordScreen(),
+                  DeleteAccountScreen.routeName: (context) =>
+                      DeleteAccountScreen(),
                 },
                 initialRoute: SplashScreen.routeName,
                 onGenerateRoute: (RouteSettings settings) {
