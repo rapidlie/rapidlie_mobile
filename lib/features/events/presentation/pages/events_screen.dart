@@ -449,7 +449,7 @@ class _EventsScreenState extends State<EventsScreen>
                       ? SizedBox.shrink()
                       : GestureDetector(
                           onTap: () {
-                            clearFields();
+                            //clearFields();
                             Get.back();
                           },
                           child: Container(
