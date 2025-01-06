@@ -96,6 +96,9 @@ class ProfileSettingsScreen extends StatelessWidget {
                         icon: Icons.delete,
                         title: "Delete account",
                         iconColor: Colors.red,
+                        onCLickFunction: () {
+                          Navigator.pushNamed(context, "/delete-account");
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 40.0),
