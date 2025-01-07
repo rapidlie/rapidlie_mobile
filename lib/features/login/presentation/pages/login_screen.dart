@@ -37,119 +37,80 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-          child: BlocConsumer<LoginBloc, LoginState>(
-            listener: (context, state) async {
-              if (state is LoginSuccessState) {
-                // Registration was successful
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Login Successful')),
-                );
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+        child: BlocConsumer<LoginBloc, LoginState>(
+          listener: (context, state) async {
+            if (state is LoginSuccessState) {
+              // Registration was successful
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Login Successful')),
+              );
 
-                Navigator.pushReplacementNamed(
-                  context,
-                  RapidScreen.routeName,
-                );
-              } else if (state is LoginErrorState) {
-                // Registration failed
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Login Failed: ${state.error}')),
-                );
-              }
-            },
-            builder: (context, state) {
-              return Container(
-                height: height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Text(
-                          "Welcome back!",
-                          style: mainAppbarTitleStyle(),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        TextFieldTemplate(
-                          hintText: "Email",
-                          controller: emailController,
-                          obscureText: false,
-                          width: width,
-                          height: 50,
-                          textInputType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          enabled: true,
-                        ),
-                        extraSmallHeight(),
-                        TextFieldTemplate(
-                          hintText: "Password",
-                          controller: passwordController,
-                          obscureText: true,
-                          width: width,
-                          height: 50,
-                          textInputType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          enabled: true,
-                        ),
-                        textBoxSpace(),
-                        SizedBox(
-                          width: width,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                RequestResetPasswordScreen.routeName,
-                              );
-                            },
-                            child: Text(
-                              "Forgot Password?",
-                              textAlign: TextAlign.right,
-                              style: GoogleFonts.inter(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        ButtonTemplate(
-                          buttonName: "Login",
-                          buttonWidth: width,
-                          buttonAction: () {
-                            BlocProvider.of<LoginBloc>(context).add(
-                              SubmitLoginEvent(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              ),
+              Navigator.pushReplacementNamed(
+                context,
+                RapidScreen.routeName,
+              );
+            } else if (state is LoginErrorState) {
+              // Registration failed
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Login Failed: ${state.error}')),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Container(
+              height: height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        "Welcome back!",
+                        style: mainAppbarTitleStyle(),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      TextFieldTemplate(
+                        hintText: "Email",
+                        controller: emailController,
+                        obscureText: false,
+                        width: width,
+                        height: 50,
+                        textInputType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        enabled: true,
+                      ),
+                      extraSmallHeight(),
+                      TextFieldTemplate(
+                        hintText: "Password",
+                        controller: passwordController,
+                        obscureText: true,
+                        width: width,
+                        height: 50,
+                        textInputType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
+                        enabled: true,
+                      ),
+                      textBoxSpace(),
+                      SizedBox(
+                        width: width,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RequestResetPasswordScreen.routeName,
                             );
                           },
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RegisterScreen.routeName,
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?",
+                          child: Text(
+                            "Forgot Password?",
                             textAlign: TextAlign.right,
                             style: GoogleFonts.inter(
                               fontSize: 14.0,
@@ -157,24 +118,60 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Text(
-                            " Register",
-                            textAlign: TextAlign.right,
-                            style: GoogleFonts.inter(
-                              fontSize: 14.0,
-                              color: Colors.deepOrange,
-                              
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      ButtonTemplate(
+                        buttonName: "Login",
+                        buttonWidth: width,
+                        buttonAction: () {
+                          BlocProvider.of<LoginBloc>(context).add(
+                            SubmitLoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        RegisterScreen.routeName,
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          textAlign: TextAlign.right,
+                          style: GoogleFonts.inter(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          " Register",
+                          textAlign: TextAlign.right,
+                          style: GoogleFonts.inter(
+                            fontSize: 14.0,
+                            color: Colors.deepOrange,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
