@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -9,6 +11,7 @@ class UserPreferences {
   static const String _keyBearerToken = 'bearer_token';
   static const String _keySignUpCompleted = 'is_sign_up_completed';
   static const String _keyUserId = 'user_id';
+  static const String _keyRegistrationStep = 'registration_step';
 
   static final UserPreferences _instance = UserPreferences._ctor();
   factory UserPreferences() {
@@ -21,6 +24,16 @@ class UserPreferences {
 
   init() async {
     _prefs = await SharedPreferences.getInstance();
+  }
+
+  //save registration step
+  setRegistrationStep(String step) {
+    _prefs.setString(_keyRegistrationStep, step);
+  }
+
+  //get registration step
+  getRegistrationStep() {
+    return _prefs.getString(_keyRegistrationStep) ?? "";
   }
 
   // Save Email
@@ -89,5 +102,6 @@ class UserPreferences {
   // Clear All Preferences
   clearAll() {
     _prefs.clear();
+    Get.offAllNamed(LoginScreen.routeName);
   }
 }
