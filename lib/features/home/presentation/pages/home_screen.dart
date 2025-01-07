@@ -25,26 +25,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> {
   var language;
   String name = "";
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   void initState() {
     getUserName();
-    //checkLoggedInStatus();
-    final bloc1 = context.read<CategoryBloc>();
-    final bloc2 = context.read<PublicEventBloc>();
-    final bloc3 = context.read<UpcomingEventBloc>();
-    if (bloc3.state is! UpcomingEventLoaded) {
-      bloc1.add(FetchCategoriesEvent());
-      bloc2.add(GetPublicEvents());
-      bloc3.add(GetUpcomingEvents());
-    }
+    checkLoggedInStatus();
+    context.read<CategoryBloc>().add(FetchCategoriesEvent());
+    context.read<PublicEventBloc>().add(GetPublicEvents());
+    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     super.initState();
   }
 
@@ -60,8 +51,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     language = AppLocalizations.of(context);
 
     return SafeArea(
