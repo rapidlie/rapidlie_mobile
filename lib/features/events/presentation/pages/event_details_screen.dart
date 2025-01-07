@@ -99,11 +99,13 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   void getInviteStatus() {
     inviteStatus = widget.isOwnEvent
         ? "accepted"
-        : widget.eventDetails.invitations
-            .firstWhere(
-              (invitation) => invitation.user.uuid == userId,
-            )
-            .status;
+        : widget.eventDetails.eventType == "public"
+            ? "pending"
+            : widget.eventDetails.invitations
+                .firstWhere(
+                  (invitation) => invitation.user.uuid == userId,
+                )
+                .status;
   }
 
   @override
@@ -407,28 +409,36 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           ),
                         ),
                         normalHeight(),
-                        Text(
-                          widget.language.invites,
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        widget.eventDetails.eventType == "public"
+                            ? SizedBox.shrink()
+                            : widget.eventDetails.eventType == "public"
+                                ? SizedBox.shrink()
+                                : Text(
+                                    widget.language.invites,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                         extraSmallHeight(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => GuestListScreen(),
-                                arguments: widget.eventDetails.invitations);
-                          },
-                          child: ImageStack.widgets(
-                            children: widgets,
-                            totalCount: widget.eventDetails.invitations.length,
-                            widgetRadius: 45,
-                            widgetCount: 4,
-                            widgetBorderWidth: 3,
-                            widgetBorderColor: Colors.white,
-                          ),
-                        ),
+                        widget.eventDetails.eventType == "public"
+                            ? SizedBox.shrink()
+                            : GestureDetector(
+                                onTap: () {
+                                  Get.to(() => GuestListScreen(),
+                                      arguments:
+                                          widget.eventDetails.invitations);
+                                },
+                                child: ImageStack.widgets(
+                                  children: widgets,
+                                  totalCount:
+                                      widget.eventDetails.invitations.length,
+                                  widgetRadius: 45,
+                                  widgetCount: 4,
+                                  widgetBorderWidth: 3,
+                                  widgetBorderColor: Colors.white,
+                                ),
+                              ),
                       ],
                     ),
                   ),
