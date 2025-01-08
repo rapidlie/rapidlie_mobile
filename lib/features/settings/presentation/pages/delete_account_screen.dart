@@ -44,6 +44,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
@@ -54,6 +55,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
