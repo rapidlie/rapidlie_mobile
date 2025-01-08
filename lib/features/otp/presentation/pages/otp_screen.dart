@@ -4,7 +4,7 @@ import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
-import 'package:rapidlie/features/otp/verrify_bloc/verify_otp_bloc.dart';
+import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
 import 'package:rapidlie/rapid_screen.dart';
 
 class OtpScreen extends StatefulWidget {
