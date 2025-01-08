@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 
 class UpcomingEventListTemplate extends StatelessWidget {
-  
   final String eventName;
   final String eventLocation;
   final String eventDate;
@@ -22,31 +21,34 @@ class UpcomingEventListTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                Container(
-                  width: width,
-                  height: 250,
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: eventImageString == null
-                      ? Container()
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            child: Image.network(
-                              eventImageString!,
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                        ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Container(
+          width: width,
+          height: 250,
+          decoration: BoxDecoration(
+              color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+          child: eventImageString == null
+              ? Container()
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    child: Image.network(
+                      eventImageString!,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ),
-                Positioned(
+        ),
+      ),
+    );
+  }
+}
+
+
+/* 
+
+Positioned(
                   bottom: 10,
                   left: 10,
                   right: 10,
@@ -73,12 +75,4 @@ class UpcomingEventListTemplate extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          
-        ],
-      ),
-    );
-  }
-}
+ */
