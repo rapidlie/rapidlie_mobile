@@ -33,7 +33,7 @@ import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/logout/repository/logout_repository.dart';
 import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
-import 'package:rapidlie/features/otp/verrify_bloc/verify_otp_bloc.dart';
+import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
 import 'package:rapidlie/features/otp/repository/verify_otp_repositoy.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
 import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
@@ -49,8 +49,10 @@ import 'package:rapidlie/features/password/repositories/new_password_repository.
 import 'package:rapidlie/features/password/repositories/request_repository.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 import 'package:rapidlie/features/register/repository/register_repository.dart';
+import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
+import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:rapidlie/rapid_screen.dart';
@@ -178,6 +180,10 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) =>
                   ConsentBloc(consentRepository: ConsentRepository(dio: Dio())),
+            ),
+            BlocProvider(
+              create: (context) => DeleteAccountBloc(
+                  deleteAccoutRepository: DeleteAccountRepository(dio: Dio())),
             ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
