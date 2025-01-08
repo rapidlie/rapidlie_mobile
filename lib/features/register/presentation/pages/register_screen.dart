@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/country_code_picker.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
@@ -30,12 +32,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     nameController = new TextEditingController();
     emailController = new TextEditingController();
     passwordController = new TextEditingController();
+    alreadyRegistered();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> alreadyRegistered() async {
+    if (await UserPreferences().getRegistrationStep() == "partial") {
+      Navigator.pushNamed(
+        context,
+        OtpScreen.routeName,
+      );
+    }
   }
 
   String removeLeadingZero(String phoneNumber) {
@@ -151,13 +163,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             buttonName: "Register",
                             buttonWidth: width,
                             buttonAction: () {
-                              print(
-                                nameController.text +
-                                    emailController.text +
-                                    passwordController.text +
-                                    phoneController.text +
-                                    countryCode,
-                              );
                               BlocProvider.of<RegisterBloc>(context).add(
                                 SubmitRegisterEvent(
                                     name: nameController.text,
