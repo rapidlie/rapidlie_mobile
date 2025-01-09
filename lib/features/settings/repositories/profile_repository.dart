@@ -27,6 +27,8 @@ class ProfileRepository {
       if (response.statusCode == HttpStatus.ok) {
         final user = UserModel.fromJson(response.data['data']);
 
+        await UserPreferences().saveUser(user);
+
         return DataSuccess(user);
       } else {
         return DataFailed(DioException(
