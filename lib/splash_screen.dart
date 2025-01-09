@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
+import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
+import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/rapid_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +20,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    checkLoginStatus();
+    context.read<ProfileBloc>().add(GetProfileEvent());
     super.initState();
   }
 
@@ -36,10 +40,37 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 100.0),
-          child: Image.asset("assets/images/flockrLG.png"),
+      body: BlocListener<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoadingState) {
+          } else if (state is ProfileErrorState) {
+            checkLoginStatus();
+          } else if (state is ProfileLoadedState) {
+            context.read<CategoryBloc>().add(FetchCategoriesEvent());
+            context.read<PublicEventBloc>().add(GetPublicEvents());
+            context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
+            context.read<PrivateEventBloc>().add(GetPrivateEvents());
+            Navigator.pushReplacementNamed(context, RapidScreen.routeName);
+          }
+        },
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("assets/images/flockrLG.png"),
+                SizedBox(
+                  height: 20,
+                ),
+                LinearProgressIndicator(
+                  backgroundColor: Colors.transparent,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  borderRadius: BorderRadius.circular(8),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
