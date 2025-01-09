@@ -50,9 +50,11 @@ import 'package:rapidlie/features/password/repositories/request_repository.dart'
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 import 'package:rapidlie/features/register/repository/register_repository.dart';
 import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
+import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
+import 'package:rapidlie/features/settings/repositories/profile_repository.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:rapidlie/rapid_screen.dart';
@@ -113,6 +115,10 @@ class MyApp extends StatelessWidget {
                 final eventRepository = locator<EventRepository>();
                 return EventByCategoryBloc(eventRepository: eventRepository);
               },
+            ),
+            BlocProvider(
+              create: (context) =>
+                  ProfileBloc(profileRepository: ProfileRepository(dio: Dio())),
             ),
             BlocProvider<VerifyOtpBloc>(
               create: (context) => VerifyOtpBloc(
