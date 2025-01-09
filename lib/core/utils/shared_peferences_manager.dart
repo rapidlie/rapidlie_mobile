@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
+import 'package:rapidlie/features/user/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -11,6 +12,8 @@ class UserPreferences {
   static const String _keyBearerToken = 'bearer_token';
   static const String _keySignUpCompleted = 'is_sign_up_completed';
   static const String _keyUserId = 'user_id';
+  static const String _keyName = 'name';
+  static const String _keyTelephone = 'telephone';
   static const String _keyRegistrationStep = 'registration_step';
 
   static final UserPreferences _instance = UserPreferences._ctor();
@@ -97,6 +100,30 @@ class UserPreferences {
 
   getUserName() {
     return _prefs.getString(_keyUserName);
+  }
+
+  setName(String name) {
+    _prefs.setString(_keyName, name);
+  }
+
+  getName() {
+    return _prefs.getString(_keyName);
+  }
+
+  setTelephone(String telephone) {
+    _prefs.setString(_keyTelephone, telephone);
+  }
+
+  getTelephone() {
+    return _prefs.getString(_keyTelephone);
+  }
+
+  Future<void> saveUser(UserModel user) async {
+    setUserEmail(user.email);
+    setUserId(user.uuid);
+    setName(user.name);
+    setTelephone(user.phone);
+    setLoginStatus(true);
   }
 
   // Clear All Preferences
