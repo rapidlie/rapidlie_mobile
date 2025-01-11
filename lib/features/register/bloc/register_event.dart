@@ -13,15 +13,22 @@ class SubmitRegisterEvent extends RegisterEvent {
   final String password;
   final String phone;
   final String countryCode;
+  final String profileImage;
 
-  const SubmitRegisterEvent({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phone,
-    required this.countryCode,
-  });
+  const SubmitRegisterEvent(
+      {required this.name,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.countryCode,
+      required this.profileImage});
 
   @override
-  List<Object> get props => [name, email, password, phone];
+  List<Object> get props => [
+        name,
+        email,
+        password,
+        phone,
+        profileImage,
+      ];
 }
