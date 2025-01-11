@@ -11,7 +11,6 @@ class OtpScreen extends StatefulWidget {
   OtpScreen({Key? key}) : super(key: key);
 
   static const String routeName = 'otp';
-  late String email;
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -26,9 +25,8 @@ class _OtpScreenState extends State<OtpScreen> {
     super.initState();
   }
 
-  void getUserEmail() {
-    email = UserPreferences().getUserEmail();
-    UserPreferences().clearAll();
+  void getUserEmail() async {
+    email = await UserPreferences().getUserEmail();
   }
 
   @override
@@ -42,7 +40,6 @@ class _OtpScreenState extends State<OtpScreen> {
             child: BlocConsumer<VerifyOtpBloc, VerifyOtpState>(
               listener: (context, state) {
                 if (state is VerifyOtpSuccessState) {
-                  // Registration was successful
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Successful')),
                   );
