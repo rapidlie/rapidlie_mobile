@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/core/constants/strings.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/register/models/register_model.dart';
 
 class RegisterRepository {
@@ -14,6 +15,7 @@ class RegisterRepository {
     required String password,
     required String phone,
     required String countryCode,
+    required String profileImage,
   }) async {
     try {
       print("User creation started");
@@ -25,6 +27,7 @@ class RegisterRepository {
           'password': password,
           'phone': phone,
           'country_code': countryCode,
+          'profile_image': profileImage,
         },
         options: Options(
           headers: {
@@ -34,8 +37,14 @@ class RegisterRepository {
       );
 
       if (response.statusCode == 201) {
-        print("User creation done");
         final registerResponse = RegisterResponse.fromJson(response.data);
+
+        await UserPreferences().setLoginStatus(true);
+        await UserPreferences().setUserEmail(registerResponse.user.email);
+        await UserPreferences().setUserId(registerResponse.user.uuid);
+        await UserPreferences().setRegistrationStep("partial");
+        await UserPreferences().setProfileImage(registerResponse.user.avatar!);
+
         return DataSuccess(registerResponse);
       } else {
         print("User creation failed");
