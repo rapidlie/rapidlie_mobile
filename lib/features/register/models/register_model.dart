@@ -5,13 +5,14 @@ class RegisterModel {
   final String email;
   final String password;
   final String phone;
+  final String profileImage;
 
-  RegisterModel({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phone,
-  });
+  RegisterModel(
+      {required this.name,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.profileImage});
 
   // Factory constructor to create an instance from JSON
   factory RegisterModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class RegisterModel {
       email: json['email'],
       password: json['password'],
       phone: json['phone'],
+      profileImage: json['profile_image'],
     );
   }
 
@@ -30,6 +32,7 @@ class RegisterModel {
       'email': email,
       'password': password,
       'phone': phone,
+      'profile_image': profileImage,
     };
   }
 }
