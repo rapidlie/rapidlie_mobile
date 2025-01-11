@@ -133,6 +133,14 @@ inter12CharcoalBlack400() {
   );
 }
 
+inter10CharcoalBlack400() {
+  return GoogleFonts.inter(
+    fontSize: 10.sp,
+    color: CustomColors.charcoalBlack,
+    fontWeight: FontWeight.w400,
+  );
+}
+
 poppins12CharcoalBlack500() {
   return GoogleFonts.inter(
     fontSize: 12.sp,
