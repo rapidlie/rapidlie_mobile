@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
-import 'package:rapidlie/core/utils/gravata_to_image.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 import '../widgets/settings_item_layout.dart';
@@ -11,7 +12,6 @@ class ProfileSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = getGitHubIdenticonUrl("easiedu");
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
@@ -39,13 +39,16 @@ class ProfileSettingsScreen extends StatelessWidget {
                       height: 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey.shade600,
                       ),
                       child: ClipOval(
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/images/placeholder.png',
-                          image: imageUrl,
+                          image: UserPreferences().getProfileImage(),
                           fit: BoxFit.cover,
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              Image.asset('assets/images/placeholder.png'),
+                          imageCacheHeight: 100,
+                          imageCacheWidth: 100,
                         ),
                       ),
                     ),
@@ -56,29 +59,22 @@ class ProfileSettingsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Eugene Ofori Asiedu",
-                          style: poppins14black500(),
+                          UserPreferences().getName(),
+                          style: inter15black500(),
                         ),
                         Text(
-                          "+233 50 613 8718",
-                          style: poppins10black400(),
+                          UserPreferences().getTelephone(),
+                          style: inter10CharcoalBlack400(),
                         ),
                       ],
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    children: [],
-                  ),
+                SizedBox(
+                  height: 20,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(borderRadius),
-                    color: Colors.white,
-                  ),
-                  child: Column(
+                SettingsContainerLayout(
+                  childWidget: Column(
                     children: [
                       SettingsItemLayout(
                         icon: Icons.lock,
