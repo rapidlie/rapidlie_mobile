@@ -4,7 +4,7 @@ class UserModel {
   final String email;
   final String phone;
   final String? country;
-  final String? avatar;
+  final String avatar;
 
   UserModel({
     required this.uuid,
@@ -12,7 +12,7 @@ class UserModel {
     required this.email,
     required this.phone,
     this.country,
-    this.avatar,
+    required this.avatar,
   });
 
   // Factory method to create a DataModel from JSON
@@ -23,7 +23,7 @@ class UserModel {
       email: json['email'],
       phone: json['phone'],
       country: json['country'],
-      avatar: json['avatar'],
+      avatar: json['avatar'] ?? "",
     );
   }
 
