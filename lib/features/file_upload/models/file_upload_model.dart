@@ -9,14 +9,12 @@ class FileUploadModel extends Equatable {
     this.file,
   });
 
-  // Factory constructor to create an instance from JSON
   factory FileUploadModel.fromJson(Map<String, dynamic> json) {
     return FileUploadModel(
       file: json['file'],
     );
   }
 
-  // Method to convert an instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'file': file,
