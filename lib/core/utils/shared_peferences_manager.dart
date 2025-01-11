@@ -14,6 +14,7 @@ class UserPreferences {
   static const String _keyUserId = 'user_id';
   static const String _keyName = 'name';
   static const String _keyTelephone = 'telephone';
+  static const String _keyProfileImageLink = 'profile_image';
   static const String _keyRegistrationStep = 'registration_step';
 
   static final UserPreferences _instance = UserPreferences._ctor();
@@ -116,6 +117,16 @@ class UserPreferences {
 
   getTelephone() {
     return _prefs.getString(_keyTelephone);
+  }
+
+  // Save User Image
+  setProfileImage(String userImage) {
+    _prefs.setString(_keyProfileImageLink, userImage);
+  }
+
+  // Get User Image
+  getProfileImage() {
+    return _prefs.getString(_keyProfileImageLink) ?? "";
   }
 
   Future<void> saveUser(UserModel user) async {
