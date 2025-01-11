@@ -10,7 +10,9 @@ import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
+import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
@@ -27,6 +29,12 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   //final bool isMenuOpen = false;
   late var language;
+
+  @override
+  void initState() {
+    context.read<ProfileBloc>().add(GetProfileEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,75 +60,132 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(() => ProfileSettingsScreen());
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 6,
-                            offset: Offset(0, 5), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey.shade600,
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      if (state is ProfileLoadedState) {
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => ProfileSettingsScreen());
+                          },
+                          child: SettingsContainerLayout(
+                            childWidget: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: ClipOval(
+                                          child: FadeInImage.assetNetwork(
+                                            placeholder:
+                                                'assets/images/placeholder.png',
+                                            image: state.userProfile.avatar,
+                                            fit: BoxFit.cover,
+                                            imageErrorBuilder: (context, error,
+                                                    stackTrace) =>
+                                                Image.asset(
+                                                    'assets/images/placeholder.png'),
+                                            imageCacheHeight: 100,
+                                            imageCacheWidth: 100,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state.userProfile.name,
+                                            style: inter15black500(),
+                                          ),
+                                          Text(
+                                            state.userProfile.phone,
+                                            style: inter10CharcoalBlack400(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(() => ProfileSettingsScreen());
+                        },
+                        child: SettingsContainerLayout(
+                          childWidget: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      "Eugene Ofori Asiedu",
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        //color: Colors.grey.shade600,
+                                      ),
+                                      child: ClipOval(
+                                        child: FadeInImage(
+                                          image: AssetImage(
+                                              'assets/images/placeholder.png'),
+                                          fit: BoxFit.cover,
+                                          placeholder: AssetImage(
+                                              'assets/images/placeholder.png'),
+                                        ),
                                       ),
                                     ),
-                                    Text(
-                                      "+233 50 613 8718",
-                                      style: TextStyle(
-                                        fontSize: 10.0,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black,
-                                      ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          UserPreferences().getName(),
+                                          style: inter15black500(),
+                                        ),
+                                        Text(
+                                          UserPreferences().getTelephone(),
+                                          style: inter10CharcoalBlack400(),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.grey.shade300,
+                                ),
                               ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.grey.shade300,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   normalHeight(),
                   Text(
@@ -128,20 +193,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: poppins14black500(),
                   ),
                   extraSmallHeight(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 6,
-                          offset: Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Consumer<ChangeLanguageProvider>(
+                  SettingsContainerLayout(
+                    childWidget: Consumer<ChangeLanguageProvider>(
                       builder: (context, provider, child) {
                         return Column(
                           children: [
@@ -194,20 +247,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: poppins14black500(),
                   ),
                   extraSmallHeight(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 6,
-                          offset: Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
+                  SettingsContainerLayout(
+                    childWidget: Column(
                       children: [
                         SettingsItemLayout(
                           icon: Icons.description,
@@ -245,20 +286,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   normalHeight(),
                   GestureDetector(
                     onTap: () => _showLogoutDialog(context),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 6,
-                            offset: Offset(0, 5), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SettingsItemLayout(
+                    child: SettingsContainerLayout(
+                      childWidget: SettingsItemLayout(
                         icon: Icons.logout,
                         title: "Logout",
                         iconColor: Colors.black,
@@ -279,6 +308,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
