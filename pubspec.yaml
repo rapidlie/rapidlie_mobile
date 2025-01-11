@@ -48,6 +48,7 @@ dependencies:
   geolocator: ^13.0.2
   flutter_launcher_icons: ^0.14.1
   flutter_google_places_sdk: ^0.3.2+1
+  package_info_plus: ^8.1.2
 
 flutter_launcher_icons:
   android: true
