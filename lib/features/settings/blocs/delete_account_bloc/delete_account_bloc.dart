@@ -25,7 +25,6 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
       );
 
       if (result is DataSuccess<String>) {
-        UserPreferences().clearAll();
         emit(DeleteAccountSuccessState(message: result.data!));
       } else {
         emit(DeleteAccountErrorState(error: "Account deletion failed"));
