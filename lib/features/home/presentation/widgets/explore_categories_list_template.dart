@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
@@ -17,45 +18,18 @@ class ExploreCategoryListTemplate extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
-            /* Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: CustomColors.lightGray, shape: BoxShape.circle),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                    child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/images/placeholder.png',
-                  image: imageSrc,
-                  height: 10,
-                  width: 10,
-                  imageErrorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                        'assets/images/error.png'); // Fallback image on error
-                  },
-                )),
-              ),
-            ), */
             HeaderTextTemplate(
               titleText: categoryName,
               titleTextColor: Colors.black,
               containerColor: CustomColors.white,
               containerBorderColor: CustomColors.gray,
               textSize: 12,
+              iconWidget: CachedNetworkImage(
+                imageUrl: imageSrc,
+                width: 18,
+                height: 18,
+              ),
             )
-            /* Text(
-              categoryName,
-              softWrap: false,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: CustomColors.black,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-                fontSize: 10.0,
-                overflow: TextOverflow.fade,
-              ), 
-            )*/
           ],
         ),
       ),
