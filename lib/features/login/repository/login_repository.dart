@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/core/constants/strings.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/login/models/login_model.dart';
 
 class LoginRepository {
@@ -30,6 +31,10 @@ class LoginRepository {
 
       if (response.statusCode == HttpStatus.ok) {
         final loginResponse = LoginResponse.fromJson(response.data);
+        UserPreferences().setBearerToken(loginResponse.accessToken);
+        UserPreferences().setUserName(loginResponse.user.name);
+        UserPreferences().setUserId(loginResponse.user.uuid);
+        UserPreferences().setLoginStatus(true);
         return DataSuccess(loginResponse);
       } else {
         return DataFailed(DioException(
