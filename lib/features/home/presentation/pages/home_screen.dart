@@ -8,6 +8,7 @@ import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
+import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
@@ -167,26 +168,44 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       } else if (state is CategoryLoadedState) {
                         return ListView.builder(
-                          itemCount: state.categories.length,
+                          itemCount: state.categories.length + 1,
                           shrinkWrap: true,
                           padding: EdgeInsets.only(left: 10),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => CategoryScreen(), arguments: [
-                                    state.categories[index].id,
-                                    state.categories[index].name,
-                                  ]);
-                                },
-                                child: ExploreCategoryListTemplate(
-                                  categoryName: state.categories[index].name,
-                                  imageSrc: state.categories[index].image,
+                            if (index == 0) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Column(
+                                  children: [
+                                    HeaderTextTemplate(
+                                      titleText: "All",
+                                      titleTextColor: Colors.white,
+                                      containerColor: Colors.black,
+                                      containerBorderColor: Colors.black,
+                                      textSize: 12,
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            );
+                              );
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => CategoryScreen(), arguments: [
+                                      state.categories[index - 1].id,
+                                      state.categories[index - 1].name,
+                                    ]);
+                                  },
+                                  child: ExploreCategoryListTemplate(
+                                    categoryName:
+                                        state.categories[index - 1].name,
+                                    imageSrc: state.categories[index - 1].image,
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         );
                       } else if (state is CategoryErrorState) {
