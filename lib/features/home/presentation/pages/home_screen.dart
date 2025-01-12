@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 verySmallHeight(),
                 Container(
                   width: width,
-                  height: 80,
+                  height: 50,
                   child: BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoadingState) {
@@ -213,18 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       return Center(child: Text('No categories found'));
                     },
-                  ),
-                ),
-                //bigHeight(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    language.discover,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
                   ),
                 ),
                 verySmallHeight(),
