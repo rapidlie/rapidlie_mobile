@@ -43,7 +43,7 @@ class RegisterRepository {
         await UserPreferences().setUserEmail(registerResponse.user.email);
         await UserPreferences().setUserId(registerResponse.user.uuid);
         await UserPreferences().setRegistrationStep("partial");
-        await UserPreferences().setProfileImage(registerResponse.user.avatar!);
+        await UserPreferences().setProfileImage(registerResponse.user.avatar);
 
         return DataSuccess(registerResponse);
       } else {
