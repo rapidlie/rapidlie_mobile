@@ -352,7 +352,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           content: Text(
-            'Are you sure you want to log out?',
+            'Are you sure you want to logout?',
             style: GoogleFonts.inter(
               fontWeight: FontWeight.w500,
               fontSize: 13,
@@ -361,9 +361,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             GestureDetector(
               onTap: () => Navigator.of(context).pop(),
-              child: Text(
-                "Cancel",
-                style: inter12CharcoalBlack400(),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: Text(
+                    "Cancel",
+                    style: inter12CharcoalBlack400(),
+                  ),
+                ),
               ),
             ),
             BlocListener<LogoutBloc, LogoutState>(
@@ -382,9 +387,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: () => context.read<LogoutBloc>().add(
                       SubmitLogoutEvent(),
                     ),
-                child: Text(
-                  "Logout",
-                  style: inter12CharcoalBlack400(),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      "Logout",
+                      style: inter12CharcoalBlack400(),
+                    ),
+                  ),
                 ),
               ),
             ),
