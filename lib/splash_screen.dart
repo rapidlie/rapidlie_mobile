@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkLoginStatus() async {
     bool isLoggedIn = await UserPreferences().getLoginStatus();
-    String? bearerToken = await UserPreferences().getBearerToken();
+    String bearerToken = await UserPreferences().getBearerToken();
 
     if (isLoggedIn && bearerToken == "") {
       Navigator.pushReplacementNamed(context, OtpScreen.routeName);
@@ -44,6 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
         listener: (context, state) {
           if (state is ProfileLoadingState) {
           } else if (state is ProfileErrorState) {
+            UserPreferences().clearAll();
+
             checkLoginStatus();
           } else if (state is ProfileLoadedState) {
             context.read<CategoryBloc>().add(FetchCategoriesEvent());
