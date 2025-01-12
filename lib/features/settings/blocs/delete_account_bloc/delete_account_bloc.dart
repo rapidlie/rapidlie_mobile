@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rapidlie/config/data_state.dart';
-import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
 
 part 'delete_account_event.dart';
