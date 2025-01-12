@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
@@ -27,14 +27,37 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  //final bool isMenuOpen = false;
+  String _appVersion = '';
   late var language;
+  /* PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  ); */
 
   @override
   void initState() {
-    context.read<ProfileBloc>().add(GetProfileEvent());
     super.initState();
+    context.read<ProfileBloc>().add(GetProfileEvent());
+    //_initPackageInfo();
+    //_fetchAppVersion();
   }
+
+  /* Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  } */
+
+  /* Future<void> _fetchAppVersion() async {
+    setState(() {
+      _appVersion = _packageInfo.version;
+    });
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          UserPreferences().getName(),
+                                          UserPreferences().getUserName(),
                                           style: inter15black500(),
                                         ),
                                         Text(
@@ -280,6 +303,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           title: "Privacy policy",
                           iconColor: Colors.red,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40.0),
+                          child: Container(
+                            height: 1,
+                            color: const Color.fromARGB(255, 240, 239, 239),
+                          ),
+                        ),
+                        SettingsItemLayout(
+                          icon: Icons.numbers,
+                          title: "App version",
+                          iconColor: Colors.black,
+                          value: Text(_appVersion),
+                        ),
                       ],
                     ),
                   ),
@@ -307,11 +343,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+        return CupertinoAlertDialog(
           title: Text(
             'Logout',
             style: GoogleFonts.inter(
@@ -326,14 +358,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               fontSize: 13,
             ),
           ),
-          actionsAlignment: MainAxisAlignment.center,
           actions: [
-            ButtonTemplate(
-              buttonName: "Cancel",
-              buttonWidth: 100,
-              buttonAction: () => Navigator.of(context).pop(),
-              buttonColor: Colors.white,
-              textColor: Colors.black,
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Text(
+                "Cancel",
+                style: inter12CharcoalBlack400(),
+              ),
             ),
             BlocListener<LogoutBloc, LogoutState>(
               listener: (context, state) {
@@ -347,14 +378,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: ButtonTemplate(
-                buttonName: "Logout",
-                buttonWidth: 100,
-                buttonAction: () {
-                  context.read<LogoutBloc>().add(
-                        SubmitLogoutEvent(),
-                      );
-                },
+              child: GestureDetector(
+                onTap: () => context.read<LogoutBloc>().add(
+                      SubmitLogoutEvent(),
+                    ),
+                child: Text(
+                  "Logout",
+                  style: inter12CharcoalBlack400(),
+                ),
               ),
             ),
           ],
