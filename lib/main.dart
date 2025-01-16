@@ -11,7 +11,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/categories/repository/category_repository.dart';
-import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
+import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
 import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
