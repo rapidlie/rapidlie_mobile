@@ -4,7 +4,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
-import 'package:rapidlie/features/contacts/bloc/telephone_numbers_bloc.dart';
+import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
 import 'package:url_launcher/url_launcher.dart';
