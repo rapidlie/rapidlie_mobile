@@ -6,10 +6,13 @@ part 'contacts_event.dart';
 part 'contacts_state.dart';
 
 class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
+  List<Contact> _cachedContacts = [];
   ContactsBloc() : super(ContactsInitial()) {
     on<RequestPermissionEvent>(_onRequestPermission);
     on<FetchContactsEvent>(_onFetchContacts);
   }
+
+  List<Contact> get cachedContacts => _cachedContacts;
 
   Future<void> _onRequestPermission(
       RequestPermissionEvent event, Emitter<ContactsState> emit) async {
@@ -33,11 +36,10 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       List<Contact> contacts = await FlutterContacts.getContacts(
         withProperties: true,
       );
+      _cachedContacts = contacts;
       emit(ContactLoaded(contacts));
     } catch (e) {
       emit(ContactError(e.toString()));
     }
   }
 }
-
-
