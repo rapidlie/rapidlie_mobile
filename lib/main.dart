@@ -11,6 +11,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/categories/repository/category_repository.dart';
+import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
@@ -60,7 +61,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:rapidlie/rapid_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
 import 'package:rapidlie/splash_screen.dart';
-import 'features/register/presentation/pages/register_screen.dart';   
+import 'features/register/presentation/pages/register_screen.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -190,6 +191,9 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => DeleteAccountBloc(
                   deleteAccoutRepository: DeleteAccountRepository(dio: Dio())),
+            ),
+            BlocProvider(
+              create: (context) => ContactsBloc(),
             ),
             ChangeNotifierProvider(
               create: (context) => ChangeLanguageProvider(),
