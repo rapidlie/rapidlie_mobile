@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
+import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
@@ -21,6 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     context.read<ProfileBloc>().add(GetProfileEvent());
+    context.read<ContactsBloc>().add(RequestPermissionEvent());
+    context.read<ContactsBloc>().add(FetchContactsEvent());
     super.initState();
   }
 
