@@ -20,8 +20,10 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     try {
       bool permissionGranted = await FlutterContacts.requestPermission();
       if (permissionGranted) {
+        print("Permission granted");
         add(FetchContactsEvent()); // Trigger fetching contacts
       } else {
+        print("Permission denied");
         emit(ContactPermissionDenied());
       }
     } catch (e) {
@@ -33,11 +35,17 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       FetchContactsEvent event, Emitter<ContactsState> emit) async {
     emit(ContactLoading());
     try {
-      List<Contact> contacts = await FlutterContacts.getContacts(
-        withProperties: true,
-      );
-      _cachedContacts = contacts;
-      emit(ContactLoaded(contacts));
+      bool permissionGranted = await FlutterContacts.requestPermission();
+      if (!permissionGranted) {
+        emit(ContactPermissionDenied());
+        return;
+      } else {
+        List<Contact> contacts = await FlutterContacts.getContacts(
+          withProperties: true,
+        );
+        _cachedContacts = contacts;
+        emit(ContactLoaded(contacts));
+      }
     } catch (e) {
       emit(ContactError(e.toString()));
     }
