@@ -343,62 +343,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: Text(
-            'Logout',
-            style: GoogleFonts.inter(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-            ),
-          ),
-          content: Text(
-            'Are you sure you want to logout?',
-            style: GoogleFonts.inter(
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-            ),
-          ),
-          actions: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Center(
-                  child: Text(
-                    "Cancel",
-                    style: inter12CharcoalBlack400(),
-                  ),
+        return Theme(
+          data: ThemeData(
+            cupertinoOverrideTheme: CupertinoThemeData(
+              brightness: Brightness.dark,
+              primaryColor: Colors.white,
+              textTheme: CupertinoTextThemeData(
+                textStyle: GoogleFonts.inter(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
+                actionTextStyle: inter12CharcoalBlack400(),
               ),
             ),
-            BlocListener<LogoutBloc, LogoutState>(
-              listener: (context, state) {
-                print(state);
-                if (state is LogoutSuccessState) {
-                  Navigator.pop(context);
-                  UserPreferences().clearAll();
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                } else if (state is LogoutErrorState) {
-                  Navigator.pop(context);
-                }
-              },
-              child: GestureDetector(
-                onTap: () => context.read<LogoutBloc>().add(
-                      SubmitLogoutEvent(),
-                    ),
+          ),
+          child: CupertinoAlertDialog(
+            title: Text(
+              'Logout',
+            ),
+            content: Text(
+              'Are you sure you want to logout?',
+            ),
+            actions: [
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
                     child: Text(
-                      "Logout",
+                      "Cancel",
                       style: inter12CharcoalBlack400(),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+              BlocListener<LogoutBloc, LogoutState>(
+                listener: (context, state) {
+                  print(state);
+                  if (state is LogoutSuccessState) {
+                    Navigator.pop(context);
+                    UserPreferences().clearAll();
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
+                  } else if (state is LogoutErrorState) {
+                    Navigator.pop(context);
+                  }
+                },
+                child: GestureDetector(
+                  onTap: () => context.read<LogoutBloc>().add(
+                        SubmitLogoutEvent(),
+                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Text(
+                        "Logout",
+                        style: inter12CharcoalBlack400(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
