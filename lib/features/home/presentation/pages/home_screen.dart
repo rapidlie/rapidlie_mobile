@@ -256,6 +256,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 eventId: state.events[index].id,
                                 hasLikedEvent:
                                     state.events[index].hasLikedEvent,
+                                eventOwnerAvatar:
+                                    state.events[index].user!.avatar,
                               ),
                             ),
                           );
