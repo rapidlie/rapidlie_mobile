@@ -66,6 +66,7 @@ class EventDataModel extends Equatable {
   final bool hasLikedEvent;
   final int formattedLikes;
   final String username;
+  User? user;
 
   EventDataModel({
     required this.id,
@@ -84,6 +85,7 @@ class EventDataModel extends Equatable {
     required this.likes,
     required this.formattedLikes,
     required this.username,
+    this.user,
   }) : super();
 
   factory EventDataModel.fromJson(Map<String, dynamic> json) {
@@ -105,6 +107,7 @@ class EventDataModel extends Equatable {
       hasLikedEvent: json['hasLikedEvent'],
       formattedLikes: json['formatted_likes'],
       username: json['username'],
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }
 
@@ -126,6 +129,7 @@ class EventDataModel extends Equatable {
       'hasLikedEvent': hasLikedEvent,
       'formatted_likes': formattedLikes,
       'username': username,
+      'user': user != null ? user!.toJson() : null,
     };
   }
 
@@ -147,39 +151,9 @@ class EventDataModel extends Equatable {
         formattedLikes,
         username,
         hasLikedEvent,
+        user,
       ];
 }
-
-/* class CategoryModel extends Equatable {
-  final String id;
-  final String name;
-  final String image;
-
-  CategoryModel({
-    required this.id,
-    required this.name,
-    required this.image,
-  }) : super();
-
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'image': image,
-    };
-  }
-
-  @override
-  List<Object?> get props => [id, name, image];
-} */
 
 class Invitation {
   final String status;
