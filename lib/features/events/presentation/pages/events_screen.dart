@@ -1173,10 +1173,7 @@ class _EventsScreenState extends State<EventsScreen>
         return BlocConsumer<CreateEventBloc, CreateEventState>(
           listener: (context, state) {
             if (state is CreateEventSuccessful) {
-              print("Successssss");
-            } else if (state is CreateEventError) {
-              print("Failedddd");
-            }
+            } else if (state is CreateEventError) {}
           },
           builder: (context, eventState) {
             if (eventState is CreateEventLoading) {
