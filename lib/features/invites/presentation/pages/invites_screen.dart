@@ -105,6 +105,7 @@ class _InvitesScreenState extends State<InvitesScreen>
                     eventImageString: eventDataModel[index].image!,
                     eventId: eventDataModel[index].id,
                     hasLikedEvent: eventDataModel[index].hasLikedEvent,
+                    eventOwnerAvatar: eventDataModel[index].user!.avatar!,
                   ),
                 ),
               );
