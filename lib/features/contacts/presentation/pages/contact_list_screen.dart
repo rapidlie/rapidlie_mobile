@@ -4,6 +4,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
+import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
@@ -15,13 +16,15 @@ class ContactListScreen extends StatefulWidget {
   State<ContactListScreen> createState() => _ContactListScreenState();
 }
 
-class _ContactListScreenState extends State<ContactListScreen> {
+class _ContactListScreenState extends State<ContactListScreen>
+    with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
 
   List<ContactDetails> fetchedContacts = [];
   List<ContactDetails> _selectedContacts = [];
   late TextEditingController searchController;
   List<ContactDetails> flockrContacts = [];
+  List<Contact> contacts = [];
 
   void inviteFriend() async {
     String message = "Hey, check out this cool event app!";
@@ -36,35 +39,36 @@ class _ContactListScreenState extends State<ContactListScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     searchController = SearchController();
-    context.read<TelephoneNumbersBloc>().add(GetNumbers());
+    contacts = context.read<ContactsBloc>().cachedContacts;
+    final numbersBloc = context.read<TelephoneNumbersBloc>();
+    if (numbersBloc.state is! TelephoneNumbersLoaded) {
+      numbersBloc.add(GetNumbers());
+    }
     getCustomContacts();
   }
 
   Future<void> getCustomContacts() async {
-    if (await FlutterContacts.requestPermission()) {
-      List<Contact> contacts =
-          await FlutterContacts.getContacts(withProperties: true);
-
-      setState(() {
-        fetchedContacts = contacts.map((contact) {
-          return ContactDetails(
-            name: contact.displayName,
-            telephone:
-                contact.phones.isNotEmpty ? contact.phones.first.number : null,
-          );
-        }).toList();
-        isLoading = false;
-      });
-    } else {
-      print("Permission denied");
-    }
+    setState(() {
+      fetchedContacts = contacts.map((contact) {
+        return ContactDetails(
+          name: contact.displayName,
+          telephone:
+              contact.phones.isNotEmpty ? contact.phones.first.number : null,
+        );
+      }).toList();
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
