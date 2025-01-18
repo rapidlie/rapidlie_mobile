@@ -12,6 +12,7 @@ class EventListTemplate extends StatelessWidget {
   final String eventImageString;
   final String? eventId;
   final bool hasLikedEvent;
+  final String? eventOwnerAvatar;
   const EventListTemplate({
     Key? key,
     required this.eventOwner,
@@ -22,6 +23,7 @@ class EventListTemplate extends StatelessWidget {
     required this.eventImageString,
     this.eventId,
     required this.hasLikedEvent,
+    this.eventOwnerAvatar,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,17 @@ class EventListTemplate extends StatelessWidget {
                   height: 35,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey.shade300,
+                  ),
+                  child: ClipOval(
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/placeholder.png',
+                      image: eventOwnerAvatar!,
+                      fit: BoxFit.cover,
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset('assets/images/placeholder.png'),
+                      imageCacheHeight: 100,
+                      imageCacheWidth: 100,
+                    ),
                   ),
                 ),
                 SizedBox(
