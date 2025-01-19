@@ -66,7 +66,7 @@ class EventDataModel extends Equatable {
   final bool hasLikedEvent;
   final int formattedLikes;
   final String username;
-  User? user;
+  final User? user;
 
   EventDataModel({
     required this.id,
