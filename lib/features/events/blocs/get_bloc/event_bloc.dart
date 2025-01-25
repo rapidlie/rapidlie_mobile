@@ -11,6 +11,8 @@ part 'event_state.dart';
 class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   final EventRepository eventRepository;
 
+  List<EventDataModel>? _cachedPublicEvents;
+
   PublicEventBloc({required this.eventRepository})
       : super(InitialPublicEventState()) {
     on<GetPublicEvents>(_onGetPublicEvents);
@@ -29,11 +31,16 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
     String eventType,
   ) async {
     emit(PublicEventLoading());
+    if (_cachedPublicEvents != null) {
+      emit(PublicEventLoaded(events: _cachedPublicEvents!));
+      return;
+    }
 
     try {
       final eventResponse = await fetchFunction();
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        _cachedPublicEvents = eventResponse.data;
         emit(
           PublicEventLoaded(events: eventResponse.data!),
         );
@@ -46,9 +53,10 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   }
 }
 
-/** Public Events Bloc */
+/** Invited Events Bloc */
 class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
   final EventRepository eventRepository;
+  List<EventDataModel>? _cachedInvitedEvents;
 
   InvitedEventBloc({required this.eventRepository})
       : super(InitialInvitedEventState()) {
@@ -68,11 +76,16 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
     String eventType,
   ) async {
     emit(InvitedEventLoading());
+    if (_cachedInvitedEvents != null) {
+      emit(InvitedEventLoaded(events: _cachedInvitedEvents!));
+      return;
+    }
 
     try {
       final eventResponse = await fetchFunction();
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        _cachedInvitedEvents = eventResponse.data;
         emit(
           InvitedEventLoaded(events: eventResponse.data!),
         );
@@ -88,6 +101,7 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
 /** Private Event Bloc **/
 class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   final EventRepository eventRepository;
+  List<EventDataModel>? _cachedPrivateEvents;
 
   PrivateEventBloc({required this.eventRepository})
       : super(InitialPrivateEventState()) {
@@ -106,11 +120,16 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(PrivateEventLoading());
+    if (_cachedPrivateEvents != null) {
+      emit(PrivateEventLoaded(events: _cachedPrivateEvents!));
+      return;
+    }
 
     try {
       final eventResponse = await fetchFunction();
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        _cachedPrivateEvents = eventResponse.data;
         emit(
           PrivateEventLoaded(events: eventResponse.data!),
         );
@@ -126,6 +145,7 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
 /** Upcoming Events Bloc */
 class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
   final EventRepository eventRepository;
+  List<EventDataModel>? _cachedUpcomingEvents;
 
   UpcomingEventBloc({required this.eventRepository})
       : super(InitialUpcomingEventState()) {
@@ -144,11 +164,16 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(UpcomingEventLoading());
+    if (_cachedUpcomingEvents != null) {
+      emit(UpcomingEventLoaded(events: _cachedUpcomingEvents!));
+      return;
+    }
 
     try {
       final eventResponse = await fetchFunction();
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        _cachedUpcomingEvents = eventResponse.data;
         emit(
           UpcomingEventLoaded(events: eventResponse.data!),
         );
@@ -164,6 +189,7 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
 /** Events By Category Bloc */
 class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
   final EventRepository eventRepository;
+  List<EventDataModel>? _cachedEventsByCategory;
 
   EventByCategoryBloc({required this.eventRepository})
       : super(InitialEventByCategoryState()) {
@@ -183,11 +209,16 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(EventByCategoryLoading());
+    if (_cachedEventsByCategory != null) {
+      emit(EventByCategoryLoaded(events: _cachedEventsByCategory!));
+      return;
+    }
 
     try {
       final eventResponse = await fetchFunction();
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
+        _cachedEventsByCategory = eventResponse.data;
         emit(
           EventByCategoryLoaded(events: eventResponse.data!),
         );
