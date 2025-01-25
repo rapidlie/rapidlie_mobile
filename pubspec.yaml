@@ -46,15 +46,16 @@ dependencies:
   flutter_contacts: ^1.1.9+2
   geocoding: ^3.0.0
   geolocator: ^13.0.2
-  flutter_launcher_icons: ^0.14.1
   flutter_google_places_sdk: ^0.3.2+1
   package_info_plus: ^8.1.2
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/flockr_icon.png"
+  image_path: "assets/images/flockr_icon.png" 
   remove_alpha_ios: true
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/flockr_icon_new.png"
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,7 @@ dev_dependencies:
   retrofit_generator:
   floor_generator:
   build_runner: ^2.4.9
+  flutter_launcher_icons: ^0.14.1
 
 flutter:
   generate: true
