@@ -32,13 +32,12 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
         ),
         pickerBuilder: (context, CountryCode? countryCode) {
           return Text(
-            countryCode!.dialCode ?? "",
+            countryCode!.dialCode!,
             style: poppins14black500(),
           );
         },
-        // to show or hide flag
         theme: CountryTheme(
-          alphabetSelectedBackgroundColor: CustomColors.secondary,
+          alphabetSelectedBackgroundColor: Colors.black,
           searchHintText: 'Enter name of country here',
           isShowFlag: false,
           isShowTitle: false,
@@ -46,9 +45,7 @@ class _CountryCodeLayoutState extends State<CountryCodeLayout> {
           isDownIcon: false,
           showEnglishName: false,
         ),
-        // to initial code number country
         initialSelection: widget.countryCode,
-        // to get feedback data from picker
         onChanged: (CountryCode? code) {
           setState(() {
             widget.countryCode = code!.dialCode!;
