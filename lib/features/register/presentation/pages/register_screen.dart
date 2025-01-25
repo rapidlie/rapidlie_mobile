@@ -162,6 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ButtonTemplate(
                             buttonName: "Register",
                             buttonWidth: width,
+                            loading: state is RegisterLoadingState,
                             buttonAction: () {
                               BlocProvider.of<RegisterBloc>(context).add(
                                 SubmitRegisterEvent(
