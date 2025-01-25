@@ -13,6 +13,7 @@ class EventListTemplate extends StatelessWidget {
   final String? eventId;
   final bool hasLikedEvent;
   final String? eventOwnerAvatar;
+
   const EventListTemplate({
     Key? key,
     required this.eventOwner,
@@ -45,7 +46,7 @@ class EventListTemplate extends StatelessWidget {
                   child: ClipOval(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/placeholder.png',
-                      image: eventOwnerAvatar!,
+                      image: eventOwnerAvatar ?? '',
                       fit: BoxFit.cover,
                       imageErrorBuilder: (context, error, stackTrace) =>
                           Image.asset('assets/images/placeholder.png'),
