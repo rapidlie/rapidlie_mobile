@@ -109,6 +109,14 @@ inter15black500() {
   );
 }
 
+inter14black600() {
+  return GoogleFonts.inter(
+    color: CustomColors.black,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+  );
+}
+
 mainAppbarTitleStyle() {
   return GoogleFonts.inter(
     color: Colors.black,
@@ -141,10 +149,18 @@ inter10CharcoalBlack400() {
   );
 }
 
-poppins12CharcoalBlack500() {
+inter12CharcoalBlack500() {
   return GoogleFonts.inter(
     fontSize: 12.sp,
     color: CustomColors.charcoalBlack,
+    fontWeight: FontWeight.w500,
+  );
+}
+
+inter12Red500() {
+  return GoogleFonts.inter(
+    fontSize: 12.sp,
+    color: Colors.red,
     fontWeight: FontWeight.w500,
   );
 }
