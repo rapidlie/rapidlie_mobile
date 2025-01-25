@@ -113,22 +113,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       arguments: state.events[index],
                                     );
                                   },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 40.0),
-                                    child: UpcomingEventListTemplate(
-                                      eventName: state.events[index].name,
-                                      eventImageString:
-                                          state.events[index].image,
-                                      eventDay:
-                                          getDayName(state.events[index].date),
-                                      eventDate: convertDateDotFormat(
-                                        DateTime.parse(
-                                            state.events[index].date),
-                                      ),
-                                      eventId: state.events[index].id,
-                                      eventLocation: state.events[index].venue,
+                                  child: UpcomingEventListTemplate(
+                                    eventName: state.events[index].name,
+                                    eventImageString: state.events[index].image,
+                                    eventDay:
+                                        getDayName(state.events[index].date),
+                                    eventDate: convertDateDotFormat(
+                                      DateTime.parse(state.events[index].date),
                                     ),
+                                    eventId: state.events[index].id,
+                                    eventLocation: state.events[index].venue,
                                   ),
                                 );
                               },
@@ -167,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CupertinoActivityIndicator(),
                         );
                       } else if (state is CategoryLoadedState) {
+                        final categories = state.categories;
                         return ListView.builder(
                           itemCount: state.categories.length + 1,
                           shrinkWrap: true,
