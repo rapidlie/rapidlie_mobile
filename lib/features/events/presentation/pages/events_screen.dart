@@ -362,9 +362,7 @@ class _EventsScreenState extends State<EventsScreen>
     try {
       XFile? pickedFile = await ImagePicker().pickImage(
         source: ImageSource.gallery,
-        maxHeight: 200,
         maxWidth: Get.width,
-        imageQuality: 80,
       );
       if (pickedFile != null) {
         final File? convertedImagefile = File(pickedFile.path);
@@ -907,7 +905,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
           Text(
             "Only 150 characters allowed",
-            style: poppins12CharcoalBlack500(),
+            style: inter12CharcoalBlack500(),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
@@ -983,32 +981,6 @@ class _EventsScreenState extends State<EventsScreen>
                     ),
                   ),
                 );
-                /* return DropdownButton<CategoryModel>(
-                  value: selectedCategory, // Current selected value
-                  hint: Text(
-                    'Select category',
-                    style: poppins14black500(),
-                  ), // Hint text before selection
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-                  borderRadius: BorderRadius.circular(8),
-                  isExpanded: true, // Make dropdown cover the width of parent
-                  icon: Icon(Icons.arrow_drop_down),
-                  underline: SizedBox.shrink(),
-                  items: categories.map((CategoryModel category) {
-                    return DropdownMenuItem<CategoryModel>(
-                      value: category,
-                      child: Text(
-                        category.name,
-                        style: poppins14black500(),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (CategoryModel? newValue) {
-                    setState(() {
-                      selectedCategory = newValue; // Update the selected value
-                    });
-                  },
-                ); */
               }
               if (state is CategoryErrorState) {
                 return Center(

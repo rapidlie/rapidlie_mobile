@@ -161,7 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CupertinoActivityIndicator(),
                         );
                       } else if (state is CategoryLoadedState) {
-                        final categories = state.categories;
                         return ListView.builder(
                           itemCount: state.categories.length + 1,
                           shrinkWrap: true,
