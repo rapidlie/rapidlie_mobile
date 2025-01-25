@@ -40,7 +40,7 @@ class ContactListItem extends StatelessWidget {
         ),
         Text(
           contactName,
-          style: poppins12CharcoalBlack500(),
+          style: inter12CharcoalBlack500(),
         )
       ],
     );
