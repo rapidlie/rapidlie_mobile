@@ -76,12 +76,6 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     }
   }
 
-  List<String> imgs = [
-    "assets/images/usr4.png",
-    "assets/images/usr4.png",
-    "assets/images/usr4.png"
-  ];
-
   void extractLatLngFromString(String latLngString) {
     final regex = RegExp(r"LatLng\(([^,]+), ([^)]+)\)");
     final match = regex.firstMatch(latLngString);
@@ -112,11 +106,9 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   Widget build(BuildContext context) {
     widget.language = AppLocalizations.of(context);
 
-    List<Widget> widgets = [
-      ...imgs.map<Widget>((img) => Image.asset(
-            img,
-            fit: BoxFit.cover,
-          ))
+    List<String> userImages = [
+      for (var invite in widget.eventDetails.invitations)
+        invite.user.avatar ?? ""
     ];
 
     return Scaffold(
@@ -411,15 +403,13 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                         normalHeight(),
                         widget.eventDetails.eventType == "public"
                             ? SizedBox.shrink()
-                            : widget.eventDetails.eventType == "public"
-                                ? SizedBox.shrink()
-                                : Text(
-                                    widget.language.invites,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
+                            : Text(
+                                widget.language.invites,
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                         extraSmallHeight(),
                         widget.eventDetails.eventType == "public"
                             ? SizedBox.shrink()
@@ -429,14 +419,16 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                       arguments:
                                           widget.eventDetails.invitations);
                                 },
-                                child: ImageStack.widgets(
-                                  children: widgets,
-                                  totalCount:
-                                      widget.eventDetails.invitations.length,
-                                  widgetRadius: 45,
-                                  widgetCount: 4,
-                                  widgetBorderWidth: 3,
-                                  widgetBorderColor: Colors.white,
+                                child: ImageStack(
+                                  imageList: userImages,
+                                  imageRadius: 50,
+                                  showTotalCount: false,
+                                  imageBorderWidth: 2,
+                                  imageCount: userImages.length,
+                                  imageBorderColor: Colors.white,
+                                  backgroundColor: Colors.grey,
+                                  extraCountBorderColor: Colors.grey,
+                                  totalCount: userImages.length,
                                 ),
                               ),
                       ],
