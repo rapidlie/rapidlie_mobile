@@ -110,7 +110,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           child: FadeInImage.assetNetwork(
                                             placeholder:
                                                 'assets/images/placeholder.png',
-                                            image: state.userProfile.avatar,
+                                            image: UserPreferences()
+                                                .getProfileImage(),
                                             fit: BoxFit.cover,
                                             imageErrorBuilder: (context, error,
                                                     stackTrace) =>
@@ -168,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       height: 50,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        //color: Colors.grey.shade600,
+                                        color: Colors.grey.shade600,
                                       ),
                                       child: ClipOval(
                                         child: FadeInImage(
