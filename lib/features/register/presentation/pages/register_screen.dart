@@ -26,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController passwordController;
 
   String countryCode = '+49';
+  bool obscureText = true;
 
   @override
   void initState() {
@@ -35,12 +36,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController = new TextEditingController();
     alreadyRegistered();
     super.initState();
-  }
-
-  void _onCountryCodeChanged(String newCountryCode) {
-    setState(() {
-      countryCode = newCountryCode;
-    });
   }
 
   @override
@@ -196,12 +191,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFieldTemplate(
                             hintText: "Password",
                             controller: passwordController,
-                            obscureText: true,
+                            obscureText: obscureText,
                             width: width,
                             height: 50,
                             textInputType: TextInputType.text,
                             textInputAction: TextInputAction.done,
                             enabled: true,
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  obscureText = !obscureText;
+                                });
+                              },
+                              child: Icon(
+                                obscureText ? Icons.lock : Icons.lock_open,
+                                color: CustomColors.black,
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: 30.0,
@@ -244,22 +250,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Text(
                               "Do you already have an account?",
                               textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: inter14black500(),
                             ),
                             Text(
                               " Login",
                               textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.deepOrange,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: inter14Orange500(),
                             ),
                           ],
                         ),
