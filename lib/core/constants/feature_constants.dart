@@ -117,6 +117,22 @@ inter14black600() {
   );
 }
 
+inter14black500() {
+  return GoogleFonts.inter(
+    color: CustomColors.black,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+  );
+}
+
+inter14Orange500() {
+  return GoogleFonts.inter(
+    color: Colors.deepOrange,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+  );
+}
+
 mainAppbarTitleStyle() {
   return GoogleFonts.inter(
     color: Colors.black,
