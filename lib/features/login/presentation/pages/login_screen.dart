@@ -134,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
+                        loading: state is LoginLoadingState,
                       ),
                     ],
                   ),
