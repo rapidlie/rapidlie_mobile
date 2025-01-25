@@ -12,7 +12,7 @@ import 'package:rapidlie/features/events/presentation/pages/event_details_screen
 import 'package:rapidlie/features/events/repository/event_respository.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-
+  
 class CategoryScreen extends StatelessWidget {
   static const String routeName = "category";
 
@@ -89,6 +89,7 @@ class EventsByCategoryView extends StatelessWidget {
                         eventImageString: state.events[index].image!,
                         eventId: state.events[index].id,
                         hasLikedEvent: state.events[index].hasLikedEvent,
+                        eventOwnerAvatar: state.events[index].user!.avatar,
                       ),
                     ),
                   );
