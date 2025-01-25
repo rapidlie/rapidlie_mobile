@@ -9,6 +9,7 @@ part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository categoryRepository;
+  List<CategoryModel>? _cachedCategories;
 
   CategoryBloc({required this.categoryRepository})
       : super(CategoryInitialState()) {
@@ -20,10 +21,19 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     Emitter<CategoryState> emit,
   ) async {
     emit(CategoryLoadingState());
+    if (_cachedCategories != null) {
+      emit(CategoryLoadedState(categories: _cachedCategories!));
+      return;
+    }
     try {
       final categoriesResponse = await categoryRepository.getCategories();
-      if (categoriesResponse is DataSuccess<List<CategoryModel>>)
+
+      if (categoriesResponse is DataSuccess<List<CategoryModel>>) {
+        _cachedCategories = categoriesResponse.data;
         emit(CategoryLoadedState(categories: categoriesResponse.data!));
+      } else if (categoriesResponse is DataFailed) {
+        emit(CategoryErrorState(error: categoriesResponse.error.toString()));
+      }
     } catch (e) {
       emit(CategoryErrorState(error: e.toString()));
     }
