@@ -1,3 +1,4 @@
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
@@ -34,6 +35,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController = new TextEditingController();
     alreadyRegistered();
     super.initState();
+  }
+
+  void _onCountryCodeChanged(String newCountryCode) {
+    setState(() {
+      countryCode = newCountryCode;
+    });
   }
 
   @override
@@ -127,7 +134,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           extraSmallHeight(),
                           Row(
                             children: [
-                              CountryCodeLayout(countryCode: countryCode),
+                              Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: CustomColors.gray, width: 2),
+                                ),
+                                child: CountryListPick(
+                                  appBar: AppBar(
+                                    backgroundColor: CustomColors.white,
+                                    title: Text(
+                                      'Choose a country',
+                                      style: poppins14black500(),
+                                    ),
+                                  ),
+                                  pickerBuilder:
+                                      (context, CountryCode? countryCode) {
+                                    return Text(
+                                      countryCode!.dialCode!,
+                                      style: poppins14black500(),
+                                    );
+                                  },
+                                  theme: CountryTheme(
+                                    alphabetSelectedBackgroundColor:
+                                        Colors.black,
+                                    searchHintText:
+                                        'Enter name of country here',
+                                    isShowFlag: false,
+                                    isShowTitle: false,
+                                    isShowCode: true,
+                                    isDownIcon: false,
+                                    showEnglishName: false,
+                                  ),
+                                  initialSelection: countryCode,
+                                  onChanged: (CountryCode? code) {
+                                    setState(() {
+                                      countryCode = code!.dialCode!;
+                                    });
+                                  },
+                                ),
+                              ),
                               SizedBox(
                                 width: 5,
                               ),
