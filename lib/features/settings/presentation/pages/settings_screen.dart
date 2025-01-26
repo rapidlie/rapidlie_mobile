@@ -110,8 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           child: FadeInImage.assetNetwork(
                                             placeholder:
                                                 'assets/images/placeholder.png',
-                                            image: UserPreferences()
-                                                .getProfileImage(),
+                                            image: state.userProfile.avatar,
                                             fit: BoxFit.cover,
                                             imageErrorBuilder: (context, error,
                                                     stackTrace) =>
