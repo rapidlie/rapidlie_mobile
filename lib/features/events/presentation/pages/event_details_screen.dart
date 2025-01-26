@@ -401,19 +401,28 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           ),
                         ),
                         normalHeight(),
-                        widget.eventDetails.eventType == "public"
-                            ? SizedBox.shrink()
-                            : Text(
+                        widget.eventDetails.eventType == "public" &&
+                                widget.isOwnEvent
+                            ? Text(
                                 widget.language.invites,
                                 style: GoogleFonts.inter(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
-                              ),
+                              )
+                            : widget.eventDetails.eventType == "public"
+                                ? SizedBox.shrink()
+                                : Text(
+                                    widget.language.invites,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                         extraSmallHeight(),
-                        widget.eventDetails.eventType == "public"
-                            ? SizedBox.shrink()
-                            : GestureDetector(
+                        widget.eventDetails.eventType == "public" &&
+                                widget.isOwnEvent
+                            ? GestureDetector(
                                 onTap: () {
                                   Get.to(() => GuestListScreen(),
                                       arguments:
@@ -430,7 +439,27 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   extraCountBorderColor: Colors.grey,
                                   totalCount: userImages.length,
                                 ),
-                              ),
+                              )
+                            : widget.eventDetails.eventType == "public"
+                                ? SizedBox.shrink()
+                                : GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => GuestListScreen(),
+                                          arguments:
+                                              widget.eventDetails.invitations);
+                                    },
+                                    child: ImageStack(
+                                      imageList: userImages,
+                                      imageRadius: 50,
+                                      showTotalCount: false,
+                                      imageBorderWidth: 2,
+                                      imageCount: userImages.length,
+                                      imageBorderColor: Colors.white,
+                                      backgroundColor: Colors.grey,
+                                      extraCountBorderColor: Colors.grey,
+                                      totalCount: userImages.length,
+                                    ),
+                                  ),
                       ],
                     ),
                   ),
@@ -477,6 +506,9 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                       ));
                                 },
                                 textColor: Colors.white,
+                                buttonColor: inviteStatus == "accepted"
+                                    ? Colors.red
+                                    : Colors.black,
                               );
                             },
                           ),
