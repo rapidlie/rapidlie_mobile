@@ -202,37 +202,40 @@ class _EventsScreenState extends State<EventsScreen>
               bodyText:
                   "Get started by hitting the button on the bottom right corner of your screen. It is easy",
             )
-          : ListView.builder(
-              padding: const EdgeInsets.only(bottom: 70),
-              physics: AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics()),
-              itemCount: eventDataModel.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      () => EventDetailsScreeen(
-                        isOwnEvent: true,
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 200.0),
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 70),
+                physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                itemCount: eventDataModel.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => EventDetailsScreeen(
+                          isOwnEvent: true,
+                        ),
+                        arguments: eventDataModel[index],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 40.0),
+                      child: GeneralEventListTemplate(
+                        eventName: eventDataModel[index].name,
+                        eventImageString: eventDataModel[index].image,
+                        eventDay: getDayName(eventDataModel[index].date),
+                        eventDate: convertDateDotFormat(
+                          DateTime.parse(eventDataModel[index].date),
+                        ),
+                        eventId: eventDataModel[index].id,
+                        hasLikedEvent: eventDataModel[index].hasLikedEvent,
                       ),
-                      arguments: eventDataModel[index],
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 40.0),
-                    child: GeneralEventListTemplate(
-                      eventName: eventDataModel[index].name,
-                      eventImageString: eventDataModel[index].image,
-                      eventDay: getDayName(eventDataModel[index].date),
-                      eventDate: convertDateDotFormat(
-                        DateTime.parse(eventDataModel[index].date),
-                      ),
-                      eventId: eventDataModel[index].id,
-                      hasLikedEvent: eventDataModel[index].hasLikedEvent,
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
     );
   }
@@ -513,7 +516,7 @@ class _EventsScreenState extends State<EventsScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            language.eventTitle,
+            language.eventTitle + '*',
             style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
@@ -530,7 +533,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
           smallHeight(),
           Text(
-            language.uploadFlyer,
+            language.uploadFlyer + '*',
             style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
@@ -569,18 +572,23 @@ class _EventsScreenState extends State<EventsScreen>
               buttonName: language.next,
               buttonWidth: Get.width,
               buttonAction: () async {
-                setState(() {
-                  showBackButton = showBackButton + 1;
-                });
-                context.read<CreateEventProvider>().updateEvent(
-                      name: titleController.text,
-                      file: imageFile,
-                    );
-                _pageViewController.animateTo(
-                  MediaQuery.of(context).size.width,
-                  duration: new Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                );
+                if (titleController.text.isEmpty || imageFile == null) {
+                  Get.snackbar("Error", "All fields are required");
+                  return;
+                } else {
+                  setState(() {
+                    showBackButton = showBackButton + 1;
+                  });
+                  context.read<CreateEventProvider>().updateEvent(
+                        name: titleController.text,
+                        file: imageFile,
+                      );
+                  _pageViewController.animateTo(
+                    MediaQuery.of(context).size.width,
+                    duration: new Duration(milliseconds: 200),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
             ),
           ),
@@ -632,7 +640,7 @@ class _EventsScreenState extends State<EventsScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            language.selectDate,
+            language.selectDate + '*',
             style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
@@ -683,7 +691,7 @@ class _EventsScreenState extends State<EventsScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      language.startTime,
+                      language.startTime + '*',
                       style: inter12CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
@@ -741,7 +749,7 @@ class _EventsScreenState extends State<EventsScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      language.endTime,
+                      language.endTime + '*',
                       style: inter12CharcoalBlack400(),
                     ),
                     extraSmallHeight(),
@@ -795,7 +803,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
           smallHeight(),
           Text(
-            language.location,
+            language.location + '*',
             style: inter12CharcoalBlack400(),
           ),
           extraSmallHeight(),
@@ -853,7 +861,7 @@ class _EventsScreenState extends State<EventsScreen>
                           venueController.text =
                               predictionList[index].description!;
                           mapId = latLngOfUserLocation.toString();
-                          print("map id is $mapId");
+
                           locationVisibility = false;
                         },
                       );
@@ -884,19 +892,26 @@ class _EventsScreenState extends State<EventsScreen>
             buttonName: language.next,
             buttonWidth: Get.width,
             buttonAction: () {
-              showBackButton = showBackButton + 1;
-              context.read<CreateEventProvider>().updateEvent(
-                    date: convertDateDashFormat(_selectedDay),
-                    startTime: selectedStartTime.toString(),
-                    endTime: selectedEndTime.toString(),
-                    venue: venueController.text,
-                    mapLocation: mapId,
-                  );
-              _pageViewController.animateTo(
-                MediaQuery.of(context).size.width * 2,
-                duration: new Duration(milliseconds: 200),
-                curve: Curves.easeIn,
-              );
+              if (venueController.text.isEmpty ||
+                  selectedStartTime == '00:00 am' ||
+                  selectedEndTime == '00:00 pm') {
+                Get.snackbar("Error", "All fields are required");
+                return;
+              } else {
+                showBackButton = showBackButton + 1;
+                context.read<CreateEventProvider>().updateEvent(
+                      date: convertDateDashFormat(_selectedDay),
+                      startTime: selectedStartTime.toString(),
+                      endTime: selectedEndTime.toString(),
+                      venue: venueController.text,
+                      mapLocation: mapId,
+                    );
+                _pageViewController.animateTo(
+                  MediaQuery.of(context).size.width * 2,
+                  duration: new Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                );
+              }
             },
           ),
         ],
@@ -911,7 +926,7 @@ class _EventsScreenState extends State<EventsScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            language.description,
+            language.description + '*',
             style: inter14CharcoalBlack400(),
           ),
           Text(
@@ -934,7 +949,7 @@ class _EventsScreenState extends State<EventsScreen>
           ),
           smallHeight(),
           Text(
-            "Category",
+            "Category*",
             style: inter14CharcoalBlack400(),
           ),
           extraSmallHeight(),
@@ -1056,20 +1071,24 @@ class _EventsScreenState extends State<EventsScreen>
               buttonName: language.next,
               buttonWidth: Get.width,
               buttonAction: () {
-                print(idOfSelectedCategory);
-                setState(() {
-                  showBackButton = showBackButton + 1;
-                });
-                context.read<CreateEventProvider>().updateEvent(
-                      description: aboutController.text,
-                      eventType: publicEvent ? "public" : "private",
-                      category: idOfSelectedCategory,
-                    );
-                _pageViewController.animateTo(
-                  MediaQuery.of(context).size.width * 3,
-                  duration: new Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                );
+                if (aboutController.text.isEmpty ||
+                    idOfSelectedCategory == null) {
+                  Get.snackbar("Error", "All fields are required");
+                } else {
+                  setState(() {
+                    showBackButton = showBackButton + 1;
+                  });
+                  context.read<CreateEventProvider>().updateEvent(
+                        description: aboutController.text,
+                        eventType: publicEvent ? "public" : "private",
+                        category: idOfSelectedCategory,
+                      );
+                  _pageViewController.animateTo(
+                    MediaQuery.of(context).size.width * 3,
+                    duration: new Duration(milliseconds: 200),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
             ),
           ),
