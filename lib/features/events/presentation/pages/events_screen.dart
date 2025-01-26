@@ -154,35 +154,38 @@ class _EventsScreenState extends State<EventsScreen>
             isSubPage: false,
           ),
         ),
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         floatingActionButton: buttonToShowModal(),
-        body: BlocListener<LikeEventBloc, LikeEventState>(
-          listener: (context, state) {
-            if (state is LikeEventLoaded) {
-              context
-                  .read<PrivateEventBloc>()
-                  .add(GetPrivateEvents()); // Reload specific events
-            }
-          },
-          child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
-            builder: (context, state) {
-              if (state is InitialPrivateEventState) {
-                return emptyStateFullView(
-                  headerText: "No events",
-                  bodyText:
-                      "Get started by hitting the button on the bottom right corner of your screen. It is easy",
-                );
-              } else if (state is PrivateEventLoading) {
-                return Center(child: CupertinoActivityIndicator());
-              } else if (state is PrivateEventLoaded) {
-                return buildBody(state.events);
+        body: SingleChildScrollView(
+          child: BlocListener<LikeEventBloc, LikeEventState>(
+            listener: (context, state) {
+              if (state is LikeEventLoaded) {
+                context
+                    .read<PrivateEventBloc>()
+                    .add(GetPrivateEvents()); // Reload specific events
               }
-              return Center(
-                  child: Text(
-                "Empty",
-                style: TextStyle(fontSize: 30),
-              ));
             },
+            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+              builder: (context, state) {
+                if (state is InitialPrivateEventState) {
+                  return emptyStateFullView(
+                    headerText: "No events",
+                    bodyText:
+                        "Get started by hitting the button on the bottom right corner of your screen. It is easy",
+                  );
+                } else if (state is PrivateEventLoading) {
+                  return Center(child: CupertinoActivityIndicator());
+                } else if (state is PrivateEventLoaded) {
+                  return buildBody(state.events);
+                }
+                return Center(
+                    child: Text(
+                  "Empty",
+                  style: TextStyle(fontSize: 30),
+                ));
+              },
+            ),
           ),
         ),
       ),
@@ -249,11 +252,19 @@ class _EventsScreenState extends State<EventsScreen>
           builder: (context) {
             return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-                return SingleChildScrollView(
-                  primary: true,
-                  child: GestureDetector(
-                    onTap: () => closeMenu(),
-                    child: bottomSheetLayout(setState),
+                return GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
+                    child: SingleChildScrollView(
+                      primary: true,
+                      child: GestureDetector(
+                        onTap: () => closeMenu(),
+                        child: bottomSheetLayout(setState),
+                      ),
+                    ),
                   ),
                 );
               },
