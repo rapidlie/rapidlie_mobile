@@ -234,8 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 Get.to(
-                                    () =>
-                                        EventDetailsScreeen(isOwnEvent: false),
+                                    () => EventDetailsScreeen(
+                                        isOwnEvent:
+                                            state.events[index].user!.uuid ==
+                                                UserPreferences().getUserId()),
                                     arguments: state.events[index]);
                               },
                               child: EventListTemplate(
