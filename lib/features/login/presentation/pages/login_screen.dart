@@ -23,8 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController passwordController;
   String token = '';
   String userName = '';
-
-  String countryCode = '+233';
+  bool obscureText = true;
 
   @override
   void initState() {
@@ -92,12 +91,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFieldTemplate(
                         hintText: "Password",
                         controller: passwordController,
-                        obscureText: true,
+                        obscureText: obscureText,
                         width: width,
                         height: 50,
                         textInputType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         enabled: true,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
+                          child: Icon(
+                            obscureText ? Icons.lock : Icons.lock_open,
+                            color: CustomColors.black,
+                          ),
+                        ),
                       ),
                       textBoxSpace(),
                       SizedBox(
