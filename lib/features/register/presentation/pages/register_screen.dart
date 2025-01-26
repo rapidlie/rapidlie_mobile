@@ -6,7 +6,6 @@ import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/gravata_to_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
-import 'package:rapidlie/core/widgets/country_code_picker.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
@@ -180,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   obscureText: false,
                                   width: width,
                                   height: 50,
-                                  textInputType: TextInputType.phone,
+                                  textInputType: TextInputType.number,
                                   textInputAction: TextInputAction.next,
                                   enabled: true,
                                 ),
