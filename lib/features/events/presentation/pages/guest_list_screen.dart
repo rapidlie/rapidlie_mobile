@@ -41,6 +41,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
                 return guestListLayout(
                   userName: widget.guests[index].user.name,
                   eventStatus: widget.guests[index].status,
+                  imageUrl: widget.guests[index].user.avatar,
                 );
               },
             ),
@@ -51,7 +52,9 @@ class _GuestListScreenState extends State<GuestListScreen> {
   }
 
   guestListLayout(
-      {String? imageUrl, String? userName, required String eventStatus}) {
+      {required String? imageUrl,
+      String? userName,
+      required String eventStatus}) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +72,17 @@ class _GuestListScreenState extends State<GuestListScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: FittedBox(
                     fit: BoxFit.contain,
-                    child: CircleAvatar(),
+                    child: ClipOval(
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/placeholder.png',
+                        image: imageUrl ?? "",
+                        fit: BoxFit.cover,
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Image.asset('assets/images/placeholder.png'),
+                        imageCacheHeight: 100,
+                        imageCacheWidth: 100,
+                      ),
+                    ),
                   ),
                 ),
               ),
