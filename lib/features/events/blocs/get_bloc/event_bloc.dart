@@ -110,13 +110,13 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
 
   Future<void> _onGetPrivateEvents(
     GetPrivateEvents event,
-    Emitter<EventState> emit,
+    Emitter<PrivateEventState> emit,
   ) async {
     await _onGetEvents(emit, eventRepository.getPrivateEvents);
   }
 
   Future<void> _onGetEvents(
-    emit,
+    Emitter<PrivateEventState> emit,
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(PrivateEventLoading());
