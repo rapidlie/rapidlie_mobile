@@ -116,7 +116,7 @@ class UserPreferences {
   }
 
   getTelephone() {
-    return _prefs.getString(_keyTelephone);
+    return _prefs.getString(_keyTelephone) ?? "";
   }
 
   // Save User Image
