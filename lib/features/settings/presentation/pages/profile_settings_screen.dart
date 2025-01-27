@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
-import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
 import 'package:rapidlie/features/user/models/user_model.dart';
