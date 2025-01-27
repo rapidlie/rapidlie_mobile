@@ -85,10 +85,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
-                      if (state is ProfileLoadedState) {
+                      if (state is ProfileLoadingState) {
+                      } else if (state is ProfileLoadedState) {
                         return GestureDetector(
                           onTap: () {
-                            Get.to(() => ProfileSettingsScreen());
+                            Get.to(() => ProfileSettingsScreen(),
+                                arguments: state.userProfile);
                           },
                           child: SettingsContainerLayout(
                             childWidget: Padding(
