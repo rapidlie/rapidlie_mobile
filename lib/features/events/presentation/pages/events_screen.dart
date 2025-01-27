@@ -45,8 +45,7 @@ class EventsScreen extends StatefulWidget {
   State<EventsScreen> createState() => _EventsScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen>
-    with AutomaticKeepAliveClientMixin {
+class _EventsScreenState extends State<EventsScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -110,15 +109,9 @@ class _EventsScreenState extends State<EventsScreen>
     _keyStartTime = LabeledGlobalKey("button_icon");
     _keyEndTime = LabeledGlobalKey("button_icon");
     _keyCategory = LabeledGlobalKey("button_icon");
-    final bloc = context.read<PrivateEventBloc>();
-    if (bloc.state is! PrivateEventLoaded) {
-      bloc.add(GetPrivateEvents());
-    }
+    context.read<PrivateEventBloc>().add(GetPrivateEvents());
     super.initState();
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -143,7 +136,6 @@ class _EventsScreenState extends State<EventsScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
@@ -274,6 +266,9 @@ class _EventsScreenState extends State<EventsScreen>
             );
           },
         ).whenComplete(() {
+          setState(() {
+            context.read<PrivateEventBloc>().add(GetPrivateEvents());
+          });
           closeMenu();
           showBackButton = 0;
         });
@@ -1323,6 +1318,10 @@ class _EventsScreenState extends State<EventsScreen>
           );
         }
         if (state is CreateEventSuccessful) {
+          context.read<PrivateEventBloc>().add(GetPrivateEvents());
+          context.read<PublicEventBloc>().add(GetPublicEvents());
+          context.read<InvitedEventBloc>().add(GetInvitedEvents());
+
           Future.delayed(Duration(seconds: 3), () {
             Get.back();
           });
