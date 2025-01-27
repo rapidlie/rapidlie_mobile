@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
+import 'package:rapidlie/features/user/models/user_model.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 import '../widgets/settings_item_layout.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
   late var language;
+  UserModel userModel = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                       child: ClipOval(
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/images/placeholder.png',
-                          image: UserPreferences().getProfileImage(),
+                          image: userModel.avatar,
                           fit: BoxFit.cover,
                           imageErrorBuilder: (context, error, stackTrace) =>
                               Image.asset('assets/images/placeholder.png'),
@@ -59,11 +62,11 @@ class ProfileSettingsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          UserPreferences().getName(),
+                          userModel.name,
                           style: inter15black500(),
                         ),
                         Text(
-                          UserPreferences().getTelephone(),
+                          userModel.phone,
                           style: inter10CharcoalBlack400(),
                         ),
                       ],
