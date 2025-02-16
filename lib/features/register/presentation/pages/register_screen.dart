@@ -73,15 +73,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SnackBar(content: Text('Registration Successful')),
                   );
 
-                  // Navigate to another screen or perform other actions
                   Navigator.pushReplacementNamed(
                     context,
                     OtpScreen.routeName,
                     arguments: emailController.text,
                   );
-                  // Example: Navigate to home
                 } else if (state is RegisterErrorState) {
-                  print("failed");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(
+                            "Registration failed. Please check details and try again.")),
+                  );
                 }
               },
               builder: (context, state) {
@@ -103,6 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextFieldTemplate(
                             hintText: "Full name",
@@ -207,6 +210,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: CustomColors.black,
                               ),
                             ),
+                          ),
+                          extraSmallHeight(),
+                          Text(
+                            "*Password must be at least 8 characters long.",
+                            style: inter10CharcoalBlack400(),
                           ),
                           SizedBox(
                             height: 30.0,
