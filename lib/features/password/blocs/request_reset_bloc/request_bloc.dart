@@ -26,11 +26,10 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       print(result.error);
 
       if (result is DataSuccess<String>) {
-        print("Yes my state got emitted");
         emit(RequestSuccessState());
       } else {
-        print("No my didn't emitted");
-        emit(RequestErrorState(error: "Login failed"));
+        emit(RequestErrorState(
+            error: "An error occurred, please check email and try again."));gi co
       }
     } catch (e) {
       emit(RequestErrorState(error: e.toString()));
