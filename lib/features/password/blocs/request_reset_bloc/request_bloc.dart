@@ -29,7 +29,7 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         emit(RequestSuccessState());
       } else {
         emit(RequestErrorState(
-            error: "An error occurred, please check email and try again."));gi co
+            error: "An error occurred, please check email and try again."));
       }
     } catch (e) {
       emit(RequestErrorState(error: e.toString()));
