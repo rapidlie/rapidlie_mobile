@@ -16,6 +16,7 @@ import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/events/presentation/pages/guest_list_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/map_direction_launcher.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class EventDetailsScreeen extends StatefulWidget {
@@ -46,9 +47,9 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
 
   late LatLng _initialPosition; // Coordinates for initial map location
 
-  void _onMapCreated(GoogleMapController controller) {
+  /* void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-  }
+  } */
 
   @override
   void initState() {
@@ -362,43 +363,8 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        GestureDetector(
-                          child: Container(
-                            height: 200,
-                            width: width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(borderRadius),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 6,
-                                  offset: Offset(
-                                      0, 5), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: GoogleMap(
-                              onMapCreated: _onMapCreated,
-                              scrollGesturesEnabled: true,
-                              myLocationButtonEnabled: false,
-                              initialCameraPosition: CameraPosition(
-                                target: _initialPosition,
-                                zoom: 16.0,
-                              ),
-                              mapType: MapType.normal,
-                              markers: {
-                                Marker(
-                                  markerId: MarkerId("eventLocation"),
-                                  position: _initialPosition,
-                                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                                    BitmapDescriptor.hueCyan,
-                                  ),
-                                )
-                              },
-                            ),
-                          ),
+                        MapDirectionLauncher(
+                          targetLocation: _initialPosition,
                         ),
                         normalHeight(),
                         widget.eventDetails.eventType == "public" &&
