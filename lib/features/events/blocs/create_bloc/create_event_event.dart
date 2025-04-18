@@ -48,3 +48,8 @@ class SubmitCreateEventEvent extends CreateEventEvent {
         guests
       ];
 }
+
+class ResetCreateEvent extends CreateEventEvent {
+  @override
+  List<Object> get props => [];
+}
