@@ -12,6 +12,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
   CreateEventBloc(this.createEventRepository)
       : super(InitialCreateEventState()) {
     on<CreateEventEvent>(_onCreateEvent);
+    on<ResetCreateEvent>(_onResetCreateEvent);
   }
 
   Future<void> _onCreateEvent(
@@ -43,5 +44,12 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
     } catch (e) {
       emit(CreateEventError(message: e.toString()));
     }
+  }
+
+  void _onResetCreateEvent(
+    ResetCreateEvent event,
+    Emitter<CreateEventState> emit,
+  ) {
+    emit(InitialCreateEventState()); // Emit the initial state
   }
 }
