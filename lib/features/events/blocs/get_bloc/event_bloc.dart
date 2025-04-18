@@ -10,8 +10,14 @@ part 'event_state.dart';
 /** Public Events Bloc */
 class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   final EventRepository eventRepository;
-
   List<EventDataModel>? _cachedPublicEvents;
+  DateTime? _cacheTimestamp;
+  final Duration cacheDuration = Duration(minutes: 2);
+
+  void invalidateCache() {
+    _cachedPublicEvents = null;
+    _cacheTimestamp = null;
+  }
 
   PublicEventBloc({required this.eventRepository})
       : super(InitialPublicEventState()) {
@@ -31,9 +37,14 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
     String eventType,
   ) async {
     emit(PublicEventLoading());
-    if (_cachedPublicEvents != null) {
-      emit(PublicEventLoaded(events: _cachedPublicEvents!));
-      return;
+    final now = DateTime.now();
+    if (_cachedPublicEvents != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < cacheDuration) {
+        emit(PublicEventLoaded(events: _cachedPublicEvents!));
+        return;
+      } else {
+        invalidateCache();
+      }
     }
 
     try {
@@ -41,6 +52,7 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
         _cachedPublicEvents = eventResponse.data;
+        _cacheTimestamp = now;
         emit(
           PublicEventLoaded(events: eventResponse.data!),
         );
@@ -57,6 +69,13 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
 class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedInvitedEvents;
+  DateTime? _cacheTimestamp;
+  final Duration cacheDuration = Duration(minutes: 2);
+
+  void invalidateCache() {
+    _cachedInvitedEvents = null;
+    _cacheTimestamp = null;
+  }
 
   InvitedEventBloc({required this.eventRepository})
       : super(InitialInvitedEventState()) {
@@ -76,9 +95,14 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
     String eventType,
   ) async {
     emit(InvitedEventLoading());
-    if (_cachedInvitedEvents != null) {
-      emit(InvitedEventLoaded(events: _cachedInvitedEvents!));
-      return;
+    final now = DateTime.now();
+    if (_cachedInvitedEvents != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < cacheDuration) {
+        emit(InvitedEventLoaded(events: _cachedInvitedEvents!));
+        return;
+      } else {
+        invalidateCache();
+      }
     }
 
     try {
@@ -86,6 +110,7 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
         _cachedInvitedEvents = eventResponse.data;
+        _cacheTimestamp = now;
         emit(
           InvitedEventLoaded(events: eventResponse.data!),
         );
@@ -102,6 +127,13 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
 class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedPrivateEvents;
+  DateTime? _cacheTimestamp;
+  final Duration cacheDuration = Duration(minutes: 2);
+
+  void invalidateCache() {
+    _cachedPrivateEvents = null;
+    _cacheTimestamp = null;
+  }
 
   PrivateEventBloc({required this.eventRepository})
       : super(InitialPrivateEventState()) {
@@ -120,9 +152,17 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(PrivateEventLoading());
-    if (_cachedPrivateEvents != null) {
-      emit(PrivateEventLoaded(events: _cachedPrivateEvents!));
-      return;
+
+    final now = DateTime.now();
+
+    // Check if cache is valid
+    if (_cachedPrivateEvents != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < cacheDuration) {
+        emit(PrivateEventLoaded(events: _cachedPrivateEvents!));
+        return;
+      } else {
+        invalidateCache();
+      }
     }
 
     try {
@@ -130,6 +170,7 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
         _cachedPrivateEvents = eventResponse.data;
+        _cacheTimestamp = now;
         emit(
           PrivateEventLoaded(events: eventResponse.data!),
         );
@@ -146,6 +187,13 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
 class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedUpcomingEvents;
+  DateTime? _cacheTimestamp;
+  final Duration cacheDuration = Duration(minutes: 2);
+
+  void invalidateCache() {
+    _cachedUpcomingEvents = null;
+    _cacheTimestamp = null;
+  }
 
   UpcomingEventBloc({required this.eventRepository})
       : super(InitialUpcomingEventState()) {
@@ -164,9 +212,16 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(UpcomingEventLoading());
-    if (_cachedUpcomingEvents != null) {
-      emit(UpcomingEventLoaded(events: _cachedUpcomingEvents!));
-      return;
+    final now = DateTime.now();
+
+    // Check if cache is valid
+    if (_cachedUpcomingEvents != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < cacheDuration) {
+        emit(UpcomingEventLoaded(events: _cachedUpcomingEvents!));
+        return;
+      } else {
+        invalidateCache();
+      }
     }
 
     try {
@@ -174,6 +229,7 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
         _cachedUpcomingEvents = eventResponse.data;
+        _cacheTimestamp = now;
         emit(
           UpcomingEventLoaded(events: eventResponse.data!),
         );
@@ -190,6 +246,13 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
 class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedEventsByCategory;
+  DateTime? _cacheTimestamp;
+  final Duration cacheDuration = Duration(minutes: 2);
+
+  void invalidateCache() {
+    _cachedEventsByCategory = null;
+    _cacheTimestamp = null;
+  }
 
   EventByCategoryBloc({required this.eventRepository})
       : super(InitialEventByCategoryState()) {
@@ -201,7 +264,9 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
     Emitter<EventState> emit,
   ) async {
     await _onGetEvents(
-        emit, () => eventRepository.getEventsByCategory(event.categoryId));
+      emit,
+      () => eventRepository.getEventsByCategory(event.categoryId),
+    );
   }
 
   Future<void> _onGetEvents(
@@ -209,9 +274,16 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
     Future<DataState<List<EventDataModel>>> Function() fetchFunction,
   ) async {
     emit(EventByCategoryLoading());
-    if (_cachedEventsByCategory != null) {
-      emit(EventByCategoryLoaded(events: _cachedEventsByCategory!));
-      return;
+    final now = DateTime.now();
+
+    // Check if cache is valid
+    if (_cachedEventsByCategory != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < cacheDuration) {
+        emit(EventByCategoryLoaded(events: _cachedEventsByCategory!));
+        return;
+      } else {
+        invalidateCache();
+      }
     }
 
     try {
@@ -219,6 +291,7 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
 
       if (eventResponse is DataSuccess<List<EventDataModel>>) {
         _cachedEventsByCategory = eventResponse.data;
+        _cacheTimestamp = now;
         emit(
           EventByCategoryLoaded(events: eventResponse.data!),
         );
