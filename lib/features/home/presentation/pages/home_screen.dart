@@ -12,6 +12,7 @@ import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
@@ -29,6 +30,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var language;
   String name = "";
+  List<EventDataModel> publicEvents = [];
+  List<EventDataModel> upcomingEvents = [];
 
   @override
   void initState() {
@@ -52,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CategoryBloc>().add(FetchCategoriesEvent());
+    context.read<PublicEventBloc>().add(GetPublicEvents());
+    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     language = AppLocalizations.of(context);
 
     return SafeArea(
@@ -91,17 +97,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (state is UpcomingEventLoading) {
                     return Center(child: CupertinoActivityIndicator());
                   } else if (state is UpcomingEventLoaded) {
+                    upcomingEvents = state.events.reversed.toList();
                     return Container(
                       width: width,
                       height: height * 0.25,
-                      child: state.events.isEmpty
+                      child: upcomingEvents.isEmpty
                           ? emptyStateSingleView()
                           : ListView.builder(
                               scrollDirection: Axis.horizontal,
                               //padding: const EdgeInsets.only(bottom: 70),
                               physics: AlwaysScrollableScrollPhysics(
                                   parent: BouncingScrollPhysics()),
-                              itemCount: state.events.length,
+                              itemCount: upcomingEvents.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
@@ -110,19 +117,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       () => EventDetailsScreeen(
                                         isOwnEvent: true,
                                       ),
-                                      arguments: state.events[index],
+                                      arguments: upcomingEvents[index],
                                     );
                                   },
                                   child: UpcomingEventListTemplate(
-                                    eventName: state.events[index].name,
-                                    eventImageString: state.events[index].image,
+                                    eventName: upcomingEvents[index].name,
+                                    eventImageString:
+                                        upcomingEvents[index].image,
                                     eventDay:
-                                        getDayName(state.events[index].date),
+                                        getDayName(upcomingEvents[index].date),
                                     eventDate: convertDateDotFormat(
-                                      DateTime.parse(state.events[index].date),
+                                      DateTime.parse(
+                                          upcomingEvents[index].date),
                                     ),
-                                    eventId: state.events[index].id,
-                                    eventLocation: state.events[index].venue,
+                                    eventId: upcomingEvents[index].id,
+                                    eventLocation: upcomingEvents[index].venue,
                                   ),
                                 );
                               },
@@ -217,12 +226,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else if (state is PublicEventLoading) {
                       return Center(child: CupertinoActivityIndicator());
                     } else if (state is PublicEventLoaded) {
-                      if (state.events.isEmpty) {
+                      publicEvents = state.events.reversed.toList();
+                      if (publicEvents.isEmpty) {
                         return emptyStateCategoryView();
                       }
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.events.length,
+                        itemCount: publicEvents.length,
                         //controller: _scrollController,
                         physics: BouncingScrollPhysics(
                             parent: BouncingScrollPhysics(
@@ -236,24 +246,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Get.to(
                                     () => EventDetailsScreeen(
                                         isOwnEvent:
-                                            state.events[index].user!.uuid ==
+                                            publicEvents[index].user!.uuid ==
                                                 UserPreferences().getUserId()),
-                                    arguments: state.events[index]);
+                                    arguments: publicEvents[index]);
                               },
                               child: EventListTemplate(
-                                eventOwner: state.events[index].username,
-                                eventName: state.events[index].name,
+                                eventOwner: publicEvents[index].username,
+                                eventName: publicEvents[index].name,
                                 eventLocation:
-                                    state.events[index].venue.split(',').first,
-                                eventDay: getDayName(state.events[index].date),
+                                    publicEvents[index].venue.split(',').first,
+                                eventDay: getDayName(publicEvents[index].date),
                                 eventDate: convertDateDotFormat(
-                                    DateTime.parse(state.events[index].date)),
-                                eventImageString: state.events[index].image!,
-                                eventId: state.events[index].id,
+                                    DateTime.parse(publicEvents[index].date)),
+                                eventImageString: publicEvents[index].image!,
+                                eventId: publicEvents[index].id,
                                 hasLikedEvent:
-                                    state.events[index].hasLikedEvent,
+                                    publicEvents[index].hasLikedEvent,
                                 eventOwnerAvatar:
-                                    state.events[index].user!.avatar,
+                                    publicEvents[index].user!.avatar,
                               ),
                             ),
                           );
