@@ -88,7 +88,7 @@ class InvitedEventLoaded extends InvitedEventState {
   List<Object> get props => [events];
 }
 
-class InvitedEventError extends PublicEventState {
+class InvitedEventError extends InvitedEventState {
   final String message;
 
   const InvitedEventError({required this.message});
