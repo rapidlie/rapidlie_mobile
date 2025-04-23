@@ -8,6 +8,7 @@ import 'package:image_stack/image_stack.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
+import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
@@ -18,9 +19,11 @@ import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/events/presentation/pages/guest_list_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/map_direction_launcher.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:rapidlie/rapid_screen.dart';
 
 class EventDetailsScreeen extends StatefulWidget {
   final bool isOwnEvent;
+  String? inviteStatus;
   var language;
   //final bool? initialEventLiked;
   EventDataModel eventDetails = Get.arguments;
@@ -29,6 +32,7 @@ class EventDetailsScreeen extends StatefulWidget {
     Key? key,
     required this.isOwnEvent,
     this.language,
+    this.inviteStatus,
   }) : super(key: key);
 
   @override
@@ -41,7 +45,6 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   bool inviteDeclined = false;
 
   late String userId;
-  late String inviteStatus;
 
   late GoogleMapController mapController;
 
@@ -56,7 +59,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     super.initState();
     extractLatLngFromString(widget.eventDetails.mapLocation);
     getUserID();
-    getInviteStatus();
+    //getInviteStatus();
   }
 
   void getUserID() async {
@@ -91,21 +94,13 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     }
   }
 
-  void getInviteStatus() {
-    inviteStatus = widget.isOwnEvent
-        ? "accepted"
-        : widget.eventDetails.eventType == "public"
-            ? "pending"
-            : widget.eventDetails.invitations
-                .firstWhere(
-                  (invitation) => invitation.user.uuid == userId,
-                )
-                .status;
-  }
+  
 
   @override
   Widget build(BuildContext context) {
     widget.language = AppLocalizations.of(context);
+
+    print("Invite status: ${widget.inviteStatus}");
 
     List<String> userImages = [
       for (var invite in widget.eventDetails.invitations)
@@ -451,12 +446,26 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   state is ConsentLoadingState;
 
                               if (state is ConsentLoadedState) {
-                                inviteStatus = inviteStatus == "accepted"
-                                    ? "declined"
-                                    : "accepted";
+                                context
+                                    .read<InvitedEventBloc>()
+                                    .add(GetInvitedEvents());
+                                context
+                                    .read<UpcomingEventBloc>()
+                                    .add(GetUpcomingEvents());
+                                context
+                                    .read<UpcomingEventBloc>()
+                                    .invalidateCache();
+                                Future.delayed(
+                                  Duration(seconds: 2),
+                                  () {
+                                    BlocProvider.of<ConsentBloc>(context)
+                                        .add(ResetGiveConsentEvent());
+                                    switchInviteStatusValue();
+                                  },
+                                );
                               }
                               return ButtonTemplate(
-                                buttonName: inviteStatus == "accepted"
+                                buttonName: widget.inviteStatus == "accepted"
                                     ? "Decline"
                                     : "Accept",
                                 buttonWidth: width,
@@ -465,14 +474,15 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   context
                                       .read<ConsentBloc>()
                                       .add(GiveConsentEvent(
-                                        status: inviteStatus == "accepted"
-                                            ? 'declined'
-                                            : 'accepted',
+                                        status:
+                                            widget.inviteStatus == "accepted"
+                                                ? 'declined'
+                                                : 'accepted',
                                         eventId: widget.eventDetails.id,
                                       ));
                                 },
                                 textColor: Colors.white,
-                                buttonColor: inviteStatus == "accepted"
+                                buttonColor: widget.inviteStatus == "accepted"
                                     ? Colors.red
                                     : Colors.black,
                               );
@@ -486,5 +496,12 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
         ],
       ),
     );
+  }
+
+  void switchInviteStatusValue() {
+    setState(() {
+      widget.inviteStatus =
+          widget.inviteStatus == "accepted" ? "declined" : "accepted";
+    });
   }
 }
