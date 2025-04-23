@@ -12,8 +12,6 @@ class InitialCreateEventState extends CreateEventState {}
 class CreateEventLoading extends CreateEventState {}
 
 class CreateEventSuccessful extends CreateEventState {
- 
-
   const CreateEventSuccessful();
 
   @override

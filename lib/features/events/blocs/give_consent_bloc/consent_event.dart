@@ -12,3 +12,8 @@ class GiveConsentEvent extends ConsentEvent {
   final String eventId;
   GiveConsentEvent({required this.status, required this.eventId});
 }
+
+class ResetGiveConsentEvent extends ConsentEvent {
+  @override
+  List<Object> get props => [];
+}
