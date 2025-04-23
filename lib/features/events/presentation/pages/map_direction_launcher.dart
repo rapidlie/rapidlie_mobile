@@ -30,6 +30,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Location services are disabled.')));
       return;
@@ -39,6 +40,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Location permissions are denied')));
         return;
@@ -46,6 +48,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     }
 
     if (permission == LocationPermission.deniedForever) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Location permissions are permanently denied, we cannot request them.')));
@@ -55,11 +58,13 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
+      if (!mounted) return;
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
       });
     } catch (e) {
       print("Error getting current location: $e");
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Could not get current location.')));
     }
@@ -70,10 +75,8 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
   }
 
   Future<void> _openDirections() async {
-    print("Opening directions...");
-    print("Current Position: $_currentPosition");
-    print("Target Location: ${widget.targetLocation}");
     if (_currentPosition.latitude == 0.0 && _currentPosition.longitude == 0.0) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Waiting for current location...')));
       return;
@@ -89,6 +92,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
       await launchUrl(Uri.parse(googleMapsUrl));
     } else {
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Could not open Google Maps.')));
     }
@@ -142,7 +146,6 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(borderRadius),
                 onTap: () {
-                  print("Tapped on transparent layer");
                   _openDirections();
                 },
               ),
@@ -153,9 +156,3 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     );
   }
 }
-
-
-/* onTap: () {
-          print("Tapped on map");
-          _openDirections();
-        }, */
