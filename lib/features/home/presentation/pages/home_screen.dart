@@ -37,9 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getUserName();
     checkLoggedInStatus();
-    context.read<CategoryBloc>().add(FetchCategoriesEvent());
-    context.read<PublicEventBloc>().add(GetPublicEvents());
-    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     super.initState();
   }
 
