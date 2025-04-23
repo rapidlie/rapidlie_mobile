@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
@@ -20,10 +23,16 @@ class InvitesScreen extends StatefulWidget {
 
 class _InvitesScreenState extends State<InvitesScreen> {
   var language;
+  late String userId;
 
   @override
   void initState() {
+    getUserID();
     super.initState();
+  }
+
+  void getUserID() async {
+    userId = UserPreferences().getUserId().toString();
   }
 
   @override
@@ -58,6 +67,17 @@ class _InvitesScreenState extends State<InvitesScreen> {
   }
 
   Widget buildBody(List<EventDataModel> eventDataModel) {
+    String getInviteStatus(int index) {
+      String inviteStatus = eventDataModel[index]
+          .invitations
+          .firstWhere(
+            (invitation) => invitation.user.uuid == userId,
+          )
+          .status;
+
+      return inviteStatus;
+    }
+
     return eventDataModel.length == 0
         ? emptyStateFullView(
             headerText: "No invites",
@@ -72,8 +92,12 @@ class _InvitesScreenState extends State<InvitesScreen> {
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: GestureDetector(
                   onTap: () {
+                    print(getInviteStatus(index));
                     Get.to(
-                      () => EventDetailsScreeen(isOwnEvent: false),
+                      () => EventDetailsScreeen(
+                        isOwnEvent: false,
+                        inviteStatus: getInviteStatus(index),
+                      ),
                       arguments: eventDataModel[index],
                     );
                   },
