@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
-import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
-import 'package:rapidlie/rapid_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -36,11 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
     String bearerToken = await UserPreferences().getBearerToken();
 
     if (isLoggedIn && bearerToken == "") {
-      Navigator.pushReplacementNamed(context, OtpScreen.routeName);
+      //Navigator.pushReplacementNamed(context, OtpScreen.routeName);
+      context.go('/otp');
     } else if (isLoggedIn && bearerToken != "") {
-      Navigator.pushReplacementNamed(context, RapidScreen.routeName);
+      //Navigator.pushReplacementNamed(context, BottomNavScreen.routeName);
+      context.go('/bottom_nav');
     } else {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      //Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      context.go('/login');
     }
   }
 
@@ -50,10 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocConsumer<ContactsBloc, ContactsState>(
         listener: (context, state) {
           if (state is ContactError) {
-            print("Error");
-          } else if (state is ContactLoaded) {
-            print("Loaded");
-          }
+          } else if (state is ContactLoaded) {}
         },
         builder: (context, state) {
           return BlocListener<ProfileBloc, ProfileState>(
@@ -65,8 +63,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 } else if (state is ProfileLoadedState) {
                   BlocProvider.of<TelephoneNumbersBloc>(context)
                       .add(GetNumbers());
-                  Navigator.pushReplacementNamed(
-                      context, RapidScreen.routeName);
+                  /*  Navigator.pushReplacementNamed(
+                      context, BottomNavScreen.routeName); */
+                  context.go('/bottom_nav');
                 }
               },
               child: Center(
@@ -93,42 +92,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-
-/* 
-
-return Scaffold(
-      body: BlocListener<ProfileBloc, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileLoadingState) {
-          } else if (state is ProfileErrorState) {
-            UserPreferences().clearAll();
-
-            checkLoginStatus();
-          } else if (state is ProfileLoadedState) {
-            Navigator.pushReplacementNamed(context, RapidScreen.routeName);
-          }
-        },
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset("assets/images/flockrLG.png"),
-                SizedBox(
-                  height: 20,
-                ),
-                LinearProgressIndicator(
-                  backgroundColor: Colors.transparent,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                  borderRadius: BorderRadius.circular(8),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-
- */

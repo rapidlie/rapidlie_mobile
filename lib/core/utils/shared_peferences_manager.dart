@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/user/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -140,6 +138,7 @@ class UserPreferences {
   // Clear All Preferences
   clearAll() {
     _prefs.clear();
-    Get.offAllNamed(LoginScreen.routeName);
+    /* Get.offAllNamed(LoginScreen.routeName);
+    context.go('/login'); */
   }
 }

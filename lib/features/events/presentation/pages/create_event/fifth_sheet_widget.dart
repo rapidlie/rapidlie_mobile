@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
-import 'package:rapidlie/rapid_screen.dart';
+import 'package:rapidlie/bottom_nav_screen.dart';
 
 class FifthSheetContentWidget extends StatelessWidget {
   @override
@@ -29,7 +29,7 @@ class FifthSheetContentWidget extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => RapidScreen(currentIndex: 1)),
+                  builder: (context) => BottomNavScreen(currentIndex: 1)),
             );
           });
           return Padding(

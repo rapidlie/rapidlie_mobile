@@ -24,6 +24,8 @@ class _LanguageSettingsLayoutState extends State<LanguageSettingsLayout> {
 
   @override
   Widget build(BuildContext context) {
+   // double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     language = AppLocalizations.of(context);
     supportedLanguages = [language.english, language.german, language.french];
     return Consumer<ChangeLanguageProvider>(

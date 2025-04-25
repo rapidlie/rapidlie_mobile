@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
-import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
-import 'package:rapidlie/rapid_screen.dart';
-
-import '../../../register/presentation/pages/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";
@@ -34,6 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: Padding(
@@ -46,10 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SnackBar(content: Text('Login Successful')),
               );
 
-              Navigator.pushReplacementNamed(
-                context,
-                RapidScreen.routeName,
-              );
+              context.go('/bottom_nav', extra: 0);
             } else if (state is LoginErrorState) {
               // Registration failed
               ScaffoldMessenger.of(context).showSnackBar(
@@ -114,9 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: width,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
+                            /* Navigator.pushNamed(
                               context,
                               RequestResetPasswordScreen.routeName,
+                            ); */
+                            context.push(
+                              '/request_password_reset',
                             );
                           },
                           child: Text(
@@ -150,9 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        RegisterScreen.routeName,
+                      context.push(
+                        '/register',
                       );
                     },
                     child: Row(

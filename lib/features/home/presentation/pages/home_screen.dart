@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
-import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
-import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
@@ -32,16 +32,22 @@ class _HomeScreenState extends State<HomeScreen> {
   String name = "";
   List<EventDataModel> publicEvents = [];
   List<EventDataModel> upcomingEvents = [];
+  late String userId;
 
   @override
   void initState() {
     getUserName();
+    getUserID();
     checkLoggedInStatus();
     super.initState();
   }
 
   void getUserName() async {
     name = UserPreferences().getUserName().toString().split(' ').first;
+  }
+
+  void getUserID() async {
+    userId = UserPreferences().getUserId().toString();
   }
 
   void checkLoggedInStatus() async {
@@ -56,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<PublicEventBloc>().add(GetPublicEvents());
     context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     language = AppLocalizations.of(context);
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
@@ -110,11 +118,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Get.to(
-                                      () => EventDetailsScreeen(
-                                        isOwnEvent: true,
-                                      ),
-                                      arguments: upcomingEvents[index],
+                                    final inviteStatus = getInviteStatus(
+                                        upcomingEvents, index, userId);
+                                    bool isOwnEvent =
+                                        upcomingEvents[index].user!.uuid ==
+                                            userId;
+                                    context.pushNamed(
+                                      'event_details',
+                                      extra: {
+                                        'event': upcomingEvents[index],
+                                        'inviteStatus': inviteStatus,
+                                        'isOwnEvent': isOwnEvent,
+                                      },
                                     );
                                   },
                                   child: UpcomingEventListTemplate(
@@ -193,10 +208,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.only(right: 0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.to(() => CategoryScreen(), arguments: [
+                                    /* Get.to(() => CategoryScreen(), arguments: [
                                       state.categories[index - 1].id,
                                       state.categories[index - 1].name,
-                                    ]);
+                                    ]); */
+                                    context.push(
+                                      '/category',
+                                      extra: {
+                                        'categoryId':
+                                            state.categories[index - 1].id,
+                                        'categoryName':
+                                            state.categories[index - 1].name,
+                                      },
+                                    );
                                   },
                                   child: ExploreCategoryListTemplate(
                                     categoryName:
@@ -240,12 +264,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(bottom: 40.0),
                             child: GestureDetector(
                               onTap: () {
-                                Get.to(
-                                    () => EventDetailsScreeen(
+                                /* Get.to(
+                                    () => EventDetailsScreen(
                                         isOwnEvent:
                                             publicEvents[index].user!.uuid ==
                                                 UserPreferences().getUserId()),
-                                    arguments: publicEvents[index]);
+                                    arguments: publicEvents[index]); */
+
+                                final inviteStatus = getInviteStatus(
+                                    publicEvents, index, userId);
+                                bool isOwnEvent =
+                                    publicEvents[index].user!.uuid == userId;
+                                context.pushNamed(
+                                  'event_details',
+                                  extra: {
+                                    'event': publicEvents[index],
+                                    'inviteStatus': inviteStatus,
+                                    'isOwnEvent': isOwnEvent,
+                                  },
+                                );
                               },
                               child: EventListTemplate(
                                 eventOwner: publicEvents[index].username,

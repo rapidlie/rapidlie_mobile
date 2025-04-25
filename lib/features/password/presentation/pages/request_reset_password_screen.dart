@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
 import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_state.dart';
-import 'package:rapidlie/features/password/presentation/pages/new_password_screen.dart';
 
 class RequestResetPasswordScreen extends StatefulWidget {
   static const String routeName = "request_password";
@@ -32,6 +32,8 @@ class _RequestResetPasswordScreenState
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -47,11 +49,11 @@ class _RequestResetPasswordScreenState
                 );
               }
               if (state is RequestSuccessState) {
-                Navigator.pushNamed(
-                  context,
-                  NewPasswordScreen.routeName,
-                  arguments: emailController.text,
+                context.push(
+                  '/new_password',
+                  extra: emailController.text.toString(),
                 );
+                
               }
             },
             builder: (context, state) {

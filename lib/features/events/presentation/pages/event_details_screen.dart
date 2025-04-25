@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_stack/image_stack.dart';
@@ -19,28 +19,37 @@ import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/events/presentation/pages/guest_list_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/map_direction_launcher.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-import 'package:rapidlie/rapid_screen.dart';
 
-class EventDetailsScreeen extends StatefulWidget {
+class EventDetailsScreen extends StatefulWidget {
   final bool isOwnEvent;
   String? inviteStatus;
   var language;
   //final bool? initialEventLiked;
-  EventDataModel eventDetails = Get.arguments;
+  EventDataModel event;
 
-  EventDetailsScreeen({
+  EventDetailsScreen({
     Key? key,
     required this.isOwnEvent,
     this.language,
     this.inviteStatus,
+    required this.event,
   }) : super(key: key);
 
+  static EventDetailsScreen fromState(GoRouterState state) {
+    final data = state.extra as Map<String, dynamic>;
+    return EventDetailsScreen(
+      event: data['event'] as EventDataModel,
+      inviteStatus: data['inviteStatus'] as String,
+      isOwnEvent: data['isOwnEvent'] as bool,
+    );
+  }
+
   @override
-  State<EventDetailsScreeen> createState() => _EventDetailsScreeenState();
+  State<EventDetailsScreen> createState() => _EventDetailsScreenState();
 }
 
-class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
-  late bool isLiked = widget.eventDetails.hasLikedEvent;
+class _EventDetailsScreenState extends State<EventDetailsScreen> {
+  late bool isLiked = widget.event.hasLikedEvent;
   bool inviteAccepted = false;
   bool inviteDeclined = false;
 
@@ -57,7 +66,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
   @override
   void initState() {
     super.initState();
-    extractLatLngFromString(widget.eventDetails.mapLocation);
+    extractLatLngFromString(widget.event.mapLocation);
     getUserID();
     //getInviteStatus();
   }
@@ -94,19 +103,15 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     widget.language = AppLocalizations.of(context);
 
-    print("Invite status: ${widget.inviteStatus}");
-
     List<String> userImages = [
-      for (var invite in widget.eventDetails.invitations)
-        invite.user.avatar ?? ""
+      for (var invite in widget.event.invitations) invite.user.avatar ?? ""
     ];
-
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -119,7 +124,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                 leading: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: GestureDetector(
-                    onTap: () => Get.back(),
+                    onTap: () => context.pop(),
                     child: Container(
                       height: 15,
                       width: 15,
@@ -152,7 +157,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.eventDetails.name,
+                                  widget.event.name,
                                   style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
@@ -160,7 +165,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   ),
                                 ),
                                 HeaderTextTemplate(
-                                  titleText: widget.eventDetails.category.name,
+                                  titleText: widget.event.category.name,
                                   titleTextColor: Colors.black,
                                   containerColor:
                                       Color.fromARGB(133, 218, 218, 218),
@@ -175,7 +180,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  toggleLike(widget.eventDetails.id);
+                                  toggleLike(widget.event.id);
                                 },
                                 child: Icon(
                                   isLiked
@@ -206,7 +211,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                 expandedHeight: 400,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Image.network(
-                    widget.eventDetails.image!,
+                    widget.event.image!,
                     //width: double.maxFinite,
                     fit: BoxFit.fitWidth,
                   ),
@@ -214,7 +219,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  height: Get.height,
+                  height: height,
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -254,8 +259,8 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     ),
                                     extraSmallHeight(),
                                     Text(
-                                      convertDateDotFormat(DateTime.parse(
-                                          widget.eventDetails.date)),
+                                      convertDateDotFormat(
+                                          DateTime.parse(widget.event.date)),
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -263,7 +268,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                       ),
                                     ),
                                     Text(
-                                      getDayName(widget.eventDetails.date),
+                                      getDayName(widget.event.date),
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -291,7 +296,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     Row(
                                       children: [
                                         Text(
-                                          widget.eventDetails.startTime,
+                                          widget.event.startTime,
                                           style: GoogleFonts.inter(
                                             fontSize: 10.0,
                                             fontWeight: FontWeight.w400,
@@ -319,9 +324,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     ),
                                     extraSmallHeight(),
                                     Text(
-                                      widget.eventDetails.venue
-                                          .split(",")
-                                          .first,
+                                      widget.event.venue.split(",").first,
                                       style: GoogleFonts.inter(
                                         fontSize: 10.0,
                                         fontWeight: FontWeight.w400,
@@ -343,7 +346,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           ),
                         ),
                         Text(
-                          widget.eventDetails.description,
+                          widget.event.description,
                           style: GoogleFonts.inter(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w400,
@@ -362,8 +365,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                           targetLocation: _initialPosition,
                         ),
                         normalHeight(),
-                        widget.eventDetails.eventType == "public" &&
-                                widget.isOwnEvent
+                        widget.event.eventType == "public" && widget.isOwnEvent
                             ? Text(
                                 widget.language.invites,
                                 style: GoogleFonts.inter(
@@ -371,7 +373,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               )
-                            : widget.eventDetails.eventType == "public"
+                            : widget.event.eventType == "public"
                                 ? SizedBox.shrink()
                                 : Text(
                                     widget.language.invites,
@@ -381,13 +383,11 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                     ),
                                   ),
                         extraSmallHeight(),
-                        widget.eventDetails.eventType == "public" &&
-                                widget.isOwnEvent
+                        widget.event.eventType == "public" && widget.isOwnEvent
                             ? GestureDetector(
                                 onTap: () {
                                   Get.to(() => GuestListScreen(),
-                                      arguments:
-                                          widget.eventDetails.invitations);
+                                      arguments: widget.event.invitations);
                                 },
                                 child: ImageStack(
                                   imageList: userImages,
@@ -401,13 +401,12 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                   totalCount: userImages.length,
                                 ),
                               )
-                            : widget.eventDetails.eventType == "public"
+                            : widget.event.eventType == "public"
                                 ? SizedBox.shrink()
                                 : GestureDetector(
                                     onTap: () {
                                       Get.to(() => GuestListScreen(),
-                                          arguments:
-                                              widget.eventDetails.invitations);
+                                          arguments: widget.event.invitations);
                                     },
                                     child: ImageStack(
                                       imageList: userImages,
@@ -478,7 +477,7 @@ class _EventDetailsScreeenState extends State<EventDetailsScreeen> {
                                             widget.inviteStatus == "accepted"
                                                 ? 'declined'
                                                 : 'accepted',
-                                        eventId: widget.eventDetails.id,
+                                        eventId: widget.event.id,
                                       ));
                                 },
                                 textColor: Colors.white,

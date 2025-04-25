@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
 import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
-import 'package:rapidlie/rapid_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   OtpScreen({Key? key}) : super(key: key);
-
-  static const String routeName = 'otp';
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -31,7 +29,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(email);
+    double height = MediaQuery.of(context).size.height;
+    //double width = MediaQuery.of(context).size.width;
+   
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -44,10 +44,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     SnackBar(content: Text('Successful')),
                   );
 
-                  Navigator.pushReplacementNamed(
+                  /* Navigator.pushReplacementNamed(
                     context,
-                    RapidScreen.routeName,
-                  );
+                    BottomNavScreen.routeName,
+                  ); */
+
+                  context.go('/bottom_nav');
                 } else if (state is VerifyOtpErrorState) {
                   // Registration failed
                   ScaffoldMessenger.of(context).showSnackBar(

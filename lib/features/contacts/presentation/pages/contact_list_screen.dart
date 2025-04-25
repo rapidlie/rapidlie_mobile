@@ -69,6 +69,8 @@ class _ContactListScreenState extends State<ContactListScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    //double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
