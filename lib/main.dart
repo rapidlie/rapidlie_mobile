@@ -4,16 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rapidlie/core/router/app_router.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
-import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/categories/repository/category_repository.dart';
 import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
-import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
 import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
@@ -38,30 +36,17 @@ import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
 import 'package:rapidlie/features/otp/repository/verify_otp_repositoy.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
 import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
-import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
-import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
-import 'package:rapidlie/features/events/presentation/pages/events_screen.dart';
-import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
-import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart';
-import 'package:rapidlie/features/password/presentation/pages/new_password_screen.dart';
-import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
 import 'package:rapidlie/features/password/repositories/new_password_repository.dart';
 import 'package:rapidlie/features/password/repositories/request_repository.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 import 'package:rapidlie/features/register/repository/register_repository.dart';
 import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
-import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
 import 'package:rapidlie/features/settings/repositories/profile_repository.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-import 'package:rapidlie/rapid_screen.dart';
-import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
-import 'package:rapidlie/splash_screen.dart';
-import 'features/register/presentation/pages/register_screen.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -204,18 +189,18 @@ class MyApp extends StatelessWidget {
           ],
           child: Consumer<ChangeLanguageProvider>(
             builder: (context, language, child) {
-              return GetMaterialApp(
+              return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
                 title: 'Flockr',
                 locale: language.applicationLocale,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 theme: ThemeData(textTheme: GoogleFonts.interTextTheme()),
-                routes: <String, WidgetBuilder>{
+                /* routes: <String, WidgetBuilder>{
                   LoginScreen.routeName: (context) => LoginScreen(),
                   RegisterScreen.routeName: (context) => RegisterScreen(),
-                  RapidScreen.routeName: (context) =>
-                      RapidScreen(currentIndex: 0),
+                  BottomNavScreen.routeName: (context) =>
+                      BottomNavScreen(currentIndex: 0),
                   HomeScreen.routeName: (context) => HomeScreen(),
                   EventsScreen.routeName: (context) => EventsScreen(),
                   InvitesScreen.routeName: (context) => InvitesScreen(),
@@ -238,7 +223,8 @@ class MyApp extends StatelessWidget {
                 },
                 onUnknownRoute: (RouteSettings settings) {
                   return null;
-                },
+                }, */
+                routerConfig: appRouter,
               );
             },
           )),

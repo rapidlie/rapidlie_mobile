@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/like_bloc/like_event_event.dart';
@@ -60,6 +59,7 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(

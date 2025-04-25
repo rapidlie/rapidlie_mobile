@@ -1,14 +1,13 @@
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/gravata_to_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
-import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -44,10 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> alreadyRegistered() async {
     if (await UserPreferences().getRegistrationStep() == "partial") {
-      Navigator.pushNamed(
-        context,
-        OtpScreen.routeName,
-      );
+      context.go('/otp');
     }
   }
 
@@ -60,6 +56,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: SafeArea(
@@ -72,12 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Registration Successful')),
                   );
-
-                  Navigator.pushReplacementNamed(
-                    context,
-                    OtpScreen.routeName,
-                    arguments: emailController.text,
-                  );
+                  context.go('/otp');
                 } else if (state is RegisterErrorState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -246,10 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            LoginScreen.routeName,
-                          );
+                          context.go('/login');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,16 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
-import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
@@ -67,7 +65,7 @@ class _InvitesScreenState extends State<InvitesScreen> {
   }
 
   Widget buildBody(List<EventDataModel> eventDataModel) {
-    String getInviteStatus(int index) {
+    /* String getInviteStatus(int index) {
       String inviteStatus = eventDataModel[index]
           .invitations
           .firstWhere(
@@ -76,7 +74,7 @@ class _InvitesScreenState extends State<InvitesScreen> {
           .status;
 
       return inviteStatus;
-    }
+    } */
 
     return eventDataModel.length == 0
         ? emptyStateFullView(
@@ -92,13 +90,16 @@ class _InvitesScreenState extends State<InvitesScreen> {
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: GestureDetector(
                   onTap: () {
-                    print(getInviteStatus(index));
-                    Get.to(
-                      () => EventDetailsScreeen(
-                        isOwnEvent: false,
-                        inviteStatus: getInviteStatus(index),
-                      ),
-                      arguments: eventDataModel[index],
+                    final inviteStatus = getInviteStatus(eventDataModel, index, userId);
+                    bool isOwnEvent =
+                        eventDataModel[index].user!.uuid == userId;
+                    context.pushNamed(
+                      'event_details',
+                      extra: {
+                        'event': eventDataModel[index],
+                        'inviteStatus': inviteStatus,
+                        'isOwnEvent': isOwnEvent,
+                      },
                     );
                   },
                   child: EventListTemplate(

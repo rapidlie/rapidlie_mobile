@@ -100,6 +100,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Container(
       height: 200,
       width: width,

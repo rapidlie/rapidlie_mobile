@@ -5,15 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
+import 'package:rapidlie/core/utils/get_invite_status.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
-import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -27,11 +28,17 @@ class _EventsScreenState extends State<EventsScreen> {
   late PageController _pageViewController;
   bool publicEvent = false;
   var language;
+  late String userId;
 
   @override
   void initState() {
     _pageViewController = PageController();
+    getUserID();
     super.initState();
+  }
+
+  void getUserID() async {
+    userId = UserPreferences().getUserId().toString();
   }
 
   @override
@@ -44,6 +51,8 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     context.read<PrivateEventBloc>().add(GetPrivateEvents());
     language = AppLocalizations.of(context);
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -68,7 +77,7 @@ class _EventsScreenState extends State<EventsScreen> {
               } else if (state is PrivateEventLoading) {
                 return Center(child: CupertinoActivityIndicator());
               } else if (state is PrivateEventLoaded) {
-                return buildBody(state.events.reversed.toList());
+                return buildBody(state.events.reversed.toList(), width, height);
               }
               return Center(
                   child: Text(
@@ -82,7 +91,7 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  Container buildBody(List<EventDataModel> eventDataModel) {
+  Container buildBody(List<EventDataModel> eventDataModel, width, height) {
     return Container(
       height: height,
       width: width,
@@ -103,11 +112,25 @@ class _EventsScreenState extends State<EventsScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(
+                      /* Get.to(
                         () => EventDetailsScreeen(
                           isOwnEvent: true,
                         ),
                         arguments: eventDataModel[index],
+                      );
+                      final inviteStatus = getInviteStatus(index); */
+
+                      final inviteStatus =
+                          getInviteStatus(eventDataModel, index, userId);
+                      bool isOwnEvent =
+                          eventDataModel[index].user!.uuid == userId;
+                      context.pushNamed(
+                        'event_details',
+                        extra: {
+                          'event': eventDataModel[index],
+                          'inviteStatus': inviteStatus,
+                          'isOwnEvent': isOwnEvent,
+                        },
                       );
                     },
                     child: Padding(

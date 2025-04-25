@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_event.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_state.dart';
 
 class NewPasswordScreen extends StatefulWidget {
-  static const String routeName = "new_password";
+  final String email;
 
-  const NewPasswordScreen({Key? key}) : super(key: key);
+  const NewPasswordScreen({Key? key, required this.email}) : super(key: key);
 
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
@@ -32,7 +32,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String email = ModalRoute.of(context)?.settings.arguments as String;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -93,8 +95,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     BlocListener<NewPasswordBloc, NewPasswordState>(
                       listener: (context, state) {
                         if (state is NewPasswordSuccessState) {
-                          Navigator.pushReplacementNamed(
-                              context, LoginScreen.routeName);
+                          context.go(
+                            '/login',
+                          );
                         }
                       },
                       child: ButtonTemplate(
@@ -103,7 +106,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         buttonAction: () {
                           context.read<NewPasswordBloc>().add(
                                 SubmitNewPasswordEvent(
-                                  email: email,
+                                  email: widget.email,
                                   otp: otpController.text,
                                   password: newPasswordController.text,
                                 ),

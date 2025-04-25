@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
@@ -61,6 +61,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    //double width = MediaQuery.of(context).size.width;
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
@@ -384,10 +386,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 listener: (context, state) {
                   print(state);
                   if (state is LogoutSuccessState) {
-                    Navigator.pop(context);
+                    context.pop();
                     UserPreferences().clearAll();
-                    Navigator.pushReplacementNamed(
-                        context, LoginScreen.routeName);
+                    context.go('/login');
                   } else if (state is LogoutErrorState) {
                     Navigator.pop(context);
                   }
