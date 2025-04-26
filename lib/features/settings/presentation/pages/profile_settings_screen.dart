@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
@@ -10,7 +10,19 @@ import '../widgets/settings_item_layout.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
   late var language;
-  UserModel userModel = Get.arguments;
+  final UserModel userProfile;
+
+  ProfileSettingsScreen({Key? key, required this.userProfile})
+      : super(key: key);
+
+  static ProfileSettingsScreen fromState(GoRouterState state) {
+    final data = state.extra as Map<String, dynamic>;
+    return ProfileSettingsScreen(
+      userProfile: data['userProfile'] as UserModel,
+    );
+  }
+
+  //UserModel userModel = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +59,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                       child: ClipOval(
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/images/placeholder.png',
-                          image: userModel.avatar,
+                          image: userProfile.avatar,
                           fit: BoxFit.cover,
                           imageErrorBuilder: (context, error, stackTrace) =>
                               Image.asset('assets/images/placeholder.png'),
@@ -63,11 +75,11 @@ class ProfileSettingsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          userModel.name,
+                          userProfile.name,
                           style: inter15black500(),
                         ),
                         Text(
-                          userModel.phone,
+                          userProfile.phone,
                           style: inter10CharcoalBlack400(),
                         ),
                       ],
@@ -97,7 +109,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                         title: "Delete account",
                         iconColor: Colors.red,
                         onCLickFunction: () {
-                          Navigator.pushNamed(context, "/delete-account");
+                          context.push("/delete_account");
                         },
                       ),
                       Padding(
