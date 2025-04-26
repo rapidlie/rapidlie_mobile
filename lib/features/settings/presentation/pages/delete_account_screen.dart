@@ -10,8 +10,6 @@ import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_acco
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({Key? key}) : super(key: key);
 
-  static const String routeName = "/delete-account";
-
   @override
   State<DeleteAccountScreen> createState() => _DeleteAccountScreenState();
 }

@@ -9,6 +9,8 @@ import 'package:rapidlie/features/password/presentation/pages/change_password_sc
 import 'package:rapidlie/features/password/presentation/pages/new_password_screen.dart';
 import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
 import 'package:rapidlie/features/register/presentation/pages/register_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
 import 'package:rapidlie/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
@@ -43,6 +45,11 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => RequestResetPasswordScreen(),
   ),
   GoRoute(
+    path: '/delete_account',
+    name: 'delete_account',
+    builder: (context, state) => DeleteAccountScreen(),
+  ),
+  GoRoute(
     path: '/new_password:email',
     name: 'new_password',
     builder: (context, state) {
@@ -70,6 +77,14 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
             categoryId: categoryId,
             categoryName: categoryName,
           ),
+        );
+      }),
+  GoRoute(
+      path: '/profile',
+      name: 'profile',
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          child: ProfileSettingsScreen.fromState(state),
         );
       }),
   GoRoute(

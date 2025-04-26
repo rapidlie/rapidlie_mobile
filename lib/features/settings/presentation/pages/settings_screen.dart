@@ -62,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    //double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     language = AppLocalizations.of(context);
     return SafeArea(
       child: Scaffold(
@@ -91,8 +91,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       } else if (state is ProfileLoadedState) {
                         return GestureDetector(
                           onTap: () {
-                            Get.to(() => ProfileSettingsScreen(),
-                                arguments: state.userProfile);
+                            context.push('/profile',
+                                extra: {'userProfile': state.userProfile});
                           },
                           child: SettingsContainerLayout(
                             childWidget: Padding(
@@ -156,7 +156,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                       return GestureDetector(
                         onTap: () {
-                          Get.to(() => ProfileSettingsScreen());
+                          context
+                              .push('/profile', extra: {'userProfile': null});
                         },
                         child: SettingsContainerLayout(
                           childWidget: Padding(
@@ -245,7 +246,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               iconColor: Colors.blue,
                               onCLickFunction: () =>
-                                  showModal(language.language, context),
+                                  showModal(language.language, context, width),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 40.0),
@@ -415,7 +416,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  showModal(String menuTitle, BuildContext context) {
+  showModal(String menuTitle, BuildContext context, double width) {
     return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -432,7 +433,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               primary: true,
               child: GestureDetector(
                 //onTap: () => closeMenu(),
-                child: bottomSheetLayout(setState, menuTitle),
+                child: bottomSheetLayout(setState, menuTitle, width),
               ),
             );
           },
@@ -445,9 +446,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  Widget bottomSheetLayout(StateSetter setState, String menuTitle) {
+  Widget bottomSheetLayout(
+      StateSetter setState, String menuTitle, double width) {
     return Container(
-      width: Get.width,
+      width: width,
       decoration: BoxDecoration(
         color: CustomColors.colorFromHex("#F2F4F5"),
         borderRadius: BorderRadius.only(
@@ -499,7 +501,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Container(
                 color: CustomColors.lightGray,
                 height: 1,
-                width: Get.width,
+                width: width,
               ),
             ),
             Container(
