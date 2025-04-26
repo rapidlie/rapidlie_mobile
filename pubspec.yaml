@@ -50,6 +50,7 @@ dependencies:
   package_info_plus: ^8.1.2
   go_router: ^15.1.1
   share_plus: ^11.0.0
+  flutter_branch_sdk: ^8.4.1
 
 flutter_launcher_icons:
   android: true
