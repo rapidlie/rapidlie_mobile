@@ -24,7 +24,7 @@ class EventDetailsScreen extends StatefulWidget {
   final bool isOwnEvent;
   String? inviteStatus;
   var language;
-  //final bool? initialEventLiked;
+
   EventDataModel event;
 
   EventDetailsScreen({

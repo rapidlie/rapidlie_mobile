@@ -98,16 +98,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
                     builder: (context, state) {
                   if (state is InitialUpcomingEventState) {
-                    return emptyStateSingleView();
+                    return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoading) {
-                    return Center(child: CupertinoActivityIndicator());
+                    return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoaded) {
                     upcomingEvents = state.events.reversed.toList();
                     return Container(
                       width: width,
                       height: height * 0.25,
                       child: upcomingEvents.isEmpty
-                          ? emptyStateSingleView()
+                          ? emptyStateView()
                           : ListView.builder(
                               scrollDirection: Axis.horizontal,
                               //padding: const EdgeInsets.only(bottom: 70),
@@ -208,10 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.only(right: 0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    /* Get.to(() => CategoryScreen(), arguments: [
-                                      state.categories[index - 1].id,
-                                      state.categories[index - 1].name,
-                                    ]); */
                                     context.push(
                                       '/category',
                                       extra: {
@@ -243,13 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<PublicEventBloc, PublicEventState>(
                   builder: (context, state) {
                     if (state is InitialPublicEventState) {
-                      return emptyStateCategoryView();
+                      return emptyListWithShimmer();
                     } else if (state is PublicEventLoading) {
                       return Center(child: CupertinoActivityIndicator());
                     } else if (state is PublicEventLoaded) {
                       publicEvents = state.events.reversed.toList();
                       if (publicEvents.isEmpty) {
-                        return emptyStateCategoryView();
+                        return emptyStateView();
                       }
                       return ListView.builder(
                         shrinkWrap: true,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/events/presentation/pages/create_event/fifth_sheet_widget.dart';
@@ -40,8 +39,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       backgroundColor: CustomColors.colorFromHex("#F2F4F5"),
       body: SingleChildScrollView(
         child: Container(
-          height: Get.height,
-          width: Get.width,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: PageView(
               controller: _pageViewController,
               physics: NeverScrollableScrollPhysics(),

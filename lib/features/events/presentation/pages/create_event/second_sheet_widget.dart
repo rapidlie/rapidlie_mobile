@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/utils/autocomplete_predictions.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/getUserCurrentLocation.dart';
@@ -352,7 +352,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             child: Container(
               key: _keyDate,
               height: 50,
-              width: Get.width,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
@@ -508,7 +508,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             hintText: 'Straße 123, Germany',
             controller: venueController,
             obscureText: false,
-            width: Get.width,
+            width: MediaQuery.of(context).size.width,
             height: 50,
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
@@ -586,29 +586,33 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
           SizedBox(
             height: 20,
           ),
-          ButtonTemplate(
-            buttonName: widget.language.next,
-            buttonWidth: Get.width,
-            buttonAction: () {
-              if (venueController.text.isEmpty ||
-                  selectedStartTime == '00:00 am' ||
-                  selectedEndTime == '00:00 pm') {
-                Get.snackbar("Error", "All fields are required");
-                return;
-              } else {
-                context.read<CreateEventProvider>().updateEvent(
-                      date: convertDateDashFormat(_selectedDay),
-                      startTime: selectedStartTime.toString(),
-                      endTime: selectedEndTime.toString(),
-                      venue: venueController.text,
-                      mapLocation: mapId,
+          Row(
+            children: [
+              ButtonTemplate(
+                buttonName: widget.language.next,
+                buttonWidth: MediaQuery.of(context).size.width,
+                buttonAction: () {
+                  if (venueController.text.isEmpty ||
+                      selectedStartTime == '00:00 am' ||
+                      selectedEndTime == '00:00 pm') {
+                    AppSnackbars.showError(context, "All fields are required!");
+                    return;
+                  } else {
+                    context.read<CreateEventProvider>().updateEvent(
+                          date: convertDateDashFormat(_selectedDay),
+                          startTime: selectedStartTime.toString(),
+                          endTime: selectedEndTime.toString(),
+                          venue: venueController.text,
+                          mapLocation: mapId,
+                        );
+                    widget.pageViewController.nextPage(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.easeIn,
                     );
-                widget.pageViewController.nextPage(
-                  duration: Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                );
-              }
-            },
+                  }
+                },
+              ),
+            ],
           ),
         ],
       ),

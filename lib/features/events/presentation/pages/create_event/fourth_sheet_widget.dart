@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/features/contacts/models/contact_details.dart';
 import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
@@ -108,12 +109,11 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
           listener: (context, state) {
             if (state is CreateEventSuccessful) {
             } else if (state is CreateEventError) {
-              print("Error creating event: ${state.message}");
+              AppSnackbars.showError(context, "Error creating event!");
             }
           },
           builder: (context, eventState) {
             if (eventState is CreateEventLoading) {
-              print("Event creation loading....");
               return Center(child: CircularProgressIndicator());
             } else if (eventState is CreateEventSuccessful) {
               widget.pageViewController.nextPage(
