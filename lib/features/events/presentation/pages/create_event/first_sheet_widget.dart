@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/utils/image_picker.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
@@ -47,7 +47,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
             hintText: 'Title',
             controller: titleController,
             obscureText: false,
-            width: Get.width,
+            width: MediaQuery.of(context).size.width,
             height: 50,
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
@@ -62,14 +62,15 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
           extraSmallHeight(),
           GestureDetector(
             onTap: () async {
-              File? file = await ImagePickerUtils.pickImageFromGallery();
+              File? file = await ImagePickerUtils.pickImageFromGallery(
+                  maxWidth: MediaQuery.of(context).size.width);
               setState(() {
                 imageFile = file;
               });
             },
             child: Container(
               height: 160,
-              width: Get.width,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: CustomColors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -96,10 +97,10 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
             padding: const EdgeInsets.symmetric(vertical: 32.0),
             child: ButtonTemplate(
               buttonName: widget.language.next,
-              buttonWidth: Get.width,
+              buttonWidth: MediaQuery.of(context).size.width,
               buttonAction: () async {
                 if (titleController.text.isEmpty || imageFile == null) {
-                  Get.snackbar("Error", "All fields are required");
+                  AppSnackbars.showError(context, "All fields are required!");
                   return;
                 } else {
                   setState(() {});
@@ -107,11 +108,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
                         name: titleController.text,
                         file: imageFile,
                       );
-                  /* widget.pageViewController.animateTo(
-                    MediaQuery.of(context).size.width,
-                    duration: Duration(milliseconds: 200),
-                    curve: Curves.easeIn,
-                  ); */
+
                   widget.pageViewController.nextPage(
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeIn,

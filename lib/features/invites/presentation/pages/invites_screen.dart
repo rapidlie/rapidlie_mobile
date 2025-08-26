@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -50,9 +49,9 @@ class _InvitesScreenState extends State<InvitesScreen> {
         body: BlocBuilder<InvitedEventBloc, InvitedEventState>(
           builder: (context, state) {
             if (state is InitialInvitedEventState) {
-              return Center(child: CupertinoActivityIndicator());
+              return emptyListWithShimmer();
             } else if (state is InvitedEventLoading) {
-              return Center(child: CupertinoActivityIndicator());
+              return emptyListWithShimmer();
             }
             if (state is InvitedEventLoaded) {
               return buildBody(state.events.reversed.toList());
@@ -77,10 +76,7 @@ class _InvitesScreenState extends State<InvitesScreen> {
     } */
 
     return eventDataModel.length == 0
-        ? emptyStateFullView(
-            headerText: "No invites",
-            bodyText:
-                "Your friends have not sent you any invitation. Explore some public events while you wait.")
+        ? emptyStateView()
         : ListView.builder(
             shrinkWrap: true,
             itemCount: eventDataModel.length,
@@ -90,7 +86,8 @@ class _InvitesScreenState extends State<InvitesScreen> {
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: GestureDetector(
                   onTap: () {
-                    final inviteStatus = getInviteStatus(eventDataModel, index, userId);
+                    final inviteStatus =
+                        getInviteStatus(eventDataModel, index, userId);
                     bool isOwnEvent =
                         eventDataModel[index].user!.uuid == userId;
                     context.pushNamed(

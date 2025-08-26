@@ -1,10 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
@@ -94,9 +90,9 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
         child: BlocBuilder<EventByCategoryBloc, EventByCategoryState>(
           builder: (context, state) {
             if (state is InitialEventByCategoryState) {
-              return emptyStateCategoryView();
+              return emptyListWithShimmer();
             } else if (state is EventByCategoryLoading) {
-              return Center(child: CupertinoActivityIndicator());
+              return emptyListWithShimmer();
             } else if (state is EventByCategoryLoaded) {
               return buildBody(state.events.reversed.toList());
             } else {
@@ -110,7 +106,7 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
 
   Widget buildBody(List<EventDataModel> events) {
     return events.length == 0
-        ? emptyStateCategoryView()
+        ? emptyStateView()
         : ListView.builder(
             shrinkWrap: true,
             itemCount: events.length,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
@@ -118,7 +118,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             hintText: '',
             controller: aboutController,
             obscureText: false,
-            width: Get.width,
+            width: MediaQuery.of(context).size.width,
             height: 100,
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
@@ -160,7 +160,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                     },
                     child: Container(
                       key: _keyCategory,
-                      width: Get.width,
+                      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: Colors.white,
@@ -250,11 +250,11 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: ButtonTemplate(
               buttonName: widget.language.next,
-              buttonWidth: Get.width,
+              buttonWidth: MediaQuery.of(context).size.width,
               buttonAction: () {
                 if (aboutController.text.isEmpty ||
                     idOfSelectedCategory == null) {
-                  Get.snackbar("Error", "All fields are required");
+                  AppSnackbars.showError(context, "All fields are required!");
                 } else {
                   setState(() {});
                   context.read<CreateEventProvider>().updateEvent(

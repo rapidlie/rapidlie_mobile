@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
@@ -14,7 +12,6 @@ import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -69,21 +66,13 @@ class _EventsScreenState extends State<EventsScreen> {
           child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
             builder: (context, state) {
               if (state is InitialPrivateEventState) {
-                return emptyStateFullView(
-                  headerText: "No events",
-                  bodyText:
-                      "Get started by hitting the button on the bottom right corner of your screen. It is easy",
-                );
+                return emptyListWithShimmer();
               } else if (state is PrivateEventLoading) {
-                return Center(child: CupertinoActivityIndicator());
+                return emptyListWithShimmer();
               } else if (state is PrivateEventLoaded) {
                 return buildBody(state.events.reversed.toList(), width, height);
               }
-              return Center(
-                  child: Text(
-                "Empty",
-                style: TextStyle(fontSize: 30),
-              ));
+              return emptyListWithShimmer();
             },
           ),
         ),
@@ -96,11 +85,7 @@ class _EventsScreenState extends State<EventsScreen> {
       height: height,
       width: width,
       child: eventDataModel.length == 0
-          ? emptyStateFullView(
-              headerText: "No events",
-              bodyText:
-                  "Get started by hitting the button on the bottom right corner of your screen. It is easy",
-            )
+          ? emptyStateView()
           : Padding(
               padding: const EdgeInsets.only(bottom: 200.0),
               child: ListView.builder(
@@ -155,9 +140,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   Widget floatingActionButton() {
     return GestureDetector(
-      onTap: () => Get.to(
-        () => CreateEventScreen(),
-      ),
+      onTap: () => context.pushNamed('create_event'),
       child: Container(
         width: 50,
         height: 50,
