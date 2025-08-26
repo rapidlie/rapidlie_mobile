@@ -72,5 +72,29 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>flockr.app.link</string>
+		<string>flockr-alternate.app.link</string>
+		<string>flockr.test-app.link</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>flockr</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.flockrinc.flockr</string>
+		</dict>
+	</array>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_oqxfkd6gZ6gQWv8DkRCZikpavxdh2YCk</string>
+	</dict>
 </dict>
 </plist>
