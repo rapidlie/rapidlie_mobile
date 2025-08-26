@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/bottom_nav_screen.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
@@ -94,4 +95,8 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
       child: EventDetailsScreen.fromState(state),
     ),
   ),
+  GoRoute(
+      path: '/create_event',
+      name: 'create_event',
+      builder: (context, state) => CreateEventScreen()),
 ]);
