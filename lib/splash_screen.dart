@@ -63,8 +63,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 } else if (state is ProfileLoadedState) {
                   BlocProvider.of<TelephoneNumbersBloc>(context)
                       .add(GetNumbers());
-                  /*  Navigator.pushReplacementNamed(
-                      context, BottomNavScreen.routeName); */
                   context.go('/bottom_nav');
                 }
               },

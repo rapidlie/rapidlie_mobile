@@ -196,34 +196,7 @@ class MyApp extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 theme: ThemeData(textTheme: GoogleFonts.interTextTheme()),
-                /* routes: <String, WidgetBuilder>{
-                  LoginScreen.routeName: (context) => LoginScreen(),
-                  RegisterScreen.routeName: (context) => RegisterScreen(),
-                  BottomNavScreen.routeName: (context) =>
-                      BottomNavScreen(currentIndex: 0),
-                  HomeScreen.routeName: (context) => HomeScreen(),
-                  EventsScreen.routeName: (context) => EventsScreen(),
-                  InvitesScreen.routeName: (context) => InvitesScreen(),
-                  SettingsScreen.routeName: (context) => SettingsScreen(),
-                  OtpScreen.routeName: (context) => OtpScreen(),
-                  ChangePasswordScreen.routeName: (context) =>
-                      ChangePasswordScreen(),
-                  RequestResetPasswordScreen.routeName: (context) =>
-                      RequestResetPasswordScreen(),
-                  SplashScreen.routeName: (context) => SplashScreen(),
-                  CategoryScreen.routeName: (context) => CategoryScreen(),
-                  ContactListScreen.routeName: (context) => ContactListScreen(),
-                  NewPasswordScreen.routeName: (context) => NewPasswordScreen(),
-                  DeleteAccountScreen.routeName: (context) =>
-                      DeleteAccountScreen(),
-                },
-                initialRoute: SplashScreen.routeName,
-                onGenerateRoute: (RouteSettings settings) {
-                  return null;
-                },
-                onUnknownRoute: (RouteSettings settings) {
-                  return null;
-                }, */
+                
                 routerConfig: appRouter,
               );
             },
