@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/bottom_nav_screen.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
+import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
 import 'package:rapidlie/features/events/presentation/pages/event_details_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/flockr_contacts_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/guest_list_screen.dart';
 import 'package:rapidlie/features/login/presentation/pages/login_screen.dart';
 import 'package:rapidlie/features/otp/presentation/pages/otp_screen.dart';
 import 'package:rapidlie/features/password/presentation/pages/change_password_screen.dart';
@@ -11,7 +14,9 @@ import 'package:rapidlie/features/password/presentation/pages/new_password_scree
 import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
 import 'package:rapidlie/features/register/presentation/pages/register_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/privacy_policy_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/terms_and_conditions_screen.dart';
 import 'package:rapidlie/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
@@ -96,7 +101,36 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
     ),
   ),
   GoRoute(
-      path: '/create_event',
-      name: 'create_event',
-      builder: (context, state) => CreateEventScreen()),
+    path: '/guest_list',
+    name: 'guest_list',
+    pageBuilder: (context, state) {
+      final guests = state.extra as List<Invitation>?;
+      return MaterialPage(
+        child: GuestListScreen(guests: guests),
+      );
+    },
+  ),
+  GoRoute(
+    path: '/create_event',
+    name: 'create_event',
+    builder: (context, state) => CreateEventScreen(),
+  ),
+  GoRoute(
+    path: '/flockr_contacts',
+    name: 'flockr_contacts',
+    builder: (context, state) {
+      final String id = state.extra as String;
+      return FlockrContactsScreen(id: id);
+    },
+  ),
+  GoRoute(
+    path: '/terms',
+    name: 'terms',
+    builder: (context, state) => TermsAndConditionsScreen(),
+  ),
+  GoRoute(
+    path: '/privacy',
+    name: 'privacy',
+    builder: (context, state) => PrivacyPolicyScreen(),
+  ),
 ]);
