@@ -13,6 +13,7 @@ import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/invite_contact_bloc/invite_contact_bloc.dart';
 import 'package:rapidlie/features/events/blocs/invite_contact_bloc/invite_contact_event.dart';
 import 'package:rapidlie/features/events/blocs/invite_contact_bloc/invite_contact_state.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class FlockrContactsScreen extends StatefulWidget {
   final String id;
@@ -29,6 +30,8 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
   List<ContactDetails> flockrContacts = [];
   List<Contact> contacts = [];
   bool isLoading = true;
+
+  var language;
 
   Future<void> getCustomContacts() async {
     setState(() {
@@ -55,6 +58,7 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return BlocConsumer<InviteContactBloc, InviteContactState>(
         listener: (context, state) {
       if (state is InviteContactSuccess) {
@@ -72,12 +76,11 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
       }
     }, builder: (context, state) {
       return Scaffold(
-        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: SafeArea(
             child: AppBarTemplate(
-              pageTitle: "Contacts",
+              pageTitle: language.contacts,
               isSubPage: true,
               trailingWidget: _selectedContacts.length == 0
                   ? GestureDetector(
@@ -85,8 +88,8 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                         context.pop();
                       },
                       child: Text(
-                        "Cancel",
-                        style: poppins14black500(),
+                        language.cancel,
+                        style: inter14black500(context),
                       ),
                     )
                   : GestureDetector(
@@ -101,8 +104,8 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                         );
                       },
                       child: Text(
-                        "Done",
-                        style: poppins14black500(),
+                        language.done,
+                        style: inter14black500(context),
                       ),
                     ),
             ),

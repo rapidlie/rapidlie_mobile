@@ -21,7 +21,7 @@ class CreateEventRepository {
     required String endTime,
     required String venue,
     required String mapLocation,
-    required List<String> guests,
+    List<String>? guests,
   }) async {
     print("Entry level");
     try {
@@ -53,7 +53,7 @@ class CreateEventRepository {
         print("Create event successful");
         return DataSuccess(response.data);
       } else {
-        //print(response.statusMessage);
+        print(response.statusMessage);
         return DataFailed(DioException(
           error: response.statusMessage,
           response: response,
@@ -62,7 +62,7 @@ class CreateEventRepository {
         ));
       }
     } on DioException catch (e) {
-      
+      print(e.message);
       return DataFailed(e);
     }
   }

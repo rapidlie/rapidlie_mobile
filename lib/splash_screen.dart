@@ -72,13 +72,17 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/images/flockrLG.png"),
+                      Image.asset(
+                        "assets/images/flockrLG.png",
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       SizedBox(
                         height: 20,
                       ),
                       LinearProgressIndicator(
                         backgroundColor: Colors.transparent,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).colorScheme.primary),
                         borderRadius: BorderRadius.circular(8),
                       )
                     ],

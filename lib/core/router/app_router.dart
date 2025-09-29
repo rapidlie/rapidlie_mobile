@@ -13,6 +13,7 @@ import 'package:rapidlie/features/password/presentation/pages/change_password_sc
 import 'package:rapidlie/features/password/presentation/pages/new_password_screen.dart';
 import 'package:rapidlie/features/password/presentation/pages/request_reset_password_screen.dart';
 import 'package:rapidlie/features/register/presentation/pages/register_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/about_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/delete_account_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/privacy_policy_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
@@ -56,10 +57,10 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => DeleteAccountScreen(),
   ),
   GoRoute(
-    path: '/new_password:email',
+    path: '/new_password',
     name: 'new_password',
     builder: (context, state) {
-      final String email = state.pathParameters['email'] ?? '';
+      final String email = state.extra as String;
       return NewPasswordScreen(email: email);
     },
   ),
@@ -132,5 +133,15 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
     path: '/privacy',
     name: 'privacy',
     builder: (context, state) => PrivacyPolicyScreen(),
+  ),
+  GoRoute(
+    path: '/about',
+    name: 'about',
+    builder: (context, state) => AboutScreen(),
+  ),
+  GoRoute(
+    path: '/change_password',
+    name: 'change_password',
+    builder: (context, state) => ChangePasswordScreen(),
   ),
 ]);

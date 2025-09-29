@@ -32,6 +32,13 @@ class _InvitesScreenState extends State<InvitesScreen> {
     userId = UserPreferences().getUserId().toString();
   }
 
+  Future<void> _handleRefresh() async {
+    context.read<InvitedEventBloc>().add(GetInvitedEvents());
+    context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
+    context.read<PublicEventBloc>().add(GetPublicEvents());
+    context.read<PrivateEventBloc>().add(GetPrivateEvents());
+  }
+
   @override
   Widget build(BuildContext context) {
     context.read<InvitedEventBloc>().add(GetInvitedEvents());
@@ -45,36 +52,29 @@ class _InvitesScreenState extends State<InvitesScreen> {
             isSubPage: false,
           ),
         ),
-        backgroundColor: Colors.white,
-        body: BlocBuilder<InvitedEventBloc, InvitedEventState>(
-          builder: (context, state) {
-            if (state is InitialInvitedEventState) {
-              return emptyListWithShimmer();
-            } else if (state is InvitedEventLoading) {
-              return emptyListWithShimmer();
-            }
-            if (state is InvitedEventLoaded) {
-              return buildBody(state.events.reversed.toList());
-            }
-            return Container();
-          },
+        body: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: SingleChildScrollView(
+            child: BlocBuilder<InvitedEventBloc, InvitedEventState>(
+              builder: (context, state) {
+                if (state is InitialInvitedEventState) {
+                  return emptyListWithShimmer();
+                } else if (state is InvitedEventLoading) {
+                  return emptyListWithShimmer();
+                }
+                if (state is InvitedEventLoaded) {
+                  return buildBody(state.events.reversed.toList());
+                }
+                return Container();
+              },
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget buildBody(List<EventDataModel> eventDataModel) {
-    /* String getInviteStatus(int index) {
-      String inviteStatus = eventDataModel[index]
-          .invitations
-          .firstWhere(
-            (invitation) => invitation.user.uuid == userId,
-          )
-          .status;
-
-      return inviteStatus;
-    } */
-
     return eventDataModel.length == 0
         ? emptyStateView()
         : ListView.builder(
@@ -86,15 +86,12 @@ class _InvitesScreenState extends State<InvitesScreen> {
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: GestureDetector(
                   onTap: () {
-                    final inviteStatus =
-                        getInviteStatus(eventDataModel, index, userId);
                     bool isOwnEvent =
                         eventDataModel[index].user!.uuid == userId;
                     context.pushNamed(
                       'event_details',
                       extra: {
-                        'event': eventDataModel[index],
-                        'inviteStatus': inviteStatus,
+                        'eventId': eventDataModel[index].id,
                         'isOwnEvent': isOwnEvent,
                       },
                     );
@@ -110,6 +107,9 @@ class _InvitesScreenState extends State<InvitesScreen> {
                     eventId: eventDataModel[index].id,
                     hasLikedEvent: eventDataModel[index].hasLikedEvent,
                     eventOwnerAvatar: eventDataModel[index].user!.avatar,
+                    inviteStatus:
+                        getInviteStatus(eventDataModel[index], userId),
+                    showStatusBadge: true,
                   ),
                 ),
               );

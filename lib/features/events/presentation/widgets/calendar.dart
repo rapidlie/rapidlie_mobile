@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -9,7 +9,12 @@ class CalendarWidget extends StatefulWidget {
   DateTime? selectedDay;
   CalendarFormat calendarFormat;
 
-  CalendarWidget({Key? key, required this.currentDay,  this.selectedDay, required this.calendarFormat}) : super(key: key);
+  CalendarWidget(
+      {Key? key,
+      required this.currentDay,
+      this.selectedDay,
+      required this.calendarFormat})
+      : super(key: key);
 
   @override
   State<CalendarWidget> createState() => _CalendarWidgetState();
@@ -103,14 +108,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       },
       onDaySelected: (selectedDay, currentDay) {
         if (selectedDay.isBefore(DateTime.now())) {
-          Get.snackbar(
-            "Error",
-            "Selected day cannot be in the past",
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 3),
-            backgroundColor: CustomColors.white,
-            colorText: CustomColors.black,
-          );
+          AppSnackbars.showError(context, "Selected day cannot be in the past");
         } else if (!isSameDay(widget.selectedDay, selectedDay)) {
           setState((() {
             widget.selectedDay = selectedDay;

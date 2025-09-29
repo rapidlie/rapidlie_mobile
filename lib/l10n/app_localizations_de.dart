@@ -37,7 +37,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get general => 'Allgemein';
 
   @override
-  String get seeAll => 'Alle sehen';
+  String get all => 'Alle';
 
   @override
   String get hi => 'Hallo';
@@ -101,4 +101,133 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get french => 'Französisch';
+
+  @override
+  String get deleteAccountMessage1 => 'Wir respektieren Ihre Entscheidung, Ihr Konto zu löschen. Bitte beachten Sie, dass Sie nach Einleitung des Löschvorgangs keinen Zugriff mehr auf Ihr Konto haben.';
+
+  @override
+  String get deleteAccountMessage2 => 'Wenn Sie sicher sind, dass Sie Ihr Konto löschen möchten, geben Sie Ihre E-Mail-Adresse in das Feld ein und klicken Sie auf die Schaltfläche unten.';
+
+  @override
+  String get home => 'Startseite';
+
+  @override
+  String get invite => 'einladen';
+
+  @override
+  String get terms => 'Allgemeine Geschäftsbedingungen';
+
+  @override
+  String get privacy => 'Datenschutz';
+
+  @override
+  String get appVersion => 'App-Version';
+
+  @override
+  String get logout => 'Abmelden';
+
+  @override
+  String get changePassword => 'Passwort ändern';
+
+  @override
+  String get deleteAccount => 'Konto löschen';
+
+  @override
+  String get previous => 'Zurück';
+
+  @override
+  String get submit => 'Absenden';
+
+  @override
+  String get characterLength => 'Nur 150 Zeichen zulässig';
+
+  @override
+  String get app => 'App';
+
+  @override
+  String get aboutApp => 'Über Flockr';
+
+  @override
+  String get logoutMessage => 'Möchten Sie sich wirklich abmelden?';
+
+  @override
+  String get cancel => 'Abbrechen';
+
+  @override
+  String get category => 'Kategorie';
+
+  @override
+  String get selectCategory => 'Kategorie auswählen';
+
+  @override
+  String get requiredFields => 'All fields are required!';
+
+  @override
+  String get title => 'Titel';
+
+  @override
+  String get skip => 'Überspringen';
+
+  @override
+  String get finish => 'Beenden';
+
+  @override
+  String get contacts => 'Kontakte';
+
+  @override
+  String get inviteMessage => 'Hey, schau dir diese coole Event-App an!';
+
+  @override
+  String get unsentInvite => 'Einladung konnte nicht gesendet werden.';
+
+  @override
+  String get unavailablePhoneNumber => 'Telefonnummer ist nicht verfügbar.';
+
+  @override
+  String get flockrContacts => 'Kontakte auf Flockr';
+
+  @override
+  String get inviteToFlockr => 'Zu Flockr einladen';
+
+  @override
+  String get done => 'Fertig';
+
+  @override
+  String get searchName => 'Name suchen';
+
+  @override
+  String get add => 'Hinzufügen';
+
+  @override
+  String get profileSettings => 'Profileinstellungen';
+
+  @override
+  String get oldPassword => 'Altes Passwort';
+
+  @override
+  String get newPassword => 'Neues Passwort';
+
+  @override
+  String get accept => 'Akzeptieren';
+
+  @override
+  String get decline => 'Ablehnen';
+
+  @override
+  String get accepted => 'Akzeptiert';
+
+  @override
+  String get declined => 'Abgelehnt';
+
+  @override
+  String get myEvents => 'Meine Veranstaltungen';
+
+  @override
+  String get morning => '☀️ Guten Morgen';
+
+  @override
+  String get afternoon => '🌤️ Guten Tag';
+
+  @override
+  String get evening => '🌙 Guten Abend';
 }

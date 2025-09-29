@@ -1,50 +1,15 @@
-import 'package:dio/dio.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/router/app_router.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
+import 'package:rapidlie/core/utils/providers.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
-import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
-import 'package:rapidlie/features/categories/repository/category_repository.dart';
-import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
-import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
-import 'package:rapidlie/features/contacts/repository/telephone_numbers_repository.dart';
-import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dart';
-import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
-import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
-import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
-import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_bloc.dart';
-import 'package:rapidlie/features/events/provider/create_event_provider.dart';
-import 'package:rapidlie/features/events/repository/consent_repository.dart';
-import 'package:rapidlie/features/events/repository/create_event_repository.dart';
-import 'package:rapidlie/features/events/repository/event_respository.dart';
-import 'package:rapidlie/features/events/repository/like_event_repository.dart';
-import 'package:rapidlie/features/events/repository/unlike_event_repository.dart';
-import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
-import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
-import 'package:rapidlie/features/login/bloc/login_bloc.dart';
-import 'package:rapidlie/features/login/repository/login_repository.dart';
-import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
-import 'package:rapidlie/features/logout/repository/logout_repository.dart';
-import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
-import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
-import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
-import 'package:rapidlie/features/otp/repository/verify_otp_repositoy.dart';
-import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
-import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
-import 'package:rapidlie/features/password/repositories/new_password_repository.dart';
-import 'package:rapidlie/features/password/repositories/request_repository.dart';
-import 'package:rapidlie/features/register/bloc/register_bloc.dart';
-import 'package:rapidlie/features/register/repository/register_repository.dart';
-import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
-import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
-import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
-import 'package:rapidlie/features/settings/repositories/profile_repository.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
@@ -58,6 +23,13 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  final Locale deviceLocale = PlatformDispatcher.instance.locale;
+  final String? countryCode = deviceLocale.countryCode;
+  final String? languageCode = deviceLocale.languageCode;
+
+  UserPreferences().setCountry(countryCode ?? "DE");
+  UserPreferences().setLanguage(languageCode ?? "en");
+
   runApp(MyApp());
 }
 
@@ -68,139 +40,24 @@ class MyApp extends StatelessWidget {
       designSize: Size(393, 852),
       minTextAdapt: true,
       child: MultiProvider(
-          providers: [
-            Provider<EventRepository>(
-              create: (_) => EventRepositoryImpl(Dio()),
-            ),
-            BlocProvider<PrivateEventBloc>(
-              create: (context) {
-                final eventRepository = locator<EventRepository>();
-                return PrivateEventBloc(eventRepository: eventRepository);
-              },
-            ),
-            BlocProvider<PublicEventBloc>(
-              create: (context) {
-                final eventRepository = locator<EventRepository>();
-                return PublicEventBloc(eventRepository: eventRepository);
-              },
-            ),
-            BlocProvider<InvitedEventBloc>(
-              create: (context) {
-                final eventRepository = locator<EventRepository>();
-                return InvitedEventBloc(eventRepository: eventRepository);
-              },
-            ),
-            BlocProvider<UpcomingEventBloc>(
-              create: (context) {
-                final eventRepository = locator<EventRepository>();
-                return UpcomingEventBloc(eventRepository: eventRepository);
-              },
-            ),
-            BlocProvider<EventByCategoryBloc>(
-              create: (context) {
-                final eventRepository = locator<EventRepository>();
-                return EventByCategoryBloc(eventRepository: eventRepository);
-              },
-            ),
-            BlocProvider(
-              create: (context) =>
-                  ProfileBloc(profileRepository: ProfileRepository(dio: Dio())),
-            ),
-            BlocProvider<VerifyOtpBloc>(
-              create: (context) => VerifyOtpBloc(
-                verifyOtpRepository: VerifyOtpRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => RegisterBloc(
-                registerRepository: RegisterRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => LoginBloc(
-                loginRepository: LoginRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => LogoutBloc(
-                logoutRepository: LogoutRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => ResendOtpBloc(
-                resendOtpRepository: ResendOtpRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => CategoryBloc(
-                categoryRepository: CategoryRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) {
-                final telephoneNumbersRepository =
-                    locator<TelephoneNumbersRepository>();
-                return TelephoneNumbersBloc(
-                    telephoneNumbersRepository: telephoneNumbersRepository);
-              },
-            ),
-            BlocProvider(
-              create: (context) => FileUploadBloc(
-                fileUploadRepository: FileUploadRepository(dio: Dio()),
-              ),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  CreateEventBloc(CreateEventRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) => LikeEventBloc(
-                  likeEventRepository: LikeEventRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) => UnlikeEventBloc(
-                  unlikeEventRepository: UnlikeEventRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  RequestBloc(requestRepository: RequestRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) => NewPasswordBloc(
-                  newPasswordRepository: NewPasswordRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  ConsentBloc(consentRepository: ConsentRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) => DeleteAccountBloc(
-                  deleteAccoutRepository: DeleteAccountRepository(dio: Dio())),
-            ),
-            BlocProvider(
-              create: (context) => ContactsBloc(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => ChangeLanguageProvider(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => CreateEventProvider(),
-            ),
-          ],
-          child: Consumer<ChangeLanguageProvider>(
-            builder: (context, language, child) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                title: 'Flockr',
-                locale: language.applicationLocale,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                theme: ThemeData(textTheme: GoogleFonts.interTextTheme()),
-                
-                routerConfig: appRouter,
-              );
-            },
-          )),
+        providers: providers,
+        child: Consumer<ChangeLanguageProvider>(
+          builder: (context, language, child) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'Flockr',
+              locale: language.applicationLocale,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              //theme: ThemeData(textTheme: GoogleFonts.interTextTheme()),
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: ThemeMode.system,
+              routerConfig: appRouter,
+            );
+          },
+        ),
+      ),
     );
   }
 }

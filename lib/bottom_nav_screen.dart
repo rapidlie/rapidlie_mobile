@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/features/events/presentation/pages/events_screen.dart';
 import 'package:rapidlie/features/home/presentation/pages/home_screen.dart';
 import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class BottomNavScreen extends StatefulWidget {
-  
-
   final int currentIndex;
   const BottomNavScreen({Key? key, required this.currentIndex})
       : super(key: key);
@@ -27,8 +27,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     InvitesScreen(),
     SettingsScreen()
   ];
-  Color activeTextColor = CustomColors.primary;
-  Color inactiveTextColor = CustomColors.black;
+
+  var language;
   bool active = false;
 
   @override
@@ -40,12 +40,14 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
+    language = AppLocalizations.of(context);
     return PopScope(
       canPop: false,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
+        value: Theme.of(context).brightness == Brightness.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
         child: Scaffold(
-          backgroundColor: Colors.white,
           body: currentScreen[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
@@ -53,12 +55,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             showSelectedLabels: true,
             unselectedFontSize: 10.0,
             selectedFontSize: 12.0,
-            selectedItemColor: Colors.black,
+            selectedItemColor: Theme.of(context).colorScheme.primary,
             unselectedItemColor: Colors.grey,
-            selectedLabelStyle: GoogleFonts.inter(
-                fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),
+            selectedLabelStyle: inter12Black500(context),
             unselectedLabelStyle: GoogleFonts.inter(
-              fontSize: 10,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
             ),
@@ -67,40 +68,72 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/home-(Regular).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                label: 'Home',
+                label: language.home,
                 activeIcon: SvgPicture.asset(
                   "assets/icons/home-(Filled).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               // Events
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/blogger-(Regular).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                label: 'Events',
+                label: language.events,
                 activeIcon: SvgPicture.asset(
                   "assets/icons/blogger-(Filled).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               // Invites
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/alarm-clock-alt-(Regular).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                label: 'Invites',
+                label: language.invites,
                 activeIcon: SvgPicture.asset(
                   "assets/icons/alarm-clock-alt-(Filled).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               //Setings
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/settings-(Regular).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                label: 'Settings',
+                label: language.settings,
                 activeIcon: SvgPicture.asset(
                   "assets/icons/settings-(Filled).svg",
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ],
@@ -110,7 +143,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               });
             },
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.surface,
           ),
         ),
       ),

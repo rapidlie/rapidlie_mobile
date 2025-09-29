@@ -338,7 +338,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
         children: [
           Text(
             widget.language.selectDate + '*',
-            style: inter12CharcoalBlack400(),
+            style: inter12Black400(context),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -355,7 +355,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
+                color: Theme.of(context).inputDecorationTheme.fillColor,
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -364,11 +364,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   children: [
                     Text(
                       convertDateDotFormat(_selectedDay),
-                      style: GoogleFonts.inter(
-                        color: CustomColors.black,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: inter12Black500(context),
                     ),
                     Icon(
                       Icons.keyboard_arrow_down,
@@ -389,7 +385,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   children: [
                     Text(
                       widget.language.startTime + '*',
-                      style: inter12CharcoalBlack400(),
+                      style: inter12Black400(context),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -407,9 +403,10 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                         key: _keyStartTime,
                         height: 50,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
-                        ),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Theme.of(context)
+                                .inputDecorationTheme
+                                .fillColor),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
@@ -418,13 +415,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                             children: [
                               Text(
                                 allDay ? "00:00 am" : selectedStartTime,
-                                style: GoogleFonts.inter(
-                                  color: allDay
-                                      ? CustomColors.colorFromHex("#C6CDD3")
-                                      : CustomColors.black,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: inter12Black500(context),
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
@@ -447,7 +438,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   children: [
                     Text(
                       widget.language.endTime + '*',
-                      style: inter12CharcoalBlack400(),
+                      style: inter12Black400(context),
                     ),
                     extraSmallHeight(),
                     GestureDetector(
@@ -466,7 +457,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
+                          color:
+                              Theme.of(context).inputDecorationTheme.fillColor,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -476,13 +468,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                             children: [
                               Text(
                                 allDay ? "00:00 pm" : selectedEndTime,
-                                style: GoogleFonts.inter(
-                                  color: allDay
-                                      ? CustomColors.colorFromHex("#C6CDD3")
-                                      : CustomColors.black,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: inter12Black500(context),
                               ),
                               Icon(
                                 Icons.keyboard_arrow_down,
@@ -501,7 +487,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
           smallHeight(),
           Text(
             widget.language.location + '*',
-            style: inter12CharcoalBlack400(),
+            style: inter12Black400(context),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
@@ -513,7 +499,6 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
             enabled: true,
-            textFieldColor: Colors.white,
             suffixIcon: GestureDetector(
               onTap: () async {
                 Map locationItems = await getLocation();
@@ -569,7 +554,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                           EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                       child: Text(
                         predictionList[index].description!,
-                        style: inter12CharcoalBlack400(),
+                        style: inter12Black400(context),
                       ),
                     ),
                   );
@@ -589,13 +574,10 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: ButtonTemplate(
-                  buttonName: "PREVIOUS",
-                  buttonWidth: MediaQuery.of(context).size.width,
-                  borderColor: CustomColors.black,
-                  buttonColor: CustomColors.white,
-                  textColor: CustomColors.black,
+                  buttonName: widget.language.previous,
+                  buttonType: ButtonType.outlined,
                   buttonAction: () {
                     widget.pageViewController.previousPage(
                       duration: Duration(milliseconds: 200),
@@ -605,19 +587,21 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                 ),
               ),
               SizedBox(
-                width: 10,
+                width: 6,
               ),
               Expanded(
                 flex: 6,
                 child: ButtonTemplate(
                   buttonName: widget.language.next,
-                  buttonWidth: MediaQuery.of(context).size.width,
+                  buttonType: ButtonType.elevated,
                   buttonAction: () {
                     if (venueController.text.isEmpty ||
                         selectedStartTime == '00:00 am' ||
                         selectedEndTime == '00:00 pm') {
                       AppSnackbars.showError(
-                          context, "All fields are required!");
+                        context,
+                        widget.language.requiredFields,
+                      );
                       return;
                     } else {
                       context.read<CreateEventProvider>().updateEvent(

@@ -23,11 +23,10 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         email: event.email,
       );
 
-      print(result.error);
-
       if (result is DataSuccess<String>) {
         emit(RequestSuccessState());
       } else {
+        print(result.error!.message);
         emit(RequestErrorState(
             error: "An error occurred, please check email and try again."));
       }

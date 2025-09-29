@@ -10,7 +10,12 @@ class InitialLikeEventState extends LikeEventState {}
 class LikeEventLoading extends LikeEventState {}
 
 class LikeEventLoaded extends LikeEventState {
-  LikeEventLoaded();
+  final bool isLiked;
+
+  LikeEventLoaded({required this.isLiked});
+
+  @override
+  List<Object> get props => [isLiked];
 }
 
 class LikeEventError extends LikeEventState {

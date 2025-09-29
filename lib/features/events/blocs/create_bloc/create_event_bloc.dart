@@ -32,7 +32,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
           endTime: event.endTime,
           venue: event.venue,
           mapLocation: event.mapLocation,
-          guests: event.guests,
+          guests: event.guests ?? [],
         );
 
         if (createEventResponse is DataSuccess) {

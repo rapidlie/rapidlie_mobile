@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/constants/custom_colors.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/render_image.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 
-import '../../../../core/constants/custom_colors.dart';
-
 class GuestListScreen extends StatefulWidget {
-  final List<Invitation> guests = Get.arguments as List<Invitation>;
+  final List<Invitation>? guests;
+  GuestListScreen({Key? key, this.guests}) : super(key: key);
 
   @override
   State<GuestListScreen> createState() => _GuestListScreenState();
@@ -16,9 +17,7 @@ class GuestListScreen extends StatefulWidget {
 class _GuestListScreenState extends State<GuestListScreen> {
   @override
   Widget build(BuildContext context) {
-    //debugPrint(Get.arguments.runtimeType.toString());
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: SafeArea(
@@ -32,16 +31,15 @@ class _GuestListScreenState extends State<GuestListScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Container(
-            height: Get.height,
+            height: MediaQuery.of(context).size.height,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: widget.guests.length,
+              itemCount: widget.guests!.length,
               itemBuilder: (context, index) {
-                print(widget.guests[index].status);
                 return guestListLayout(
-                  userName: widget.guests[index].user.name,
-                  eventStatus: widget.guests[index].status,
-                  imageUrl: widget.guests[index].user.avatar,
+                  userName: widget.guests![index].user.name,
+                  eventStatus: widget.guests![index].status,
+                  imageUrl: widget.guests![index].user.avatar,
                 );
               },
             ),
@@ -62,26 +60,17 @@ class _GuestListScreenState extends State<GuestListScreen> {
           Row(
             children: [
               Container(
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: CustomColors.white,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/placeholder.png',
-                        image: imageUrl ?? "",
-                        fit: BoxFit.cover,
-                        imageErrorBuilder: (context, error, stackTrace) =>
-                            Image.asset('assets/images/placeholder.png'),
-                        imageCacheHeight: 100,
-                        imageCacheWidth: 100,
-                      ),
+                      child: RenderImage(imageUrl: imageUrl!),
                     ),
                   ),
                 ),
@@ -95,11 +84,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
                   userName!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: CustomColors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: inter14black500(context),
                 ),
               ),
             ],

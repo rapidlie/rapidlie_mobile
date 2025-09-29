@@ -20,7 +20,7 @@ class ConsentBloc extends Bloc<ConsentEvent, ConsentState> {
       final result = await consentRepository.giveConsent(
           status: event.status, eventId: event.eventId);
       if (result is DataSuccess) {
-        emit(ConsentLoadedState(message: result.toString()));
+        emit(ConsentLoadedState(message: event.status));
       }
     } catch (e) {
       emit(ConsentErrorState(error: e.toString()));
@@ -31,6 +31,6 @@ class ConsentBloc extends Bloc<ConsentEvent, ConsentState> {
     ResetGiveConsentEvent event,
     Emitter<ConsentState> emit,
   ) {
-    emit(ConsentInitial()); // Emit the initial state
+    emit(ConsentInitial());
   }
 }

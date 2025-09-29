@@ -106,7 +106,7 @@ class EventDataModel extends Equatable {
       likes: json['likes'],
       hasLikedEvent: json['hasLikedEvent'],
       formattedLikes: json['formatted_likes'],
-      username: json['username'],
+      username: json['username'] ?? "",
       user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }

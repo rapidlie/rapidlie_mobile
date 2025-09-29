@@ -35,7 +35,6 @@ class _RequestResetPasswordScreenState
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -49,11 +48,11 @@ class _RequestResetPasswordScreenState
                 );
               }
               if (state is RequestSuccessState) {
+                print(emailController.text.toString());
                 context.push(
                   '/new_password',
                   extra: emailController.text.toString(),
                 );
-                
               }
             },
             builder: (context, state) {
@@ -79,7 +78,7 @@ class _RequestResetPasswordScreenState
                         ),
                         Text(
                           "Enter email to request for password reset.",
-                          style: mainAppbarTitleStyle(),
+                          style: mainAppbarTitleStyle(context),
                         ),
                       ],
                     ),
@@ -100,7 +99,7 @@ class _RequestResetPasswordScreenState
                         ),
                         ButtonTemplate(
                           buttonName: "Send request",
-                          buttonWidth: width,
+                          buttonType: ButtonType.elevated,
                           loading: state is RequestLoadingState,
                           buttonAction: () {
                             context.read<RequestBloc>().add(

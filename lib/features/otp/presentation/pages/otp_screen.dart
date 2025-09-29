@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
@@ -31,9 +32,8 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     //double width = MediaQuery.of(context).size.width;
-   
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -43,12 +43,6 @@ class _OtpScreenState extends State<OtpScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Successful')),
                   );
-
-                  /* Navigator.pushReplacementNamed(
-                    context,
-                    BottomNavScreen.routeName,
-                  ); */
-
                   context.go('/bottom_nav');
                 } else if (state is VerifyOtpErrorState) {
                   // Registration failed
@@ -78,17 +72,17 @@ class _OtpScreenState extends State<OtpScreen> {
                               ),
                             ),
                           ),
-                          Text("We just sent you a 4-digit\n code via SMS.",
-                              style: mainAppbarTitleStyle()),
+                          Text("We just sent you a 4-digit\n code via email.",
+                              style: mainAppbarTitleStyle(context)),
                         ],
                       ),
                       Center(
                         child: Column(
                           children: [
                             Pinput(
-                              defaultPinTheme: defaultTheme,
-                              focusedPinTheme: focusedTheme,
-                              submittedPinTheme: focusedTheme,
+                              defaultPinTheme: getDefaultTheme(context),
+                              focusedPinTheme: getFocusedTheme(),
+                              submittedPinTheme: getFocusedTheme(),
                               onCompleted: (value) {
                                 print(email);
                                 BlocProvider.of<VerifyOtpBloc>(context).add(
@@ -132,25 +126,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        "Didn't receive code?",
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.black,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
+                                      Text("Didn't receive code?",
+                                          textAlign: TextAlign.right,
+                                          style: inter14black500(context)),
                                       Text(
                                         " Resend",
                                         textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.deepOrange,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                        style: inter14Orange500(context),
                                       ),
                                     ],
                                   ),
@@ -172,31 +154,30 @@ class _OtpScreenState extends State<OtpScreen> {
     );
   }
 
-  PinTheme defaultTheme = PinTheme(
-    height: 50,
-    width: 50,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(borderRadius),
-      border: Border.all(
-        color: Colors.black12,
+  PinTheme getDefaultTheme(BuildContext context) {
+    return PinTheme(
+      height: 50.h,
+      width: 50.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+        ),
       ),
-    ),
-    textStyle: TextStyle(
-      color: Colors.black,
-      fontSize: 14.0,
-      fontFamily: 'Poppins',
-      fontWeight: FontWeight.w500,
-    ),
-  );
+      textStyle: inter14black500(context),
+    );
+  }
 
-  PinTheme focusedTheme = PinTheme(
-    height: 55,
-    width: 55,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(borderRadius),
-      border: Border.all(
-        color: Colors.black,
+  PinTheme getFocusedTheme() {
+    return PinTheme(
+      height: 55.h,
+      width: 55.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

@@ -14,13 +14,13 @@ class SettingsContainerLayout extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: Offset(0, 5),
+            spreadRadius: 3,
+            blurRadius: 7,
+            offset: Offset(0, 2),
           ),
         ],
       ),

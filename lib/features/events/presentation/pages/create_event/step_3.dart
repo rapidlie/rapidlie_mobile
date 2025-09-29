@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/app_snackbars.dart';
@@ -28,7 +27,7 @@ class ThirdSheetContentWidget extends StatefulWidget {
 class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
   TextEditingController aboutController = TextEditingController();
   bool publicEvent = false;
-  String nameOfSelectedCategory = "Select Category";
+  String nameOfSelectedCategory = "";
   String? idOfSelectedCategory;
   bool isMenuOpen = false;
   final GlobalKey _keyCategory = GlobalKey();
@@ -56,6 +55,10 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
   categoryDropDown(GlobalKey _key, List<CategoryModel> categoryList) {
     return Container(
       height: 150,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
+      ),
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0, left: 10.0),
         child: ListView.builder(
@@ -75,7 +78,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   categoryList[index].name,
-                  style: poppins14black500(),
+                  style: inter14black500(context),
                 ),
               ),
             );
@@ -99,6 +102,12 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
   }
 
   @override
+  void initState() {
+    nameOfSelectedCategory = widget.language.selectCategory;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -107,11 +116,11 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
         children: [
           Text(
             widget.language.description + '*',
-            style: inter14CharcoalBlack400(),
+            style: inter12Black400(context),
           ),
           Text(
-            "Only 150 characters allowed",
-            style: inter12CharcoalBlack500(),
+            widget.language.characterLength,
+            style: inter12Black400(context),
           ),
           SizedBox(height: 8), // Assuming extraSmallHeight() is 8
           TextFieldTemplate(
@@ -128,19 +137,15 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
           ),
           SizedBox(height: 16), // Assuming smallHeight() is 16
           Text(
-            "Category*",
-            style: inter14CharcoalBlack400(),
+            widget.language.category + "*",
+            style: inter12Black400(context),
           ),
           SizedBox(height: 8), // Assuming extraSmallHeight() is 8
           Container(
             height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: CustomColors.gray,
-                width: 2,
-              ),
-              color: Colors.white,
+              color: Theme.of(context).inputDecorationTheme.fillColor,
             ),
             child: BlocBuilder<CategoryBloc, CategoryState>(
               builder: (context, state) {
@@ -163,7 +168,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
                       ),
                       child: Padding(
                         padding:
@@ -171,17 +176,10 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              nameOfSelectedCategory,
-                              style: GoogleFonts.inter(
-                                color: CustomColors.black,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            Text(nameOfSelectedCategory,
+                                style: inter12Black500(context)),
                             Icon(
                               Icons.keyboard_arrow_down,
-                              color: CustomColors.colorFromHex("#C6CDD3"),
                             ),
                           ],
                         ),
@@ -193,7 +191,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                   return Center(
                     child: Text(
                       'Error loading categories',
-                      style: poppins14black500(),
+                      style: inter14black500(context),
                     ),
                   );
                 }
@@ -213,7 +211,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
               children: [
                 Text(
                   widget.language.publicEvent,
-                  style: inter14CharcoalBlack400(),
+                  style: inter12Black400(context),
                 ),
                 Container(
                   height: 18,
@@ -228,16 +226,16 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(1.0),
                     child: Container(
                       height: 5,
                       width: 5,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(5),
                         shape: BoxShape.rectangle,
                         color: publicEvent
-                            ? CustomColors.black
-                            : CustomColors.white,
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.surface,
                       ),
                     ),
                   ),
@@ -251,13 +249,10 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             child: Row(
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: ButtonTemplate(
-                    buttonName: "PREVIOUS",
-                    buttonWidth: MediaQuery.of(context).size.width,
-                    borderColor: CustomColors.black,
-                    buttonColor: CustomColors.white,
-                    textColor: CustomColors.black,
+                    buttonName: widget.language.previous,
+                    buttonType: ButtonType.outlined,
                     buttonAction: () {
                       widget.pageViewController.previousPage(
                         duration: Duration(milliseconds: 200),
@@ -267,18 +262,20 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                   ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 6,
                 ),
                 Expanded(
                   flex: 6,
                   child: ButtonTemplate(
                     buttonName: widget.language.next,
-                    buttonWidth: MediaQuery.of(context).size.width,
+                    buttonType: ButtonType.elevated,
                     buttonAction: () {
                       if (aboutController.text.isEmpty ||
                           idOfSelectedCategory == null) {
                         AppSnackbars.showError(
-                            context, "All fields are required!");
+                          context,
+                          widget.language.requiredFields,
+                        );
                       } else {
                         setState(() {});
                         context.read<CreateEventProvider>().updateEvent(

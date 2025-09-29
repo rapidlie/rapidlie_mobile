@@ -69,14 +69,14 @@ class UpcomingEventListTemplate extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10.0, top: 3),
                   child: Text(
                     eventName,
-                    style: inter14black600(),
+                    style: inter14black600(context),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
                     eventLocation,
-                    style: inter10CharcoalBlack400(),
+                    style: inter10Black400(context),
                   ),
                 ),
               ],

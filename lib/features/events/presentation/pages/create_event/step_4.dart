@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
@@ -44,10 +43,6 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
-    print(context.read<CreateEventProvider>().event.eventType.toString());
-
     return BlocConsumer<FileUploadBloc, FileUploadState>(
       listener: (context, state) {
         if (state is FileUploadInitial) {
@@ -138,12 +133,13 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  color: CustomColors.black,
                                   shape: BoxShape.circle,
+                                  color: Theme.of(context)
+                                      .inputDecorationTheme
+                                      .fillColor,
                                 ),
                                 child: Icon(
                                   Icons.add,
-                                  color: CustomColors.white,
                                   size: 30,
                                 ),
                               ),
@@ -151,7 +147,7 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                             SizedBox(height: 10),
                             Text(
                               widget.language.inviteFriends,
-                              style: poppins13black400(),
+                              style: inter12Black400(context),
                             ),
                           ],
                         ),
@@ -162,8 +158,8 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                     .toString() ==
                                 "private"
                             ? ButtonTemplate(
-                                buttonName: "PREVIOUS",
-                                buttonWidth: width,
+                                buttonName: widget.language.previous,
+                                buttonType: ButtonType.outlined,
                                 buttonAction: () {
                                   widget.pageViewController.previousPage(
                                     duration: Duration(milliseconds: 200),
@@ -176,12 +172,8 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                   Expanded(
                                     flex: 3,
                                     child: ButtonTemplate(
-                                      buttonName: "PREVIOUS",
-                                      buttonWidth:
-                                          MediaQuery.of(context).size.width,
-                                      borderColor: CustomColors.black,
-                                      buttonColor: CustomColors.white,
-                                      textColor: CustomColors.black,
+                                      buttonName: widget.language.previous,
+                                      buttonType: ButtonType.outlined,
                                       buttonAction: () {
                                         widget.pageViewController.previousPage(
                                           duration: Duration(milliseconds: 200),
@@ -196,8 +188,8 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                   Expanded(
                                     flex: 6,
                                     child: ButtonTemplate(
-                                      buttonName: "SKIP",
-                                      buttonWidth: width,
+                                      buttonName: widget.language.skip,
+                                      buttonType: ButtonType.elevated,
                                       buttonAction: () {
                                         context
                                             .read<CreateEventProvider>()
@@ -241,7 +233,6 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                   },
                                   child: Icon(
                                     Icons.close,
-                                    color: Colors.grey,
                                     size: 20,
                                   ),
                                 ),
@@ -253,10 +244,10 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
-                              flex: 1,
+                              flex: 4,
                               child: ButtonTemplate(
                                 buttonName: "+",
-                                buttonWidth: width,
+                                buttonType: ButtonType.elevated,
                                 buttonAction: () {
                                   _navigateAndSelectContacts();
                                 },
@@ -264,10 +255,10 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                             ),
                             SizedBox(width: 5),
                             Flexible(
-                              flex: 8,
+                              flex: 6,
                               child: ButtonTemplate(
-                                buttonName: "Finish",
-                                buttonWidth: width,
+                                buttonName: widget.language.finish,
+                                buttonType: ButtonType.elevated,
                                 buttonAction: () {
                                   context
                                       .read<CreateEventProvider>()

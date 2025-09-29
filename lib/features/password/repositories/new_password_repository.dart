@@ -27,9 +27,6 @@ class NewPasswordRepository {
         },
       );
 
-      print(response.statusCode);
-      print(response.statusMessage);
-
       if (response.statusCode == 200) {
         return DataSuccess("success");
       } else {

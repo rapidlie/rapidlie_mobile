@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../constants/custom_colors.dart';
@@ -120,14 +120,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
       },
       onDaySelected: (selectedDay, currentDay) {
         if (selectedDay.isBefore(DateTime.now())) {
-          Get.snackbar(
-            "Error",
-            "Selected day cannot be in the past",
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 3),
-            backgroundColor: CustomColors.white,
-            colorText: CustomColors.black,
-          );
+          AppSnackbars.showError(context, "You cannot select a past date");
         } else if (!isSameDay(selectedDay, selectedDay)) {
           debugPrint("selectedDay");
           widget.setState(() {

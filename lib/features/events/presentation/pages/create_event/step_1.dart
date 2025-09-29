@@ -40,11 +40,11 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
         children: [
           Text(
             widget.language.eventTitle + '*',
-            style: inter12CharcoalBlack400(),
+            style: inter12Black400(context),
           ),
           extraSmallHeight(),
           TextFieldTemplate(
-            hintText: 'Title',
+            hintText: widget.language.title,
             controller: titleController,
             obscureText: false,
             width: MediaQuery.of(context).size.width,
@@ -52,12 +52,11 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
             textInputType: TextInputType.text,
             textInputAction: TextInputAction.done,
             enabled: true,
-            textFieldColor: Colors.white,
           ),
           smallHeight(),
           Text(
             widget.language.uploadFlyer + '*',
-            style: inter12CharcoalBlack400(),
+            style: inter12Black400(context),
           ),
           extraSmallHeight(),
           GestureDetector(
@@ -72,7 +71,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
               height: 160,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: CustomColors.white,
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: CustomColors.colorFromHex("#C6CDD3")),
               ),
@@ -97,7 +96,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
             padding: const EdgeInsets.symmetric(vertical: 32.0),
             child: ButtonTemplate(
               buttonName: widget.language.next,
-              buttonWidth: MediaQuery.of(context).size.width,
+              buttonType: ButtonType.elevated,
               buttonAction: () async {
                 if (titleController.text.isEmpty || imageFile == null) {
                   AppSnackbars.showError(context, "All fields are required!");

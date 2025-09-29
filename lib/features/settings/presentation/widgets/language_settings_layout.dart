@@ -24,14 +24,14 @@ class _LanguageSettingsLayoutState extends State<LanguageSettingsLayout> {
 
   @override
   Widget build(BuildContext context) {
-   // double height = MediaQuery.of(context).size.height;
+    // double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     language = AppLocalizations.of(context);
     supportedLanguages = [language.english, language.german, language.french];
     return Consumer<ChangeLanguageProvider>(
       builder: (context, provider, child) {
         return Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 60),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 60),
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: supportedLanguages.length,
@@ -56,15 +56,16 @@ class _LanguageSettingsLayoutState extends State<LanguageSettingsLayout> {
                   }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Container(
                     width: width,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Icon(Icons.language),
+                        SizedBox(width: 10),
                         Text(
                           supportedLanguages[index],
-                          style: poppins14black500(),
+                          style: inter14black500(context),
                         ),
                       ],
                     ),

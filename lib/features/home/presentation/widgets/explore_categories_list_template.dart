@@ -20,14 +20,16 @@ class ExploreCategoryListTemplate extends StatelessWidget {
           children: [
             HeaderTextTemplate(
               titleText: categoryName,
-              titleTextColor: Colors.black,
-              containerColor: CustomColors.white,
+              titleTextColor: Theme.of(context).colorScheme.primary,
+              containerColor: Theme.of(context).colorScheme.surface,
               containerBorderColor: CustomColors.gray,
               textSize: 12,
               iconWidget: RenderImage(
                 imageUrl: imageSrc,
-                width: 18,
-                height: 18,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+                color: Theme.of(context).colorScheme.primary,
               ),
             )
           ],

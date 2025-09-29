@@ -41,7 +41,7 @@ if (flutterVersionName == null) {
 
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     namespace 'com.flockrinc.flockr'
 
     buildFeatures {
@@ -54,13 +54,15 @@ android {
 
     defaultConfig {
         applicationId "com.flockrinc.flockr"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        compileSdkVersion flutter.compileSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resValue "string", "google_maps_key", secretsProperties["MAPS_API_KEY"] ?: "DEFAULT_API_KEY"
         manifestPlaceholders = [
-            branch_key: secretsProperties["BRANCH_KEY"]
+            branch_key: secretsProperties["BRANCH_KEY"],
+            applicationName: "io.flutter.app.FlutterApplication",
         ]
     }
 
