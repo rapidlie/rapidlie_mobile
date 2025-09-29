@@ -27,9 +27,11 @@ class DeleteAccountRepository {
         ),
       );
 
-      if (response.statusCode == HttpStatus.ok) {
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
         UserPreferences().clearAll();
-        return DataSuccess(response.statusMessage);
+        return DataSuccess(null);
       } else {
         return DataFailed(DioException(
           error: response.statusMessage,

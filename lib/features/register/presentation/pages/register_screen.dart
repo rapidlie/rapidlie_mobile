@@ -1,9 +1,10 @@
-import 'package:country_list_pick/country_list_pick.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/utils/gravata_to_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
@@ -59,7 +60,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: CustomColors.white,
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -72,11 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   );
                   context.go('/otp');
                 } else if (state is RegisterErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(
-                            "Registration failed. Please check details and try again.")),
-                  );
+                  AppSnackbars.showError(
+                      context, 'Registration failed. Please try again.');
                 }
               },
               builder: (context, state) {
@@ -93,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Text(
                             "Register to get started.",
-                            style: mainAppbarTitleStyle(),
+                            style: mainAppbarTitleStyle(context),
                           ),
                         ],
                       ),
@@ -126,43 +123,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               Container(
                                 height: 48,
+                                width: 60.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: CustomColors.gray, width: 2),
-                                ),
-                                child: CountryListPick(
-                                  appBar: AppBar(
-                                    backgroundColor: CustomColors.white,
-                                    title: Text(
-                                      'Choose a country',
-                                      style: poppins14black500(),
-                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Theme.of(context)
+                                        .inputDecorationTheme
+                                        .fillColor),
+                                child: Center(
+                                  child: CountryCodePicker(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        countryCode = value.dialCode!;
+                                      });
+                                    },
+                                    initialSelection:
+                                        UserPreferences().getCountry() ?? "DE",
+                                    showCountryOnly: true,
+                                    showOnlyCountryWhenClosed: true,
+                                    alignLeft: false,
+                                    showFlagDialog: true,
+                                    showFlag: false,
+                                    showDropDownButton: false,
+                                    dialogBackgroundColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    textStyle: inter14Black400(context),
+                                    headerText: "Select a country",
+                                    headerTextStyle: inter16Black600(context),
+                                    pickerStyle: PickerStyle.bottomSheet,
+                                    builder: (countryCode) {
+                                      return Text(
+                                        countryCode!.dialCode!,
+                                        textAlign: TextAlign.center,
+                                        style: inter13black400(context),
+                                      );
+                                    },
                                   ),
-                                  pickerBuilder:
-                                      (context, CountryCode? countryCode) {
-                                    return Text(
-                                      countryCode!.dialCode!,
-                                      style: poppins14black500(),
-                                    );
-                                  },
-                                  theme: CountryTheme(
-                                    alphabetSelectedBackgroundColor:
-                                        Colors.black,
-                                    searchHintText:
-                                        'Enter name of country here',
-                                    isShowFlag: false,
-                                    isShowTitle: false,
-                                    isShowCode: true,
-                                    isDownIcon: false,
-                                    showEnglishName: false,
-                                  ),
-                                  initialSelection: countryCode,
-                                  onChanged: (CountryCode? code) {
-                                    setState(() {
-                                      countryCode = code!.dialCode!;
-                                    });
-                                  },
                                 ),
                               ),
                               SizedBox(
@@ -200,23 +195,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               child: Icon(
                                 obscureText ? Icons.lock : Icons.lock_open,
-                                color: CustomColors.black,
                               ),
                             ),
                           ),
                           extraSmallHeight(),
                           Text(
                             "*Password must be at least 8 characters long.",
-                            style: inter10CharcoalBlack400(),
+                            style: inter10Black400(context),
                           ),
                           SizedBox(
                             height: 30.0,
                           ),
                           ButtonTemplate(
                             buttonName: "Register",
-                            buttonWidth: width,
+                            buttonType: ButtonType.elevated,
                             loading: state is RegisterLoadingState,
                             buttonAction: () {
+                              if (emailController.text.isEmpty ||
+                                  passwordController.text.isEmpty ||
+                                  nameController.text.isEmpty ||
+                                  phoneController.text.isEmpty) {
+                                AppSnackbars.showError(
+                                    context, "All fields are required");
+                                return;
+                              }
                               BlocProvider.of<RegisterBloc>(context).add(
                                 SubmitRegisterEvent(
                                   name: nameController.text,
@@ -247,12 +249,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Text(
                               "Do you already have an account?",
                               textAlign: TextAlign.right,
-                              style: inter14black500(),
+                              style: inter14black500(context),
                             ),
                             Text(
                               " Login",
                               textAlign: TextAlign.right,
-                              style: inter14Orange500(),
+                              style: inter14Orange500(context),
                             ),
                           ],
                         ),

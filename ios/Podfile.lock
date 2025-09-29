@@ -1,21 +1,19 @@
 PODS:
-  - BranchSDK (3.9.1)
   - connectivity_plus (0.0.1):
     - Flutter
-    - FlutterMacOS
   - Flutter (1.0.0)
-  - flutter_branch_sdk (8.4.1):
-    - BranchSDK (~> 3.9.0)
-    - Flutter
   - flutter_contacts (0.0.1):
     - Flutter
   - flutter_google_places_sdk_ios (0.0.3):
     - Flutter
     - GooglePlaces (~> 8.5.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - geocoding_ios (1.0.5):
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
+    - FlutterMacOS
   - Google-Maps-iOS-Utils (5.0.0):
     - GoogleMaps (~> 8.0)
   - google_maps_flutter_ios (0.0.1):
@@ -56,15 +54,18 @@ PODS:
     - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
-  - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
   - flutter_contacts (from `.symlinks/plugins/flutter_contacts/ios`)
   - flutter_google_places_sdk_ios (from `.symlinks/plugins/flutter_google_places_sdk_ios/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
@@ -76,10 +77,10 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
   trunk:
-    - BranchSDK
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - GooglePlaces
@@ -87,19 +88,19 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/darwin"
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
     :path: Flutter
-  flutter_branch_sdk:
-    :path: ".symlinks/plugins/flutter_branch_sdk/ios"
   flutter_contacts:
     :path: ".symlinks/plugins/flutter_contacts/ios"
   flutter_google_places_sdk_ios:
     :path: ".symlinks/plugins/flutter_google_places_sdk_ios/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   geocoding_ios:
     :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/ios"
+    :path: ".symlinks/plugins/geolocator_apple/darwin"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_picker_ios:
@@ -120,16 +121,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  BranchSDK: a12f9aa63d7ba562fdff5509d4aed081f1098ec0
-  connectivity_plus: 18382e7311ba19efcaee94442b23b32507b20695
+  connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_branch_sdk: 08a14ddbff760434cce6d23f85a789fdfa92cfcb
   flutter_contacts: edb1c5ce76aa433e20e6cb14c615f4c0b66e0983
   flutter_google_places_sdk_ios: 76e1260ead0522ef09c206563a7288aa3c77202e
-  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
-  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
+  flutter_local_notifications: ff50f8405aaa0ccdc7dcfb9022ca192e8ad9688f
+  geocoding_ios: eafacae6ad11a1eb56681f7d11df602a5fd49416
+  geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
@@ -144,6 +146,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
 
 PODFILE CHECKSUM: 091b52ec52a39448353ebb019b0ddda397e97d2e
 

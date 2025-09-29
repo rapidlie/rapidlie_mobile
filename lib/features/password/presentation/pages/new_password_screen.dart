@@ -36,7 +36,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
@@ -62,7 +61,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                     Text(
                       "Enter the code sent to your email and a new password.",
-                      style: mainAppbarTitleStyle(),
+                      style: mainAppbarTitleStyle(context),
                     ),
                   ],
                 ),
@@ -82,12 +81,22 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     TextFieldTemplate(
                       hintText: "New password",
                       controller: newPasswordController,
-                      obscureText: false,
+                      obscureText: visible,
                       width: width,
                       height: 50,
                       textInputType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                       enabled: true,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            visible = !visible;
+                          });
+                        },
+                        child: Icon(
+                          visible ? Icons.lock : Icons.lock_open,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 30.0,
@@ -102,8 +111,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       },
                       child: ButtonTemplate(
                         buttonName: "Change password",
-                        buttonWidth: width,
+                        buttonType: ButtonType.elevated,
                         buttonAction: () {
+                          print(widget.email);
                           context.read<NewPasswordBloc>().add(
                                 SubmitNewPasswordEvent(
                                   email: widget.email,

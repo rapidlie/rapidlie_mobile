@@ -19,8 +19,10 @@ class LikeEventBloc extends Bloc<LikeEventEvent, LikeEventState> {
     try {
       final likeEventResponse =
           await likeEventRepository.likeEvent(event.eventId);
+
       if (likeEventResponse is DataSuccess) {
-        emit(LikeEventLoaded());
+        final newIsLikedStatus = likeEventResponse.data as bool;
+        emit(LikeEventLoaded(isLiked: newIsLikedStatus));
       } else if (likeEventResponse is DataFailed) {
         emit(LikeEventError(message: likeEventResponse.error.toString()));
       }

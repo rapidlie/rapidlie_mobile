@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/fifth_sheet_widget.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/first_sheet_widget.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/fourth_sheet_widget.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/second_sheet_widget.dart';
-import 'package:rapidlie/features/events/presentation/pages/create_event/third_sheet_widget.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/step_5.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/step_1.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/step_4.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/step_2.dart';
+import 'package:rapidlie/features/events/presentation/pages/create_event/step_3.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -32,11 +31,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: AppBarTemplate(
-          pageTitle: "Create Event",
+          pageTitle: language.createEvent,
           isSubPage: true,
         ),
       ),
-      backgroundColor: CustomColors.colorFromHex("#F2F4F5"),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,

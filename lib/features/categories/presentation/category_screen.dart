@@ -120,16 +120,12 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: GestureDetector(
                   onTap: () {
-                    /*  Get.to(() => EventDetailsScreen(isOwnEvent: false),
-                      arguments: events[index]); */
-
-                    final inviteStatus = getInviteStatus(events, index, userId);
+                    final inviteStatus = getInviteStatus(events[index], userId);
                     bool isOwnEvent = events[index].user!.uuid == userId;
                     context.pushNamed(
                       'event_details',
                       extra: {
-                        'event': events[index],
-                        'inviteStatus': inviteStatus,
+                        'eventId': events[index].id,
                         'isOwnEvent': isOwnEvent,
                       },
                     );
@@ -145,6 +141,8 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
                     eventId: events[index].id,
                     hasLikedEvent: events[index].hasLikedEvent,
                     eventOwnerAvatar: events[index].user!.avatar,
+                    inviteStatus: getInviteStatus(events[index], userId),
+                    showStatusBadge: false,
                   ),
                 ),
               );

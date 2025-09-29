@@ -44,6 +44,10 @@ class _EventsScreenState extends State<EventsScreen> {
     super.dispose();
   }
 
+  Future<void> _handleRefresh() async {
+    context.read<PrivateEventBloc>().add(GetPrivateEvents());
+  }
+
   @override
   Widget build(BuildContext context) {
     context.read<PrivateEventBloc>().add(GetPrivateEvents());
@@ -55,25 +59,28 @@ class _EventsScreenState extends State<EventsScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
           child: AppBarTemplate(
-            pageTitle: language.events,
+            pageTitle: language.myEvents,
             isSubPage: false,
           ),
         ),
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
         floatingActionButton: floatingActionButton(),
-        body: SingleChildScrollView(
-          child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
-            builder: (context, state) {
-              if (state is InitialPrivateEventState) {
+        body: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: SingleChildScrollView(
+            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+              builder: (context, state) {
+                if (state is InitialPrivateEventState) {
+                  return emptyListWithShimmer();
+                } else if (state is PrivateEventLoading) {
+                  return emptyListWithShimmer();
+                } else if (state is PrivateEventLoaded) {
+                  return buildBody(
+                      state.events.reversed.toList(), width, height);
+                }
                 return emptyListWithShimmer();
-              } else if (state is PrivateEventLoading) {
-                return emptyListWithShimmer();
-              } else if (state is PrivateEventLoaded) {
-                return buildBody(state.events.reversed.toList(), width, height);
-              }
-              return emptyListWithShimmer();
-            },
+              },
+            ),
           ),
         ),
       ),
@@ -97,23 +104,14 @@ class _EventsScreenState extends State<EventsScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      /* Get.to(
-                        () => EventDetailsScreeen(
-                          isOwnEvent: true,
-                        ),
-                        arguments: eventDataModel[index],
-                      );
-                      final inviteStatus = getInviteStatus(index); */
-
-                      final inviteStatus =
-                          getInviteStatus(eventDataModel, index, userId);
+                      /* final inviteStatus =
+                          getInviteStatus(eventDataModel[index], userId); */
                       bool isOwnEvent =
                           eventDataModel[index].user!.uuid == userId;
                       context.pushNamed(
                         'event_details',
                         extra: {
-                          'event': eventDataModel[index],
-                          'inviteStatus': inviteStatus,
+                          'eventId': eventDataModel[index].id,
                           'isOwnEvent': isOwnEvent,
                         },
                       );
@@ -129,6 +127,9 @@ class _EventsScreenState extends State<EventsScreen> {
                         ),
                         eventId: eventDataModel[index].id,
                         hasLikedEvent: eventDataModel[index].hasLikedEvent,
+                        inviteStatus:
+                            getInviteStatus(eventDataModel[index], userId),
+                        showStatusBadge: false,
                       ),
                     ),
                   );
@@ -146,11 +147,11 @@ class _EventsScreenState extends State<EventsScreen> {
         height: 50,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.black,
+          color: Theme.of(context).colorScheme.primary,
         ),
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onPrimary,
           size: 30,
         ),
       ),
@@ -162,7 +163,6 @@ class _EventsScreenState extends State<EventsScreen> {
       final bytes = await imageFile.readAsBytes();
       return base64Encode(bytes);
     } catch (e) {
-      print("Error converting image to Base64: $e");
       return null;
     }
   }

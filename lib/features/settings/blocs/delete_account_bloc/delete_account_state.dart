@@ -12,7 +12,12 @@ class DeleteAccountInitialState extends DeleteAccountState {}
 class DeleteAccountLoadingState extends DeleteAccountState {}
 
 class DeleteAccountSuccessState extends DeleteAccountState {
-  const DeleteAccountSuccessState({required String message});
+  final String message;
+
+  const DeleteAccountSuccessState({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }
 
 class DeleteAccountErrorState extends DeleteAccountState {

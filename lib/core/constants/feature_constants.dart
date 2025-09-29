@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'custom_colors.dart';
 
-//double width = Get.width.w;
-//double height = Get.height.h;
 double borderRadius = 8.r;
 
 bigHeight() {
@@ -44,87 +42,95 @@ extraSmallHeight() {
   );
 }
 
-poppins13black400() {
+inter13black400(BuildContext context) {
   return GoogleFonts.inter(
-    color: CustomColors.black,
+    color: Theme.of(context).colorScheme.onSurface,
     fontWeight: FontWeight.w400,
-    fontSize: 13.0,
+    fontSize: 13.sp,
   );
 }
 
-poppins10black400() {
+inter13black500(BuildContext context) {
+  return GoogleFonts.inter(
+    color: Theme.of(context).colorScheme.onSurface,
+    fontWeight: FontWeight.w500,
+    fontSize: 13.sp,
+  );
+}
+
+inter10black400(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 10.sp,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-poppins12black400() {
+inter12black400(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-poppins11black600() {
+inter12Black600(BuildContext context) {
+  return GoogleFonts.inter(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w600,
+    color: Theme.of(context).colorScheme.onSurface,
+  );
+}
+
+inter11black600(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 11.sp,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-poppins10white400() {
+inter10white400(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 10.sp,
     fontWeight: FontWeight.w400,
-    color: Colors.white,
+    color: Theme.of(context).colorScheme.surface,
   );
 }
 
-poppins10white500() {
+inter10white500(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,
-    color: Colors.white,
+    color: Theme.of(context).colorScheme.surface,
   );
 }
 
-poppins14black500() {
+inter14black500(BuildContext context) {
   return GoogleFonts.inter(
-    color: CustomColors.black,
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-inter15black500() {
+inter15black500(BuildContext context) {
   return GoogleFonts.inter(
-    color: CustomColors.black,
     fontWeight: FontWeight.w500,
     fontSize: 15.sp,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-inter14black600() {
+inter14black600(BuildContext context) {
   return GoogleFonts.inter(
-    color: CustomColors.black,
     fontWeight: FontWeight.w600,
     fontSize: 14.sp,
+    color: Theme.of(context).colorScheme.onSurface,
   );
 }
 
-inter14black500() {
-  return GoogleFonts.inter(
-    color: CustomColors.black,
-    fontWeight: FontWeight.w500,
-    fontSize: 14.sp,
-  );
-}
-
-inter14Orange500() {
+inter14Orange500(BuildContext context) {
   return GoogleFonts.inter(
     color: Colors.deepOrange,
     fontWeight: FontWeight.w500,
@@ -132,42 +138,59 @@ inter14Orange500() {
   );
 }
 
-mainAppbarTitleStyle() {
+mainAppbarTitleStyle(BuildContext context) {
   return GoogleFonts.inter(
-    color: Colors.black,
+    color: Theme.of(context).colorScheme.onSurface,
     fontSize: 20.sp,
+    fontWeight: FontWeight.w600,
+    textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+  );
+}
+
+inter14Black400(BuildContext context) {
+  return GoogleFonts.inter(
+    fontSize: 14.sp,
+    color: Theme.of(context).colorScheme.onSurface,
+    fontWeight: FontWeight.w400,
+  );
+}
+
+inter12Black400(BuildContext context) {
+  return GoogleFonts.inter(
+    fontSize: 12.sp,
+    color: Theme.of(context).colorScheme.onSurface,
+    fontWeight: FontWeight.w400,
+  );
+}
+
+inter16Black500(BuildContext context) {
+  return GoogleFonts.inter(
+    fontSize: 16.sp,
+    color: Theme.of(context).colorScheme.onSurface,
+    fontWeight: FontWeight.w500,
+  );
+}
+
+inter16Black600(BuildContext context) {
+  return GoogleFonts.inter(
+    fontSize: 16.sp,
+    color: Theme.of(context).colorScheme.onSurface,
     fontWeight: FontWeight.w600,
   );
 }
 
-inter14CharcoalBlack400() {
-  return GoogleFonts.inter(
-    fontSize: 14.sp,
-    color: CustomColors.charcoalBlack,
-    fontWeight: FontWeight.w400,
-  );
-}
-
-inter12CharcoalBlack400() {
-  return GoogleFonts.inter(
-    fontSize: 12.sp,
-    color: CustomColors.charcoalBlack,
-    fontWeight: FontWeight.w400,
-  );
-}
-
-inter10CharcoalBlack400() {
+inter10Black400(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 10.sp,
-    color: CustomColors.charcoalBlack,
+    color: Theme.of(context).colorScheme.onSurface,
     fontWeight: FontWeight.w400,
   );
 }
 
-inter12CharcoalBlack500() {
+inter12Black500(BuildContext context) {
   return GoogleFonts.inter(
     fontSize: 12.sp,
-    color: CustomColors.charcoalBlack,
+    color: Theme.of(context).colorScheme.onSurface,
     fontWeight: FontWeight.w500,
   );
 }
@@ -180,9 +203,9 @@ inter12Red500() {
   );
 }
 
-subAppbarTitleStyle() {
+subAppbarTitleStyle(BuildContext context) {
   return GoogleFonts.inter(
-    color: Colors.black,
+    color: Theme.of(context).colorScheme.onSurface,
     fontSize: 18.sp,
     fontWeight: FontWeight.w500,
   );

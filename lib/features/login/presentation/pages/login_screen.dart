@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
@@ -34,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: CustomColors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
         child: BlocConsumer<LoginBloc, LoginState>(
@@ -47,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               context.go('/bottom_nav', extra: 0);
             } else if (state is LoginErrorState) {
-              // Registration failed
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Login Failed: ${state.error}')),
               );
@@ -67,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Text(
                         "Welcome back!",
-                        style: mainAppbarTitleStyle(),
+                        style: mainAppbarTitleStyle(context),
                       ),
                     ],
                   ),
@@ -101,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Icon(
                             obscureText ? Icons.lock : Icons.lock_open,
-                            color: CustomColors.black,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -110,10 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: width,
                         child: GestureDetector(
                           onTap: () {
-                            /* Navigator.pushNamed(
-                              context,
-                              RequestResetPasswordScreen.routeName,
-                            ); */
                             context.push(
                               '/request_password_reset',
                             );
@@ -121,11 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Forgot Password?",
                             textAlign: TextAlign.right,
-                            style: GoogleFonts.inter(
-                              fontSize: 14.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: inter14black500(context),
                           ),
                         ),
                       ),
@@ -134,8 +123,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       ButtonTemplate(
                         buttonName: "Login",
-                        buttonWidth: width,
+                        buttonType: ButtonType.elevated,
                         buttonAction: () {
+                          if (emailController.text.isEmpty ||
+                              passwordController.text.isEmpty) {
+                            AppSnackbars.showError(
+                                context, "All fields are required!");
+                            return;
+                          }
                           BlocProvider.of<LoginBloc>(context).add(
                             SubmitLoginEvent(
                               email: emailController.text,
@@ -156,23 +151,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Don't have an account?",
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.inter(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Text("Don't have an account?",
+                            textAlign: TextAlign.right,
+                            style: inter14black500(context)),
                         Text(
                           " Register",
                           textAlign: TextAlign.right,
-                          style: GoogleFonts.inter(
-                            fontSize: 14.0,
-                            color: Colors.deepOrange,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: inter14Orange500(context),
                         ),
                       ],
                     ),

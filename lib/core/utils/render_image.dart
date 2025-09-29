@@ -8,6 +8,7 @@ class RenderImage extends StatelessWidget {
   final double? width;
   final double? height;
   final String? placeholder;
+  final Color? color;
 
   const RenderImage({
     Key? key,
@@ -15,6 +16,7 @@ class RenderImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.width,
     this.height,
+    this.color,
     this.placeholder = "assets/images/placeholder.png",
   }) : super(key: key);
 
@@ -26,6 +28,7 @@ class RenderImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        colorFilter: ColorFilter.mode(color!, BlendMode.srcIn),
         placeholderBuilder: (context) => Image.asset(
           placeholder!,
           height: height,
@@ -39,6 +42,7 @@ class RenderImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        color: color,
         placeholder: (context, url) => Image.asset(
           placeholder!,
           height: height,
@@ -58,6 +62,7 @@ class RenderImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        color: color,
         errorBuilder: (context, error, stackTrace) {
           return Image.asset(
             placeholder!,

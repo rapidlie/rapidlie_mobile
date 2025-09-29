@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
+import 'package:rapidlie/features/settings/presentation/widgets/custom_divider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
 import 'package:rapidlie/features/user/models/user_model.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
@@ -33,11 +34,10 @@ class ProfileSettingsScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: AppBarTemplate(
-          pageTitle: "Profile settings",
+          pageTitle: language.profileSettings,
           isSubPage: true,
         ),
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         child: Container(
@@ -76,11 +76,11 @@ class ProfileSettingsScreen extends StatelessWidget {
                       children: [
                         Text(
                           userProfile.name,
-                          style: inter15black500(),
+                          style: inter15black500(context),
                         ),
                         Text(
                           userProfile.phone,
-                          style: inter10CharcoalBlack400(),
+                          style: inter10Black400(context),
                         ),
                       ],
                     ),
@@ -94,35 +94,23 @@ class ProfileSettingsScreen extends StatelessWidget {
                     children: [
                       SettingsItemLayout(
                         icon: Icons.lock,
-                        title: "Change password",
-                        iconColor: Colors.black,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 40.0),
-                        child: Container(
-                          height: 1,
-                          color: const Color.fromARGB(255, 240, 239, 239),
-                        ),
-                      ),
-                      SettingsItemLayout(
-                        icon: Icons.delete,
-                        title: "Delete account",
-                        iconColor: Colors.red,
+                        title: language.changePassword,
+                        iconColor: Theme.of(context).colorScheme.primary,
                         onCLickFunction: () {
-                          context.push("/delete_account");
+                          context.push("/change_password");
                         },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 40.0),
-                        child: Container(
-                          height: 1,
-                          color: const Color.fromARGB(255, 240, 239, 239),
-                        ),
+                        child: customDivider(context),
                       ),
                       SettingsItemLayout(
-                        icon: Icons.report,
-                        title: "Report problem",
-                        iconColor: Colors.grey,
+                        icon: Icons.delete,
+                        title: language.deleteAccount,
+                        iconColor: Colors.red,
+                        onCLickFunction: () {
+                          context.push("/delete_account");
+                        },
                       ),
                     ],
                   ),

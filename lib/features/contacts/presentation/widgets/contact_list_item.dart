@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class ContactListItem extends StatelessWidget {
   final String contactName;
@@ -17,22 +17,12 @@ class ContactListItem extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.black,
-            /* border: Border.all(
-              color: Colors.black,
-            ), */
+            color: Theme.of(context).inputDecorationTheme.fillColor,
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(
-              contactName.length > 0 ? contactName[0] : contactName,
-              style: TextStyle(
-                fontSize: 16.0,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
+            child: Text(contactName.length > 0 ? contactName[0] : contactName,
+                style: inter16Black500(context)),
           ),
         ),
         SizedBox(
@@ -40,7 +30,7 @@ class ContactListItem extends StatelessWidget {
         ),
         Text(
           contactName,
-          style: inter12CharcoalBlack500(),
+          style: inter12Black500(context),
         )
       ],
     );
@@ -114,13 +104,8 @@ class ContactListItemWithText extends StatelessWidget {
             contactName: contactName,
           ),
           Text(
-            "Invite",
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Colors.deepOrange,
-              fontFamily: "Poppins",
-              fontWeight: FontWeight.w500,
-            ),
+            AppLocalizations.of(context).invite,
+            style: inter14Orange500(context),
           )
         ],
       ),

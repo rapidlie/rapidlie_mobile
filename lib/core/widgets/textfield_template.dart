@@ -1,9 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
-
-import '../constants/custom_colors.dart';
 
 class TextFieldTemplate extends StatelessWidget {
   final String hintText;
@@ -47,6 +44,39 @@ class TextFieldTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Center(
+        child: TextField(
+          controller: controller,
+          obscureText: obscureText,
+          autofocus: false,
+          enabled: enabled,
+          maxLines: numberOfLines,
+          keyboardType: textInputType,
+          textInputAction: textInputAction,
+          autocorrect: false,
+          readOnly: readOnly ?? false,
+          maxLength: maxLength,
+          // The decoration now automatically inherits from the global theme
+          decoration: InputDecoration(
+            hintText: hintText,
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+          ),
+          onChanged: onChanged,
+          // The style also inherits from the global text theme
+          style: inter14black500(context),
+        ),
+      ),
+    );
+  }
+}
+
+/* 
+
+Widget build(BuildContext context) {
     return Container(
       height: height,
       width: width,
@@ -68,15 +98,7 @@ class TextFieldTemplate extends StatelessWidget {
           readOnly: readOnly ?? false,
           maxLength: maxLength,
           decoration: InputDecoration(
-            //counter: ,
-            /*  counterStyle: TextStyle(
-              fontSize: 12,
-              fontFamily: "Poppins",
-              color: ColorConstants.primary,
-              fontWeight: FontWeight.w500,
-            ), */
-            //counterText: '',
-            //counter: SizedBox.shrink(),
+            
             suffixIcon: suffixIcon,
             contentPadding: EdgeInsets.only(
               left: leftContentPadding,
@@ -114,4 +136,5 @@ class TextFieldTemplate extends StatelessWidget {
       ),
     );
   }
-}
+
+ */

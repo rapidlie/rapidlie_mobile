@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class HeaderTextTemplate extends StatelessWidget {
   final String titleText;
   final Color titleTextColor;
-  final Color containerColor;
-  final Color? containerBorderColor;
+  final Color? containerColor;
+  final Color containerBorderColor;
   final double textSize;
   final Widget? iconWidget;
   final double? verticalPadding;
@@ -15,10 +15,10 @@ class HeaderTextTemplate extends StatelessWidget {
     Key? key,
     required this.titleText,
     required this.titleTextColor,
-    required this.containerColor,
+    this.containerColor = const Color.fromARGB(133, 218, 218, 218),
     required this.textSize,
     this.iconWidget,
-    this.containerBorderColor,
+    this.containerBorderColor = const Color.fromARGB(133, 218, 218, 218),
     this.verticalPadding,
     this.horizontalPadding,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class HeaderTextTemplate extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         color: containerColor,
         border: Border.all(
-          color: containerBorderColor ?? containerColor,
+          color: containerBorderColor,
           width: 1,
         ),
       ),

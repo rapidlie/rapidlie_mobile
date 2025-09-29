@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/general_event_list_template.dart';
 
 class EventListTemplate extends StatelessWidget {
@@ -13,6 +13,8 @@ class EventListTemplate extends StatelessWidget {
   final String? eventId;
   final bool hasLikedEvent;
   final String? eventOwnerAvatar;
+  final String inviteStatus;
+  final bool showStatusBadge;
 
   const EventListTemplate({
     Key? key,
@@ -25,6 +27,8 @@ class EventListTemplate extends StatelessWidget {
     this.eventId,
     required this.hasLikedEvent,
     this.eventOwnerAvatar,
+    required this.inviteStatus,
+    required this.showStatusBadge,
   }) : super(key: key);
 
   @override
@@ -61,22 +65,8 @@ class EventListTemplate extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      eventOwner,
-                      style: GoogleFonts.inter(
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      eventLocation,
-                      style: GoogleFonts.inter(
-                        fontSize: 10.0,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    )
+                    Text(eventOwner, style: inter14black600(context)),
+                    Text(eventLocation, style: inter10Black400(context))
                   ],
                 ),
               ],
@@ -92,6 +82,8 @@ class EventListTemplate extends StatelessWidget {
             eventImageString: eventImageString,
             eventId: eventId,
             hasLikedEvent: hasLikedEvent,
+            inviteStatus: inviteStatus,
+            showStatusBadge: showStatusBadge,
           )
         ],
       ),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
-import 'package:rapidlie/features/register/presentation/pages/register_screen.dart';
 import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:rapidlie/l10n/app_localizations_de.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class DeleteAccountScreen extends StatefulWidget {
 class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   late TextEditingController emailController;
   bool loading = false;
+  var language;
   @override
   void initState() {
     emailController = TextEditingController();
@@ -25,23 +29,26 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //double height = MediaQuery.of(context).size.height;
+    language = AppLocalizations.of(context);
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: AppBarTemplate(
-          pageTitle: "Delete Account",
+          pageTitle: language.deleteAccount,
           isSubPage: true,
         ),
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: BlocConsumer<DeleteAccountBloc, DeleteAccountState>(
           listener: (context, state) {
+            print(state.toString());
             if (state is DeleteAccountSuccessState) {
-              Navigator.pushReplacementNamed(context, RegisterScreen.routeName);
-            } else if (state is DeleteAccountErrorState) {}
+              context.goNamed('register');
+            } else if (state is DeleteAccountErrorState) {
+              AppSnackbars.showError(
+                  context, "Failed, please try again later!");
+            }
           },
           builder: (context, state) {
             return Padding(
@@ -50,23 +57,15 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               child: Column(
                 children: [
                   Text(
-                    "We respect your decision to delete your account. Please note that once you initiate the deletion process, it will take 30 days to completely clear all your associated data from our systems. During this period, your account will be deactivated, and you won’t have access to it.",
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    language.deleteAccountMessage1,
+                    style: inter14Black400(context),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                    "If you are sure you want to delete your account, enter your email in the box and click the button below.",
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    language.deleteAccountMessage2,
+                    style: inter14Black400(context),
                   ),
                   SizedBox(
                     height: 40,
@@ -85,15 +84,15 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     height: 24,
                   ),
                   ButtonTemplate(
-                    buttonName: "Submit",
-                    buttonWidth: width,
+                    buttonName: language.submit,
+                    buttonType: ButtonType.elevated,
                     buttonAction: () {
                       BlocProvider.of<DeleteAccountBloc>(context).add(
                         SubmitDeleteAccountEvent(
                             email: emailController.text.toString()),
                       );
                     },
-                    loading: loading,
+                    loading: state is DeleteAccountLoadingState,
                   )
                 ],
               ),

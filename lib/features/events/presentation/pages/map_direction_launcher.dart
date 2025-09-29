@@ -106,7 +106,6 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),

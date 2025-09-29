@@ -39,7 +39,7 @@ class SettingsItemLayout extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: poppins14black500(),
+                  style: inter14black500(context),
                 ),
               ],
             ),

@@ -18,7 +18,7 @@ class SubmitCreateEventEvent extends CreateEventEvent {
   final String endTime;
   final String venue;
   final String mapLocation;
-  final List<String> guests;
+  final List<String>? guests;
 
   SubmitCreateEventEvent(
       {required this.image,
@@ -45,7 +45,7 @@ class SubmitCreateEventEvent extends CreateEventEvent {
         endTime,
         venue,
         mapLocation,
-        guests
+        guests ?? []
       ];
 }
 

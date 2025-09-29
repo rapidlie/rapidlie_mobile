@@ -1,8 +1,8 @@
-import 'package:country_list_pick/country_list_pick.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 
 class CountrySettingsLayout extends StatelessWidget {
   CountrySettingsLayout({Key? key}) : super(key: key);
@@ -12,44 +12,33 @@ class CountrySettingsLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     language = AppLocalizations.of(context);
-    return CountryListPick(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Select a country",
-        ),
-        titleTextStyle: subAppbarTitleStyle(),
-        titleSpacing: 1,
-        automaticallyImplyLeading: true,
-        centerTitle: false,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+    return SizedBox(
+      //width: 100,
+      child: CountryCodePicker(
+        onChanged: (value) async {
+          print(value.code);
+          UserPreferences().setCountry(value.code ?? "DE");
+        },
+        initialSelection: UserPreferences().getCountry() ?? "DE",
+        showCountryOnly: true,
+        showOnlyCountryWhenClosed: true,
+        alignLeft: false,
+        showFlagDialog: true,
+        showFlag: false,
+        showDropDownButton: false,
+        dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        textStyle: inter14Black400(context),
+        headerText: "Select a country",
+        headerTextStyle: inter16Black600(context),
+        pickerStyle: PickerStyle.bottomSheet,
+        builder: (countryCode) {
+          return Text(
+            countryCode!.name.toString(),
+            textAlign: TextAlign.center,
+            style: inter13black400(context),
+          );
+        },
       ),
-      theme: CountryTheme(
-        isShowFlag: false,
-        isShowTitle: true,
-        isShowCode: false,
-        isDownIcon: false,
-        showEnglishName: false,
-        alphabetSelectedBackgroundColor: Colors.black,
-        labelColor: Colors.black,
-      ),
-      pickerBuilder: (context, countryCode) {
-        return Text(
-          countryCode!.name.toString(),
-          textAlign: TextAlign.justify,
-          style: poppins13black400(),
-        );
-      },
-      initialSelection: '+49',
-      onChanged: (CountryCode? code) {},
-      useUiOverlay: false,
-      useSafeArea: false,
     );
   }
 }

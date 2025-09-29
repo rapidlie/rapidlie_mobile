@@ -72,12 +72,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>branch_universal_link_domains</key>
-	<array>
-		<string>flockr.app.link</string>
-		<string>flockr-alternate.app.link</string>
-		<string>flockr.test-app.link</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -91,10 +85,10 @@
 			<string>com.flockrinc.flockr</string>
 		</dict>
 	</array>
-	<key>branch_key</key>
+	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>live</key>
-		<string>key_live_oqxfkd6gZ6gQWv8DkRCZikpavxdh2YCk</string>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 </dict>
 </plist>

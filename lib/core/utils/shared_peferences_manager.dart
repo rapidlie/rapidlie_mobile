@@ -14,6 +14,8 @@ class UserPreferences {
   static const String _keyTelephone = 'telephone';
   static const String _keyProfileImageLink = 'profile_image';
   static const String _keyRegistrationStep = 'registration_step';
+  static const String _keyLanguageCode = 'language_code';
+  static const String _keyCountryCode = 'country_code';
 
   static final UserPreferences _instance = UserPreferences._ctor();
   factory UserPreferences() {
@@ -36,6 +38,24 @@ class UserPreferences {
   //get registration step
   getRegistrationStep() {
     return _prefs.getString(_keyRegistrationStep) ?? "";
+  }
+
+  setLanguage(String langCode) {
+    _prefs.setString(_keyLanguageCode, langCode);
+  }
+
+  //get registration step
+  getLanguage() {
+    return _prefs.getString(_keyLanguageCode) ?? "";
+  }
+
+  setCountry(String country) {
+    _prefs.setString(_keyCountryCode, country);
+  }
+
+  //get registration step
+  getCountry() {
+    return _prefs.getString(_keyCountryCode) ?? "";
   }
 
   // Save Email

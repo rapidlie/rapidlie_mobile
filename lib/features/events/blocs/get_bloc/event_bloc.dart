@@ -12,7 +12,7 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedPublicEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(minutes: 2);
+  final Duration cacheDuration = Duration(seconds: 2);
 
   void invalidateCache() {
     _cachedPublicEvents = null;
@@ -41,7 +41,6 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
     if (_cachedPublicEvents != null && _cacheTimestamp != null) {
       if (now.difference(_cacheTimestamp!) < cacheDuration) {
         emit(PublicEventLoaded(events: _cachedPublicEvents!));
-        return;
       } else {
         invalidateCache();
       }
@@ -70,7 +69,7 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedInvitedEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(minutes: 2);
+  final Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedInvitedEvents = null;
@@ -99,7 +98,6 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
     if (_cachedInvitedEvents != null && _cacheTimestamp != null) {
       if (now.difference(_cacheTimestamp!) < cacheDuration) {
         emit(InvitedEventLoaded(events: _cachedInvitedEvents!));
-        return;
       } else {
         invalidateCache();
       }
@@ -128,7 +126,7 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedPrivateEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(minutes: 2);
+  final Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedPrivateEvents = null;
@@ -159,7 +157,6 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
     if (_cachedPrivateEvents != null && _cacheTimestamp != null) {
       if (now.difference(_cacheTimestamp!) < cacheDuration) {
         emit(PrivateEventLoaded(events: _cachedPrivateEvents!));
-        return;
       } else {
         invalidateCache();
       }
@@ -188,7 +185,7 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedUpcomingEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(minutes: 2);
+  final Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedUpcomingEvents = null;
@@ -218,7 +215,6 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
     if (_cachedUpcomingEvents != null && _cacheTimestamp != null) {
       if (now.difference(_cacheTimestamp!) < cacheDuration) {
         emit(UpcomingEventLoaded(events: _cachedUpcomingEvents!));
-        return;
       } else {
         invalidateCache();
       }
@@ -247,7 +243,7 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedEventsByCategory;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(minutes: 2);
+  final Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedEventsByCategory = null;
@@ -280,7 +276,6 @@ class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
     if (_cachedEventsByCategory != null && _cacheTimestamp != null) {
       if (now.difference(_cacheTimestamp!) < cacheDuration) {
         emit(EventByCategoryLoaded(events: _cachedEventsByCategory!));
-        return;
       } else {
         invalidateCache();
       }

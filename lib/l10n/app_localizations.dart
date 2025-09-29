@@ -157,11 +157,11 @@ abstract class AppLocalizations {
   /// **'General'**
   String get general;
 
-  /// No description provided for @seeAll.
+  /// No description provided for @all.
   ///
   /// In en, this message translates to:
-  /// **'See all'**
-  String get seeAll;
+  /// **'All'**
+  String get all;
 
   /// No description provided for @hi.
   ///
@@ -288,6 +288,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'French'**
   String get french;
+
+  /// No description provided for @deleteAccountMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'We respect your decision to delete your account. Please note that once you initiate the deletion process, you won’t have access to your account.'**
+  String get deleteAccountMessage1;
+
+  /// No description provided for @deleteAccountMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'If you are sure you want to delete your account, enter your email in the box and click the button below.'**
+  String get deleteAccountMessage2;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites'**
+  String get invite;
+
+  /// No description provided for @terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and conditions'**
+  String get terms;
+
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App version'**
+  String get appVersion;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @characterLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Only 150 characters allowed'**
+  String get characterLength;
+
+  /// No description provided for @app.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get app;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About Flockr'**
+  String get aboutApp;
+
+  /// No description provided for @logoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get selectCategory;
+
+  /// No description provided for @requiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields are required!'**
+  String get requiredFields;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @contacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contacts;
+
+  /// No description provided for @inviteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey, check out this cool event app!'**
+  String get inviteMessage;
+
+  /// No description provided for @unsentInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send invite.'**
+  String get unsentInvite;
+
+  /// No description provided for @unavailablePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is not available.'**
+  String get unavailablePhoneNumber;
+
+  /// No description provided for @flockrContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts on Flockr'**
+  String get flockrContacts;
+
+  /// No description provided for @inviteToFlockr.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite to Flockr'**
+  String get inviteToFlockr;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @searchName.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name'**
+  String get searchName;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @profileSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile settings'**
+  String get profileSettings;
+
+  /// No description provided for @oldPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Old password'**
+  String get oldPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get accepted;
+
+  /// No description provided for @declined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get declined;
+
+  /// No description provided for @myEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'My events'**
+  String get myEvents;
+
+  /// No description provided for @morning.
+  ///
+  /// In en, this message translates to:
+  /// **'☀️ Good morning'**
+  String get morning;
+
+  /// No description provided for @afternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'🌤️ Good afternoon'**
+  String get afternoon;
+
+  /// No description provided for @evening.
+  ///
+  /// In en, this message translates to:
+  /// **'🌙 Good evening'**
+  String get evening;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

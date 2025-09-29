@@ -16,9 +16,9 @@ abstract class EventRepository {
 }
 
 class EventRepositoryImpl implements EventRepository {
-  final Dio _dio;
+  final Dio dio;
 
-  EventRepositoryImpl(this._dio);
+  EventRepositoryImpl(this.dio);
 
   @override
   Future<DataState<List<EventDataModel>>> getPrivateEvents() async {
@@ -50,7 +50,7 @@ class EventRepositoryImpl implements EventRepository {
     String bearerToken = await UserPreferences().getBearerToken();
 
     try {
-      final response = await _dio.get(
+      final response = await dio.get(
         url,
         options: Options(
           headers: {

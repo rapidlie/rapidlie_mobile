@@ -28,4 +28,6 @@ class CustomColors {
   static Color rejectedTextColor = colorFromHex('#E57E25');
   static Color pendingContainerColor = colorFromHex('#CDF1FF');
   static Color pendingTextColor = colorFromHex('#00ACE9');
+  static Color acceptButtonColor = colorFromHex('#4CAF50');
+  static Color declineButtonColor = const Color.fromARGB(160, 183, 183, 183);
 }
