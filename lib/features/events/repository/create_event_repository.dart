@@ -23,9 +23,7 @@ class CreateEventRepository {
     required String mapLocation,
     List<String>? guests,
   }) async {
-    print("Entry level");
     try {
-      print("Entered ty to create event");
       final response = await dio.post(
         '$flockrAPIBaseUrl/events',
         data: {
@@ -48,12 +46,10 @@ class CreateEventRepository {
           },
         ),
       );
-      print("Exited to create event");
+
       if (response.statusCode == HttpStatus.created) {
-        print("Create event successful");
         return DataSuccess(response.data);
       } else {
-        print(response.statusMessage);
         return DataFailed(DioException(
           error: response.statusMessage,
           response: response,
@@ -62,7 +58,6 @@ class CreateEventRepository {
         ));
       }
     } on DioException catch (e) {
-      print(e.message);
       return DataFailed(e);
     }
   }

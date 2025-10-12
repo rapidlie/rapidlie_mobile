@@ -13,7 +13,6 @@ class InviteContactRepository {
   Future<DataState<void>> inviteContact(
       {required List<String> guests, required String id}) async {
     try {
-      print("Entered ty to create event");
       final response = await dio.post(
         '$flockrAPIBaseUrl/events/$id/send-invitation',
         data: {
@@ -27,12 +26,9 @@ class InviteContactRepository {
         ),
       );
 
-      print("Response status: ${response.statusCode}");
-
       if (response.statusCode == 201) {
         return DataSuccess(response.data);
       } else {
-        print(response.statusMessage);
         return DataFailed(DioException(
           error: response.statusMessage,
           response: response,
@@ -41,7 +37,6 @@ class InviteContactRepository {
         ));
       }
     } on DioException catch (e) {
-      print(e.message);
       return DataFailed(e);
     }
   }

@@ -113,7 +113,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         buttonName: "Change password",
                         buttonType: ButtonType.elevated,
                         buttonAction: () {
-                          print(widget.email);
                           context.read<NewPasswordBloc>().add(
                                 SubmitNewPasswordEvent(
                                   email: widget.email,

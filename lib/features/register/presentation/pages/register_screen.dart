@@ -10,6 +10,7 @@ import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/register/bloc/register_bloc.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'signup';
@@ -23,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  var language;
 
   String countryCode = '+49';
   bool obscureText = true;
@@ -59,6 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    language = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -66,14 +69,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: BlocConsumer<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterSuccessState) {
-                  // Registration was successful
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Registration Successful')),
-                  );
+                  AppSnackbars.showSuccess(context, language.success);
                   context.go('/otp');
                 } else if (state is RegisterErrorState) {
-                  AppSnackbars.showError(
-                      context, 'Registration failed. Please try again.');
+                  AppSnackbars.showError(context, language.failed);
                 }
               },
               builder: (context, state) {
@@ -89,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 50,
                           ),
                           Text(
-                            "Register to get started.",
+                            language.registerMessage,
                             style: mainAppbarTitleStyle(context),
                           ),
                         ],
@@ -98,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextFieldTemplate(
-                            hintText: "Full name",
+                            hintText: language.fullName,
                             controller: nameController,
                             obscureText: false,
                             width: width,
@@ -109,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           extraSmallHeight(),
                           TextFieldTemplate(
-                            hintText: "Email",
+                            hintText: language.email,
                             controller: emailController,
                             obscureText: false,
                             width: width,
@@ -147,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     dialogBackgroundColor: Theme.of(context)
                                         .scaffoldBackgroundColor,
                                     textStyle: inter14Black400(context),
-                                    headerText: "Select a country",
+                                    headerText: language.selectCountry,
                                     headerTextStyle: inter16Black600(context),
                                     pickerStyle: PickerStyle.bottomSheet,
                                     builder: (countryCode) {
@@ -165,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFieldTemplate(
-                                  hintText: "Phone",
+                                  hintText: language.phone,
                                   controller: phoneController,
                                   obscureText: false,
                                   width: width,
@@ -179,7 +178,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           extraSmallHeight(),
                           TextFieldTemplate(
-                            hintText: "Password",
+                            hintText: language.password,
                             controller: passwordController,
                             obscureText: obscureText,
                             width: width,
@@ -200,14 +199,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           extraSmallHeight(),
                           Text(
-                            "*Password must be at least 8 characters long.",
+                            language.passwordLength,
                             style: inter10Black400(context),
                           ),
                           SizedBox(
                             height: 30.0,
                           ),
                           ButtonTemplate(
-                            buttonName: "Register",
+                            buttonName: language.register,
                             buttonType: ButtonType.elevated,
                             loading: state is RegisterLoadingState,
                             buttonAction: () {
@@ -216,7 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   nameController.text.isEmpty ||
                                   phoneController.text.isEmpty) {
                                 AppSnackbars.showError(
-                                    context, "All fields are required");
+                                    context, language.requiredFields);
                                 return;
                               }
                               BlocProvider.of<RegisterBloc>(context).add(
@@ -241,18 +240,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.go('/login');
+                          context.push('/login');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Do you already have an account?",
+                              language.alreadyRegistered,
                               textAlign: TextAlign.right,
                               style: inter14black500(context),
                             ),
                             Text(
-                              " Login",
+                              " " + language.login,
                               textAlign: TextAlign.right,
                               style: inter14Orange500(context),
                             ),

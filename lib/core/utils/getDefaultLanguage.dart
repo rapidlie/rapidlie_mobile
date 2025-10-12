@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 Locale getDefaultDeviceLocale() {
-  // Retrieve the default locale from the window
   Locale defaultLocale = PlatformDispatcher.instance.locale;
   return defaultLocale;
 }

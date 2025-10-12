@@ -24,14 +24,13 @@ class ChangePasswordBloc
         oldPassword: event.oldPassword,
       );
 
-      print(result.data);
-      print(result);
+      
 
       if (result is DataSuccess<String>) {
-        print("Yes my state got emitted");
+       
         emit(ChangePasswordSuccessState());
       } else {
-        print("No my didn't emitted");
+        
         emit(ChangePasswordErrorState(error: "Failed"));
       }
     } catch (e) {

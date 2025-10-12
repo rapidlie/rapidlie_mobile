@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,7 +17,7 @@ class MapDirectionLauncher extends StatefulWidget {
 
 class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
   GoogleMapController? _controller;
-  LatLng _currentPosition = LatLng(0.0, 0.0); // Default, will be updated
+  LatLng? _currentPosition;
 
   @override
   void initState() {
@@ -27,8 +29,8 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
     if (!serviceEnabled) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -63,7 +65,6 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
         _currentPosition = LatLng(position.latitude, position.longitude);
       });
     } catch (e) {
-      print("Error getting current location: $e");
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Could not get current location.')));
@@ -75,7 +76,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
   }
 
   Future<void> _openDirections() async {
-    if (_currentPosition.latitude == 0.0 && _currentPosition.longitude == 0.0) {
+    if (_currentPosition == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Waiting for current location...')));
@@ -83,18 +84,26 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     }
 
     final String origin =
-        '${_currentPosition.latitude},${_currentPosition.longitude}';
+        '${_currentPosition!.latitude},${_currentPosition!.longitude}';
     final String destination =
         '${widget.targetLocation.latitude},${widget.targetLocation.longitude}';
-    final String googleMapsUrl =
-        'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=driving';
+    String url;
+    if (Platform.isIOS) {
+      url = 'http://maps.apple.com/?saddr=$origin&daddr=$destination&dirflg=d';
+    } else {
+      url =
+          'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=driving';
+    }
 
-    if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
-      await launchUrl(Uri.parse(googleMapsUrl));
+    final uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Could not open Google Maps.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open maps.')),
+      );
     }
   }
 

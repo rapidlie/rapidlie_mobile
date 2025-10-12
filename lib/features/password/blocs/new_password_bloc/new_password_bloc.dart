@@ -24,14 +24,9 @@ class NewPasswordBloc extends Bloc<NewPasswordEvent, NewPasswordState> {
         password: event.password,
       );
 
-      print(result.data);
-      print(result);
-
       if (result is DataSuccess<String>) {
-        print("Yes my state got emitted");
         emit(NewPasswordSuccessState());
       } else {
-        print("No my didn't emitted");
         emit(NewPasswordErrorState(error: "Login failed"));
       }
     } catch (e) {

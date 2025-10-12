@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommonImageView extends StatelessWidget {
-  ///[url] is required parameter for fetching network image
   String? url;
   String? imagePath;
   String? svgPath;
@@ -17,8 +15,6 @@ class CommonImageView extends StatelessWidget {
   final String placeHolder;
   Color? color;
 
-  ///a [CommonNetworkImageView] it can be used for showing any network images
-  /// it will shows the placeholder image if image is not found on network
   CommonImageView({
     this.url,
     this.imagePath,

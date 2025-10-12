@@ -27,7 +27,6 @@ class ResendOtpRepository {
         return false;
       }
     } on DioException catch (e) {
-      print(e.error);
       return false;
     }
   }

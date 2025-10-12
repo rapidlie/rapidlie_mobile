@@ -9,7 +9,6 @@ import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/utils/time_of_day.dart';
-import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';

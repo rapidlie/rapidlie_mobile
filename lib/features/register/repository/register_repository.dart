@@ -18,7 +18,6 @@ class RegisterRepository {
     required String profileImage,
   }) async {
     try {
-      print("User creation started");
       final response = await dio.post(
         '$flockrAPIBaseUrl/register',
         data: {
@@ -47,7 +46,6 @@ class RegisterRepository {
 
         return DataSuccess(registerResponse);
       } else {
-        print("User creation failed");
         return DataFailed(DioException(
           error: response.statusMessage,
           response: response,

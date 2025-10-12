@@ -230,4 +230,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get evening => '🌙 Good evening';
+
+  @override
+  String get inviteTo => 'Invite';
+
+  @override
+  String get success => 'Successful!';
+
+  @override
+  String get failed => 'Failed!';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get welcome => 'Welcome back!';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get fullName => 'Full name';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get registerMessage => 'Register to get started.';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get passwordLength => '*Password must be at least 8 characters long.';
+
+  @override
+  String get alreadyRegistered => 'Do you already have an account?';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get selectCountry => 'Select a country';
+
+  @override
+  String get resendMessage => 'We just sent you a 4-digit\n code via email.';
+
+  @override
+  String get resend => 'Resend';
+
+  @override
+  String get noCode => 'Didn\'t receive code?';
 }

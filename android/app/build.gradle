@@ -54,8 +54,8 @@ android {
 
     defaultConfig {
         applicationId "com.flockrinc.flockr"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 35
         compileSdkVersion flutter.compileSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -78,8 +78,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -87,6 +87,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -99,7 +100,10 @@ flutter {
 }
 
 secrets {
-   
     propertiesFileName = "secrets.properties"
-    defaultPropertiesFileName = "local.defaults.properties"    // Ignore all keys matching the regexp "sdk.*"
+    defaultPropertiesFileName = "local.defaults.properties"
+}
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }

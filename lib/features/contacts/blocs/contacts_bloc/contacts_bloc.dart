@@ -20,10 +20,8 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     try {
       bool permissionGranted = await FlutterContacts.requestPermission();
       if (permissionGranted) {
-        print("Permission granted");
         add(FetchContactsEvent()); // Trigger fetching contacts
       } else {
-        print("Permission denied");
         emit(ContactPermissionDenied());
       }
     } catch (e) {

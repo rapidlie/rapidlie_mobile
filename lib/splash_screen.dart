@@ -34,13 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
     String bearerToken = await UserPreferences().getBearerToken();
 
     if (isLoggedIn && bearerToken == "") {
-      //Navigator.pushReplacementNamed(context, OtpScreen.routeName);
       context.go('/otp');
     } else if (isLoggedIn && bearerToken != "") {
-      //Navigator.pushReplacementNamed(context, BottomNavScreen.routeName);
       context.go('/bottom_nav');
     } else {
-      //Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       context.go('/login');
     }
   }

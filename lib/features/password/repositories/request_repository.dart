@@ -10,7 +10,6 @@ class RequestRepository {
   Future<DataState<String>> requestReset({
     required String email,
   }) async {
-    
     try {
       final response = await dio.post(
         '$flockrAPIBaseUrl/password/request-otp',
@@ -23,9 +22,6 @@ class RequestRepository {
           'email': email,
         },
       );
-
-      print(response.statusCode);
-      print(response.statusMessage);
 
       if (response.statusCode == 200) {
         return DataSuccess("success");

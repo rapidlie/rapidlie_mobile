@@ -33,7 +33,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (result is DataSuccess) {
         emit(RegisterSuccessState());
       } else if (result is DataFailed) {
-        print("Error from server: ${result.error!.message}");
         emit(RegisterErrorState(error: result.error.toString()));
       } else {
         emit(RegisterErrorState(error: "Unknown error occurred"));
