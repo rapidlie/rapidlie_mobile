@@ -5,9 +5,9 @@ import 'package:rapidlie/core/utils/autocomplete_predictions.dart';
 import 'package:rapidlie/core/utils/autocomplete_response.dart';
 import 'package:rapidlie/core/utils/network_utility.dart';
 
-
 class LocationUtils {
-  static Future<List<AutocompletePrediction>> placeAutoComplete(String query) async {
+  static Future<List<AutocompletePrediction>> placeAutoComplete(
+      String query) async {
     Uri uri = Uri.https(
       "maps.googleapis.com",
       "maps/api/place/autocomplete/json",
@@ -21,7 +21,7 @@ class LocationUtils {
         return result.predictions!;
       }
     }
-    return []; // Return an empty list on failure
+    return [];
   }
 
   static Future<LatLng?> getLatLong(String placeId) async {
@@ -38,6 +38,6 @@ class LocationUtils {
         return LatLng(location['lat'], location['lng']);
       }
     }
-    return null; // Return null on failure
+    return null;
   }
 }

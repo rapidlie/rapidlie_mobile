@@ -27,8 +27,6 @@ class DeleteAccountRepository {
         ),
       );
 
-      print(response.statusCode);
-
       if (response.statusCode == 200) {
         UserPreferences().clearAll();
         return DataSuccess(null);

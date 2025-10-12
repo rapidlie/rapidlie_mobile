@@ -18,19 +18,16 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
     Emitter<DeleteAccountState> emit,
   ) async {
     emit(DeleteAccountLoadingState());
-    print("loading state emitted");
+
     try {
-      print("tried deleting account");
       final result = await deleteAccoutRepository.deleteAccount(
         email: event.email,
       );
 
       if (result is DataSuccess<void>) {
-        print("loading state emitted");
         emit(
             DeleteAccountSuccessState(message: "Account deleted successfully"));
       } else {
-        print("failed to delete");
         emit(DeleteAccountErrorState(error: "Account deletion failed"));
       }
     } catch (e) {

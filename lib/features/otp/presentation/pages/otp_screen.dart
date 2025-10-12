@@ -4,9 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
 import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class OtpScreen extends StatefulWidget {
   OtpScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   String email = " ";
+  var language;
 
   @override
   void initState() {
@@ -31,7 +35,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    //double width = MediaQuery.of(context).size.width;
+    language = AppLocalizations.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -40,15 +44,10 @@ class _OtpScreenState extends State<OtpScreen> {
             child: BlocConsumer<VerifyOtpBloc, VerifyOtpState>(
               listener: (context, state) {
                 if (state is VerifyOtpSuccessState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Successful')),
-                  );
+                  AppSnackbars.showSuccess(context, language.success);
                   context.go('/bottom_nav');
                 } else if (state is VerifyOtpErrorState) {
-                  // Registration failed
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed: ${state.error}')),
-                  );
+                  AppSnackbars.showError(context, language.failed);
                 }
               },
               builder: (context, state) {
@@ -65,15 +64,17 @@ class _OtpScreenState extends State<OtpScreen> {
                             height: 50,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
+                                context.go('/register');
                               },
                               child: Icon(
                                 Icons.arrow_back,
                               ),
                             ),
                           ),
-                          Text("We just sent you a 4-digit\n code via email.",
-                              style: mainAppbarTitleStyle(context)),
+                          Text(
+                            language.resendMessage,
+                            style: mainAppbarTitleStyle(context),
+                          ),
                         ],
                       ),
                       Center(
@@ -84,7 +85,6 @@ class _OtpScreenState extends State<OtpScreen> {
                               focusedPinTheme: getFocusedTheme(),
                               submittedPinTheme: getFocusedTheme(),
                               onCompleted: (value) {
-                                print(email);
                                 BlocProvider.of<VerifyOtpBloc>(context).add(
                                   SubmitVerifyOtpEvent(
                                     email: email,
@@ -100,23 +100,16 @@ class _OtpScreenState extends State<OtpScreen> {
                             BlocConsumer<ResendOtpBloc, ResendOtpState>(
                               listener: (context, state) {
                                 if (state is ResendOtpSuccessState) {
-                                  // Registration was successful
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Successful')),
-                                  );
+                                  AppSnackbars.showSuccess(
+                                      context, language.success);
                                 } else if (state is ResendOtpErrorState) {
-                                  // Registration failed
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Failed: ${state.error}')),
-                                  );
+                                  AppSnackbars.showError(
+                                      context, language.failed);
                                 }
                               },
                               builder: (context, state) {
                                 return GestureDetector(
                                   onTap: () {
-                                    print(email);
                                     BlocProvider.of<ResendOtpBloc>(context).add(
                                       SubmitResendOtpEvent(
                                         email: email,
@@ -126,11 +119,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("Didn't receive code?",
-                                          textAlign: TextAlign.right,
-                                          style: inter14black500(context)),
                                       Text(
-                                        " Resend",
+                                        language.noCode,
+                                        textAlign: TextAlign.right,
+                                        style: inter14black500(context),
+                                      ),
+                                      Text(
+                                        " " + language.resend,
                                         textAlign: TextAlign.right,
                                         style: inter14Orange500(context),
                                       ),

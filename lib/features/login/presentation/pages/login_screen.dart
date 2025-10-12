@@ -6,10 +6,9 @@ import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routeName = "login";
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -20,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String token = '';
   String userName = '';
   bool obscureText = true;
+  var language;
 
   @override
   void initState() {
@@ -32,22 +32,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    language = AppLocalizations.of(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) async {
             if (state is LoginSuccessState) {
-              // Registration was successful
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Login Successful')),
-              );
+              AppSnackbars.showSuccess(context, language.success);
 
               context.go('/bottom_nav', extra: 0);
             } else if (state is LoginErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Login Failed: ${state.error}')),
-              );
+              AppSnackbars.showError(context, language.failed);
             }
           },
           builder: (context, state) {
@@ -63,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                       ),
                       Text(
-                        "Welcome back!",
+                        language.welcome,
                         style: mainAppbarTitleStyle(context),
                       ),
                     ],
@@ -71,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     children: [
                       TextFieldTemplate(
-                        hintText: "Email",
+                        hintText: language.email,
                         controller: emailController,
                         obscureText: false,
                         width: width,
@@ -82,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       extraSmallHeight(),
                       TextFieldTemplate(
-                        hintText: "Password",
+                        hintText: language.password,
                         controller: passwordController,
                         obscureText: obscureText,
                         width: width,
@@ -112,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                           child: Text(
-                            "Forgot Password?",
+                            language.forgotPassword,
                             textAlign: TextAlign.right,
                             style: inter14black500(context),
                           ),
@@ -122,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 30.0,
                       ),
                       ButtonTemplate(
-                        buttonName: "Login",
+                        buttonName: language.login,
                         buttonType: ButtonType.elevated,
                         buttonAction: () {
                           if (emailController.text.isEmpty ||
                               passwordController.text.isEmpty) {
                             AppSnackbars.showError(
-                                context, "All fields are required!");
+                                context, language.requiredFields);
                             return;
                           }
                           BlocProvider.of<LoginBloc>(context).add(
@@ -151,11 +147,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account?",
-                            textAlign: TextAlign.right,
-                            style: inter14black500(context)),
                         Text(
-                          " Register",
+                          language.noAccount,
+                          textAlign: TextAlign.right,
+                          style: inter14black500(context),
+                        ),
+                        Text(
+                          " " + language.register,
                           textAlign: TextAlign.right,
                           style: inter14Orange500(context),
                         ),

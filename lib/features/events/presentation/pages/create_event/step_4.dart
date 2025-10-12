@@ -46,16 +46,14 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
     return BlocConsumer<FileUploadBloc, FileUploadState>(
       listener: (context, state) {
         if (state is FileUploadInitial) {
-          print("File upload initial");
         } else if (state is FileUploadingState) {
-          print("File uploading...");
         } else if (state is FileUploadSuccessState) {
           debugPrint("File uploaded successfully");
 
           context.read<CreateEventProvider>().updateEvent(
                 image: state.fileName,
               );
-          //print(context.read<CreateEventProvider>().event);
+
           BlocProvider.of<CreateEventBloc>(context).add(
             SubmitCreateEventEvent(
               image: state.fileName,

@@ -8,7 +8,6 @@ import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/settings/blocs/delete_account_bloc/delete_account_bloc.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-import 'package:rapidlie/l10n/app_localizations_de.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({Key? key}) : super(key: key);
@@ -42,7 +41,6 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
       body: SingleChildScrollView(
         child: BlocConsumer<DeleteAccountBloc, DeleteAccountState>(
           listener: (context, state) {
-            print(state.toString());
             if (state is DeleteAccountSuccessState) {
               context.goNamed('register');
             } else if (state is DeleteAccountErrorState) {

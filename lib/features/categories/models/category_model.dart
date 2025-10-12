@@ -11,7 +11,7 @@ class CategoryModel extends Equatable{
     required this.image,
   });
 
-  // Factory method to create a CategoryModel from JSON
+  
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'],
@@ -20,7 +20,7 @@ class CategoryModel extends Equatable{
     );
   }
 
-  // Method to convert a CategoryModel to JSON
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,

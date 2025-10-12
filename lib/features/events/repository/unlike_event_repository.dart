@@ -26,7 +26,6 @@ class UnlikeEventRepository {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        print("Event Unliked");
         return DataSuccess("success");
       } else {
         return DataFailed(
@@ -39,8 +38,6 @@ class UnlikeEventRepository {
         );
       }
     } on DioException catch (e) {
-      print("Event Unliked Failed");
-      print(e);
       return DataFailed(e);
     }
   }

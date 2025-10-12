@@ -44,9 +44,7 @@ class IntlPhoneField extends StatelessWidget {
               hintText: 'Phone number',
               hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 16),
             ),
-            onSaved: (PhoneNumber number) {
-              print('On Saved: $number');
-            },
+            onSaved: (PhoneNumber number) {},
           ),
           Positioned(
             left: 90,

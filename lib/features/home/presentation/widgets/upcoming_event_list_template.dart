@@ -53,7 +53,9 @@ class UpcomingEventListTemplate extends StatelessWidget {
             width: width * 0.9,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: const Color.fromARGB(189, 255, 255, 255),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? const Color.fromARGB(188, 0, 0, 0)
+                  : const Color.fromARGB(188, 255, 255, 255),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

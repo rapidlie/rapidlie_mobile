@@ -48,7 +48,6 @@ class _RequestResetPasswordScreenState
                 );
               }
               if (state is RequestSuccessState) {
-                print(emailController.text.toString());
                 context.push(
                   '/new_password',
                   extra: emailController.text.toString(),

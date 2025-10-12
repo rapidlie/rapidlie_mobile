@@ -25,10 +25,8 @@ Future<void> main() async {
 
   final Locale deviceLocale = PlatformDispatcher.instance.locale;
   final String? countryCode = deviceLocale.countryCode;
-  final String? languageCode = deviceLocale.languageCode;
 
   UserPreferences().setCountry(countryCode ?? "DE");
-  UserPreferences().setLanguage(languageCode ?? "en");
 
   runApp(MyApp());
 }

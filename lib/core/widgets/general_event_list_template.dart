@@ -5,7 +5,6 @@ import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 
 class GeneralEventListTemplate extends StatefulWidget {
-  //final Widget trailingWidget;
   final String eventName;
   final String? eventImageString;
   final String eventDate;

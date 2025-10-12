@@ -14,7 +14,7 @@ Future<Position> getUserCurrentLocation() async {
     }
 
     locationPermission = await Geolocator.checkPermission();
-    print(locationPermission);
+
     if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
       if (locationPermission == LocationPermission.denied) {
@@ -26,11 +26,9 @@ Future<Position> getUserCurrentLocation() async {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
     position = await Geolocator.getCurrentPosition();
-    print(position);
 
     return position;
   } catch (e) {
-    print("Error getting user location: $e");
     rethrow;
   }
 }
@@ -58,7 +56,6 @@ Future<Map> getLocation() async {
     String place = await getPlaceName(position);
     currentLocation = place;
   } catch (e) {
-    print(e.toString());
     currentLocation = "";
   }
   locationItems['loc'] = currentLocation;

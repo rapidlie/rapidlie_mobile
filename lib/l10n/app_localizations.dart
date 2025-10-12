@@ -546,6 +546,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'🌙 Good evening'**
   String get evening;
+
+  /// No description provided for @inviteTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get inviteTo;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Successful!'**
+  String get success;
+
+  /// No description provided for @failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed!'**
+  String get failed;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get welcome;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get fullName;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccount;
+
+  /// No description provided for @registerMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Register to get started.'**
+  String get registerMessage;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// No description provided for @passwordLength.
+  ///
+  /// In en, this message translates to:
+  /// **'*Password must be at least 8 characters long.'**
+  String get passwordLength;
+
+  /// No description provided for @alreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you already have an account?'**
+  String get alreadyRegistered;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPassword;
+
+  /// No description provided for @selectCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a country'**
+  String get selectCountry;
+
+  /// No description provided for @resendMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We just sent you a 4-digit\n code via email.'**
+  String get resendMessage;
+
+  /// No description provided for @resend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
+
+  /// No description provided for @noCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive code?'**
+  String get noCode;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

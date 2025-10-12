@@ -104,7 +104,7 @@ class ContactListItemWithText extends StatelessWidget {
             contactName: contactName,
           ),
           Text(
-            AppLocalizations.of(context).invite,
+            AppLocalizations.of(context).inviteTo,
             style: inter14Orange500(context),
           )
         ],

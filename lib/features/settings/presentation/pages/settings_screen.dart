@@ -353,7 +353,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               BlocListener<LogoutBloc, LogoutState>(
                 listener: (context, state) {
-                  print(state);
                   if (state is LogoutSuccessState) {
                     context.pop();
                     UserPreferences().clearAll();

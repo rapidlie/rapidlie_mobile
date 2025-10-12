@@ -13,10 +13,8 @@ class CountrySettingsLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     language = AppLocalizations.of(context);
     return SizedBox(
-      //width: 100,
       child: CountryCodePicker(
         onChanged: (value) async {
-          print(value.code);
           UserPreferences().setCountry(value.code ?? "DE");
         },
         initialSelection: UserPreferences().getCountry() ?? "DE",

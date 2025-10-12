@@ -230,4 +230,61 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get evening => '🌙 Bonsoir';
+
+  @override
+  String get inviteTo => 'Inviter';
+
+  @override
+  String get success => 'Réussi!';
+
+  @override
+  String get failed => 'Échec!';
+
+  @override
+  String get email => 'E-mail';
+
+  @override
+  String get password => 'Mot de passe';
+
+  @override
+  String get welcome => 'Bon retour!';
+
+  @override
+  String get login => 'Connexion';
+
+  @override
+  String get register => 'Inscription';
+
+  @override
+  String get fullName => 'Nom complet';
+
+  @override
+  String get noAccount => 'Vous n\'avez pas de compte?';
+
+  @override
+  String get registerMessage => 'Inscrivez-vous pour commencer.';
+
+  @override
+  String get phone => 'Téléphone';
+
+  @override
+  String get passwordLength => '**Le mot de passe doit comporter au moins 8 caractères.';
+
+  @override
+  String get alreadyRegistered => 'Avez-vous déjà un compte ?';
+
+  @override
+  String get forgotPassword => 'Mot de passe oublié?';
+
+  @override
+  String get selectCountry => 'Sélectionnez un pays';
+
+  @override
+  String get resendMessage => 'Nous venons de vous envoyer un code\n à 4 chiffres par e-mail.';
+
+  @override
+  String get resend => 'Renvoyer';
+
+  @override
+  String get noCode => 'Vous n\'avez pas reçu le code?';
 }

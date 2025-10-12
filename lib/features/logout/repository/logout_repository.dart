@@ -20,9 +20,6 @@ class LogoutRepository {
         ),
       );
 
-      print(response.statusCode);
-      print(response.statusMessage);
-
       if (response.statusCode == 201) {
         return DataSuccess("success");
       } else {
