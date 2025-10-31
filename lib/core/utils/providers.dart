@@ -24,6 +24,8 @@ import 'package:rapidlie/features/events/repository/like_event_repository.dart';
 import 'package:rapidlie/features/events/repository/unlike_event_repository.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
+import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
+import 'package:rapidlie/features/home/notification_repository.dart';
 import 'package:rapidlie/features/login/bloc/login_bloc.dart';
 import 'package:rapidlie/features/login/repository/login_repository.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
@@ -126,6 +128,11 @@ final List<SingleChildWidget> providers = [
   BlocProvider(
     create: (context) => CategoryBloc(
       categoryRepository: CategoryRepository(dio: Dio()),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => NotificationsBloc(
+      notificationsRepository: NotificationsRepository(dio: Dio()),
     ),
   ),
   BlocProvider(

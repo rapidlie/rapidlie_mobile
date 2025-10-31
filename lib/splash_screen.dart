@@ -6,6 +6,7 @@ import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
+import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
     context.read<PrivateEventBloc>().add(GetPrivateEvents());
     context.read<ContactsBloc>().add(FetchContactsEvent());
+    context.read<NotificationsBloc>().add(FetchNotificationsEvent());
     super.initState();
   }
 
