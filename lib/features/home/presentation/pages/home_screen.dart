@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var language;
-  String name = "";
+  String name = "Eugene";
   List<EventDataModel> publicEvents = [];
   List<EventDataModel> upcomingEvents = [];
   late String userId;
@@ -180,8 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                 }),
-                
-                    Padding(
+                Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: SizedBox(
                     width: width,
@@ -224,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         SizedBox(width: 8),
                                         Text(
-                                          "Pool with Flockr",
+                                          "Pool with Flockr :)",
                                           style: GoogleFonts.inter(
                                             color: Colors.white,
                                             fontSize: 15.sp,
