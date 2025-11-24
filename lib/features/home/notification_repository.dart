@@ -11,7 +11,7 @@ class NotificationsRepository {
 
   NotificationsRepository({required this.dio});
 
-  Future<DataState<List<Notifications>>> getNotifications() async {
+  Future<DataState<List<FlashNotifications>>> getNotifications() async {
     String bearerToken = await UserPreferences().getBearerToken();
     try {
       final response = await dio.get(
@@ -25,8 +25,8 @@ class NotificationsRepository {
       );
       if (response.statusCode == HttpStatus.ok) {
         List<dynamic> data = response.data;
-        List<Notifications> notifications =
-            data.map((item) => Notifications.fromJson(item)).toList();
+        List<FlashNotifications> notifications =
+            data.map((item) => FlashNotifications.fromJson(item)).toList();
         return DataSuccess(notifications);
       } else {
         return DataFailed(DioException(

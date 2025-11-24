@@ -13,7 +13,7 @@ class NotificationsInitialState extends NotificationsState {}
 class NotificationsLoadingState extends NotificationsState {}
 
 class NotificationsLoadedState extends NotificationsState {
-  final List<Notifications> notifications;
+  final List<FlashNotifications> notifications;
 
   const NotificationsLoadedState({required this.notifications});
 
