@@ -15,6 +15,8 @@ import 'package:rapidlie/core/widgets/header_title_template.dart';
 import 'package:rapidlie/features/categories/bloc/category_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
+import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
+import 'package:rapidlie/features/home/models/notification.dart';
 import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
@@ -30,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String name = "Eugene";
   List<EventDataModel> publicEvents = [];
   List<EventDataModel> upcomingEvents = [];
-  //List<FlashNotificationsModel> flashNotifications = [];
+  List<FlashNotifications> flashNotifications = [];
   late String userId;
 
   @override
@@ -60,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<CategoryBloc>().add(FetchCategoriesEvent());
     context.read<PublicEventBloc>().add(GetPublicEvents());
     context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
+    context.read<NotificationsBloc>().add(FetchNotificationsEvent());
     language = AppLocalizations.of(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -105,6 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
                     builder: (context, state) {
+                    
+                    
                   if (state is InitialUpcomingEventState) {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoading) {
@@ -186,8 +191,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SizedBox(
                     width: width,
                     height: 100,
-                    child: ListView.builder(
-                      itemCount: 2,
+                    child: BlocBuilder<NotificationsBloc, NotificationsState>(
+                      builder: (context, state){
+                        
+                      if (state is NotificationsLoadingState){
+                        return SizedBox();
+                      }
+
+                      else if (state is NotificationsLoadedState){
+                        
+                        return ListView.builder(
+                      itemCount: state.notifications.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -258,7 +272,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                    ),
+                    );
+                    }
+
+                      return SizedBox();
+
+                    },)
                   ),
                 ),
                 normalHeight(),
