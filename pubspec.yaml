@@ -81,7 +81,7 @@ flutter:
 
   uses-material-design: true
 
-  assets:
+  assets: 
     - .env
     - assets/icons/
     - assets/images/
