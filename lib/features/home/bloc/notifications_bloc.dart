@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/features/home/models/notification.dart';
-import 'package:rapidlie/features/home/notification_repository.dart';
+import 'package:rapidlie/features/home/repository/notification_repository.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
