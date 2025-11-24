@@ -19,6 +19,8 @@ jobs:
         with:
           flutter-version: '3.24.5'
       - run: flutter pub get
+      - name: Create dummy .env file
+        run: echo "API_URL=https://dummy.com" > .env
       - run: flutter test
       - run: flutter build apk --split-per-abi
       - uses: actions/upload-artifact@v4
