@@ -30,13 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   String name = "Eugene";
   List<EventDataModel> publicEvents = [];
   List<EventDataModel> upcomingEvents = [];
+  //List<FlashNotificationsModel> flashNotifications = [];
   late String userId;
 
   @override
   void initState() {
     getUserName();
     getUserID();
-    checkLoggedInStatus();
+    checkLoggedInStatus();  
     super.initState();
   }
 

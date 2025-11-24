@@ -1,4 +1,4 @@
-class Notifications {
+class FlashNotifications {
   int id;
   String title;
   String headline;
@@ -8,7 +8,7 @@ class Notifications {
   DateTime createdAt;
   DateTime updatedAt;
 
-  Notifications({
+  FlashNotifications({
     required this.id,
     required this.title,
     required this.headline,
@@ -19,7 +19,7 @@ class Notifications {
     required this.updatedAt,
   });
 
-  factory Notifications.fromJson(Map<String, dynamic> json) => Notifications(
+  factory FlashNotifications.fromJson(Map<String, dynamic> json) => FlashNotifications(
         id: json["id"],
         title: json["title"],
         headline: json["headline"],

@@ -9,7 +9,7 @@ part 'notifications_state.dart';
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   final NotificationsRepository notificationsRepository;
-  List<Notifications>? _cachedNotifications;
+  List<FlashNotifications>? _cachedNotifications;
 
   NotificationsBloc({required this.notificationsRepository})
       : super(NotificationsInitialState()) {
@@ -29,7 +29,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       final notificationsResponse =
           await notificationsRepository.getNotifications();
 
-      if (notificationsResponse is DataSuccess<List<Notifications>>) {
+      if (notificationsResponse is DataSuccess<List<FlashNotifications>>) {
         _cachedNotifications = notificationsResponse.data;
         emit(NotificationsLoadedState(
             notifications: notificationsResponse.data!));
