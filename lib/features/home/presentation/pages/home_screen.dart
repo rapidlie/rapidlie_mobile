@@ -70,29 +70,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
-        /* child: AppBarTemplate(
-          pageTitle: getTimeOfDayGreeting(context) + " " + name,
-          isSubPage: false,
-        ), */
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20, top: 20, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  child: Text(
-                    getTimeOfDayGreeting(context) + " " + name,
-                    style: GoogleFonts.inter(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                      textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+        
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 20, top: 20, bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    child: Text(
+                      getTimeOfDayGreeting(context) + " " + name,
+                      style: GoogleFonts.inter(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
