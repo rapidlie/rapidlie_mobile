@@ -30,6 +30,8 @@
 .pub-cache/
 .pub/
 /build/
+.flutter-versions
+.build/
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -50,3 +52,35 @@ app.*.map.json
 android/app/build/
 android/build/
 build/
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+
+# iOS / Xcode
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/Flutter/engine/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+
+# CocoaPods
+ios/Pods/
+ios/.symlinks/
+ios/Podfile.lock
+
+# Xcode build & user files
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace
+ios/*.xcodeproj/project.xcworkspace
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcuserstate
+ios/*.xcscmblueprint
+
+# Xcode local config
+ios/Runner.xcconfig
