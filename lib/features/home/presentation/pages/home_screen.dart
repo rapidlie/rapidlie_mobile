@@ -67,14 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          /* child: AppBarTemplate(
-            pageTitle: getTimeOfDayGreeting(context) + " " + name,
-            isSubPage: false,
-          ), */
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Container(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -98,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoaded) {
                     upcomingEvents = state.events.reversed.toList();
-
+            
                     return upcomingEvents.isEmpty
                         ? SizedBox.shrink()
                         : Column(
@@ -197,9 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state is NotificationsLoadingState){
                         return SizedBox();
                       }
-
+            
                       else if (state is NotificationsLoadedState){
-
+            
                         flashNotifications = state.notifications;
                         
                         return ListView.builder(
@@ -212,9 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                     }
-
+            
                       return SizedBox();
-
+            
                     },)
                   ),
                 ),

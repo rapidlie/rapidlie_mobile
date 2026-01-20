@@ -40,107 +40,107 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
-        child: SafeArea(
-          child: AppBarTemplate(
-            pageTitle: language.changePassword,
-            isSubPage: true,
-          ),
+        child: AppBarTemplate(
+          pageTitle: language.changePassword,
+          isSubPage: true,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-        child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
-          listener: (context, state) {
-            if (state is ChangePasswordLoadingState) {
-            } else if (state is ChangePasswordSuccessState) {
-              context.go(
-                '/login',
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+          child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
+            listener: (context, state) {
+              if (state is ChangePasswordLoadingState) {
+              } else if (state is ChangePasswordSuccessState) {
+                context.go(
+                  '/login',
+                );
+              } else {
+                AppSnackbars.show(context, "Old password is wrong");
+              }
+            },
+            builder: (context, state) {
+              return Container(
+                height: height,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        TextFieldTemplate(
+                          hintText: language.oldPassword,
+                          controller: oldPasswordController,
+                          obscureText: obscureOPText,
+                          width: width,
+                          height: 50,
+                          textInputType: TextInputType.visiblePassword,
+                          textInputAction: TextInputAction.next,
+                          enabled: true,
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                obscureOPText = !obscureOPText;
+                              });
+                            },
+                            child: Icon(
+                              obscureOPText ? Icons.lock : Icons.lock_open,
+                            ),
+                          ),
+                        ),
+                        textBoxSpace(),
+                        TextFieldTemplate(
+                          hintText: language.newPassword,
+                          controller: newPasswordController,
+                          obscureText: obscureNPText,
+                          width: width,
+                          height: 50,
+                          textInputType: TextInputType.visiblePassword,
+                          textInputAction: TextInputAction.next,
+                          enabled: true,
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                obscureNPText = !obscureNPText;
+                              });
+                            },
+                            child: Icon(
+                              obscureNPText ? Icons.lock : Icons.lock_open,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        ButtonTemplate(
+                          loading: state is ChangePasswordLoadingState,
+                          buttonName: language.changePassword,
+                          buttonType: ButtonType.elevated,
+                          buttonAction: () {
+                            if (newPasswordController.text.isEmpty ||
+                                oldPasswordController.text.isEmpty) {
+                              AppSnackbars.showError(
+                                context,
+                                language.requiredFields,
+                              );
+                            } else {
+                              context.read<ChangePasswordBloc>().add(
+                                    SubmitChangePasswordEvent(
+                                      oldPassword: oldPasswordController.text,
+                                      newPassword: newPasswordController.text,
+                                    ),
+                                  );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ),
               );
-            } else {
-              AppSnackbars.show(context, "Old password is wrong");
-            }
-          },
-          builder: (context, state) {
-            return Container(
-              height: height,
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      TextFieldTemplate(
-                        hintText: language.oldPassword,
-                        controller: oldPasswordController,
-                        obscureText: obscureOPText,
-                        width: width,
-                        height: 50,
-                        textInputType: TextInputType.visiblePassword,
-                        textInputAction: TextInputAction.next,
-                        enabled: true,
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              obscureOPText = !obscureOPText;
-                            });
-                          },
-                          child: Icon(
-                            obscureOPText ? Icons.lock : Icons.lock_open,
-                          ),
-                        ),
-                      ),
-                      textBoxSpace(),
-                      TextFieldTemplate(
-                        hintText: language.newPassword,
-                        controller: newPasswordController,
-                        obscureText: obscureNPText,
-                        width: width,
-                        height: 50,
-                        textInputType: TextInputType.visiblePassword,
-                        textInputAction: TextInputAction.next,
-                        enabled: true,
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              obscureNPText = !obscureNPText;
-                            });
-                          },
-                          child: Icon(
-                            obscureNPText ? Icons.lock : Icons.lock_open,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      ButtonTemplate(
-                        loading: state is ChangePasswordLoadingState,
-                        buttonName: language.changePassword,
-                        buttonType: ButtonType.elevated,
-                        buttonAction: () {
-                          if (newPasswordController.text.isEmpty ||
-                              oldPasswordController.text.isEmpty) {
-                            AppSnackbars.showError(
-                              context,
-                              language.requiredFields,
-                            );
-                          } else {
-                            context.read<ChangePasswordBloc>().add(
-                                  SubmitChangePasswordEvent(
-                                    oldPassword: oldPasswordController.text,
-                                    newPassword: newPasswordController.text,
-                                  ),
-                                );
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 50,
-                  )
-                ],
-              ),
-            );
-          },
+            },
+          ),
         ),
       ),
     );

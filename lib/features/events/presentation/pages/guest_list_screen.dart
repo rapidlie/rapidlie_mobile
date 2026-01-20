@@ -20,28 +20,28 @@ class _GuestListScreenState extends State<GuestListScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
-        child: SafeArea(
-          child: AppBarTemplate(
-            pageTitle: "Guest List",
-            isSubPage: true,
-          ),
+        child: AppBarTemplate(
+          pageTitle: "Guest List",
+          isSubPage: true,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.guests!.length,
-              itemBuilder: (context, index) {
-                return guestListLayout(
-                  userName: widget.guests![index].user.name,
-                  eventStatus: widget.guests![index].status,
-                  imageUrl: widget.guests![index].user.avatar,
-                );
-              },
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget.guests!.length,
+                itemBuilder: (context, index) {
+                  return guestListLayout(
+                    userName: widget.guests![index].user.name,
+                    eventStatus: widget.guests![index].status,
+                    imageUrl: widget.guests![index].user.avatar,
+                  );
+                },
+              ),
             ),
           ),
         ),
