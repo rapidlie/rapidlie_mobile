@@ -78,96 +78,96 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
-          child: SafeArea(
-            child: AppBarTemplate(
-              pageTitle: language.contacts,
-              isSubPage: true,
-              trailingWidget: _selectedContacts.length == 0
-                  ? GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: Text(
-                        language.cancel,
-                        style: inter14black500(context),
-                      ),
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<InviteContactBloc>(context).add(
-                          SubmitInviteContactEvent(
-                            guests: _selectedContacts
-                                .map((contact) => contact.telephone ?? '')
-                                .toList(),
-                            id: widget.id,
-                          ),
-                        );
-                      },
-                      child: Text(
-                        language.done,
-                        style: inter14black500(context),
-                      ),
+          child: AppBarTemplate(
+            pageTitle: language.contacts,
+            isSubPage: true,
+            trailingWidget: _selectedContacts.length == 0
+                ? GestureDetector(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Text(
+                      language.cancel,
+                      style: inter14black500(context),
                     ),
-            ),
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<InviteContactBloc>(context).add(
+                        SubmitInviteContactEvent(
+                          guests: _selectedContacts
+                              .map((contact) => contact.telephone ?? '')
+                              .toList(),
+                          id: widget.id,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      language.done,
+                      style: inter14black500(context),
+                    ),
+                  ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<TelephoneNumbersBloc, TelephoneNumbersState>(
-                  builder: (context, state) {
-                    if (state is TelephoneNumbersLoadingState) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is TelephoneNumbersLoaded) {
-                      flockrContacts.clear();
-                      for (int i = 0; i < fetchedContacts.length; i++) {
-                        String? contactPhone = fetchedContacts[i].telephone;
-                        if (contactPhone != null && contactPhone.length >= 9) {
-                          String contactLastNine =
-                              contactPhone.substring(contactPhone.length - 9);
-
-                          contactLastNine =
-                              contactLastNine.replaceAll(RegExp(r'\D'), '');
-
-                          if (state.numbers.any((number) {
-                            String cleanedStateNumber =
-                                number.replaceAll(RegExp(r'\D'), '');
-                            return cleanedStateNumber.endsWith(contactLastNine);
-                          })) {
-                            flockrContacts.add(fetchedContacts[i]);
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BlocBuilder<TelephoneNumbersBloc, TelephoneNumbersState>(
+                    builder: (context, state) {
+                      if (state is TelephoneNumbersLoadingState) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is TelephoneNumbersLoaded) {
+                        flockrContacts.clear();
+                        for (int i = 0; i < fetchedContacts.length; i++) {
+                          String? contactPhone = fetchedContacts[i].telephone;
+                          if (contactPhone != null && contactPhone.length >= 9) {
+                            String contactLastNine =
+                                contactPhone.substring(contactPhone.length - 9);
+          
+                            contactLastNine =
+                                contactLastNine.replaceAll(RegExp(r'\D'), '');
+          
+                            if (state.numbers.any((number) {
+                              String cleanedStateNumber =
+                                  number.replaceAll(RegExp(r'\D'), '');
+                              return cleanedStateNumber.endsWith(contactLastNine);
+                            })) {
+                              flockrContacts.add(fetchedContacts[i]);
+                            }
                           }
                         }
                       }
-                    }
-
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: flockrContacts.length,
-                      itemBuilder: (context, index) {
-                        return ContactListItemWithSelector(
-                          contactName: flockrContacts[index].name,
-                          value: flockrContacts[index].isSelected,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              flockrContacts[index].isSelected = value ?? false;
-                              _selectedContacts = flockrContacts
-                                  .where((contact) => contact.isSelected)
-                                  .toList();
-                            });
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+          
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: flockrContacts.length,
+                        itemBuilder: (context, index) {
+                          return ContactListItemWithSelector(
+                            contactName: flockrContacts[index].name,
+                            value: flockrContacts[index].isSelected,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                flockrContacts[index].isSelected = value ?? false;
+                                _selectedContacts = flockrContacts
+                                    .where((contact) => contact.isSelected)
+                                    .toList();
+                              });
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

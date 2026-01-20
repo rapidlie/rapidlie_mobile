@@ -86,19 +86,21 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
           isSubPage: true,
         ),
       ),
-      body: SingleChildScrollView(
-        child: BlocBuilder<EventByCategoryBloc, EventByCategoryState>(
-          builder: (context, state) {
-            if (state is InitialEventByCategoryState) {
-              return emptyListWithShimmer();
-            } else if (state is EventByCategoryLoading) {
-              return emptyListWithShimmer();
-            } else if (state is EventByCategoryLoaded) {
-              return buildBody(state.events.reversed.toList());
-            } else {
-              return Container();
-            }
-          },
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: BlocBuilder<EventByCategoryBloc, EventByCategoryState>(
+            builder: (context, state) {
+              if (state is InitialEventByCategoryState) {
+                return emptyListWithShimmer();
+              } else if (state is EventByCategoryLoading) {
+                return emptyListWithShimmer();
+              } else if (state is EventByCategoryLoaded) {
+                return buildBody(state.events.reversed.toList());
+              } else {
+                return Container();
+              }
+            },
+          ),
         ),
       ),
     );

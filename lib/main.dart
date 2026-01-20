@@ -23,6 +23,10 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+  );
+
   final Locale deviceLocale = PlatformDispatcher.instance.locale;
   final String? countryCode = deviceLocale.countryCode;
 

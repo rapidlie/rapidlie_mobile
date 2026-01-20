@@ -48,27 +48,29 @@ class EventDetailsScreen extends StatelessWidget {
         eventdetailRepository: context.read<EventDetailRepository>(),
       )..add(GetEventDetail(eventId)), // Trigger initial data fetch
       child: Scaffold(
-        body: BlocBuilder<EventDetailBloc, EventDetailState>(
-          // Correctly specify the BLoC and State types here.
-
-          builder: (context, state) {
-            if (state is EventDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is EventDetailLoaded) {
-              final eventDetail = state.events;
-              final userId = UserPreferences().getUserId().toString();
-              final inviteStatus = getInviteStatus(eventDetail, userId);
-
-              return _EventDetailsBody(
-                event: eventDetail,
-                isOwnEvent: isOwnEvent,
-                inviteStatus: inviteStatus,
-              );
-            } else if (state is EventDetailError) {
-              return Center(child: Text('Error: ${state.message}'));
-            }
-            return const SizedBox(); // Initial state or unknown state
-          },
+        body: SafeArea(
+          child: BlocBuilder<EventDetailBloc, EventDetailState>(
+            // Correctly specify the BLoC and State types here.
+          
+            builder: (context, state) {
+              if (state is EventDetailLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is EventDetailLoaded) {
+                final eventDetail = state.events;
+                final userId = UserPreferences().getUserId().toString();
+                final inviteStatus = getInviteStatus(eventDetail, userId);
+          
+                return _EventDetailsBody(
+                  event: eventDetail,
+                  isOwnEvent: isOwnEvent,
+                  inviteStatus: inviteStatus,
+                );
+              } else if (state is EventDetailError) {
+                return Center(child: Text('Error: ${state.message}'));
+              }
+              return const SizedBox(); // Initial state or unknown state
+            },
+          ),
         ),
       ),
     );

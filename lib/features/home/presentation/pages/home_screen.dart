@@ -67,38 +67,38 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          /* child: AppBarTemplate(
-            pageTitle: getTimeOfDayGreeting(context) + " " + name,
-            isSubPage: false,
-          ), */
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 20, top: 20, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    child: Text(
-                      getTimeOfDayGreeting(context) + " " + name,
-                      style: GoogleFonts.inter(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        textStyle: TextStyle(overflow: TextOverflow.ellipsis),
-                      ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        /* child: AppBarTemplate(
+          pageTitle: getTimeOfDayGreeting(context) + " " + name,
+          isSubPage: false,
+        ), */
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20, top: 20, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  child: Text(
+                    getTimeOfDayGreeting(context) + " " + name,
+                    style: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      textStyle: TextStyle(overflow: TextOverflow.ellipsis),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoaded) {
                     upcomingEvents = state.events.reversed.toList();
-
+            
                     return upcomingEvents.isEmpty
                         ? SizedBox.shrink()
                         : Column(
@@ -197,9 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state is NotificationsLoadingState){
                         return SizedBox();
                       }
-
+            
                       else if (state is NotificationsLoadedState){
-
+            
                         flashNotifications = state.notifications;
                         
                         return ListView.builder(
@@ -212,9 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                     }
-
+            
                       return SizedBox();
-
+            
                     },)
                   ),
                 ),

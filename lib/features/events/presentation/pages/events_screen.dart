@@ -54,18 +54,18 @@ class _EventsScreenState extends State<EventsScreen> {
     language = AppLocalizations.of(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          child: AppBarTemplate(
-            pageTitle: language.myEvents,
-            isSubPage: false,
-          ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: language.myEvents,
+          isSubPage: false,
         ),
-        resizeToAvoidBottomInset: true,
-        floatingActionButton: floatingActionButton(),
-        body: RefreshIndicator(
+      ),
+      resizeToAvoidBottomInset: true,
+      floatingActionButton: floatingActionButton(),
+      body: SafeArea(
+        child: RefreshIndicator(
           onRefresh: _handleRefresh,
           child: SingleChildScrollView(
             child: BlocBuilder<PrivateEventBloc, PrivateEventState>(

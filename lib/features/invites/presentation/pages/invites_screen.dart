@@ -43,16 +43,16 @@ class _InvitesScreenState extends State<InvitesScreen> {
   Widget build(BuildContext context) {
     context.read<InvitedEventBloc>().add(GetInvitedEvents());
     language = AppLocalizations.of(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
-          child: AppBarTemplate(
-            pageTitle: language.invites,
-            isSubPage: false,
-          ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: language.invites,
+          isSubPage: false,
         ),
-        body: RefreshIndicator(
+      ),
+      body: SafeArea(
+        child: RefreshIndicator(
           onRefresh: _handleRefresh,
           child: SingleChildScrollView(
             child: BlocBuilder<InvitedEventBloc, InvitedEventState>(
