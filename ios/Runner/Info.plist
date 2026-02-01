@@ -39,11 +39,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app requires access to your contacts to invite friends.</string>
+	<string>FLOCKR uses your contacts to help you invite friends and find people you already know on the platform. Your contacts are never shared.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location to provide better services.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location.</string>
+	<string>FLOCKR uses your location while the app is in use to show nearby events and communities relevant to your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires access to the microphone</string>
 	<key>NSMotionUsageDescription</key>
