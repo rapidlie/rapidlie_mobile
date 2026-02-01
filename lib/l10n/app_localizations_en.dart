@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -43,7 +45,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hi => 'Hi';
 
   @override
-  String get noEventCreated => 'You have not created any event. Click on the button to add your event';
+  String get noEventCreated =>
+      'You have not created any event. Click on the button to add your event';
 
   @override
   String get description => 'Description';
@@ -103,10 +106,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get french => 'French';
 
   @override
-  String get deleteAccountMessage1 => 'We respect your decision to delete your account. Please note that once you initiate the deletion process, you won’t have access to your account.';
+  String get deleteAccountMessage1 =>
+      'We respect your decision to delete your account. Please note that once you initiate the deletion process, you won’t have access to your account.';
 
   @override
-  String get deleteAccountMessage2 => 'If you are sure you want to delete your account, enter your email in the box and click the button below.';
+  String get deleteAccountMessage2 =>
+      'If you are sure you want to delete your account, enter your email in the box and click the button below.';
 
   @override
   String get home => 'Home';

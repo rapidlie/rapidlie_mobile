@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -43,7 +45,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hi => 'Bonjour';
 
   @override
-  String get noEventCreated => 'Vous n\'avez pas créé d\'événement. Cliquez sur le bouton pour ajouter votre événement';
+  String get noEventCreated =>
+      'Vous n\'avez pas créé d\'événement. Cliquez sur le bouton pour ajouter votre événement';
 
   @override
   String get description => 'Description';
@@ -103,10 +106,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get french => 'Français';
 
   @override
-  String get deleteAccountMessage1 => 'Nous respectons votre décision de supprimer votre compte. Veuillez noter qu\'une fois le processus de suppression lancé, vous n\'aurez plus accès à votre compte.';
+  String get deleteAccountMessage1 =>
+      'Nous respectons votre décision de supprimer votre compte. Veuillez noter qu\'une fois le processus de suppression lancé, vous n\'aurez plus accès à votre compte.';
 
   @override
-  String get deleteAccountMessage2 => 'Si vous êtes certain de vouloir supprimer votre compte, saisissez votre adresse e-mail dans le champ prévu à cet effet et cliquez sur le bouton ci-dessous.';
+  String get deleteAccountMessage2 =>
+      'Si vous êtes certain de vouloir supprimer votre compte, saisissez votre adresse e-mail dans le champ prévu à cet effet et cliquez sur le bouton ci-dessous.';
 
   @override
   String get home => 'Accueil';
@@ -175,7 +180,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contacts => 'Contacts';
 
   @override
-  String get inviteMessage => 'Salut, découvre cette super application événementielle!';
+  String get inviteMessage =>
+      'Salut, découvre cette super application événementielle!';
 
   @override
   String get unsentInvite => ' Impossible d\'envoyer l\'invitation.';
@@ -268,7 +274,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get phone => 'Téléphone';
 
   @override
-  String get passwordLength => '**Le mot de passe doit comporter au moins 8 caractères.';
+  String get passwordLength =>
+      '**Le mot de passe doit comporter au moins 8 caractères.';
 
   @override
   String get alreadyRegistered => 'Avez-vous déjà un compte ?';
@@ -280,7 +287,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get selectCountry => 'Sélectionnez un pays';
 
   @override
-  String get resendMessage => 'Nous venons de vous envoyer un code\n à 4 chiffres par e-mail.';
+  String get resendMessage =>
+      'Nous venons de vous envoyer un code\n à 4 chiffres par e-mail.';
 
   @override
   String get resend => 'Renvoyer';

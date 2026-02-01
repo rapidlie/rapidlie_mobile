@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -43,7 +45,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get hi => 'Hallo';
 
   @override
-  String get noEventCreated => 'Sie haben noch keine Veranstaltung erstellt. Klicken Sie auf die Schaltfläche, um Ihre Veranstaltung hinzuzufügen';
+  String get noEventCreated =>
+      'Sie haben noch keine Veranstaltung erstellt. Klicken Sie auf die Schaltfläche, um Ihre Veranstaltung hinzuzufügen';
 
   @override
   String get description => 'Beschreibung';
@@ -103,10 +106,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get french => 'Französisch';
 
   @override
-  String get deleteAccountMessage1 => 'Wir respektieren Ihre Entscheidung, Ihr Konto zu löschen. Bitte beachten Sie, dass Sie nach Einleitung des Löschvorgangs keinen Zugriff mehr auf Ihr Konto haben.';
+  String get deleteAccountMessage1 =>
+      'Wir respektieren Ihre Entscheidung, Ihr Konto zu löschen. Bitte beachten Sie, dass Sie nach Einleitung des Löschvorgangs keinen Zugriff mehr auf Ihr Konto haben.';
 
   @override
-  String get deleteAccountMessage2 => 'Wenn Sie sicher sind, dass Sie Ihr Konto löschen möchten, geben Sie Ihre E-Mail-Adresse in das Feld ein und klicken Sie auf die Schaltfläche unten.';
+  String get deleteAccountMessage2 =>
+      'Wenn Sie sicher sind, dass Sie Ihr Konto löschen möchten, geben Sie Ihre E-Mail-Adresse in das Feld ein und klicken Sie auf die Schaltfläche unten.';
 
   @override
   String get home => 'Startseite';
@@ -268,7 +273,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get phone => 'Telefon';
 
   @override
-  String get passwordLength => '*Das Passwort muss mindestens 8 Zeichen lang sein.';
+  String get passwordLength =>
+      '*Das Passwort muss mindestens 8 Zeichen lang sein.';
 
   @override
   String get alreadyRegistered => 'Haben Sie bereits ein';
@@ -280,7 +286,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectCountry => 'Wählen Sie ein Land aus';
 
   @override
-  String get resendMessage => 'Wir haben Ihnen gerade einen 4-stelligen Code\n per E-Mail geschickt.';
+  String get resendMessage =>
+      'Wir haben Ihnen gerade einen 4-stelligen Code\n per E-Mail geschickt.';
 
   @override
   String get resend => 'Erneut senden';
