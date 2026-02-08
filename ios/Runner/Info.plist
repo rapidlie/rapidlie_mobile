@@ -37,7 +37,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Calendars</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera</string>
+	<string>FLOCKR uses the camera so you can take a profile photo</string>
 	<key>NSContactsUsageDescription</key>
 	<string>FLOCKR uses your contacts to help you invite friends and find people you already know on the platform. Your contacts are never shared.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -45,11 +45,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>FLOCKR uses your location while the app is in use to show nearby events and communities relevant to your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires access to the microphone</string>
+	<string>FLOCKR uses the microphone so you can record audio for your profile and media content.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>motion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library</string>
+	<string>FLOCKR need access to your photo library to let you upload profile pictures and media content.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>reminders</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
