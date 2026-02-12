@@ -68,10 +68,6 @@
 	<false/>
 	<key>kTCCServiceMediaLibrary</key>
 	<string>media</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
