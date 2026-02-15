@@ -134,11 +134,12 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                             contactLastNine =
                                 contactLastNine.replaceAll(RegExp(r'\D'), '');
           
-                            if (state.numbers.any((number) {
-                              String cleanedStateNumber =
-                                  number.replaceAll(RegExp(r'\D'), '');
-                              return cleanedStateNumber.endsWith(contactLastNine);
-                            })) {
+                            final hasMatch = state.numbers
+                                .whereType<String>()
+                                .map((n) => n.replaceAll(RegExp(r'\D'), ''))
+                                .any((cleaned) => cleaned.endsWith(contactLastNine));
+
+                            if (hasMatch) {
                               flockrContacts.add(fetchedContacts[i]);
                             }
                           }
