@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         
                 context.go('/bottom_nav', extra: 0);
               } else if (state is LoginErrorState) {
-                AppSnackbars.showError(context, language.failed);
+                AppSnackbars.showError(context, state.error);
               }
             },
             builder: (context, state) {
