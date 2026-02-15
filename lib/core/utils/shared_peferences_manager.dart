@@ -151,7 +151,7 @@ class UserPreferences {
     setUserEmail(user.email);
     setUserId(user.uuid);
     setName(user.name);
-    setTelephone(user.phone);
+    setTelephone(user.phone ?? "");
     setLoginStatus(true);
   }
 
