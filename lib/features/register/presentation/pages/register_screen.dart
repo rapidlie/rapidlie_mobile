@@ -72,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   AppSnackbars.showSuccess(context, language.success);
                   context.go('/otp');
                 } else if (state is RegisterErrorState) {
-                  AppSnackbars.showError(context, language.failed);
+                  AppSnackbars.showError(context, state.error);
                 }
               },
               builder: (context, state) {
@@ -131,9 +131,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: Center(
                                   child: CountryCodePicker(
                                     onChanged: (value) {
-                                      setState(() {
-                                        countryCode = value.dialCode!;
-                                      });
+                                      final dial = value.dialCode;
+                                      if (dial == null || dial.isEmpty) return;
+                                      setState(() => countryCode = dial);
                                     },
                                     initialSelection:
                                         UserPreferences().getCountry() ?? "DE",
@@ -149,9 +149,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     headerText: language.selectCountry,
                                     headerTextStyle: inter16Black600(context),
                                     pickerStyle: PickerStyle.bottomSheet,
-                                    builder: (countryCode) {
+                                    builder: (cc) {
+                                      final dial = cc?.dialCode ?? countryCode;
                                       return Text(
-                                        countryCode!.dialCode!,
+                                        dial,
                                         textAlign: TextAlign.center,
                                         style: inter13black400(context),
                                       );
@@ -212,8 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             buttonAction: () {
                               if (emailController.text.isEmpty ||
                                   passwordController.text.isEmpty ||
-                                  nameController.text.isEmpty ||
-                                  phoneController.text.isEmpty) {
+                                  nameController.text.isEmpty) {
                                 AppSnackbars.showError(
                                     context, language.requiredFields);
                                 return;
@@ -223,11 +223,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   name: nameController.text,
                                   email: emailController.text,
                                   password: passwordController.text,
-                                  phone:
+                                  phone: phoneController.text.isEmpty ? null :
                                       removeLeadingZero(phoneController.text),
                                   countryCode: countryCode,
                                   profileImage: getGitHubIdenticonUrl(
-                                    nameController.text
+                                    nameController.text   
                                         .toString()
                                         .split(" ")
                                         .first,
