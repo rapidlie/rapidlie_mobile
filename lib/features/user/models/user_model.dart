@@ -2,7 +2,7 @@ class UserModel {
   final String uuid;
   final String name;
   final String email;
-  final String phone;
+  final String? phone;
   final String? country;
   final String avatar;
 
@@ -10,7 +10,7 @@ class UserModel {
     required this.uuid,
     required this.name,
     required this.email,
-    required this.phone,
+    this.phone,
     this.country,
     required this.avatar,
   });
@@ -21,7 +21,7 @@ class UserModel {
       uuid: json['uuid'],
       name: json['name'],
       email: json['email'],
-      phone: json['phone'],
+      phone: json['phone']?.toString(),
       country: json['country'],
       avatar: json['avatar'] ?? "",
     );

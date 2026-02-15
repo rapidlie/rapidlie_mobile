@@ -117,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             style: inter15black500(context),
                                           ),
                                           Text(
-                                            state.userProfile.phone,
+                                            state.userProfile.phone ?? "",
                                             style: inter10Black400(context),
                                           ),
                                         ],

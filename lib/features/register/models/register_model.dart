@@ -4,14 +4,14 @@ class RegisterModel {
   final String name;
   final String email;
   final String password;
-  final String phone;
+  final String? phone;
   final String profileImage;
 
   RegisterModel(
       {required this.name,
       required this.email,
       required this.password,
-      required this.phone,
+      this.phone,
       required this.profileImage});
 
   // Factory constructor to create an instance from JSON
@@ -20,7 +20,7 @@ class RegisterModel {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      phone: json['phone'],
+      phone: json['phone']?.toString(),
       profileImage: json['profile_image'],
     );
   }
