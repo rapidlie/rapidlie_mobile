@@ -23,55 +23,58 @@ class FlashNotificationsTemplate extends StatelessWidget {
             color: CustomColors.colorFromHex("#25272E"),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(13.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 8,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: CustomColors.colorFromHex(
-                                  "#29EBD0")),
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          noificationTitle,
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.1,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: CustomColors.colorFromHex(
+                                    "#29EBD0")),
                           ),
-                        ),
-                      ],
-                    ),
-                    /* Icon(
-                      Icons.close,
-                      size: 18,
-                      color: const Color.fromARGB(
-                          255, 158, 158, 158),
-                    ), */
-                  ],
+                          SizedBox(width: 8),
+                          Text(
+                            noificationTitle,
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      /* Icon(
+                        Icons.close,
+                        size: 18,
+                        color: const Color.fromARGB(
+                            255, 158, 158, 158),
+                      ), */
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  noificationBody,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: GoogleFonts.inter(
-                    color: const Color.fromARGB(
-                        255, 192, 192, 192),
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.1,
-                    
+                SizedBox(height: 6),
+                Expanded(
+                  child: Text(
+                    noificationBody,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: GoogleFonts.inter(
+                      color: const Color.fromARGB(
+                          255, 192, 192, 192),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.1,
+                    ),
                   ),
                 ),
               ],
