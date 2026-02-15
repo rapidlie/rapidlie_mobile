@@ -79,7 +79,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                           style: inter15black500(context),
                         ),
                         Text(
-                          userProfile.phone,
+                          userProfile.phone ?? "",
                           style: inter10Black400(context),
                         ),
                       ],
