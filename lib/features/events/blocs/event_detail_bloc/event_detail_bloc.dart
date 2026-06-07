@@ -11,7 +11,7 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   final EventDetailRepository eventdetailRepository;
   EventDataModel? _cachedEventDetail;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 2);
+  const Duration cacheDuration = Duration(seconds: 2);
 
   void invalidateCache() {
     _cachedEventDetail = null;

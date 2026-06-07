@@ -18,6 +18,8 @@ import 'package:rapidlie/features/settings/presentation/widgets/settings_item_la
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -48,16 +50,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(80),
           child: AppBarTemplate(
             pageTitle: language.settings,
             isSubPage: false,
           ),
         ),
         body: SingleChildScrollView(
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          child: Container(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          child: SizedBox(
             height: height,
             child: Padding(
               padding:
@@ -76,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                           child: SettingsContainerLayout(
                             childWidget: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
                               child: Row(
                                 mainAxisAlignment:
@@ -87,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       Container(
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
                                         child: ClipOval(
@@ -105,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Column(
@@ -141,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         },
                         child: SettingsContainerLayout(
                           childWidget: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,7 +157,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         shape: BoxShape.circle,
                                         color: Colors.grey.shade600,
                                       ),
-                                      child: ClipOval(
+                                      child: const ClipOval(
                                         child: FadeInImage(
                                           image: AssetImage(
                                               'assets/images/placeholder.png'),
@@ -165,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Column(
@@ -212,13 +214,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               value: Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: Text(
-                                  provider.applicationLocale == Locale("en")
+                                  provider.applicationLocale ==
+                                          const Locale("en")
                                       ? language.english
                                       : provider.applicationLocale ==
-                                              Locale("de")
+                                              const Locale("de")
                                           ? language.german
                                           : provider.applicationLocale ==
-                                                  Locale("fr")
+                                                  const Locale("fr")
                                               ? language.french
                                               : language.english,
                                   style: inter13black400(context),
@@ -235,7 +238,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             SettingsItemLayout(
                               icon: Icons.flag,
                               title: language.country,
-                              value: Container(
+                              value: SizedBox(
                                 height: 31,
                                 child: CountrySettingsLayout(),
                               ),
@@ -386,7 +389,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   showModal(String menuTitle, BuildContext context, double width) {
     return showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -418,17 +421,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-        borderRadius: BorderRadius.only(
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16.0),
           topRight: Radius.circular(16.0),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 3,
             blurRadius: 7,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

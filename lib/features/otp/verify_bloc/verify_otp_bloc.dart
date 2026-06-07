@@ -35,7 +35,7 @@ class VerifyOtpBloc extends Bloc<VerifyOtpEvent, VerifyOtpState> {
         await UserPreferences().setRegistrationStep("complete");
         emit(VerifyOtpSuccessState());
       } else {
-        emit(VerifyOtpErrorState(error: "Verify failed"));
+        emit(const VerifyOtpErrorState(error: "Verify failed"));
       }
     } catch (e) {
       emit(VerifyOtpErrorState(error: e.toString()));

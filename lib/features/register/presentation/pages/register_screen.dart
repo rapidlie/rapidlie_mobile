@@ -15,6 +15,8 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'signup';
 
+  const RegisterScreen({super.key});
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -31,10 +33,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void initState() {
-    phoneController = new TextEditingController();
-    nameController = new TextEditingController();
-    emailController = new TextEditingController();
-    passwordController = new TextEditingController();
+    phoneController = TextEditingController();
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     alreadyRegistered();
     super.initState();
   }
@@ -76,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 }
               },
               builder: (context, state) {
-                return Container(
+                return SizedBox(
                   height: height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 50,
                           ),
                           Text(
@@ -160,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Expanded(
@@ -203,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             language.passwordLength,
                             style: inter10Black400(context),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30.0,
                           ),
                           ButtonTemplate(
@@ -223,11 +225,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   name: nameController.text,
                                   email: emailController.text,
                                   password: passwordController.text,
-                                  phone: phoneController.text.isEmpty ? null :
-                                      removeLeadingZero(phoneController.text),
+                                  phone: phoneController.text.isEmpty
+                                      ? null
+                                      : removeLeadingZero(phoneController.text),
                                   countryCode: countryCode,
                                   profileImage: getGitHubIdenticonUrl(
-                                    nameController.text   
+                                    nameController.text
                                         .toString()
                                         .split(" ")
                                         .first,

@@ -59,7 +59,7 @@ Widget emptyListView() {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Container(
                     height: 16,
                     width: 200,
@@ -74,7 +74,7 @@ Widget emptyListView() {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Container(
           height: 18,
           width: 120,
@@ -83,7 +83,7 @@ Widget emptyListView() {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Container(
           height: 12,
           width: double.infinity,
@@ -92,7 +92,7 @@ Widget emptyListView() {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Container(
           height: 12,
           width: double.infinity,
@@ -101,7 +101,7 @@ Widget emptyListView() {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Icon(Icons.star, color: CustomColors.lightGray),
       ],
     ),
@@ -127,12 +127,12 @@ Widget emptyListWithShimmer() {
                     Container(
                       height: 30,
                       width: 30,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Container(
                       height: 16,
                       width: 200,
@@ -143,11 +143,11 @@ Widget emptyListWithShimmer() {
                     ),
                   ],
                 ),
-                Icon(Icons.favorite, color: Colors.white),
+                const Icon(Icons.favorite, color: Colors.white),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Container(
             height: 18,
             width: 120,
@@ -156,7 +156,7 @@ Widget emptyListWithShimmer() {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Container(
             height: 12,
             width: double.infinity,
@@ -165,7 +165,7 @@ Widget emptyListWithShimmer() {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Container(
             height: 12,
             width: double.infinity,
@@ -174,8 +174,8 @@ Widget emptyListWithShimmer() {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          SizedBox(height: 5),
-          Icon(Icons.star, color: Colors.white),
+          const SizedBox(height: 5),
+          const Icon(Icons.star, color: Colors.white),
         ],
       ),
     ),

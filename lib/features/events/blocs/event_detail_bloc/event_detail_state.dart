@@ -7,7 +7,7 @@ abstract class EventState extends Equatable {
   List<Object?> get props => [];
 }
 
-/*** Public Event ***/
+/// * Public Event **
 abstract class EventDetailState extends EventState {
   const EventDetailState();
 

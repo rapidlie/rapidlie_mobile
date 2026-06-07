@@ -16,6 +16,7 @@ class CommonImageView extends StatelessWidget {
   Color? color;
 
   CommonImageView({
+    super.key,
     this.url,
     this.imagePath,
     this.svgPath,
@@ -34,7 +35,7 @@ class CommonImageView extends StatelessWidget {
 
   Widget _buildImageView() {
     if (svgPath != null && svgPath!.isNotEmpty) {
-      return Container(
+      return SizedBox(
         height: height,
         width: width,
         child: SvgPicture.asset(
@@ -58,7 +59,7 @@ class CommonImageView extends StatelessWidget {
         width: width,
         fit: fit,
         imageUrl: url!,
-        placeholder: (context, url) => Container(
+        placeholder: (context, url) => SizedBox(
           height: 30,
           width: 30,
           child: LinearProgressIndicator(
@@ -82,6 +83,6 @@ class CommonImageView extends StatelessWidget {
         color: color,
       );
     }
-    return SizedBox();
+    return const SizedBox();
   }
 }

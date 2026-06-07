@@ -25,9 +25,9 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
       if (result is DataSuccess<String>) {
         await UserPreferences().clearAll();
 
-        emit(LogoutSuccessState());
+        emit(const LogoutSuccessState());
       } else {
-        emit(LogoutErrorState(error: "Login failed"));
+        emit(const LogoutErrorState(error: "Login failed"));
       }
     } catch (e) {
       emit(LogoutErrorState(error: e.toString()));

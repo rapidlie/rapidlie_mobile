@@ -13,7 +13,8 @@ class FirstSheetWidget extends StatefulWidget {
   final PageController pageViewController;
   final dynamic language;
 
-  FirstSheetWidget({
+  const FirstSheetWidget({
+    super.key,
     required this.pageViewController,
     required this.language,
   });
@@ -26,6 +27,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
   late TextEditingController titleController;
   File? imageFile;
 
+  @override
   initState() {
     super.initState();
     titleController = TextEditingController();
@@ -109,7 +111,7 @@ class _FirstSheetWidgetState extends State<FirstSheetWidget> {
                       );
 
                   widget.pageViewController.nextPage(
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     curve: Curves.easeIn,
                   );
                 }

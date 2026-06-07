@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppSnackbars {
-  
   AppSnackbars._();
 
   static void show(
@@ -10,14 +9,13 @@ class AppSnackbars {
     Duration duration = const Duration(seconds: 4),
     SnackBarAction? action,
   }) {
-   
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Center(
           child: Container(
             width: 300,
-            constraints: BoxConstraints(maxWidth: 300),
+            constraints: const BoxConstraints(maxWidth: 300),
             child: Text(
               message,
               textAlign: TextAlign.center,
@@ -46,7 +44,7 @@ class AppSnackbars {
       SnackBar(
         content: Center(
           child: Container(
-            constraints: BoxConstraints(maxWidth: 300),
+            constraints: const BoxConstraints(maxWidth: 300),
             child: Text(
               message,
               style: const TextStyle(
@@ -71,7 +69,7 @@ class AppSnackbars {
       SnackBar(
         content: Center(
           child: Container(
-            constraints: BoxConstraints(maxWidth: 300),
+            constraints: const BoxConstraints(maxWidth: 300),
             child: Text(
               message,
               style: const TextStyle(

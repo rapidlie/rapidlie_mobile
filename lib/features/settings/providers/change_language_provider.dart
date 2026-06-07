@@ -13,9 +13,9 @@ class ChangeLanguageProvider with ChangeNotifier {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     _applicationLocale = localeType;
 
-    if (localeType == Locale("en")) {
+    if (localeType == const Locale("en")) {
       sharedPreferences.setString("languageCode", "en");
-    } else if (localeType == Locale("de")) {
+    } else if (localeType == const Locale("de")) {
       sharedPreferences.setString("languageCode", "de");
     } else {
       sharedPreferences.setString("languageCode", "fr");

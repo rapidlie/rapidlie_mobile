@@ -54,7 +54,7 @@ class EventRepositoryImpl implements EventRepository {
         url,
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

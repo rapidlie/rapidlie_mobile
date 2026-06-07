@@ -17,6 +17,8 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class EventsScreen extends StatefulWidget {
   static const String routeName = "events";
 
+  const EventsScreen({super.key});
+
   @override
   State<EventsScreen> createState() => _EventsScreenState();
 }
@@ -56,7 +58,7 @@ class _EventsScreenState extends State<EventsScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.myEvents,
           isSubPage: false,
@@ -88,16 +90,16 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   Container buildBody(List<EventDataModel> eventDataModel, width, height) {
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
-      child: eventDataModel.length == 0
+      child: eventDataModel.isEmpty
           ? emptyStateView()
           : Padding(
               padding: const EdgeInsets.only(bottom: 200.0),
               child: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 70),
-                physics: AlwaysScrollableScrollPhysics(
+                physics: const AlwaysScrollableScrollPhysics(
                     parent: BouncingScrollPhysics()),
                 itemCount: eventDataModel.length,
                 shrinkWrap: true,

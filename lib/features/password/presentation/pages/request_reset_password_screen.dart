@@ -55,7 +55,7 @@ class _RequestResetPasswordScreenState
               }
             },
             builder: (context, state) {
-              return Container(
+              return SizedBox(
                 height: height,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class _RequestResetPasswordScreenState
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back,
                             ),
                           ),
@@ -93,7 +93,7 @@ class _RequestResetPasswordScreenState
                           textInputAction: TextInputAction.next,
                           enabled: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         ButtonTemplate(
@@ -110,7 +110,7 @@ class _RequestResetPasswordScreenState
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     )
                   ],

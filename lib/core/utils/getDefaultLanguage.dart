@@ -12,6 +12,6 @@ Locale returnLoale() {
   if (allLocales.contains(getDefaultDeviceLocale())) {
     return getDefaultDeviceLocale();
   } else {
-    return Locale("en");
+    return const Locale("en");
   }
 }

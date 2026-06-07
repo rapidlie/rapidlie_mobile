@@ -45,7 +45,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ));
       }
     } else {
-      emit(RegisterErrorState(error: "Unknown error occurred"));
+      emit(const RegisterErrorState(error: "Unknown error occurred"));
     }
   }
 }

@@ -16,7 +16,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       ..loadRequest(Uri.parse('https://rapidlie.github.io/privacy-policy/'));
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: SafeArea(
           child: AppBarTemplate(
             pageTitle: language.privacy,

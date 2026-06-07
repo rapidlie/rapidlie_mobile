@@ -39,7 +39,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-          child: Container(
+          child: SizedBox(
             height: height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back,
                         ),
                       ),
@@ -98,7 +98,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
                     BlocListener<NewPasswordBloc, NewPasswordState>(
@@ -125,7 +125,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 )
               ],

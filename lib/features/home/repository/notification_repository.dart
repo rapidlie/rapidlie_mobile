@@ -18,7 +18,7 @@ class NotificationsRepository {
         '$flockrAPIBaseUrl/upcoming-features',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

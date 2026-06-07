@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         "assets/images/flockrLG.png",
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       LinearProgressIndicator(

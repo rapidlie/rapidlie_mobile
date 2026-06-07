@@ -5,7 +5,7 @@ import 'package:rapidlie/features/settings/providers/change_language_provider.da
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class LanguageSettingsLayout extends StatefulWidget {
-  LanguageSettingsLayout({
+  const LanguageSettingsLayout({
     Key? key,
   }) : super(key: key);
 
@@ -31,7 +31,8 @@ class _LanguageSettingsLayoutState extends State<LanguageSettingsLayout> {
     return Consumer<ChangeLanguageProvider>(
       builder: (context, provider, child) {
         return Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 60),
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 60),
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: supportedLanguages.length,
@@ -40,29 +41,29 @@ class _LanguageSettingsLayoutState extends State<LanguageSettingsLayout> {
                 onTap: () {
                   if (index == 0) {
                     setState(() {
-                      provider.changeLanguage(Locale("en"));
+                      provider.changeLanguage(const Locale("en"));
                       Navigator.pop(context);
                     });
                   } else if (index == 1) {
                     setState(() {
-                      provider.changeLanguage(Locale("de"));
+                      provider.changeLanguage(const Locale("de"));
                       Navigator.pop(context);
                     });
                   } else {
                     setState(() {
-                      provider.changeLanguage(Locale("fr"));
+                      provider.changeLanguage(const Locale("fr"));
                       Navigator.pop(context);
                     });
                   }
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Container(
+                  child: SizedBox(
                     width: width,
                     child: Row(
                       children: [
-                        Icon(Icons.language),
-                        SizedBox(width: 10),
+                        const Icon(Icons.language),
+                        const SizedBox(width: 10),
                         Text(
                           supportedLanguages[index],
                           style: inter14black500(context),

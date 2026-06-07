@@ -36,7 +36,7 @@ class CreateEventBloc extends Bloc<CreateEventEvent, CreateEventState> {
         );
 
         if (createEventResponse is DataSuccess) {
-          emit(CreateEventSuccessful());
+          emit(const CreateEventSuccessful());
         } else if (createEventResponse is DataFailed) {
           emit(CreateEventError(message: createEventResponse.error.toString()));
         }

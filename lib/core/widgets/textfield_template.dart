@@ -21,7 +21,7 @@ class TextFieldTemplate extends StatelessWidget {
   final double rightContentPadding;
   final ValueChanged? onChanged;
 
-  TextFieldTemplate({
+  const TextFieldTemplate({
     Key? key,
     required this.hintText,
     required this.controller,

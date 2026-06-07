@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
- import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
@@ -23,6 +23,8 @@ import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getUserName();
     getUserID();
-    checkLoggedInStatus();  
+    checkLoggedInStatus();
     super.initState();
   }
 
@@ -69,8 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        
+        preferredSize: const Size.fromHeight(80),
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Container(
@@ -87,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
-                        textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                        textStyle:
+                            const TextStyle(overflow: TextOverflow.ellipsis),
                       ),
                     ),
                   ),
@@ -99,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           child: Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Column(
@@ -108,17 +110,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
                     builder: (context, state) {
-                    
-                    
                   if (state is InitialUpcomingEventState) {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoading) {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoaded) {
                     upcomingEvents = state.events.reversed.toList();
-            
+
                     return upcomingEvents.isEmpty
-                        ? SizedBox.shrink()
+                        ? const SizedBox.shrink()
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -131,13 +131,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               verySmallHeight(),
-                              Container(
+                              SizedBox(
                                 width: width,
                                 height: height * 0.25,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   //padding: const EdgeInsets.only(bottom: 70),
-                                  physics: AlwaysScrollableScrollPhysics(
+                                  physics: const AlwaysScrollableScrollPhysics(
                                       parent: BouncingScrollPhysics()),
                                   itemCount: upcomingEvents.length,
                                   shrinkWrap: true,
@@ -189,34 +189,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: SizedBox(
-                    width: width,
-                    height: 100,
-                    child: BlocBuilder<NotificationsBloc, NotificationsState>(
-                      builder: (context, state){
-                        
-                      if (state is NotificationsLoadingState){
-                        return SizedBox();
-                      }
-            
-                      else if (state is NotificationsLoadedState){
-            
-                        flashNotifications = state.notifications;
-                        
-                        return ListView.builder(
-                      itemCount: flashNotifications.length > 3 ? 3 : flashNotifications.length,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FlashNotificationsTemplate(noificationTitle: flashNotifications[index].headline, noificationBody: flashNotifications[index].description);
-                      },
-                    );
-                    }
-            
-                      return SizedBox();
-            
-                    },)
-                  ),
+                      width: width,
+                      height: 100,
+                      child: BlocBuilder<NotificationsBloc, NotificationsState>(
+                        builder: (context, state) {
+                          if (state is NotificationsLoadingState) {
+                            return const SizedBox();
+                          } else if (state is NotificationsLoadedState) {
+                            flashNotifications = state.notifications;
+
+                            return ListView.builder(
+                              itemCount: flashNotifications.length > 3
+                                  ? 3
+                                  : flashNotifications.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return FlashNotificationsTemplate(
+                                    noificationTitle:
+                                        flashNotifications[index].headline,
+                                    noificationBody:
+                                        flashNotifications[index].description);
+                              },
+                            );
+                          }
+
+                          return const SizedBox();
+                        },
+                      )),
                 ),
                 normalHeight(),
                 Padding(
@@ -227,20 +228,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 verySmallHeight(),
-                Container(
+                SizedBox(
                   width: width,
                   height: 50,
                   child: BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoadingState) {
-                        return Center(
+                        return const Center(
                           child: CupertinoActivityIndicator(),
                         );
                       } else if (state is CategoryLoadedState) {
                         return ListView.builder(
                           itemCount: state.categories.length + 1,
                           shrinkWrap: true,
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             if (index == 0) {
@@ -289,9 +290,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       } else if (state is CategoryErrorState) {
-                        return Center(child: Text('Failed to load categories'));
+                        return const Center(
+                            child: Text('Failed to load categories'));
                       }
-                      return Center(child: Text('No categories found'));
+                      return const Center(child: Text('No categories found'));
                     },
                   ),
                 ),
@@ -301,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (state is InitialPublicEventState) {
                       return emptyListWithShimmer();
                     } else if (state is PublicEventLoading) {
-                      return Center(child: CupertinoActivityIndicator());
+                      return const Center(child: CupertinoActivityIndicator());
                     } else if (state is PublicEventLoaded) {
                       publicEvents = state.events.reversed.toList();
                       if (publicEvents.isEmpty) {
@@ -311,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         itemCount: publicEvents.length,
                         //controller: _scrollController,
-                        physics: BouncingScrollPhysics(
+                        physics: const BouncingScrollPhysics(
                             parent: BouncingScrollPhysics(
                           parent: NeverScrollableScrollPhysics(),
                         )),

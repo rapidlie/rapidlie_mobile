@@ -16,7 +16,7 @@ class AboutScreen extends StatelessWidget {
       ..loadRequest(Uri.parse('https://rapidlie.github.io/about/'));
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: SafeArea(
           child: AppBarTemplate(
             pageTitle: language.aboutApp,

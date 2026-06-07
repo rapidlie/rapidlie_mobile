@@ -9,7 +9,8 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(DateTime) onDaySelected;
   final VoidCallback closeMenu;
 
-  TableCalendarWidget({
+  const TableCalendarWidget({
+    super.key,
     required this.selectedDay,
     required this.onDaySelected,
     required this.closeMenu,
@@ -20,7 +21,7 @@ class TableCalendarWidget extends StatefulWidget {
 }
 
 class _TableCalendarWidgetState extends State<TableCalendarWidget> {
-  DateTime _currentDay = DateTime.now();
+  final DateTime _currentDay = DateTime.now();
   late DateTime _selectedDay;
 
   @override
@@ -101,7 +102,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
           shape: BoxShape.circle,
           color: CustomColors.primaryLight,
         ),
-        selectedDecoration: BoxDecoration(
+        selectedDecoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.black,
         ),

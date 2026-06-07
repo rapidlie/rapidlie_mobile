@@ -22,7 +22,7 @@ class TelephoneNumbersRepositoryImpl implements TelephoneNumbersRepository {
         '$flockrAPIBaseUrl/all-phone-numbers',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

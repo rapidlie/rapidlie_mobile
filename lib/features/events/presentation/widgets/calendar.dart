@@ -93,7 +93,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           shape: BoxShape.circle,
           color: CustomColors.primaryLight,
         ),
-        selectedDecoration: BoxDecoration(
+        selectedDecoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.black,
         ),

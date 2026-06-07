@@ -4,7 +4,7 @@ import 'package:rapidlie/core/constants/feature_constants.dart';
 
 class SettingsContainerLayout extends StatelessWidget {
   final Widget childWidget;
-  SettingsContainerLayout({
+  const SettingsContainerLayout({
     Key? key,
     required this.childWidget,
   }) : super(key: key);
@@ -14,13 +14,13 @@ class SettingsContainerLayout extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 3,
             blurRadius: 7,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

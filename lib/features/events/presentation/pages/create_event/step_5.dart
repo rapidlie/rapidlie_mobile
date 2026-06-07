@@ -6,12 +6,14 @@ import 'package:rapidlie/features/events/blocs/create_bloc/create_event_bloc.dar
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 
 class FifthSheetContentWidget extends StatelessWidget {
+  const FifthSheetContentWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreateEventBloc, CreateEventState>(
       builder: (context, state) {
         if (state is CreateEventLoading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -24,7 +26,7 @@ class FifthSheetContentWidget extends StatelessWidget {
           context.read<PublicEventBloc>().invalidateCache();
           context.read<InvitedEventBloc>().invalidateCache();
 
-          Future.delayed(Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 2), () {
             BlocProvider.of<CreateEventBloc>(context).add(ResetCreateEvent());
 
             context.go('/bottom_nav', extra: 0);
@@ -35,7 +37,7 @@ class FifthSheetContentWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset("assets/images/success_view.png"),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text("You did it!!", style: inter14black500(context)),
               ],
             ),
@@ -47,7 +49,7 @@ class FifthSheetContentWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/images/failed_view.png"),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text("Oops.. Something went wrong. Please try again",
                   style: inter14black500(context)),
             ],

@@ -8,7 +8,7 @@ import 'package:rapidlie/core/constants/feature_constants.dart';
 class CountryCodeLayout extends StatefulWidget {
   String countryCode;
 
-  CountryCodeLayout({required this.countryCode});
+  CountryCodeLayout({super.key, required this.countryCode});
 
   @override
   _CountryCodeLayoutState createState() => _CountryCodeLayoutState();

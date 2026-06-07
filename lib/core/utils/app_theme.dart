@@ -32,7 +32,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        side: BorderSide(color: Colors.black, width: 1),
+        side: const BorderSide(color: Colors.black, width: 1),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -50,18 +50,18 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Color.fromARGB(255, 85, 85, 85),
         ),
       ),
       labelStyle: GoogleFonts.inter(color: Colors.black),
       hintStyle: GoogleFonts.inter(color: Colors.grey.shade600),
-      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.black,
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: Colors.black,
       onPrimary: Colors.white,
       surface: Colors.white,
@@ -101,7 +101,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        side: BorderSide(
+        side: const BorderSide(
           color: Color.fromARGB(255, 115, 115, 115),
           width: 1,
         ),
@@ -109,7 +109,7 @@ class AppTheme {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Color.fromARGB(255, 115, 115, 115),
+      fillColor: const Color.fromARGB(255, 115, 115, 115),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide.none,
@@ -120,18 +120,18 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Color.fromARGB(255, 85, 85, 85),
         ),
       ),
       labelStyle: GoogleFonts.inter(color: Colors.white),
       hintStyle: GoogleFonts.inter(color: Colors.grey),
-      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.white,
     ),
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       primary: Colors.white,
       onPrimary: Colors.black,
       surface: Colors.black,

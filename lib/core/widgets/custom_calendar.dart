@@ -12,7 +12,7 @@ class CustomCalendar extends StatefulWidget {
   final StateSetter setState;
   final Function actionToPerform;
 
-  CustomCalendar({
+  const CustomCalendar({
     Key? key,
     required this.calendarFormat,
     required this.currentDay,
@@ -108,7 +108,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
           shape: BoxShape.circle,
           color: CustomColors.primary,
         ),
-        selectedTextStyle: TextStyle(
+        selectedTextStyle: const TextStyle(
           fontSize: 12,
           fontFamily: "Metropolis",
           fontWeight: FontWeight.w600,

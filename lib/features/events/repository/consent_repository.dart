@@ -18,7 +18,7 @@ class ConsentRepository {
         '$flockrAPIBaseUrl/events/invitations/consent?status=$status&event=$eventId',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

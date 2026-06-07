@@ -32,15 +32,16 @@ class ProfileSettingsScreen extends StatelessWidget {
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.profileSettings,
           isSubPage: true,
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        child: Container(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        child: SizedBox(
           height: height,
           width: width,
           child: Padding(
@@ -53,7 +54,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                     Container(
                       width: 100,
                       height: 100,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       child: ClipOval(
@@ -68,7 +69,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Column(
@@ -86,7 +87,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SettingsContainerLayout(

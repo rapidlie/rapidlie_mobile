@@ -44,7 +44,7 @@ class EventListTemplate extends StatelessWidget {
                 Container(
                   width: 35,
                   height: 35,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: ClipOval(
@@ -59,7 +59,7 @@ class EventListTemplate extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Column(
@@ -72,7 +72,7 @@ class EventListTemplate extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           GeneralEventListTemplate(

@@ -9,6 +9,8 @@ import 'package:rapidlie/features/login/bloc/login_bloc.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -23,8 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    emailController = new TextEditingController();
-    passwordController = new TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     super.initState();
   }
 
@@ -41,14 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
             listener: (context, state) async {
               if (state is LoginSuccessState) {
                 AppSnackbars.showSuccess(context, language.success);
-        
+
                 context.go('/bottom_nav', extra: 0);
               } else if (state is LoginErrorState) {
                 AppSnackbars.showError(context, state.error);
               }
             },
             builder: (context, state) {
-              return Container(
+              return SizedBox(
                 height: height,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Text(
@@ -115,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         ButtonTemplate(

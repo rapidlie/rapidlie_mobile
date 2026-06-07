@@ -12,6 +12,8 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactListScreen extends StatefulWidget {
+  const ContactListScreen({super.key});
+
   @override
   State<ContactListScreen> createState() => _ContactListScreenState();
 }
@@ -79,12 +81,12 @@ class _ContactListScreenState extends State<ContactListScreen>
     super.build(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.contacts,
           isSubPage: true,
-          trailingWidget: _selectedContacts.length == 0
-              ? SizedBox()
+          trailingWidget: _selectedContacts.isEmpty
+              ? const SizedBox()
               : GestureDetector(
                   onTap: () {
                     Navigator.pop(context, _selectedContacts);
@@ -97,11 +99,11 @@ class _ContactListScreenState extends State<ContactListScreen>
         ),
       ),
       body: isLoading
-          ? Center(
+          ? const Center(
               child: SafeArea(child: CircularProgressIndicator()),
             )
           : SafeArea(
-            child: Column(
+              child: Column(
                 children: [
                   /* Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -129,7 +131,7 @@ class _ContactListScreenState extends State<ContactListScreen>
                               language.flockrContacts,
                               style: inter15black500(context),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             Flexible(
@@ -147,24 +149,26 @@ class _ContactListScreenState extends State<ContactListScreen>
                                           contactPhone.length >= 9) {
                                         String contactLastNine = contactPhone
                                             .substring(contactPhone.length - 9);
-            
+
                                         contactLastNine = contactLastNine
                                             .replaceAll(RegExp(r'\D'), '');
-            
+
                                         if (state.numbers.any((number) {
                                           String cleanedStateNumber = number
                                               .replaceAll(RegExp(r'\D'), '');
                                           return cleanedStateNumber
                                               .endsWith(contactLastNine);
                                         })) {
-                                          flockrContacts.add(fetchedContacts[i]);
+                                          flockrContacts
+                                              .add(fetchedContacts[i]);
                                         }
                                       }
                                     }
                                   }
-            
+
                                   return ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: flockrContacts.length,
                                     itemBuilder: (context, index) {
@@ -192,12 +196,12 @@ class _ContactListScreenState extends State<ContactListScreen>
                               language.inviteToFlockr,
                               style: inter15black500(context),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             Flexible(
                               child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: fetchedContacts.length,
                                 itemBuilder: (context, index) {
@@ -222,7 +226,7 @@ class _ContactListScreenState extends State<ContactListScreen>
                   ),
                 ],
               ),
-          ),
+            ),
     );
   }
 }

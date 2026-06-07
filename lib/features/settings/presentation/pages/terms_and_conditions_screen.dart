@@ -18,7 +18,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
           Uri.parse('https://rapidlie.github.io/terms-and-conditions/'));
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: SafeArea(
           child: AppBarTemplate(
             pageTitle: language.terms,

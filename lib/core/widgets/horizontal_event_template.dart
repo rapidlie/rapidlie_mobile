@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 
 class HorizontalEventTemplate extends StatelessWidget {
+  const HorizontalEventTemplate({super.key});
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

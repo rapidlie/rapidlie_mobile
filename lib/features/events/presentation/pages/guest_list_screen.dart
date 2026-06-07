@@ -8,7 +8,7 @@ import 'package:rapidlie/features/events/models/event_model.dart';
 
 class GuestListScreen extends StatefulWidget {
   final List<Invitation>? guests;
-  GuestListScreen({Key? key, this.guests}) : super(key: key);
+  const GuestListScreen({Key? key, this.guests}) : super(key: key);
 
   @override
   State<GuestListScreen> createState() => _GuestListScreenState();
@@ -19,7 +19,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: "Guest List",
           isSubPage: true,
@@ -29,7 +29,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -62,7 +62,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
               Container(
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
@@ -75,7 +75,7 @@ class _GuestListScreenState extends State<GuestListScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               SizedBox(

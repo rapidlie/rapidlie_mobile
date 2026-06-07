@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 double borderRadius = 8.r;
 
 bigHeight() {
@@ -142,7 +141,7 @@ mainAppbarTitleStyle(BuildContext context) {
     color: Theme.of(context).colorScheme.onSurface,
     fontSize: 20.sp,
     fontWeight: FontWeight.w600,
-    textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+    textStyle: const TextStyle(overflow: TextOverflow.ellipsis),
   );
 }
 

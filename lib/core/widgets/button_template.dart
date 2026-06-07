@@ -11,6 +11,7 @@ class ButtonTemplate extends StatefulWidget {
   final ButtonType buttonType;
 
   const ButtonTemplate({
+    super.key,
     required this.buttonName,
     required this.buttonAction,
     this.loading = false,

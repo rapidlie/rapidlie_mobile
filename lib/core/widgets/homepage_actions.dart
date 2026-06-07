@@ -67,7 +67,7 @@ class HomepageActions extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24.0,
             ),
           ],

@@ -32,7 +32,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.deleteAccount,
           isSubPage: true,
@@ -58,14 +58,14 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     language.deleteAccountMessage1,
                     style: inter14Black400(context),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     language.deleteAccountMessage2,
                     style: inter14Black400(context),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   TextFieldTemplate(
@@ -78,7 +78,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     textInputAction: TextInputAction.done,
                     enabled: true,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   ButtonTemplate(

@@ -21,11 +21,11 @@ class ContactListItem extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(contactName.length > 0 ? contactName[0] : contactName,
+            child: Text(contactName.isNotEmpty ? contactName[0] : contactName,
                 style: inter16Black500(context)),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Text(
@@ -73,7 +73,7 @@ class ContactListItemWithSelector extends StatelessWidget {
               color: value ? Colors.deepOrange : Colors.transparent,
             ),
             child: value
-                ? Icon(
+                ? const Icon(
                     Icons.check,
                     size: 16.0,
                     color: Colors.white,

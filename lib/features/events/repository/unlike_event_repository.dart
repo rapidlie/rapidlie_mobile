@@ -18,7 +18,7 @@ class UnlikeEventRepository {
         '$flockrAPIBaseUrl/events/$eventId/unlike',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

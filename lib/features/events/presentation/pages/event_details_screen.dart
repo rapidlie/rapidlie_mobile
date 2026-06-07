@@ -51,7 +51,7 @@ class EventDetailsScreen extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<EventDetailBloc, EventDetailState>(
             // Correctly specify the BLoC and State types here.
-          
+
             builder: (context, state) {
               if (state is EventDetailLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -59,7 +59,7 @@ class EventDetailsScreen extends StatelessWidget {
                 final eventDetail = state.events;
                 final userId = UserPreferences().getUserId().toString();
                 final inviteStatus = getInviteStatus(eventDetail, userId);
-          
+
                 return _EventDetailsBody(
                   event: eventDetail,
                   isOwnEvent: isOwnEvent,
@@ -162,7 +162,8 @@ class _EventDetailsBody extends StatelessWidget {
                                 textSize: 8,
                                 verticalPadding: 5,
                                 horizontalPadding: 10,
-                                containerColor: Colors.grey.withOpacity(0.3),
+                                containerColor:
+                                    Colors.grey.withValues(alpha: 0.3),
                               ),
                             ],
                           ),
@@ -195,10 +196,10 @@ class _EventDetailsBody extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .surface
-                              .withOpacity(0.5),
+                              .withValues(alpha: 0.5),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.grey.withValues(alpha: 0.3),
                               spreadRadius: 3,
                               blurRadius: 7,
                               offset: const Offset(0, 2),
@@ -290,7 +291,7 @@ class _EventDetailsBody extends StatelessWidget {
                             Text(language.invites,
                                 style: inter14black600(context)),
                             !isOwnEvent
-                                ? SizedBox.shrink()
+                                ? const SizedBox.shrink()
                                 : GestureDetector(
                                     onTap: () {
                                       context.pushNamed(
@@ -305,7 +306,7 @@ class _EventDetailsBody extends StatelessWidget {
                                           .onSurface,
                                       textSize: 10.sp,
                                       containerColor:
-                                          Colors.grey.withOpacity(0.3),
+                                          Colors.grey.withValues(alpha: 0.3),
                                     ),
                                   ),
                           ],
@@ -401,9 +402,6 @@ class _ConsentButtons extends StatelessWidget {
                                   eventId: event.id,
                                 ));
                           },
-                    child: isAnyButtonLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text("Decline"),
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
                         const Color.fromARGB(185, 165, 165, 165),
@@ -421,6 +419,9 @@ class _ConsentButtons extends StatelessWidget {
                         ),
                       ),
                     ),
+                    child: isAnyButtonLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("Decline"),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -435,9 +436,6 @@ class _ConsentButtons extends StatelessWidget {
                                   eventId: event.id,
                                 ));
                           },
-                    child: isAnyButtonLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text("Accept"),
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
                         CustomColors.acceptButtonColor,
@@ -455,6 +453,9 @@ class _ConsentButtons extends StatelessWidget {
                         ),
                       ),
                     ),
+                    child: isAnyButtonLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("Accept"),
                   ),
                 ),
               ],
@@ -474,22 +475,6 @@ class _ConsentButtons extends StatelessWidget {
                             eventId: event.id,
                           ));
                     },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    currentInviteStatus == "declined"
-                        ? Icons.thumb_down
-                        : Icons.thumb_up,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    currentInviteStatus == "declined"
-                        ? "Declined"
-                        : "You're going",
-                  ),
-                ],
-              ),
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(
                   currentInviteStatus == "declined"
@@ -507,6 +492,22 @@ class _ConsentButtons extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    currentInviteStatus == "declined"
+                        ? Icons.thumb_down
+                        : Icons.thumb_up,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    currentInviteStatus == "declined"
+                        ? "Declined"
+                        : "You're going",
+                  ),
+                ],
               ),
             ),
           );

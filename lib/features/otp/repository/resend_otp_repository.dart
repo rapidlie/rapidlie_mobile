@@ -26,7 +26,7 @@ class ResendOtpRepository {
       } else {
         return false;
       }
-    } on DioException catch (e) {
+    } on DioException {
       return false;
     }
   }

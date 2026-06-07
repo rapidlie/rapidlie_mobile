@@ -14,7 +14,8 @@ class ThirdSheetContentWidget extends StatefulWidget {
   final dynamic language;
   final PageController pageViewController;
 
-  ThirdSheetContentWidget({
+  const ThirdSheetContentWidget({
+    super.key,
     required this.language,
     required this.pageViewController,
   });
@@ -37,9 +38,8 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
   OverlayEntry? _overlayEntry;
 
   // ... (Your other methods like openCategoryMenu, closeMenu, etc.)
-  findButton(GlobalKey _key) {
-    RenderBox? renderBox =
-        _key.currentContext!.findRenderObject() as RenderBox?;
+  findButton(GlobalKey key) {
+    RenderBox? renderBox = key.currentContext!.findRenderObject() as RenderBox?;
     buttonSize = renderBox!.size;
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
@@ -52,7 +52,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
     isMenuOpen = !isMenuOpen;
   }
 
-  categoryDropDown(GlobalKey _key, List<CategoryModel> categoryList) {
+  categoryDropDown(GlobalKey key, List<CategoryModel> categoryList) {
     return Container(
       height: 150,
       decoration: BoxDecoration(
@@ -88,10 +88,10 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
     );
   }
 
-  void openCategoryMenu(GlobalKey _key, List<CategoryModel> categoryList) {
-    findButton(_key);
+  void openCategoryMenu(GlobalKey key, List<CategoryModel> categoryList) {
+    findButton(key);
     _overlayEntry = OverlayUtils.createOverlayEntry(
-        categoryDropDown(_key, categoryList),
+        categoryDropDown(key, categoryList),
         buttonPosition,
         buttonSize,
         buttonPosition.dx,
@@ -122,7 +122,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             widget.language.characterLength,
             style: inter12Black400(context),
           ),
-          SizedBox(height: 8), // Assuming extraSmallHeight() is 8
+          const SizedBox(height: 8), // Assuming extraSmallHeight() is 8
           TextFieldTemplate(
             hintText: '',
             controller: aboutController,
@@ -135,12 +135,12 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             textFieldColor: Colors.white,
             numberOfLines: 10,
           ),
-          SizedBox(height: 16), // Assuming smallHeight() is 16
+          const SizedBox(height: 16), // Assuming smallHeight() is 16
           Text(
             widget.language.category + "*",
             style: inter12Black400(context),
           ),
-          SizedBox(height: 8), // Assuming extraSmallHeight() is 8
+          const SizedBox(height: 8), // Assuming extraSmallHeight() is 8
           Container(
             height: 50,
             decoration: BoxDecoration(
@@ -150,7 +150,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
             child: BlocBuilder<CategoryBloc, CategoryState>(
               builder: (context, state) {
                 if (state is CategoryLoadingState) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (state is CategoryLoadedState) {
                   List<CategoryModel> categories = state.categories;
@@ -171,14 +171,14 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                         color: Theme.of(context).inputDecorationTheme.fillColor,
                       ),
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(nameOfSelectedCategory,
                                 style: inter12Black500(context)),
-                            Icon(
+                            const Icon(
                               Icons.keyboard_arrow_down,
                             ),
                           ],
@@ -199,7 +199,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
               },
             ),
           ),
-          SizedBox(height: 16), // Assuming smallHeight() is 16
+          const SizedBox(height: 16), // Assuming smallHeight() is 16
           GestureDetector(
             onTap: () {
               setState(() {
@@ -243,7 +243,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
               ],
             ),
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Row(
@@ -255,13 +255,13 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                     buttonType: ButtonType.outlined,
                     buttonAction: () {
                       widget.pageViewController.previousPage(
-                        duration: Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         curve: Curves.easeOut,
                       );
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 6,
                 ),
                 Expanded(
@@ -284,7 +284,7 @@ class _ThirdSheetContentWidgetState extends State<ThirdSheetContentWidget> {
                               category: idOfSelectedCategory,
                             );
                         widget.pageViewController.nextPage(
-                          duration: Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 200),
                           curve: Curves.easeIn,
                         );
                       }

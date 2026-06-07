@@ -12,7 +12,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class OtpScreen extends StatefulWidget {
-  OtpScreen({Key? key}) : super(key: key);
+  const OtpScreen({Key? key}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -51,7 +51,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 }
               },
               builder: (context, state) {
-                return Container(
+                return SizedBox(
                   height: height,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               onTap: () {
                                 context.go('/register');
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_back,
                               ),
                             ),
@@ -94,7 +94,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               },
                               autofocus: true,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 48,
                             ),
                             BlocConsumer<ResendOtpBloc, ResendOtpState>(
@@ -137,7 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       )
                     ],
@@ -156,7 +156,7 @@ class _OtpScreenState extends State<OtpScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3),
         ),
       ),
       textStyle: inter14black500(context),

@@ -19,7 +19,8 @@ class SecondSheetContentWidget extends StatefulWidget {
   final dynamic language;
   final PageController pageViewController;
 
-  SecondSheetContentWidget({
+  const SecondSheetContentWidget({
+    super.key,
     required this.language,
     required this.pageViewController,
   });
@@ -73,9 +74,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     '11:00',
   ];
 
-  findButton(GlobalKey _key) {
-    RenderBox? renderBox =
-        _key.currentContext!.findRenderObject() as RenderBox?;
+  findButton(GlobalKey key) {
+    RenderBox? renderBox = key.currentContext!.findRenderObject() as RenderBox?;
     buttonSize = renderBox!.size;
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
@@ -88,8 +88,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     isMenuOpen = !isMenuOpen;
   }
 
-  startTimeDropDown(GlobalKey _key) {
-    return Container(
+  startTimeDropDown(GlobalKey key) {
+    return SizedBox(
       height: 200,
       child: Row(
         children: [
@@ -97,7 +97,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: ListView.builder(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shrinkWrap: true,
                 itemCount: eventTimes.length,
                 itemBuilder: ((context, index) {
@@ -111,7 +111,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                       });
                     },
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
                         eventTimes[index],
                         textAlign: TextAlign.center,
@@ -133,8 +133,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: ListView.builder(
-                padding: EdgeInsets.all(10),
-                physics: NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(10),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: eventTimeOfDay.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -145,11 +145,11 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                           selectedStartTimeOfDayChecker = index;
                           selectedStartTimeOfDay = eventTimeOfDay[index];
                           closeMenu();
-                          openStartTimeMenu(_key);
+                          openStartTimeMenu(key);
                         });
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedStartTimeOfDayChecker == index
@@ -183,8 +183,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     );
   }
 
-  endTimeDropDown(GlobalKey _key) {
-    return Container(
+  endTimeDropDown(GlobalKey key) {
+    return SizedBox(
       height: 200,
       child: Row(
         children: [
@@ -192,7 +192,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: ListView.builder(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shrinkWrap: true,
                 itemCount: eventTimes.length,
                 itemBuilder: ((context, index) {
@@ -206,7 +206,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                       });
                     },
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: Text(
                         eventTimes[index],
                         textAlign: TextAlign.center,
@@ -228,8 +228,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: ListView.builder(
-                padding: EdgeInsets.all(10),
-                physics: NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(10),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: eventTimeOfDay.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -240,11 +240,11 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                           selectedEndTimeOfDayChecker = index;
                           selectedEndTimeOfDay = eventTimeOfDay[index];
                           closeMenu();
-                          openEndTimeMenu(_key);
+                          openEndTimeMenu(key);
                         });
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: selectedEndTimeOfDayChecker == index
@@ -278,8 +278,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     );
   }
 
-  void openDateMenu(GlobalKey _key) {
-    findButton(_key);
+  void openDateMenu(GlobalKey key) {
+    findButton(key);
     _overlayEntry = OverlayUtils.createOverlayEntry(
       TableCalendarWidget(
         selectedDay: _selectedDay,
@@ -301,11 +301,11 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     isMenuOpen = !isMenuOpen;
   }
 
-  void openStartTimeMenu(GlobalKey _key) {
-    findButton(_key);
+  void openStartTimeMenu(GlobalKey key) {
+    findButton(key);
 
     _overlayEntry = OverlayUtils.createOverlayEntry(
-        startTimeDropDown(_key),
+        startTimeDropDown(key),
         buttonPosition,
         buttonSize,
         null,
@@ -315,11 +315,11 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
     isMenuOpen = !isMenuOpen;
   }
 
-  void openEndTimeMenu(GlobalKey _key) {
-    findButton(_key);
+  void openEndTimeMenu(GlobalKey key) {
+    findButton(key);
 
     _overlayEntry = OverlayUtils.createOverlayEntry(
-        endTimeDropDown(_key),
+        endTimeDropDown(key),
         buttonPosition,
         buttonSize,
         null,
@@ -358,7 +358,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                 color: Theme.of(context).inputDecorationTheme.fillColor,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -408,7 +409,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                                 .inputDecorationTheme
                                 .fillColor),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,7 +430,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -461,7 +462,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                               Theme.of(context).inputDecorationTheme.fillColor,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -514,7 +515,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   },
                 );
               },
-              child: Icon(
+              child: const Icon(
                 Icons.my_location,
                 size: 20,
               ),
@@ -550,8 +551,8 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                       );
                     },
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 10),
                       child: Text(
                         predictionList[index].description!,
                         style: inter12Black400(context),
@@ -560,15 +561,15 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: Divider(),
                   );
                 },
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -580,13 +581,13 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                   buttonType: ButtonType.outlined,
                   buttonAction: () {
                     widget.pageViewController.previousPage(
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       curve: Curves.easeOut,
                     );
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
               Expanded(
@@ -612,7 +613,7 @@ class _SecondSheetContentWidgetState extends State<SecondSheetContentWidget> {
                             mapLocation: mapId,
                           );
                       widget.pageViewController.nextPage(
-                        duration: Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         curve: Curves.easeIn,
                       );
                     }

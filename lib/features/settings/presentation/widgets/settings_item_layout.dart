@@ -34,7 +34,7 @@ class SettingsItemLayout extends StatelessWidget {
                   icon,
                   color: iconColor,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Text(
@@ -43,7 +43,7 @@ class SettingsItemLayout extends StatelessWidget {
                 ),
               ],
             ),
-            value ?? SizedBox.shrink()
+            value ?? const SizedBox.shrink()
           ],
         ),
       ),

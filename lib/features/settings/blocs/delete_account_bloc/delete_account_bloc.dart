@@ -25,10 +25,10 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
       );
 
       if (result is DataSuccess<void>) {
-        emit(
-            DeleteAccountSuccessState(message: "Account deleted successfully"));
+        emit(const DeleteAccountSuccessState(
+            message: "Account deleted successfully"));
       } else {
-        emit(DeleteAccountErrorState(error: "Account deletion failed"));
+        emit(const DeleteAccountErrorState(error: "Account deletion failed"));
       }
     } catch (e) {
       emit(DeleteAccountErrorState(error: e.toString()));

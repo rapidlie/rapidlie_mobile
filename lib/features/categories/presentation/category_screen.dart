@@ -80,7 +80,7 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: widget.pageTitle,
           isSubPage: true,
@@ -107,13 +107,13 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
   }
 
   Widget buildBody(List<EventDataModel> events) {
-    return events.length == 0
+    return events.isEmpty
         ? emptyStateView()
         : ListView.builder(
             shrinkWrap: true,
             itemCount: events.length,
             //controller: _scrollController,
-            physics: BouncingScrollPhysics(
+            physics: const BouncingScrollPhysics(
                 parent: BouncingScrollPhysics(
               parent: NeverScrollableScrollPhysics(),
             )),

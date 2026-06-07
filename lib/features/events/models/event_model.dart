@@ -129,7 +129,7 @@ class EventDataModel extends Equatable {
       'hasLikedEvent': hasLikedEvent,
       'formatted_likes': formattedLikes,
       'username': username,
-      'user': user != null ? user!.toJson() : null,
+      'user': user?.toJson(),
     };
   }
 

@@ -15,7 +15,8 @@ class FourthSheetContentWidget extends StatefulWidget {
   final dynamic language;
   final PageController pageViewController;
 
-  FourthSheetContentWidget({
+  const FourthSheetContentWidget({
+    super.key,
     required this.language,
     required this.pageViewController,
   });
@@ -107,17 +108,17 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
           },
           builder: (context, eventState) {
             if (eventState is CreateEventLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (eventState is CreateEventSuccessful) {
               widget.pageViewController.nextPage(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 curve: Curves.easeIn,
               );
             }
             return Padding(
               padding: const EdgeInsets.only(
                   top: 0.0, left: 20, right: 20, bottom: 40),
-              child: selectedContacts.length == 0
+              child: selectedContacts.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -136,13 +137,13 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                       .inputDecorationTheme
                                       .fillColor,
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.add,
                                   size: 30,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               widget.language.inviteFriends,
                               style: inter12Black400(context),
@@ -160,7 +161,7 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                 buttonType: ButtonType.outlined,
                                 buttonAction: () {
                                   widget.pageViewController.previousPage(
-                                    duration: Duration(milliseconds: 200),
+                                    duration: const Duration(milliseconds: 200),
                                     curve: Curves.easeOut,
                                   );
                                 },
@@ -174,13 +175,14 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                       buttonType: ButtonType.outlined,
                                       buttonAction: () {
                                         widget.pageViewController.previousPage(
-                                          duration: Duration(milliseconds: 200),
+                                          duration:
+                                              const Duration(milliseconds: 200),
                                           curve: Curves.easeOut,
                                         );
                                       },
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Expanded(
@@ -208,7 +210,7 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                   ),
                                 ],
                               ),
-                        SizedBox(),
+                        const SizedBox(),
                       ],
                     )
                   : Column(
@@ -229,7 +231,7 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                       selectedContacts.removeAt(index);
                                     });
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.close,
                                     size: 20,
                                   ),
@@ -251,7 +253,7 @@ class _FourthSheetContentWidgetState extends State<FourthSheetContentWidget> {
                                 },
                               ),
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Flexible(
                               flex: 6,
                               child: ButtonTemplate(

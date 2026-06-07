@@ -6,7 +6,7 @@ class AppBarTemplate extends StatelessWidget {
   final bool isSubPage;
   final Widget? trailingWidget;
 
-  AppBarTemplate(
+  const AppBarTemplate(
       {Key? key,
       required this.pageTitle,
       required this.isSubPage,
@@ -18,7 +18,6 @@ class AppBarTemplate extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: Container(
-        
         child: Padding(
           padding:
               const EdgeInsets.only(left: 20.0, right: 20, top: 20, bottom: 20),
@@ -32,19 +31,19 @@ class AppBarTemplate extends StatelessWidget {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Padding(
+                          child: const Padding(
                             padding: EdgeInsets.only(right: 10),
                             child: Icon(Icons.arrow_back),
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   SizedBox(
                       width: MediaQuery.of(context).size.width / 2,
                       child: Text(pageTitle,
                           style: mainAppbarTitleStyle(context))),
                 ],
               ),
-              trailingWidget == null ? SizedBox() : trailingWidget!
+              trailingWidget == null ? const SizedBox() : trailingWidget!
             ],
           ),
         ),

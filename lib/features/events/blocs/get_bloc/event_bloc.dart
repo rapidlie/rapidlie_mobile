@@ -7,12 +7,12 @@ import 'package:rapidlie/features/events/repository/event_respository.dart';
 part 'event_event.dart';
 part 'event_state.dart';
 
-/** Public Events Bloc */
+/// Public Events Bloc
 class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedPublicEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 2);
+  const Duration cacheDuration = Duration(seconds: 2);
 
   void invalidateCache() {
     _cachedPublicEvents = null;
@@ -64,12 +64,12 @@ class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
   }
 }
 
-/** Invited Events Bloc */
+/// Invited Events Bloc
 class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedInvitedEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 10);
+  const Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedInvitedEvents = null;
@@ -121,12 +121,12 @@ class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
   }
 }
 
-/** Private Event Bloc **/
+/// Private Event Bloc *
 class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedPrivateEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 10);
+  const Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedPrivateEvents = null;
@@ -180,12 +180,12 @@ class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
   }
 }
 
-/** Upcoming Events Bloc */
+/// Upcoming Events Bloc
 class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedUpcomingEvents;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 10);
+  const Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedUpcomingEvents = null;
@@ -238,12 +238,12 @@ class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
   }
 }
 
-/** Events By Category Bloc */
+/// Events By Category Bloc
 class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
   final EventRepository eventRepository;
   List<EventDataModel>? _cachedEventsByCategory;
   DateTime? _cacheTimestamp;
-  final Duration cacheDuration = Duration(seconds: 10);
+  const Duration cacheDuration = Duration(seconds: 10);
 
   void invalidateCache() {
     _cachedEventsByCategory = null;

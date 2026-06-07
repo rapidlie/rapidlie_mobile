@@ -5,7 +5,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CountrySettingsLayout extends StatelessWidget {
-  CountrySettingsLayout({Key? key}) : super(key: key);
+  const CountrySettingsLayout({Key? key}) : super(key: key);
 
   late final language;
 

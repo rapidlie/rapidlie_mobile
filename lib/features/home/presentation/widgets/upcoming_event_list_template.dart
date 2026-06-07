@@ -25,7 +25,7 @@ class UpcomingEventListTemplate extends StatelessWidget {
       children: [
         Container(
           child: Padding(
-            padding: EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 10.0),
             child: Container(
               width: width * 0.9,
               decoration: BoxDecoration(

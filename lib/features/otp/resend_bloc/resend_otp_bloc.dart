@@ -24,7 +24,7 @@ class ResendOtpBloc extends Bloc<ResendOtpEvent, ResendOtpState> {
       if (result) {
         emit(ResendOtpSuccessState());
       } else {
-        emit(ResendOtpErrorState(error: "Verify failed"));
+        emit(const ResendOtpErrorState(error: "Verify failed"));
       }
     } catch (e) {
       emit(ResendOtpErrorState(error: e.toString()));

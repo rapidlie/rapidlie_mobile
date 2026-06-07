@@ -19,7 +19,7 @@ class ProfileRepository {
         '$flockrAPIBaseUrl/user',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class MapDirectionLauncher extends StatefulWidget {
   final LatLng targetLocation;
 
-  MapDirectionLauncher({required this.targetLocation});
+  const MapDirectionLauncher({super.key, required this.targetLocation});
 
   @override
   _MapDirectionLauncherState createState() => _MapDirectionLauncherState();
@@ -34,7 +34,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     if (!serviceEnabled) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location services are disabled.')));
+          const SnackBar(content: Text('Location services are disabled.')));
       return;
     }
 
@@ -44,14 +44,14 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
       if (permission == LocationPermission.denied) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Location permissions are denied')));
+            const SnackBar(content: Text('Location permissions are denied')));
         return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
               'Location permissions are permanently denied, we cannot request them.')));
       return;
@@ -67,7 +67,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not get current location.')));
+          const SnackBar(content: Text('Could not get current location.')));
     }
   }
 
@@ -79,7 +79,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     if (_currentPosition == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Waiting for current location...')));
+          const SnackBar(content: Text('Waiting for current location...')));
       return;
     }
 
@@ -102,7 +102,7 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     } else {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open maps.')),
+        const SnackBar(content: Text('Could not open maps.')),
       );
     }
   }
@@ -117,10 +117,10 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues(alpha: 0.3),
             spreadRadius: 2,
             blurRadius: 6,
-            offset: Offset(0, 5), // changes position of shadow
+            offset: const Offset(0, 5), // changes position of shadow
           ),
         ],
       ),

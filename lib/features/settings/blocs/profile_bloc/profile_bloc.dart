@@ -27,7 +27,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoadedState(userProfile: userProfile.data!));
         return userProfile;
       } else {
-        emit(ProfileErrorState(error: 'Failed to load profile'));
+        emit(const ProfileErrorState(error: 'Failed to load profile'));
         return DataFailed(DioException(
             error: userProfile.error!.error,
             requestOptions: userProfile.error!.requestOptions));

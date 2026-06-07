@@ -14,6 +14,8 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 class InvitesScreen extends StatefulWidget {
   static const String routeName = "invites";
 
+  const InvitesScreen({super.key});
+
   @override
   State<InvitesScreen> createState() => _InvitesScreenState();
 }
@@ -45,7 +47,7 @@ class _InvitesScreenState extends State<InvitesScreen> {
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.invites,
           isSubPage: false,
@@ -75,12 +77,12 @@ class _InvitesScreenState extends State<InvitesScreen> {
   }
 
   Widget buildBody(List<EventDataModel> eventDataModel) {
-    return eventDataModel.length == 0
+    return eventDataModel.isEmpty
         ? emptyStateView()
         : ListView.builder(
             shrinkWrap: true,
             itemCount: eventDataModel.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 40.0),

@@ -17,7 +17,7 @@ import 'package:rapidlie/l10n/app_localizations.dart';
 
 class FlockrContactsScreen extends StatefulWidget {
   final String id;
-  FlockrContactsScreen({Key? key, required this.id}) : super(key: key);
+  const FlockrContactsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<FlockrContactsScreen> createState() => _FlockrContactsScreenState();
@@ -46,6 +46,7 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
     });
   }
 
+  @override
   initState() {
     super.initState();
     contacts = context.read<ContactsBloc>().cachedContacts;
@@ -77,11 +78,11 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
     }, builder: (context, state) {
       return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(80),
           child: AppBarTemplate(
             pageTitle: language.contacts,
             isSubPage: true,
-            trailingWidget: _selectedContacts.length == 0
+            trailingWidget: _selectedContacts.isEmpty
                 ? GestureDetector(
                     onTap: () {
                       context.pop();
@@ -120,24 +121,26 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                   BlocBuilder<TelephoneNumbersBloc, TelephoneNumbersState>(
                     builder: (context, state) {
                       if (state is TelephoneNumbersLoadingState) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is TelephoneNumbersLoaded) {
                         flockrContacts.clear();
                         for (int i = 0; i < fetchedContacts.length; i++) {
                           String? contactPhone = fetchedContacts[i].telephone;
-                          if (contactPhone != null && contactPhone.length >= 9) {
+                          if (contactPhone != null &&
+                              contactPhone.length >= 9) {
                             String contactLastNine =
                                 contactPhone.substring(contactPhone.length - 9);
-          
+
                             contactLastNine =
                                 contactLastNine.replaceAll(RegExp(r'\D'), '');
-          
+
                             final hasMatch = state.numbers
                                 .whereType<String>()
                                 .map((n) => n.replaceAll(RegExp(r'\D'), ''))
-                                .any((cleaned) => cleaned.endsWith(contactLastNine));
+                                .any((cleaned) =>
+                                    cleaned.endsWith(contactLastNine));
 
                             if (hasMatch) {
                               flockrContacts.add(fetchedContacts[i]);
@@ -145,9 +148,9 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                           }
                         }
                       }
-          
+
                       return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: flockrContacts.length,
                         itemBuilder: (context, index) {
@@ -156,7 +159,8 @@ class _FlockrContactsScreenState extends State<FlockrContactsScreen> {
                             value: flockrContacts[index].isSelected,
                             onChanged: (bool? value) {
                               setState(() {
-                                flockrContacts[index].isSelected = value ?? false;
+                                flockrContacts[index].isSelected =
+                                    value ?? false;
                                 _selectedContacts = flockrContacts
                                     .where((contact) => contact.isSelected)
                                     .toList();

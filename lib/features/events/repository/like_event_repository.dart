@@ -18,7 +18,7 @@ class LikeEventRepository {
         '$flockrAPIBaseUrl/events/$eventId/like',
         options: Options(
           headers: {
-            'Authorization': "Bearer " + bearerToken,
+            'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
         ),

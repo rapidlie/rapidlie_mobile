@@ -43,7 +43,7 @@ class HeaderTextTemplate extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             iconWidget == null
-                ? SizedBox()
+                ? const SizedBox()
                 : Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: iconWidget!,

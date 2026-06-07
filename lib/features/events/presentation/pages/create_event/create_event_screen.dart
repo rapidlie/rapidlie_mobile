@@ -29,19 +29,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     language = AppLocalizations.of(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.createEvent,
           isSubPage: true,
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: PageView(
               controller: _pageViewController,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 FirstSheetWidget(
                   pageViewController: _pageViewController,

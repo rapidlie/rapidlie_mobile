@@ -14,7 +14,7 @@ class GeneralEventListTemplate extends StatefulWidget {
   final String inviteStatus;
   final bool showStatusBadge;
 
-  GeneralEventListTemplate({
+  const GeneralEventListTemplate({
     Key? key,
     required this.eventName,
     this.eventImageString,
@@ -61,7 +61,7 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                     ),
                   ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Padding(
@@ -80,7 +80,7 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                       children: [
                         Text(widget.eventDay, style: inter10Black400(context)),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Container(
                             height: 10,
                             width: 1,
@@ -94,7 +94,7 @@ class _GeneralEventListTemplateState extends State<GeneralEventListTemplate> {
                 ),
                 widget.showStatusBadge
                     ? statusContainer(widget.inviteStatus)
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               ],
             ),
           )

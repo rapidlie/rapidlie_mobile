@@ -7,7 +7,7 @@ abstract class EventState extends Equatable {
   List<Object?> get props => [];
 }
 
-/*** Public Event ***/
+/// * Public Event **
 abstract class PublicEventState extends EventState {
   const PublicEventState();
 
@@ -37,7 +37,7 @@ class PublicEventError extends PublicEventState {
   List<Object> get props => [message];
 }
 
-/**** PrivateEvent  ****/
+/// ** PrivateEvent  ***
 abstract class PrivateEventState extends EventState {
   const PrivateEventState();
 
@@ -67,7 +67,7 @@ class PrivateEventError extends PrivateEventState {
   List<Object> get props => [message];
 }
 
-/*** Invited Events ***/
+/// * Invited Events **
 abstract class InvitedEventState extends EventState {
   const InvitedEventState();
 
@@ -97,7 +97,7 @@ class InvitedEventError extends InvitedEventState {
   List<Object> get props => [message];
 }
 
-/*** Events by category ***/
+/// * Events by category **
 abstract class UpcomingEventState extends EventState {
   const UpcomingEventState();
 
@@ -127,7 +127,7 @@ class UpcomingEventError extends UpcomingEventState {
   List<Object> get props => [message];
 }
 
-/*** Upcoming events ***/
+/// * Upcoming events **
 abstract class EventByCategoryState extends EventState {
   const EventByCategoryState();
 
