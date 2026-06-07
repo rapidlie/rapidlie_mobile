@@ -12,16 +12,33 @@ import 'package:rapidlie/features/events/blocs/event_detail_bloc/event_detail_bl
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/blocs/invite_contact_bloc/invite_contact_bloc.dart';
-import 'package:rapidlie/features/events/blocs/like_bloc/like_event_bloc.dart';
-import 'package:rapidlie/features/events/blocs/unlike_bloc/unlike_event_bloc.dart';
+import 'package:rapidlie/features/bookmarks/blocs/bookmark_bloc/bookmark_bloc.dart';
+import 'package:rapidlie/features/bookmarks/data/bookmark_repository.dart';
+import 'package:rapidlie/features/tickets/blocs/ticket_bloc/ticket_bloc.dart';
+import 'package:rapidlie/features/tickets/data/repository/ticket_repository.dart';
+import 'package:rapidlie/features/reels/blocs/reel_bloc/reel_bloc.dart';
+import 'package:rapidlie/features/reels/data/repository/reel_repository.dart';
+import 'package:rapidlie/features/polls/blocs/poll_bloc/poll_bloc.dart';
+import 'package:rapidlie/features/polls/data/repository/poll_repository.dart';
+import 'package:rapidlie/features/contributions/blocs/contribution_bloc/contribution_bloc.dart';
+import 'package:rapidlie/features/contributions/data/repository/contribution_repository.dart';
+import 'package:rapidlie/features/lens/blocs/lens_bloc/lens_bloc.dart';
+import 'package:rapidlie/features/lens/data/repository/lens_repository.dart';
+import 'package:rapidlie/features/sage/blocs/sage_bloc/sage_bloc.dart';
+import 'package:rapidlie/features/sage/data/repository/sage_repository.dart';
+import 'package:rapidlie/features/mood/blocs/mood_bloc/mood_bloc.dart';
+import 'package:rapidlie/features/mood/data/repository/mood_repository.dart';
+import 'package:rapidlie/features/groups/blocs/groups_bloc/groups_bloc.dart';
+import 'package:rapidlie/features/groups/data/repository/group_repository.dart';
+import 'package:rapidlie/features/notifications/blocs/announce_bloc/announce_bloc.dart';
+import 'package:rapidlie/features/notifications/data/device_token_repository.dart';
+import 'package:rapidlie/features/events/blocs/like_toggle_bloc/like_toggle_bloc.dart';
 import 'package:rapidlie/features/events/provider/create_event_provider.dart';
 import 'package:rapidlie/features/events/repository/consent_repository.dart';
 import 'package:rapidlie/features/events/repository/create_event_repository.dart';
 import 'package:rapidlie/features/events/repository/event_detail_respository.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
 import 'package:rapidlie/features/events/repository/invite_contact_repository.dart';
-import 'package:rapidlie/features/events/repository/like_event_repository.dart';
-import 'package:rapidlie/features/events/repository/unlike_event_repository.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
 import 'package:rapidlie/features/file_upload/repository/file_upload_repository.dart';
 import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
@@ -30,10 +47,9 @@ import 'package:rapidlie/features/login/bloc/login_bloc.dart';
 import 'package:rapidlie/features/login/repository/login_repository.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/logout/repository/logout_repository.dart';
+import 'package:rapidlie/features/otp/otp_bloc/otp_bloc.dart';
 import 'package:rapidlie/features/otp/repository/resend_otp_repository.dart';
 import 'package:rapidlie/features/otp/repository/verify_otp_repositoy.dart';
-import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
-import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
 import 'package:rapidlie/features/password/blocs/change_password_bloc/change_password_bloc.dart';
 import 'package:rapidlie/features/password/blocs/new_password_bloc/new_password_bloc.dart';
 import 'package:rapidlie/features/password/blocs/request_reset_bloc/request_bloc.dart';
@@ -47,144 +63,150 @@ import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart'
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/repositories/delete_account_repository.dart';
 import 'package:rapidlie/features/settings/repositories/profile_repository.dart';
-import 'package:rapidlie/injection_container.dart'; // Replace with actual imports
+import 'package:rapidlie/injection_container.dart';
 
 final List<SingleChildWidget> providers = [
   Provider<EventRepository>(
     create: (_) => EventRepositoryImpl(Dio()),
   ),
-  BlocProvider<PrivateEventBloc>(
-    create: (context) {
-      final eventRepository = locator<EventRepository>();
-      return PrivateEventBloc(eventRepository: eventRepository);
-    },
-  ),
   BlocProvider<PublicEventBloc>(
-    create: (context) {
-      final eventRepository = locator<EventRepository>();
-      return PublicEventBloc(eventRepository: eventRepository);
-    },
+    create: (_) =>
+        PublicEventBloc(eventRepository: locator<EventRepository>()),
+  ),
+  BlocProvider<PrivateEventBloc>(
+    create: (_) =>
+        PrivateEventBloc(eventRepository: locator<EventRepository>()),
   ),
   BlocProvider<InvitedEventBloc>(
-    create: (context) {
-      final eventRepository = locator<EventRepository>();
-      return InvitedEventBloc(eventRepository: eventRepository);
-    },
+    create: (_) =>
+        InvitedEventBloc(eventRepository: locator<EventRepository>()),
   ),
   BlocProvider<UpcomingEventBloc>(
-    create: (context) {
-      final eventRepository = locator<EventRepository>();
-      return UpcomingEventBloc(eventRepository: eventRepository);
-    },
+    create: (_) =>
+        UpcomingEventBloc(eventRepository: locator<EventRepository>()),
   ),
   BlocProvider<EventByCategoryBloc>(
-    create: (context) {
-      final eventRepository = locator<EventRepository>();
-      return EventByCategoryBloc(eventRepository: eventRepository);
-    },
+    create: (_) =>
+        EventByCategoryBloc(eventRepository: locator<EventRepository>()),
   ),
   Provider<EventDetailRepository>(
-    create: (_) => EventDetailRepository(Dio()), // use your implementation
+    create: (_) => EventDetailRepository(Dio()),
   ),
-  BlocProvider(
-    create: (context) => EventDetailBloc(
-      eventdetailRepository: EventDetailRepository(Dio()),
-    ),
+  BlocProvider<EventDetailBloc>(
+    create: (_) =>
+        EventDetailBloc(eventdetailRepository: EventDetailRepository(Dio())),
   ),
-  BlocProvider(
-    create: (context) =>
+  BlocProvider<ProfileBloc>(
+    create: (_) =>
         ProfileBloc(profileRepository: ProfileRepository(dio: Dio())),
   ),
-  BlocProvider<VerifyOtpBloc>(
-    create: (context) => VerifyOtpBloc(
+  // Merged OTP bloc handles both verify and resend
+  BlocProvider<OtpBloc>(
+    create: (_) => OtpBloc(
       verifyOtpRepository: VerifyOtpRepository(dio: Dio()),
-    ),
-  ),
-  BlocProvider(
-    create: (context) => RegisterBloc(
-      registerRepository: RegisterRepository(dio: Dio()),
-    ),
-  ),
-  BlocProvider(
-    create: (context) => LoginBloc(
-      loginRepository: LoginRepository(dio: Dio()),
-    ),
-  ),
-  BlocProvider(
-    create: (context) => LogoutBloc(
-      logoutRepository: LogoutRepository(dio: Dio()),
-    ),
-  ),
-  BlocProvider(
-    create: (context) => ResendOtpBloc(
       resendOtpRepository: ResendOtpRepository(dio: Dio()),
     ),
   ),
-  BlocProvider(
-    create: (context) => ChangePasswordBloc(
-      changePasswordRepository: ChangePasswordRepository(dio: Dio()),
-    ),
+  BlocProvider<RegisterBloc>(
+    create: (_) =>
+        RegisterBloc(registerRepository: RegisterRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => CategoryBloc(
-      categoryRepository: CategoryRepository(dio: Dio()),
-    ),
+  BlocProvider<LoginBloc>(
+    create: (_) => LoginBloc(loginRepository: LoginRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => NotificationsBloc(
-      notificationsRepository: NotificationsRepository(dio: Dio()),
-    ),
+  BlocProvider<LogoutBloc>(
+    create: (_) =>
+        LogoutBloc(logoutRepository: LogoutRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) {
-      final telephoneNumbersRepository = locator<TelephoneNumbersRepository>();
-      return TelephoneNumbersBloc(
-          telephoneNumbersRepository: telephoneNumbersRepository);
-    },
+  BlocProvider<ChangePasswordBloc>(
+    create: (_) => ChangePasswordBloc(
+        changePasswordRepository: ChangePasswordRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => FileUploadBloc(
-      fileUploadRepository: FileUploadRepository(dio: Dio()),
-    ),
+  BlocProvider<CategoryBloc>(
+    create: (_) =>
+        CategoryBloc(categoryRepository: CategoryRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => CreateEventBloc(CreateEventRepository(dio: Dio())),
+  BlocProvider<NotificationsBloc>(
+    create: (_) => NotificationsBloc(
+        notificationsRepository: NotificationsRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => InviteContactBloc(InviteContactRepository(dio: Dio())),
+  BlocProvider<TelephoneNumbersBloc>(
+    create: (_) => TelephoneNumbersBloc(
+        telephoneNumbersRepository: locator<TelephoneNumbersRepository>()),
   ),
-  BlocProvider(
-    create: (context) =>
-        LikeEventBloc(likeEventRepository: LikeEventRepository(dio: Dio())),
+  BlocProvider<FileUploadBloc>(
+    create: (_) =>
+        FileUploadBloc(fileUploadRepository: FileUploadRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => UnlikeEventBloc(
-        unlikeEventRepository: UnlikeEventRepository(dio: Dio())),
+  BlocProvider<CreateEventBloc>(
+    create: (_) => CreateEventBloc(CreateEventRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) =>
+  BlocProvider<InviteContactBloc>(
+    create: (_) =>
+        InviteContactBloc(InviteContactRepository(dio: Dio())),
+  ),
+  BlocProvider<BookmarkBloc>(
+    create: (_) =>
+        BookmarkBloc(bookmarkRepository: BookmarkRepository(dio: Dio())),
+  ),
+  BlocProvider<AnnounceBloc>(
+    create: (_) =>
+        AnnounceBloc(repository: DeviceTokenRepository(dio: Dio())),
+  ),
+  BlocProvider<TicketBloc>(
+    create: (_) => TicketBloc(ticketRepository: TicketRepository(dio: Dio())),
+  ),
+  BlocProvider<ReelBloc>(
+    create: (_) => ReelBloc(reelRepository: ReelRepository(dio: Dio())),
+  ),
+  BlocProvider<PollBloc>(
+    create: (_) => PollBloc(pollRepository: PollRepository(dio: Dio())),
+  ),
+  BlocProvider<ContributionBloc>(
+    create: (_) => ContributionBloc(
+        contributionRepository: ContributionRepository(dio: Dio())),
+  ),
+  BlocProvider<LensBloc>(
+    create: (_) => LensBloc(lensRepository: LensRepository(dio: Dio())),
+  ),
+  BlocProvider<SageBloc>(
+    create: (_) => SageBloc(sageRepository: SageRepository(dio: Dio())),
+  ),
+  BlocProvider<MoodBloc>(
+    create: (_) => MoodBloc(moodRepository: MoodRepository(dio: Dio())),
+  ),
+  BlocProvider<GroupsBloc>(
+    create: (_) =>
+        GroupsBloc(groupRepository: GroupRepository(dio: Dio())),
+  ),
+  // Merged like/unlike toggle bloc
+  BlocProvider<LikeToggleBloc>(
+    create: (_) =>
+        LikeToggleBloc(likeToggleRepository: LikeToggleRepository(dio: Dio())),
+  ),
+  BlocProvider<RequestBloc>(
+    create: (_) =>
         RequestBloc(requestRepository: RequestRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => NewPasswordBloc(
+  BlocProvider<NewPasswordBloc>(
+    create: (_) => NewPasswordBloc(
         newPasswordRepository: NewPasswordRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) =>
+  BlocProvider<ConsentBloc>(
+    create: (_) =>
         ConsentBloc(consentRepository: ConsentRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => DeleteAccountBloc(
+  BlocProvider<DeleteAccountBloc>(
+    create: (_) => DeleteAccountBloc(
         deleteAccoutRepository: DeleteAccountRepository(dio: Dio())),
   ),
-  BlocProvider(
-    create: (context) => ContactsBloc(),
+  BlocProvider<ContactsBloc>(
+    create: (_) => ContactsBloc(),
   ),
-  ChangeNotifierProvider(
-    create: (context) => ChangeLanguageProvider(),
+  ChangeNotifierProvider<ChangeLanguageProvider>(
+    create: (_) => ChangeLanguageProvider(),
   ),
-  ChangeNotifierProvider(
-    create: (context) => CreateEventProvider(),
+  ChangeNotifierProvider<CreateEventProvider>(
+    create: (_) => CreateEventProvider(),
   ),
-  // Add more providers as needed
 ];

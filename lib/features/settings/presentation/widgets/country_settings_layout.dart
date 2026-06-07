@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class CountrySettingsLayout extends StatelessWidget {
   const CountrySettingsLayout({Key? key}) : super(key: key);
 
-  late final language;
+  // ignore: prefer_final_fields
+  static dynamic language;
 
   @override
   Widget build(BuildContext context) {

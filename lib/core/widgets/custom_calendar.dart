@@ -6,13 +6,14 @@ import 'package:table_calendar/table_calendar.dart';
 import '../constants/custom_colors.dart';
 
 class CustomCalendar extends StatefulWidget {
-  late final CalendarFormat calendarFormat;
+  // ignore: must_be_immutable
+  CalendarFormat calendarFormat;
   final DateTime currentDay;
   final DateTime? selectedDay;
   final StateSetter setState;
   final Function actionToPerform;
 
-  const CustomCalendar({
+  CustomCalendar({
     Key? key,
     required this.calendarFormat,
     required this.currentDay,

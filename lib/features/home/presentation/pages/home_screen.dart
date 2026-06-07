@@ -16,7 +16,7 @@ import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
 import 'package:rapidlie/features/home/models/notification.dart';
-import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
+import 'package:rapidlie/core/widgets/event_card.dart';
 import 'package:rapidlie/features/home/presentation/widgets/explore_categories_list_template.dart';
 import 'package:rapidlie/features/home/presentation/widgets/notifications_widget.dart';
 import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
@@ -108,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocBuilder<UpcomingEventBloc, UpcomingEventState>(
+                BlocBuilder<UpcomingEventBloc, EventListState>(
                     builder: (context, state) {
-                  if (state is InitialUpcomingEventState) {
+                  if (state is EventListInitial) {
                     return emptyListWithShimmer();
                   } else if (state is UpcomingEventLoading) {
                     return emptyListWithShimmer();
@@ -298,9 +298,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 verySmallHeight(),
-                BlocBuilder<PublicEventBloc, PublicEventState>(
+                BlocBuilder<PublicEventBloc, EventListState>(
                   builder: (context, state) {
-                    if (state is InitialPublicEventState) {
+                    if (state is EventListInitial) {
                       return emptyListWithShimmer();
                     } else if (state is PublicEventLoading) {
                       return const Center(child: CupertinoActivityIndicator());
@@ -332,7 +332,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                 );
                               },
-                              child: EventListTemplate(
+                              child: EventCard(
+                                showOwnerInfo: true,
                                 eventOwner: publicEvents[index].username,
                                 eventName: publicEvents[index].name,
                                 eventLocation:
@@ -359,6 +360,69 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                 ),
+                verySmallHeight(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: GestureDetector(
+                    onTap: () => context.pushNamed('groups'),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: 0.15),
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: 0.05),
+                          ],
+                        ),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withValues(alpha: 0.25),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.group,
+                              color:
+                                  Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Groups',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    )),
+                                Text('Discover and join communities',
+                                    style: TextStyle(
+                                        fontSize: 11.sp,
+                                        color: Colors.grey)),
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.chevron_right,
+                              color: Theme.of(context).colorScheme.primary),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                verySmallHeight(),
               ],
             ),
           ),

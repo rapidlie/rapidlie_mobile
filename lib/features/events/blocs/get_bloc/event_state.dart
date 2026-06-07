@@ -1,157 +1,86 @@
 part of 'event_bloc.dart';
 
-abstract class EventState extends Equatable {
-  const EventState();
-
+abstract class EventListState extends Equatable {
+  const EventListState();
   @override
   List<Object?> get props => [];
 }
 
-/// * Public Event **
-abstract class PublicEventState extends EventState {
-  const PublicEventState();
+class EventListInitial extends EventListState {}
 
-  @override
-  List<Object> get props => [];
-}
+class EventListLoading extends EventListState {}
 
-class InitialPublicEventState extends PublicEventState {}
-
-class PublicEventLoading extends PublicEventState {}
-
-class PublicEventLoaded extends PublicEventState {
+class EventListLoaded extends EventListState {
   final List<EventDataModel> events;
-
-  const PublicEventLoaded({required this.events});
-
+  const EventListLoaded({required this.events});
   @override
   List<Object> get props => [events];
 }
 
-class PublicEventError extends PublicEventState {
+class EventListError extends EventListState {
   final String message;
-
-  const PublicEventError({required this.message});
-
+  const EventListError({required this.message});
   @override
   List<Object> get props => [message];
 }
 
-/// ** PrivateEvent  ***
-abstract class PrivateEventState extends EventState {
-  const PrivateEventState();
+// Backward-compat aliases so existing BlocBuilder state checks still compile
+class PublicEventState extends EventListState {}
 
-  @override
-  List<Object> get props => [];
+class PublicEventLoading extends EventListLoading {}
+
+class PublicEventLoaded extends EventListLoaded {
+  const PublicEventLoaded({required super.events});
 }
 
-class InitialPrivateEventState extends PrivateEventState {}
-
-class PrivateEventLoading extends PrivateEventState {}
-
-class PrivateEventLoaded extends PrivateEventState {
-  final List<EventDataModel> events;
-
-  const PrivateEventLoaded({required this.events});
-
-  @override
-  List<Object> get props => [events];
+class PublicEventError extends EventListError {
+  const PublicEventError({required super.message});
 }
 
-class PrivateEventError extends PrivateEventState {
-  final String message;
+class PrivateEventState extends EventListState {}
 
-  const PrivateEventError({required this.message});
+class PrivateEventLoading extends EventListLoading {}
 
-  @override
-  List<Object> get props => [message];
+class PrivateEventLoaded extends EventListLoaded {
+  const PrivateEventLoaded({required super.events});
 }
 
-/// * Invited Events **
-abstract class InvitedEventState extends EventState {
-  const InvitedEventState();
-
-  @override
-  List<Object> get props => [];
+class PrivateEventError extends EventListError {
+  const PrivateEventError({required super.message});
 }
 
-class InitialInvitedEventState extends InvitedEventState {}
+class InvitedEventState extends EventListState {}
 
-class InvitedEventLoading extends InvitedEventState {}
+class InvitedEventLoading extends EventListLoading {}
 
-class InvitedEventLoaded extends InvitedEventState {
-  final List<EventDataModel> events;
-
-  const InvitedEventLoaded({required this.events});
-
-  @override
-  List<Object> get props => [events];
+class InvitedEventLoaded extends EventListLoaded {
+  const InvitedEventLoaded({required super.events});
 }
 
-class InvitedEventError extends InvitedEventState {
-  final String message;
-
-  const InvitedEventError({required this.message});
-
-  @override
-  List<Object> get props => [message];
+class InvitedEventError extends EventListError {
+  const InvitedEventError({required super.message});
 }
 
-/// * Events by category **
-abstract class UpcomingEventState extends EventState {
-  const UpcomingEventState();
+class UpcomingEventState extends EventListState {}
 
-  @override
-  List<Object> get props => [];
+class UpcomingEventLoading extends EventListLoading {}
+
+class UpcomingEventLoaded extends EventListLoaded {
+  const UpcomingEventLoaded({required super.events});
 }
 
-class InitialUpcomingEventState extends UpcomingEventState {}
-
-class UpcomingEventLoading extends UpcomingEventState {}
-
-class UpcomingEventLoaded extends UpcomingEventState {
-  final List<EventDataModel> events;
-
-  const UpcomingEventLoaded({required this.events});
-
-  @override
-  List<Object> get props => [events];
+class UpcomingEventError extends EventListError {
+  const UpcomingEventError({required super.message});
 }
 
-class UpcomingEventError extends UpcomingEventState {
-  final String message;
+class EventByCategoryState extends EventListState {}
 
-  const UpcomingEventError({required this.message});
+class EventByCategoryLoading extends EventListLoading {}
 
-  @override
-  List<Object> get props => [message];
+class EventByCategoryLoaded extends EventListLoaded {
+  const EventByCategoryLoaded({required super.events});
 }
 
-/// * Upcoming events **
-abstract class EventByCategoryState extends EventState {
-  const EventByCategoryState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class InitialEventByCategoryState extends EventByCategoryState {}
-
-class EventByCategoryLoading extends EventByCategoryState {}
-
-class EventByCategoryLoaded extends EventByCategoryState {
-  final List<EventDataModel> events;
-
-  const EventByCategoryLoaded({required this.events});
-  @override
-  List<Object> get props => [events];
-}
-
-class EventByCategoryError extends EventByCategoryState {
-  final String message;
-
-  const EventByCategoryError({required this.message});
-
-  @override
-  List<Object> get props => [message];
+class EventByCategoryError extends EventListError {
+  const EventByCategoryError({required super.message});
 }

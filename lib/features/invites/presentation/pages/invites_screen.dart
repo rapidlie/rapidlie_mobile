@@ -8,7 +8,7 @@ import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
-import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
+import 'package:rapidlie/core/widgets/event_card.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class InvitesScreen extends StatefulWidget {
@@ -57,9 +57,9 @@ class _InvitesScreenState extends State<InvitesScreen> {
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           child: SingleChildScrollView(
-            child: BlocBuilder<InvitedEventBloc, InvitedEventState>(
+            child: BlocBuilder<InvitedEventBloc, EventListState>(
               builder: (context, state) {
-                if (state is InitialInvitedEventState) {
+                if (state is EventListInitial) {
                   return emptyListWithShimmer();
                 } else if (state is InvitedEventLoading) {
                   return emptyListWithShimmer();
@@ -98,7 +98,8 @@ class _InvitesScreenState extends State<InvitesScreen> {
                       },
                     );
                   },
-                  child: EventListTemplate(
+                  child: EventCard(
+                    showOwnerInfo: true,
                     eventOwner: eventDataModel[index].username,
                     eventName: eventDataModel[index].name,
                     eventLocation: eventDataModel[index].venue.split(",").first,

@@ -94,6 +94,18 @@ class ProfileSettingsScreen extends StatelessWidget {
                   childWidget: Column(
                     children: [
                       SettingsItemLayout(
+                        icon: Icons.confirmation_number_outlined,
+                        title: 'My Tickets',
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        onCLickFunction: () {
+                          context.pushNamed('tickets');
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: customDivider(context),
+                      ),
+                      SettingsItemLayout(
                         icon: Icons.lock,
                         title: language.changePassword,
                         iconColor: Theme.of(context).colorScheme.primary,

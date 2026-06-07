@@ -9,7 +9,7 @@ import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/epmty_list_view.dart';
-import 'package:rapidlie/core/widgets/general_event_list_template.dart';
+import 'package:rapidlie/core/widgets/event_card.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
@@ -70,9 +70,9 @@ class _EventsScreenState extends State<EventsScreen> {
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           child: SingleChildScrollView(
-            child: BlocBuilder<PrivateEventBloc, PrivateEventState>(
+            child: BlocBuilder<PrivateEventBloc, EventListState>(
               builder: (context, state) {
-                if (state is InitialPrivateEventState) {
+                if (state is EventListInitial) {
                   return emptyListWithShimmer();
                 } else if (state is PrivateEventLoading) {
                   return emptyListWithShimmer();
@@ -89,7 +89,7 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  Container buildBody(List<EventDataModel> eventDataModel, width, height) {
+  Widget buildBody(List<EventDataModel> eventDataModel, width, height) {
     return SizedBox(
       height: height,
       width: width,
@@ -120,7 +120,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 40.0),
-                      child: GeneralEventListTemplate(
+                      child: EventCard(
                         eventName: eventDataModel[index].name,
                         eventImageString: eventDataModel[index].image,
                         eventDay: getDayName(eventDataModel[index].date),

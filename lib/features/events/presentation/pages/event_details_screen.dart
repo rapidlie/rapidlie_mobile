@@ -11,6 +11,13 @@ import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/features/bookmarks/blocs/bookmark_bloc/bookmark_bloc.dart';
+import 'package:rapidlie/features/notifications/presentation/widgets/announce_sheet.dart';
+import 'package:rapidlie/features/tickets/blocs/ticket_bloc/ticket_bloc.dart';
+import 'package:rapidlie/features/reels/presentation/screens/reels_screen.dart';
+import 'package:rapidlie/features/polls/blocs/poll_bloc/poll_bloc.dart';
+import 'package:rapidlie/features/lens/blocs/lens_bloc/lens_bloc.dart';
+import 'package:rapidlie/features/sage/blocs/sage_bloc/sage_bloc.dart';
 import 'package:rapidlie/features/events/blocs/event_detail_bloc/event_detail_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
@@ -168,6 +175,65 @@ class _EventDetailsBody extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (isOwnEvent) ...[
+                              IconButton(
+                                icon: const Icon(Icons.auto_awesome),
+                                tooltip: 'SAGE',
+                                onPressed: () {
+                                  context
+                                      .read<SageBloc>()
+                                      .add(FetchSageSuggestions(
+                                          eventId: event.id));
+                                  context.pushNamed('sage', extra: event.id);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.insights),
+                                tooltip: 'Insights',
+                                onPressed: () {
+                                  context
+                                      .read<LensBloc>()
+                                      .add(FetchInsights(event.id));
+                                  context.pushNamed('insights',
+                                      extra: event.id);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.campaign_outlined),
+                                tooltip: 'Announce',
+                                onPressed: () =>
+                                    AnnounceSheet.show(context, event.id),
+                              ),
+                            ],
+                            BlocBuilder<BookmarkBloc, BookmarkState>(
+                              builder: (context, bookmarkState) {
+                                final isBookmarked =
+                                    bookmarkState is BookmarkToggleSuccess &&
+                                        bookmarkState.isBookmarked;
+                                return IconButton(
+                                  icon: Icon(
+                                    isBookmarked
+                                        ? Icons.bookmark
+                                        : Icons.bookmark_border,
+                                    color: isBookmarked
+                                        ? Theme.of(context).colorScheme.primary
+                                        : null,
+                                  ),
+                                  onPressed: () =>
+                                      context.read<BookmarkBloc>().add(
+                                            ToggleBookmark(
+                                              eventId: event.id,
+                                              bookmark: !isBookmarked,
+                                            ),
+                                          ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -312,6 +378,62 @@ class _EventDetailsBody extends StatelessWidget {
                           ],
                         ),
                       extraSmallHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Moments', style: inter14black600(context)),
+                          GestureDetector(
+                            onTap: () => context.pushNamed('reels', extra: {
+                              'eventId': event.id,
+                              'canPost': isOwnEvent ||
+                                  inviteStatus == 'accepted',
+                            }),
+                            child: HeaderTextTemplate(
+                              titleText: 'View All',
+                              titleTextColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              textSize: 10.sp,
+                              containerColor:
+                                  Colors.grey.withValues(alpha: 0.3),
+                            ),
+                          ),
+                        ],
+                      ),
+                      extraSmallHeight(),
+                      SizedBox(
+                        height: 80,
+                        child: ReelsScreen(
+                          eventId: event.id,
+                          canPost: false,
+                        ),
+                      ),
+                      normalHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Polls', style: inter14black600(context)),
+                          GestureDetector(
+                            onTap: () {
+                              context
+                                  .read<PollBloc>()
+                                  .add(FetchPolls(event.id));
+                              context.pushNamed('polls', extra: {
+                                'eventId': event.id,
+                                'isOrganizer': isOwnEvent,
+                              });
+                            },
+                            child: HeaderTextTemplate(
+                              titleText: isOwnEvent ? 'Manage' : 'View',
+                              titleTextColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              textSize: 10.sp,
+                              containerColor:
+                                  Colors.grey.withValues(alpha: 0.3),
+                            ),
+                          ),
+                        ],
+                      ),
+                      normalHeight(),
                       GestureDetector(
                         onTap: () {
                           context.push(
@@ -339,15 +461,48 @@ class _EventDetailsBody extends StatelessWidget {
           ],
         ),
         Positioned(
+          bottom: 80.0,
+          right: 20.0,
+          child: !isOwnEvent
+              ? FloatingActionButton.extended(
+                  heroTag: 'contribute',
+                  icon: const Icon(Icons.volunteer_activism),
+                  label: const Text('Contribute'),
+                  onPressed: () => context.pushNamed('contribute', extra: {
+                    'eventId': event.id,
+                    'eventName': event.name,
+                  }),
+                )
+              : const SizedBox.shrink(),
+        ),
+        Positioned(
           bottom: 20.0,
           left: 20.0,
           right: 20.0,
-          child: isOwnEvent || event.eventType == "public"
-              ? const SizedBox.shrink()
-              : _ConsentButtons(
-                  event: event,
-                  inviteStatus: inviteStatus,
-                ),
+          child: isOwnEvent
+              ? ElevatedButton.icon(
+                  icon: const Icon(Icons.qr_code_scanner),
+                  label: const Text('Scan Tickets'),
+                  onPressed: () =>
+                      context.pushNamed('ticket_scanner', extra: event.id),
+                )
+              : inviteStatus == 'accepted'
+                  ? ElevatedButton.icon(
+                      icon: const Icon(Icons.confirmation_number_outlined),
+                      label: const Text('View My Ticket'),
+                      onPressed: () {
+                        context
+                            .read<TicketBloc>()
+                            .add(FetchEventTicket(event.id));
+                        context.pushNamed('tickets');
+                      },
+                    )
+                  : event.eventType == 'public'
+                      ? const SizedBox.shrink()
+                      : _ConsentButtons(
+                          event: event,
+                          inviteStatus: inviteStatus,
+                        ),
         ),
       ],
     );

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.dart$\")",
+      "Bash(ls -la /Users/andy/Documents/Projects/flockr-backend)",
+      "Read(//Users/andy/Documents/Projects/flockr-backend/**)",
+      "Bash(find /Users/andy/Documents/Projects/flockr-backend -maxdepth 2 -name \"*.php\" -o -name \"*.json\" -o -name \"*.yaml\" | grep -E \"\\(composer|package\\\\.json|\\\\.env\\\\.example\\)\" | head -10)",
+      "Bash(flutter analyze *)",
+      "Bash(xargs cat)",
+      "Bash(flutter pub *)"
+    ],
+    "additionalDirectories": [
+      "/Users/andy/.claude/projects/-Users-andy-Documents-Projects-rapidlie-mobile"
+    ]
+  }
+}

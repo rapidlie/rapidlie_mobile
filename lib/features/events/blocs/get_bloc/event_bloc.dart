@@ -7,294 +7,96 @@ import 'package:rapidlie/features/events/repository/event_respository.dart';
 part 'event_event.dart';
 part 'event_state.dart';
 
-/// Public Events Bloc
-class PublicEventBloc extends Bloc<EventEvent, PublicEventState> {
+enum _EventFetchType { public, private, invited, upcoming, byCategory }
+
+/// Shared base bloc — all 5 event-list BLoCs extend this.
+abstract class _EventListBase extends Bloc<EventEvent, EventListState> {
   final EventRepository eventRepository;
-  List<EventDataModel>? _cachedPublicEvents;
+  final _EventFetchType _type;
+
+  List<EventDataModel>? _cached;
   DateTime? _cacheTimestamp;
-  const Duration cacheDuration = Duration(seconds: 2);
+  static const _cacheDuration = Duration(seconds: 10);
+
+  _EventListBase(this.eventRepository, this._type)
+      : super(EventListInitial()) {
+    on<FetchEventList>(_onFetch);
+  }
 
   void invalidateCache() {
-    _cachedPublicEvents = null;
+    _cached = null;
     _cacheTimestamp = null;
   }
 
-  PublicEventBloc({required this.eventRepository})
-      : super(InitialPublicEventState()) {
-    on<GetPublicEvents>(_onGetPublicEvents);
-  }
+  void _invalidate() => invalidateCache();
 
-  Future<void> _onGetPublicEvents(
-    GetPublicEvents event,
-    Emitter<EventState> emit,
+  Future<void> _onFetch(
+    FetchEventList event,
+    Emitter<EventListState> emit,
   ) async {
-    await _onGetEvents(emit, eventRepository.getPublicEvents, 'public');
-  }
+    emit(EventListLoading());
 
-  Future<void> _onGetEvents(
-    emit,
-    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
-    String eventType,
-  ) async {
-    emit(PublicEventLoading());
     final now = DateTime.now();
-    if (_cachedPublicEvents != null && _cacheTimestamp != null) {
-      if (now.difference(_cacheTimestamp!) < cacheDuration) {
-        emit(PublicEventLoaded(events: _cachedPublicEvents!));
+    if (_cached != null && _cacheTimestamp != null) {
+      if (now.difference(_cacheTimestamp!) < _cacheDuration) {
+        emit(EventListLoaded(events: _cached!));
+        return;
       } else {
-        invalidateCache();
+        _invalidate();
       }
     }
 
     try {
-      final eventResponse = await fetchFunction();
-
-      if (eventResponse is DataSuccess<List<EventDataModel>>) {
-        _cachedPublicEvents = eventResponse.data;
+      final result = await _fetch(event.categoryId);
+      if (result is DataSuccess<List<EventDataModel>>) {
+        _cached = result.data;
         _cacheTimestamp = now;
-        emit(
-          PublicEventLoaded(events: eventResponse.data!),
-        );
-      } else if (eventResponse is DataFailed) {
-        emit(PublicEventError(message: eventResponse.error.toString()));
+        emit(EventListLoaded(events: result.data!));
+      } else if (result is DataFailed) {
+        emit(EventListError(message: result.error.toString()));
       }
     } catch (e) {
-      emit(PublicEventError(message: e.toString()));
+      emit(EventListError(message: e.toString()));
+    }
+  }
+
+  Future<DataState<List<EventDataModel>>> _fetch(String? categoryId) {
+    switch (_type) {
+      case _EventFetchType.public:
+        return eventRepository.getPublicEvents();
+      case _EventFetchType.private:
+        return eventRepository.getPrivateEvents();
+      case _EventFetchType.invited:
+        return eventRepository.getInvitedEvents();
+      case _EventFetchType.upcoming:
+        return eventRepository.getUpcomingEvents();
+      case _EventFetchType.byCategory:
+        return eventRepository.getEventsByCategory(categoryId ?? '');
     }
   }
 }
 
-/// Invited Events Bloc
-class InvitedEventBloc extends Bloc<EventEvent, InvitedEventState> {
-  final EventRepository eventRepository;
-  List<EventDataModel>? _cachedInvitedEvents;
-  DateTime? _cacheTimestamp;
-  const Duration cacheDuration = Duration(seconds: 10);
-
-  void invalidateCache() {
-    _cachedInvitedEvents = null;
-    _cacheTimestamp = null;
-  }
-
-  InvitedEventBloc({required this.eventRepository})
-      : super(InitialInvitedEventState()) {
-    on<GetInvitedEvents>(_onGetInvitedEvents);
-  }
-
-  Future<void> _onGetInvitedEvents(
-    GetInvitedEvents event,
-    Emitter<EventState> emit,
-  ) async {
-    await _onGetEvents(emit, eventRepository.getInvitedEvents, 'public');
-  }
-
-  Future<void> _onGetEvents(
-    emit,
-    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
-    String eventType,
-  ) async {
-    emit(InvitedEventLoading());
-    final now = DateTime.now();
-    if (_cachedInvitedEvents != null && _cacheTimestamp != null) {
-      if (now.difference(_cacheTimestamp!) < cacheDuration) {
-        emit(InvitedEventLoaded(events: _cachedInvitedEvents!));
-      } else {
-        invalidateCache();
-      }
-    }
-
-    try {
-      final eventResponse = await fetchFunction();
-
-      if (eventResponse is DataSuccess<List<EventDataModel>>) {
-        _cachedInvitedEvents = eventResponse.data;
-        _cacheTimestamp = now;
-        emit(
-          InvitedEventLoaded(events: eventResponse.data!),
-        );
-      } else if (eventResponse is DataFailed) {
-        emit(InvitedEventError(message: eventResponse.error.toString()));
-      }
-    } catch (e) {
-      emit(InvitedEventError(message: e.toString()));
-    }
-  }
+class PublicEventBloc extends _EventListBase {
+  PublicEventBloc({required EventRepository eventRepository})
+      : super(eventRepository, _EventFetchType.public);
 }
 
-/// Private Event Bloc *
-class PrivateEventBloc extends Bloc<EventEvent, PrivateEventState> {
-  final EventRepository eventRepository;
-  List<EventDataModel>? _cachedPrivateEvents;
-  DateTime? _cacheTimestamp;
-  const Duration cacheDuration = Duration(seconds: 10);
-
-  void invalidateCache() {
-    _cachedPrivateEvents = null;
-    _cacheTimestamp = null;
-  }
-
-  PrivateEventBloc({required this.eventRepository})
-      : super(InitialPrivateEventState()) {
-    on<GetPrivateEvents>(_onGetPrivateEvents);
-  }
-
-  Future<void> _onGetPrivateEvents(
-    GetPrivateEvents event,
-    Emitter<PrivateEventState> emit,
-  ) async {
-    await _onGetEvents(emit, eventRepository.getPrivateEvents);
-  }
-
-  Future<void> _onGetEvents(
-    Emitter<PrivateEventState> emit,
-    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
-  ) async {
-    emit(PrivateEventLoading());
-
-    final now = DateTime.now();
-
-    // Check if cache is valid
-    if (_cachedPrivateEvents != null && _cacheTimestamp != null) {
-      if (now.difference(_cacheTimestamp!) < cacheDuration) {
-        emit(PrivateEventLoaded(events: _cachedPrivateEvents!));
-      } else {
-        invalidateCache();
-      }
-    }
-
-    try {
-      final eventResponse = await fetchFunction();
-
-      if (eventResponse is DataSuccess<List<EventDataModel>>) {
-        _cachedPrivateEvents = eventResponse.data;
-        _cacheTimestamp = now;
-        emit(
-          PrivateEventLoaded(events: eventResponse.data!),
-        );
-      } else if (eventResponse is DataFailed) {
-        emit(PrivateEventError(message: eventResponse.error.toString()));
-      }
-    } catch (e) {
-      emit(PrivateEventError(message: e.toString()));
-    }
-  }
+class PrivateEventBloc extends _EventListBase {
+  PrivateEventBloc({required EventRepository eventRepository})
+      : super(eventRepository, _EventFetchType.private);
 }
 
-/// Upcoming Events Bloc
-class UpcomingEventBloc extends Bloc<EventEvent, UpcomingEventState> {
-  final EventRepository eventRepository;
-  List<EventDataModel>? _cachedUpcomingEvents;
-  DateTime? _cacheTimestamp;
-  const Duration cacheDuration = Duration(seconds: 10);
-
-  void invalidateCache() {
-    _cachedUpcomingEvents = null;
-    _cacheTimestamp = null;
-  }
-
-  UpcomingEventBloc({required this.eventRepository})
-      : super(InitialUpcomingEventState()) {
-    on<GetUpcomingEvents>(_onGetUpcomingEvents);
-  }
-
-  Future<void> _onGetUpcomingEvents(
-    GetUpcomingEvents event,
-    Emitter<EventState> emit,
-  ) async {
-    await _onGetEvents(emit, eventRepository.getUpcomingEvents);
-  }
-
-  Future<void> _onGetEvents(
-    emit,
-    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
-  ) async {
-    emit(UpcomingEventLoading());
-    final now = DateTime.now();
-
-    // Check if cache is valid
-    if (_cachedUpcomingEvents != null && _cacheTimestamp != null) {
-      if (now.difference(_cacheTimestamp!) < cacheDuration) {
-        emit(UpcomingEventLoaded(events: _cachedUpcomingEvents!));
-      } else {
-        invalidateCache();
-      }
-    }
-
-    try {
-      final eventResponse = await fetchFunction();
-
-      if (eventResponse is DataSuccess<List<EventDataModel>>) {
-        _cachedUpcomingEvents = eventResponse.data;
-        _cacheTimestamp = now;
-        emit(
-          UpcomingEventLoaded(events: eventResponse.data!),
-        );
-      } else if (eventResponse is DataFailed) {
-        emit(UpcomingEventError(message: eventResponse.error.toString()));
-      }
-    } catch (e) {
-      emit(UpcomingEventError(message: e.toString()));
-    }
-  }
+class InvitedEventBloc extends _EventListBase {
+  InvitedEventBloc({required EventRepository eventRepository})
+      : super(eventRepository, _EventFetchType.invited);
 }
 
-/// Events By Category Bloc
-class EventByCategoryBloc extends Bloc<EventEvent, EventByCategoryState> {
-  final EventRepository eventRepository;
-  List<EventDataModel>? _cachedEventsByCategory;
-  DateTime? _cacheTimestamp;
-  const Duration cacheDuration = Duration(seconds: 10);
+class UpcomingEventBloc extends _EventListBase {
+  UpcomingEventBloc({required EventRepository eventRepository})
+      : super(eventRepository, _EventFetchType.upcoming);
+}
 
-  void invalidateCache() {
-    _cachedEventsByCategory = null;
-    _cacheTimestamp = null;
-  }
-
-  EventByCategoryBloc({required this.eventRepository})
-      : super(InitialEventByCategoryState()) {
-    on<GetEventsByCategory>(_onGetEventsByCategory);
-  }
-
-  Future<void> _onGetEventsByCategory(
-    GetEventsByCategory event,
-    Emitter<EventState> emit,
-  ) async {
-    await _onGetEvents(
-      emit,
-      () => eventRepository.getEventsByCategory(event.categoryId),
-    );
-  }
-
-  Future<void> _onGetEvents(
-    emit,
-    Future<DataState<List<EventDataModel>>> Function() fetchFunction,
-  ) async {
-    emit(EventByCategoryLoading());
-    final now = DateTime.now();
-
-    // Check if cache is valid
-    if (_cachedEventsByCategory != null && _cacheTimestamp != null) {
-      if (now.difference(_cacheTimestamp!) < cacheDuration) {
-        emit(EventByCategoryLoaded(events: _cachedEventsByCategory!));
-      } else {
-        invalidateCache();
-      }
-    }
-
-    try {
-      final eventResponse = await fetchFunction();
-
-      if (eventResponse is DataSuccess<List<EventDataModel>>) {
-        _cachedEventsByCategory = eventResponse.data;
-        _cacheTimestamp = now;
-        emit(
-          EventByCategoryLoaded(events: eventResponse.data!),
-        );
-      } else if (eventResponse is DataFailed) {
-        emit(EventByCategoryError(message: eventResponse.error.toString()));
-      }
-    } catch (e) {
-      emit(EventByCategoryError(message: e.toString()));
-    }
-  }
+class EventByCategoryBloc extends _EventListBase {
+  EventByCategoryBloc({required EventRepository eventRepository})
+      : super(eventRepository, _EventFetchType.byCategory);
 }

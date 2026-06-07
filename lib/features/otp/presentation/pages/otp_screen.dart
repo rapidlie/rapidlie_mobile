@@ -6,10 +6,8 @@ import 'package:pinput/pinput.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
-import 'package:rapidlie/features/otp/resend_bloc/resend_otp_bloc.dart';
-import 'package:rapidlie/features/otp/verify_bloc/verify_otp_bloc.dart';
+import 'package:rapidlie/features/otp/otp_bloc/otp_bloc.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  String email = " ";
+  String email = ' ';
   var language;
 
   @override
@@ -40,111 +38,90 @@ class _OtpScreenState extends State<OtpScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-            child: BlocConsumer<VerifyOtpBloc, VerifyOtpState>(
-              listener: (context, state) {
-                if (state is VerifyOtpSuccessState) {
-                  AppSnackbars.showSuccess(context, language.success);
-                  context.go('/bottom_nav');
-                } else if (state is VerifyOtpErrorState) {
-                  AppSnackbars.showError(context, language.failed);
-                }
-              },
-              builder: (context, state) {
-                return SizedBox(
-                  height: height,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            child: GestureDetector(
-                              onTap: () {
-                                context.go('/register');
-                              },
-                              child: const Icon(
-                                Icons.arrow_back,
-                              ),
-                            ),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+          child: BlocConsumer<OtpBloc, OtpState>(
+            listener: (context, state) {
+              if (state is OtpVerifySuccess) {
+                AppSnackbars.showSuccess(context, language.success);
+                context.go('/bottom_nav');
+              } else if (state is OtpVerifyError) {
+                AppSnackbars.showError(context, language.failed);
+              } else if (state is OtpResendSuccess) {
+                AppSnackbars.showSuccess(context, language.success);
+              } else if (state is OtpResendError) {
+                AppSnackbars.showError(context, language.failed);
+              }
+            },
+            builder: (context, state) {
+              return SizedBox(
+                height: height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: GestureDetector(
+                            onTap: () => context.go('/register'),
+                            child: const Icon(Icons.arrow_back),
                           ),
-                          Text(
-                            language.resendMessage,
-                            style: mainAppbarTitleStyle(context),
+                        ),
+                        Text(
+                          language.resendMessage,
+                          style: mainAppbarTitleStyle(context),
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: Column(
+                        children: [
+                          Pinput(
+                            defaultPinTheme: getDefaultTheme(context),
+                            focusedPinTheme: getFocusedTheme(),
+                            submittedPinTheme: getFocusedTheme(),
+                            onCompleted: (value) {
+                              context.read<OtpBloc>().add(
+                                    SubmitVerifyOtp(email: email, otp: value),
+                                  );
+                            },
+                            autofocus: true,
+                          ),
+                          const SizedBox(height: 48),
+                          GestureDetector(
+                            onTap: () {
+                              context.read<OtpBloc>().add(
+                                    SubmitResendOtp(email: email),
+                                  );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  language.noCode,
+                                  textAlign: TextAlign.right,
+                                  style: inter14black500(context),
+                                ),
+                                Text(
+                                  ' ${language.resend}',
+                                  textAlign: TextAlign.right,
+                                  style: inter14Orange500(context),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                      Center(
-                        child: Column(
-                          children: [
-                            Pinput(
-                              defaultPinTheme: getDefaultTheme(context),
-                              focusedPinTheme: getFocusedTheme(),
-                              submittedPinTheme: getFocusedTheme(),
-                              onCompleted: (value) {
-                                BlocProvider.of<VerifyOtpBloc>(context).add(
-                                  SubmitVerifyOtpEvent(
-                                    email: email,
-                                    otp: value,
-                                  ),
-                                );
-                              },
-                              autofocus: true,
-                            ),
-                            const SizedBox(
-                              height: 48,
-                            ),
-                            BlocConsumer<ResendOtpBloc, ResendOtpState>(
-                              listener: (context, state) {
-                                if (state is ResendOtpSuccessState) {
-                                  AppSnackbars.showSuccess(
-                                      context, language.success);
-                                } else if (state is ResendOtpErrorState) {
-                                  AppSnackbars.showError(
-                                      context, language.failed);
-                                }
-                              },
-                              builder: (context, state) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    BlocProvider.of<ResendOtpBloc>(context).add(
-                                      SubmitResendOtpEvent(
-                                        email: email,
-                                      ),
-                                    );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        language.noCode,
-                                        textAlign: TextAlign.right,
-                                        style: inter14black500(context),
-                                      ),
-                                      Text(
-                                        " " + language.resend,
-                                        textAlign: TextAlign.right,
-                                        style: inter14Orange500(context),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  ),
-                );
-              },
-            )),
+                    ),
+                    const SizedBox(height: 50),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

@@ -9,7 +9,7 @@ import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
-import 'package:rapidlie/features/home/presentation/widgets/event_list_template.dart';
+import 'package:rapidlie/core/widgets/event_card.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -88,9 +88,9 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocBuilder<EventByCategoryBloc, EventByCategoryState>(
+          child: BlocBuilder<EventByCategoryBloc, EventListState>(
             builder: (context, state) {
-              if (state is InitialEventByCategoryState) {
+              if (state is EventListInitial) {
                 return emptyListWithShimmer();
               } else if (state is EventByCategoryLoading) {
                 return emptyListWithShimmer();
@@ -132,7 +132,8 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
                       },
                     );
                   },
-                  child: EventListTemplate(
+                  child: EventCard(
+                    showOwnerInfo: true,
                     eventOwner: events[index].username,
                     eventName: events[index].name,
                     eventLocation: events[index].venue.split(',').first,

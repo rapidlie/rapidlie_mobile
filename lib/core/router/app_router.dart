@@ -18,6 +18,21 @@ import 'package:rapidlie/features/settings/presentation/pages/delete_account_scr
 import 'package:rapidlie/features/settings/presentation/pages/privacy_policy_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/profile_settings_screen.dart';
 import 'package:rapidlie/features/settings/presentation/pages/terms_and_conditions_screen.dart';
+import 'package:rapidlie/features/bookmarks/presentation/screens/bookmarked_events_screen.dart';
+import 'package:rapidlie/features/tickets/data/models/ticket_model.dart';
+import 'package:rapidlie/features/tickets/presentation/screens/my_tickets_screen.dart';
+import 'package:rapidlie/features/tickets/presentation/screens/ticket_detail_screen.dart';
+import 'package:rapidlie/features/tickets/presentation/screens/ticket_scanner_screen.dart';
+import 'package:rapidlie/features/reels/presentation/screens/reels_screen.dart';
+import 'package:rapidlie/features/polls/presentation/screens/polls_screen.dart';
+import 'package:rapidlie/features/contributions/presentation/screens/contribute_screen.dart';
+import 'package:rapidlie/features/lens/presentation/screens/event_insights_screen.dart';
+import 'package:rapidlie/features/sage/presentation/screens/sage_screen.dart';
+import 'package:rapidlie/features/mood/presentation/screens/mood_screen.dart';
+import 'package:rapidlie/features/mood/presentation/screens/mood_events_screen.dart';
+import 'package:rapidlie/features/groups/presentation/screens/groups_screen.dart';
+import 'package:rapidlie/features/groups/presentation/screens/group_detail_screen.dart';
+import 'package:rapidlie/features/groups/presentation/screens/create_group_screen.dart';
 import 'package:rapidlie/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
@@ -143,5 +158,111 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
     path: '/change_password',
     name: 'change_password',
     builder: (context, state) => ChangePasswordScreen(),
+  ),
+  GoRoute(
+    path: '/bookmarks',
+    name: 'bookmarks',
+    builder: (context, state) => const BookmarkedEventsScreen(),
+  ),
+  GoRoute(
+    path: '/tickets',
+    name: 'tickets',
+    builder: (context, state) => const MyTicketsScreen(),
+  ),
+  GoRoute(
+    path: '/ticket_detail',
+    name: 'ticket_detail',
+    builder: (context, state) {
+      final ticket = state.extra as TicketModel;
+      return TicketDetailScreen(ticket: ticket);
+    },
+  ),
+  GoRoute(
+    path: '/ticket_scanner',
+    name: 'ticket_scanner',
+    builder: (context, state) {
+      final eventId = state.extra as String;
+      return TicketScannerScreen(eventId: eventId);
+    },
+  ),
+  GoRoute(
+    path: '/mood',
+    name: 'mood',
+    builder: (context, state) => const MoodScreen(),
+  ),
+  GoRoute(
+    path: '/mood_events',
+    name: 'mood_events',
+    builder: (context, state) => const MoodEventsScreen(),
+  ),
+  GoRoute(
+    path: '/sage',
+    name: 'sage',
+    builder: (context, state) {
+      final eventId = state.extra as String;
+      return SageScreen(eventId: eventId);
+    },
+  ),
+  GoRoute(
+    path: '/insights',
+    name: 'insights',
+    builder: (context, state) {
+      final eventId = state.extra as String;
+      return EventInsightsScreen(eventId: eventId);
+    },
+  ),
+  GoRoute(
+    path: '/contribute',
+    name: 'contribute',
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>;
+      return ContributeScreen(
+        eventId: extra['eventId'] as String,
+        eventName: extra['eventName'] as String,
+      );
+    },
+  ),
+  GoRoute(
+    path: '/polls',
+    name: 'polls',
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>;
+      return PollsScreen(
+        eventId: extra['eventId'] as String,
+        isOrganizer: extra['isOrganizer'] as bool,
+      );
+    },
+  ),
+  GoRoute(
+    path: '/reels',
+    name: 'reels',
+    builder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>;
+      return Scaffold(
+        appBar: AppBar(title: const Text('Moments')),
+        body: ReelsScreen(
+          eventId: extra['eventId'] as String,
+          canPost: extra['canPost'] as bool,
+        ),
+      );
+    },
+  ),
+  GoRoute(
+    path: '/groups',
+    name: 'groups',
+    builder: (context, state) => const GroupsScreen(),
+  ),
+  GoRoute(
+    path: '/group_detail',
+    name: 'group_detail',
+    builder: (context, state) {
+      final groupId = state.extra as String;
+      return GroupDetailScreen(groupId: groupId);
+    },
+  ),
+  GoRoute(
+    path: '/create_group',
+    name: 'create_group',
+    builder: (context, state) => const CreateGroupScreen(),
   ),
 ]);
