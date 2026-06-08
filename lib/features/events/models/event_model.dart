@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:rapidlie/features/categories/models/category_model.dart';
 
 class EventResponseModel extends Equatable {
@@ -67,6 +68,8 @@ class EventDataModel extends Equatable {
   final int formattedLikes;
   final String username;
   final User? user;
+  final String? primaryColor;
+  final String? secondaryColor;
 
   EventDataModel({
     required this.id,
@@ -86,6 +89,8 @@ class EventDataModel extends Equatable {
     required this.formattedLikes,
     required this.username,
     this.user,
+    this.primaryColor,
+    this.secondaryColor,
   }) : super();
 
   factory EventDataModel.fromJson(Map<String, dynamic> json) {
@@ -108,6 +113,8 @@ class EventDataModel extends Equatable {
       formattedLikes: json['formatted_likes'],
       username: json['username'] ?? "",
       user: json['user'] != null ? User.fromJson(json['user']) : null,
+      primaryColor: json['primary_color'] as String?,
+      secondaryColor: json['secondary_color'] as String?,
     );
   }
 
@@ -130,7 +137,29 @@ class EventDataModel extends Equatable {
       'formatted_likes': formattedLikes,
       'username': username,
       'user': user?.toJson(),
+      'primary_color': primaryColor,
+      'secondary_color': secondaryColor,
     };
+  }
+
+  Color get resolvedPrimaryColor {
+    if (primaryColor != null && primaryColor!.isNotEmpty) {
+      try {
+        return Color(
+            int.parse('0xFF${primaryColor!.replaceAll('#', '')}'));
+      } catch (_) {}
+    }
+    return const Color(0xFF3E62F0);
+  }
+
+  Color get resolvedSecondaryColor {
+    if (secondaryColor != null && secondaryColor!.isNotEmpty) {
+      try {
+        return Color(
+            int.parse('0xFF${secondaryColor!.replaceAll('#', '')}'));
+      } catch (_) {}
+    }
+    return const Color(0xFF092147);
   }
 
   @override
@@ -152,6 +181,8 @@ class EventDataModel extends Equatable {
         username,
         hasLikedEvent,
         user,
+        primaryColor,
+        secondaryColor,
       ];
 }
 

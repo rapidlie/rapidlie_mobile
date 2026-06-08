@@ -14,6 +14,7 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
       : super(ContributionInitial()) {
     on<SubmitContribution>(_onSubmit);
     on<FetchEventContributions>(_onFetchEventContributions);
+    on<FetchMyContributions>(_onFetchMyContributions);
   }
 
   Future<void> _onSubmit(
@@ -43,6 +44,19 @@ class ContributionBloc extends Bloc<ContributionEvent, ContributionState> {
         await contributionRepository.getEventContributions(event.eventId);
     if (result is DataSuccess<EventContributionSummary>) {
       emit(EventContributionsLoaded(result.data!));
+    } else {
+      emit(ContributionError(
+          result.error?.response?.data['message'] as String? ??
+              'Failed to load contributions'));
+    }
+  }
+
+  Future<void> _onFetchMyContributions(
+      FetchMyContributions event, Emitter<ContributionState> emit) async {
+    emit(ContributionLoading());
+    final result = await contributionRepository.getMyContributions();
+    if (result is DataSuccess<List<ContributionModel>>) {
+      emit(MyContributionsLoaded(result.data!));
     } else {
       emit(ContributionError(
           result.error?.response?.data['message'] as String? ??

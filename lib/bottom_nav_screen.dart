@@ -10,6 +10,9 @@ import 'package:rapidlie/features/invites/presentation/pages/invites_screen.dart
 import 'package:rapidlie/features/settings/presentation/pages/settings_screen.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
+// Duration for the AnimatedSwitcher tab transition
+const _kTabSwitchDuration = Duration(milliseconds: 220);
+
 class BottomNavScreen extends StatefulWidget {
   final int currentIndex;
   const BottomNavScreen({Key? key, required this.currentIndex})
@@ -48,7 +51,19 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             ? SystemUiOverlayStyle.light
             : SystemUiOverlayStyle.dark,
         child: Scaffold(
-          body: currentScreen[_currentIndex],
+          body: AnimatedSwitcher(
+            duration: _kTabSwitchDuration,
+            switchInCurve: Curves.easeOut,
+            switchOutCurve: Curves.easeIn,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+            child: KeyedSubtree(
+              key: ValueKey<int>(_currentIndex),
+              child: currentScreen[_currentIndex],
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
             showUnselectedLabels: true,

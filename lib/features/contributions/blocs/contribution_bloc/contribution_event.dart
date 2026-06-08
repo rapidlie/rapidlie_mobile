@@ -29,3 +29,7 @@ class FetchEventContributions extends ContributionEvent {
   @override
   List<Object?> get props => [eventId];
 }
+
+class FetchMyContributions extends ContributionEvent {
+  const FetchMyContributions();
+}

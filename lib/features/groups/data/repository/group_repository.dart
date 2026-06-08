@@ -136,4 +136,47 @@ class GroupRepository {
       return DataFailed(e);
     }
   }
+
+  Future<DataState<GroupModel>> updateGroup(
+      String groupId, Map<String, dynamic> fields) async {
+    try {
+      final response = await dio.patch(
+        '$flockrAPIBaseUrl/groups/$groupId',
+        data: fields,
+        options: Options(headers: await _authHeaders()),
+      );
+      return DataSuccess(
+          GroupModel.fromJson(response.data['data'] as Map<String, dynamic>));
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState<String>> deleteGroup(String groupId) async {
+    try {
+      final response = await dio.delete(
+        '$flockrAPIBaseUrl/groups/$groupId',
+        options: Options(headers: await _authHeaders()),
+      );
+      return DataSuccess(
+          response.data['message'] as String? ?? 'Group deleted');
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState<String>> inviteMember(
+      String groupId, String userId) async {
+    try {
+      final response = await dio.post(
+        '$flockrAPIBaseUrl/groups/$groupId/invite',
+        data: {'user_id': userId},
+        options: Options(headers: await _authHeaders()),
+      );
+      return DataSuccess(
+          response.data['message'] as String? ?? 'Invitation sent');
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
 }

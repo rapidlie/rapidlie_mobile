@@ -7,7 +7,26 @@
       "Bash(find /Users/andy/Documents/Projects/flockr-backend -maxdepth 2 -name \"*.php\" -o -name \"*.json\" -o -name \"*.yaml\" | grep -E \"\\(composer|package\\\\.json|\\\\.env\\\\.example\\)\" | head -10)",
       "Bash(flutter analyze *)",
       "Bash(xargs cat)",
-      "Bash(flutter pub *)"
+      "Bash(flutter pub *)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(xcrun simctl *)",
+      "Bash(xcode-select -p)",
+      "Read(//Applications/Xcode.app/Contents/Developer/usr/bin/**)",
+      "Bash(flutter devices *)",
+      "Bash(/Applications/Xcode.app/Contents/Developer/usr/bin/simctl list *)",
+      "Bash(python3 /Users/andy/Documents/Projects/rapidlie_mobile/.claude/skills/ui-ux-pro-max/scripts/search.py \"social events mobile app community vibrant modern\" --design-system -p \"Flockr\" -f markdown)",
+      "Bash(flutter run *)",
+      "Bash(echo \"Flutter launch PID: $!\")",
+      "Bash(open -a Simulator)",
+      "Bash(/Applications/Xcode.app/Contents/Developer/usr/bin/simctl boot *)",
+      "Bash(flutter doctor *)",
+      "Bash(xcode-select --print-path)",
+      "Bash(sudo xcode-select -s /Applications/Xcode.app/Contents/Developer)",
+      "Bash(python3 /Users/andy/Documents/Projects/rapidlie_mobile/.claude/skills/ui-ux-pro-max/data/../../../.claude/skills/ui-ux-pro-max/data/ui-reasoning.csv)",
+      "Bash(find ~/.pub-cache -path \"*/fast_contacts*\" -name \"*.dart\" 2>/dev/null | head -10)",
+      "Read(//Users/andy/.pub-cache/**)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"social events discovery mobile app vibrant community\" --design-system -p \"Flockr\" -f markdown)"
     ],
     "additionalDirectories": [
       "/Users/andy/.claude/projects/-Users-andy-Documents-Projects-rapidlie-mobile"

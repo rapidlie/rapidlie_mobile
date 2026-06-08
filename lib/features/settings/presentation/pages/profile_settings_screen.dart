@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/custom_divider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
@@ -48,48 +47,64 @@ class ProfileSettingsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: Column(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/placeholder.png',
-                          image: userProfile.avatar,
-                          fit: BoxFit.cover,
-                          imageErrorBuilder: (context, error, stackTrace) =>
-                              Image.asset('assets/images/placeholder.png'),
-                          imageCacheHeight: 100,
-                          imageCacheWidth: 100,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          userProfile.name,
-                          style: inter15black500(context),
-                        ),
-                        Text(
-                          userProfile.phone ?? "",
-                          style: inter10Black400(context),
-                        ),
+                // Profile header with gradient
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 28),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.secondary,
                       ],
                     ),
-                  ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            width: 3,
+                          ),
+                        ),
+                        child: ClipOval(
+                          child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/placeholder.png',
+                            image: userProfile.avatar,
+                            fit: BoxFit.cover,
+                            imageErrorBuilder: (context, error, stackTrace) =>
+                                Image.asset('assets/images/placeholder.png'),
+                            imageCacheHeight: 90,
+                            imageCacheWidth: 90,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        userProfile.name,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        userProfile.phone ?? "",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.75),
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 SettingsContainerLayout(
                   childWidget: Column(
                     children: [
@@ -99,6 +114,54 @@ class ProfileSettingsScreen extends StatelessWidget {
                         iconColor: Theme.of(context).colorScheme.primary,
                         onCLickFunction: () {
                           context.pushNamed('tickets');
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: customDivider(context),
+                      ),
+                      SettingsItemLayout(
+                        icon: Icons.people_outline,
+                        title: 'Find Friends',
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        onCLickFunction: () {
+                          context.pushNamed('contacts');
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: customDivider(context),
+                      ),
+                      SettingsItemLayout(
+                        icon: Icons.volunteer_activism_outlined,
+                        title: 'My Contributions',
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        onCLickFunction: () {
+                          context.pushNamed('my_contributions');
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: customDivider(context),
+                      ),
+                      SettingsItemLayout(
+                        icon: Icons.mail_outline,
+                        title: 'Pending Invitations',
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        onCLickFunction: () {
+                          context.pushNamed('pending_invitations');
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: customDivider(context),
+                      ),
+                      SettingsItemLayout(
+                        icon: Icons.tune_outlined,
+                        title: 'App Settings',
+                        iconColor: Theme.of(context).colorScheme.primary,
+                        onCLickFunction: () {
+                          context.pushNamed('app_settings');
                         },
                       ),
                       Padding(

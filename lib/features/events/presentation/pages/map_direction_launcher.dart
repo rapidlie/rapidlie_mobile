@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,7 +17,6 @@ class MapDirectionLauncher extends StatefulWidget {
 }
 
 class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
-  GoogleMapController? _controller;
   LatLng? _currentPosition;
 
   @override
@@ -30,7 +30,6 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
     if (!serviceEnabled) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -52,14 +51,14 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     if (permission == LocationPermission.deniedForever) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request them.')));
+          content: Text('Location permissions are permanently denied.')));
       return;
     }
 
     try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      final position = await Geolocator.getCurrentPosition(
+          locationSettings:
+              const LocationSettings(accuracy: LocationAccuracy.high));
       if (!mounted) return;
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
@@ -71,10 +70,6 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
     }
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller = controller;
-  }
-
   Future<void> _openDirections() async {
     if (_currentPosition == null) {
       if (!mounted) return;
@@ -83,20 +78,16 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
       return;
     }
 
-    final String origin =
+    final origin =
         '${_currentPosition!.latitude},${_currentPosition!.longitude}';
-    final String destination =
+    final destination =
         '${widget.targetLocation.latitude},${widget.targetLocation.longitude}';
-    String url;
-    if (Platform.isIOS) {
-      url = 'http://maps.apple.com/?saddr=$origin&daddr=$destination&dirflg=d';
-    } else {
-      url =
-          'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=driving';
-    }
+
+    final String url = Platform.isIOS
+        ? 'http://maps.apple.com/?saddr=$origin&daddr=$destination&dirflg=d'
+        : 'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$destination&travelmode=driving';
 
     final uri = Uri.parse(url);
-
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
@@ -109,58 +100,66 @@ class _MapDirectionLauncherState extends State<MapDirectionLauncher> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final primary = Theme.of(context).colorScheme.primary;
+
     return Container(
       height: 200,
-      width: width,
+      width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.3),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: const Offset(0, 5), // changes position of shadow
+            color: Colors.black.withValues(alpha: 0.12),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(borderRadius),
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              scrollGesturesEnabled: false,
-              zoomGesturesEnabled: false,
-              myLocationButtonEnabled: false,
-              initialCameraPosition: CameraPosition(
-                target: widget.targetLocation,
-                zoom: 16.0,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Stack(
+          children: [
+            FlutterMap(
+              options: MapOptions(
+                initialCenter: widget.targetLocation,
+                initialZoom: 15.5,
+                interactionOptions:
+                    const InteractionOptions(flags: InteractiveFlag.none),
               ),
-              mapType: MapType.normal,
-              markers: {
-                Marker(
-                  markerId: MarkerId("eventLocation"),
-                  position: widget.targetLocation,
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueCyan,
-                  ),
-                )
-              },
+              children: [
+                TileLayer(
+                  urlTemplate:
+                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.rapidlie.app',
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: widget.targetLocation,
+                      width: 40,
+                      height: 40,
+                      child: Icon(
+                        Icons.location_on,
+                        color: primary,
+                        size: 36,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(borderRadius),
-                onTap: () {
-                  _openDirections();
-                },
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  onTap: _openDirections,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

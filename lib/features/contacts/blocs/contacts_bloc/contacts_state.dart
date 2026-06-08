@@ -30,3 +30,21 @@ class ContactError extends ContactsState {
   @override
   List<Object?> get props => [error];
 }
+
+class ContactMatchLoading extends ContactsState {}
+
+class ContactMatchLoaded extends ContactsState {
+  final List<MatchedUserModel> users;
+  const ContactMatchLoaded(this.users);
+
+  @override
+  List<Object?> get props => [users];
+}
+
+class ContactMatchError extends ContactsState {
+  final String error;
+  const ContactMatchError(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

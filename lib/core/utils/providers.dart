@@ -30,6 +30,8 @@ import 'package:rapidlie/features/mood/blocs/mood_bloc/mood_bloc.dart';
 import 'package:rapidlie/features/mood/data/repository/mood_repository.dart';
 import 'package:rapidlie/features/groups/blocs/groups_bloc/groups_bloc.dart';
 import 'package:rapidlie/features/groups/data/repository/group_repository.dart';
+import 'package:rapidlie/features/settings/blocs/user_setting_bloc/user_setting_bloc.dart';
+import 'package:rapidlie/features/settings/repositories/user_setting_repository.dart';
 import 'package:rapidlie/features/notifications/blocs/announce_bloc/announce_bloc.dart';
 import 'package:rapidlie/features/notifications/data/device_token_repository.dart';
 import 'package:rapidlie/features/events/blocs/like_toggle_bloc/like_toggle_bloc.dart';
@@ -178,6 +180,10 @@ final List<SingleChildWidget> providers = [
   BlocProvider<GroupsBloc>(
     create: (_) =>
         GroupsBloc(groupRepository: GroupRepository(dio: Dio())),
+  ),
+  BlocProvider<UserSettingBloc>(
+    create: (_) =>
+        UserSettingBloc(repository: UserSettingRepository(dio: Dio())),
   ),
   // Merged like/unlike toggle bloc
   BlocProvider<LikeToggleBloc>(

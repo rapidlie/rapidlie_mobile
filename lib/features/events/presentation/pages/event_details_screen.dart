@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:image_stack/image_stack.dart';
 import 'package:rapidlie/core/constants/custom_colors.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
@@ -25,6 +25,8 @@ import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/map_direction_launcher.dart';
 import 'package:rapidlie/features/events/repository/event_detail_respository.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:rapidlie/core/constants/strings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // The screen now only needs the eventId to fetch its own data.
 class EventDetailsScreen extends StatelessWidget {
@@ -118,6 +120,8 @@ class _EventDetailsBody extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final initialPosition = _extractLatLngFromString(event.mapLocation);
+    final eventPrimary = event.resolvedPrimaryColor;
+    final eventSecondary = event.resolvedSecondaryColor;
 
     return Stack(
       children: [
@@ -131,15 +135,15 @@ class _EventDetailsBody extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(
-                    height: 15,
-                    width: 15,
+                    height: 36,
+                    width: 36,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: CustomColors.lightGray,
+                      color: Colors.black.withValues(alpha: 0.35),
                     ),
                     child: const Icon(
                       Icons.arrow_back,
-                      color: Colors.black,
+                      color: Colors.white,
                       size: 18,
                     ),
                   ),
@@ -148,7 +152,15 @@ class _EventDetailsBody extends StatelessWidget {
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(50),
                 child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    border: Border(
+                      top: BorderSide(
+                        color: eventPrimary.withValues(alpha: 0.15),
+                        width: 2,
+                      ),
+                    ),
+                  ),
                   width: double.maxFinite,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -161,16 +173,25 @@ class _EventDetailsBody extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(event.name, style: inter16Black600(context)),
-                              HeaderTextTemplate(
-                                titleText: event.category.name,
-                                titleTextColor:
-                                    Theme.of(context).colorScheme.onSurface,
-                                textSize: 8,
-                                verticalPadding: 5,
-                                horizontalPadding: 10,
-                                containerColor:
-                                    Colors.grey.withValues(alpha: 0.3),
+                              Text(event.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge),
+                              const SizedBox(height: 4),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: eventPrimary.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  event.category.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(color: eventPrimary),
+                                ),
                               ),
                             ],
                           ),
@@ -180,7 +201,8 @@ class _EventDetailsBody extends StatelessWidget {
                           children: [
                             if (isOwnEvent) ...[
                               IconButton(
-                                icon: const Icon(Icons.auto_awesome),
+                                icon: Icon(Icons.auto_awesome,
+                                    color: eventPrimary),
                                 tooltip: 'SAGE',
                                 onPressed: () {
                                   context
@@ -191,7 +213,8 @@ class _EventDetailsBody extends StatelessWidget {
                                 },
                               ),
                               IconButton(
-                                icon: const Icon(Icons.insights),
+                                icon: Icon(Icons.insights,
+                                    color: eventPrimary),
                                 tooltip: 'Insights',
                                 onPressed: () {
                                   context
@@ -202,12 +225,25 @@ class _EventDetailsBody extends StatelessWidget {
                                 },
                               ),
                               IconButton(
-                                icon: const Icon(Icons.campaign_outlined),
+                                icon: Icon(Icons.campaign_outlined,
+                                    color: eventPrimary),
                                 tooltip: 'Announce',
                                 onPressed: () =>
                                     AnnounceSheet.show(context, event.id),
                               ),
                             ],
+                            IconButton(
+                              icon: const Icon(Icons.calendar_month_outlined),
+                              tooltip: 'Add to Calendar',
+                              onPressed: () async {
+                                final uri = Uri.parse(
+                                    '$flockrAPIBaseUrl/events/${event.id}/calendar.ics');
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri,
+                                      mode: LaunchMode.externalApplication);
+                                }
+                              },
+                            ),
                             BlocBuilder<BookmarkBloc, BookmarkState>(
                               builder: (context, bookmarkState) {
                                 final isBookmarked =
@@ -218,9 +254,7 @@ class _EventDetailsBody extends StatelessWidget {
                                     isBookmarked
                                         ? Icons.bookmark
                                         : Icons.bookmark_border,
-                                    color: isBookmarked
-                                        ? Theme.of(context).colorScheme.primary
-                                        : null,
+                                    color: isBookmarked ? eventPrimary : null,
                                   ),
                                   onPressed: () =>
                                       context.read<BookmarkBloc>().add(
@@ -243,7 +277,28 @@ class _EventDetailsBody extends StatelessWidget {
               backgroundColor: Theme.of(context).colorScheme.surface,
               expandedHeight: 400,
               flexibleSpace: FlexibleSpaceBar(
-                background: RenderImage(imageUrl: event.image!),
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (event.image != null)
+                      RenderImage(imageUrl: event.image!, fit: BoxFit.cover),
+                    // Dynamic gradient overlay from event colors
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            eventSecondary.withValues(alpha: 0.55),
+                            eventPrimary.withValues(alpha: 0.75),
+                          ],
+                          stops: const [0.45, 0.75, 1.0],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SliverToBoxAdapter(
@@ -466,6 +521,8 @@ class _EventDetailsBody extends StatelessWidget {
           child: !isOwnEvent
               ? FloatingActionButton.extended(
                   heroTag: 'contribute',
+                  backgroundColor: eventPrimary,
+                  foregroundColor: Colors.white,
                   icon: const Icon(Icons.volunteer_activism),
                   label: const Text('Contribute'),
                   onPressed: () => context.pushNamed('contribute', extra: {
@@ -481,6 +538,10 @@ class _EventDetailsBody extends StatelessWidget {
           right: 20.0,
           child: isOwnEvent
               ? ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: eventPrimary,
+                    foregroundColor: Colors.white,
+                  ),
                   icon: const Icon(Icons.qr_code_scanner),
                   label: const Text('Scan Tickets'),
                   onPressed: () =>
@@ -488,6 +549,10 @@ class _EventDetailsBody extends StatelessWidget {
                 )
               : inviteStatus == 'accepted'
                   ? ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: eventPrimary,
+                        foregroundColor: Colors.white,
+                      ),
                       icon: const Icon(Icons.confirmation_number_outlined),
                       label: const Text('View My Ticket'),
                       onPressed: () {
@@ -593,7 +658,7 @@ class _ConsentButtons extends StatelessWidget {
                           },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
-                        CustomColors.acceptButtonColor,
+                        event.resolvedPrimaryColor,
                       ),
                       foregroundColor: WidgetStateProperty.all<Color>(
                         Colors.white,
@@ -634,7 +699,7 @@ class _ConsentButtons extends StatelessWidget {
                 backgroundColor: WidgetStateProperty.all<Color>(
                   currentInviteStatus == "declined"
                       ? Colors.red
-                      : CustomColors.acceptButtonColor,
+                      : event.resolvedPrimaryColor,
                 ),
                 foregroundColor: WidgetStateProperty.all<Color>(
                   Colors.white,

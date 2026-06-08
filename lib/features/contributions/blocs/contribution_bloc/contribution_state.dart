@@ -24,6 +24,13 @@ class EventContributionsLoaded extends ContributionState {
   List<Object?> get props => [summary];
 }
 
+class MyContributionsLoaded extends ContributionState {
+  final List<ContributionModel> contributions;
+  const MyContributionsLoaded(this.contributions);
+  @override
+  List<Object?> get props => [contributions];
+}
+
 class ContributionError extends ContributionState {
   final String message;
   const ContributionError(this.message);

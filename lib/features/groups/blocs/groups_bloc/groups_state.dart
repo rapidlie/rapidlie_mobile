@@ -58,3 +58,12 @@ class GroupsError extends GroupsState {
   @override
   List<Object?> get props => [message];
 }
+
+class GroupDeleteSuccess extends GroupsState {}
+
+class GroupUpdateSuccess extends GroupsState {
+  final GroupModel group;
+  const GroupUpdateSuccess(this.group);
+  @override
+  List<Object?> get props => [group];
+}

@@ -52,6 +52,191 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     }
   }
 
+  void _showEditSheet(GroupModel group) {
+    final nameCtrl = TextEditingController(text: group.name);
+    final descCtrl =
+        TextEditingController(text: group.description ?? '');
+    String privacy = group.privacy;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setModal) => Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 24,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Edit Group',
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 20),
+              TextField(
+                controller: nameCtrl,
+                decoration: InputDecoration(
+                  labelText: 'Group Name',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: descCtrl,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Text('Privacy: ',
+                      style: TextStyle(fontWeight: FontWeight.w500)),
+                  const SizedBox(width: 8),
+                  ChoiceChip(
+                    label: const Text('Public'),
+                    selected: privacy == 'public',
+                    onSelected: (_) =>
+                        setModal(() => privacy = 'public'),
+                  ),
+                  const SizedBox(width: 8),
+                  ChoiceChip(
+                    label: const Text('Private'),
+                    selected: privacy == 'private',
+                    onSelected: (_) =>
+                        setModal(() => privacy = 'private'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12))),
+                  onPressed: () {
+                    context.read<GroupsBloc>().add(UpdateGroup(
+                          groupId: widget.groupId,
+                          fields: {
+                            'name': nameCtrl.text.trim(),
+                            'description': descCtrl.text.trim(),
+                            'privacy': privacy,
+                          },
+                        ));
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text('Save Changes'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showInviteSheet() {
+    final ctrl = TextEditingController();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 24,
+          bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Invite Member',
+                style:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 4),
+            const Text('Enter the user ID of the person to invite',
+                style: TextStyle(fontSize: 13, color: Colors.grey)),
+            const SizedBox(height: 20),
+            TextField(
+              controller: ctrl,
+              decoration: InputDecoration(
+                labelText: 'User ID',
+                hintText: 'Paste or type user ID',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                prefixIcon: const Icon(Icons.person_add_outlined),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
+                onPressed: () {
+                  final uid = ctrl.text.trim();
+                  if (uid.isEmpty) return;
+                  context.read<GroupsBloc>().add(InviteMember(
+                        groupId: widget.groupId,
+                        userId: uid,
+                      ));
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Send Invitation'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _confirmDelete() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16)),
+        title: const Text('Delete Group'),
+        content: const Text(
+            'This will permanently delete the group and all its data. This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context
+                  .read<GroupsBloc>()
+                  .add(DeleteGroup(widget.groupId));
+            },
+            child: const Text('Delete',
+                style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GroupsBloc, GroupsState>(
@@ -61,6 +246,16 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
           context
               .read<GroupsBloc>()
               .add(FetchGroupMembers(widget.groupId));
+        } else if (state is GroupDeleteSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Group deleted')),
+          );
+          context.pop();
+        } else if (state is GroupUpdateSuccess) {
+          setState(() => _group = state.group);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Group updated')),
+          );
         } else if (state is GroupActionSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
@@ -112,7 +307,24 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                         ),
                 ),
                 actions: [
-                  if (!group.isOwner)
+                  if (group.isOwner) ...[
+                    IconButton(
+                      icon: const Icon(Icons.person_add_outlined),
+                      tooltip: 'Invite Member',
+                      onPressed: _showInviteSheet,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit_outlined),
+                      tooltip: 'Edit Group',
+                      onPressed: () => _showEditSheet(group),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline,
+                          color: Colors.redAccent),
+                      tooltip: 'Delete Group',
+                      onPressed: _confirmDelete,
+                    ),
+                  ] else
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: state is GroupsLoading

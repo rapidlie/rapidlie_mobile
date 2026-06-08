@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
 
 class FlashNotificationsTemplate extends StatelessWidget {
   final String noificationTitle;
@@ -14,64 +13,67 @@ class FlashNotificationsTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.only(left: 10),
-      height: 120,
-      width: MediaQuery.of(context).size.width - 35,
+      height: 100,
+      width: MediaQuery.of(context).size.width * 0.75,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: CustomColors.colorFromHex("#25272E"),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? [const Color(0xFF1A2235), const Color(0xFF111827)]
+              : [primary.withValues(alpha: 0.08), primary.withValues(alpha: 0.03)],
+        ),
+        border: Border.all(
+          color: primary.withValues(alpha: isDark ? 0.25 : 0.15),
+          width: 1,
+        ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(13.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: CustomColors.colorFromHex("#29EBD0")),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        noificationTitle,
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.1,
-                        ),
-                      ),
-                    ],
+            Row(
+              children: [
+                Container(
+                  height: 7,
+                  width: 7,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: primary,
                   ),
-                  /* Icon(
-                        Icons.close,
-                        size: 18,
-                        color: const Color.fromARGB(
-                            255, 158, 158, 158),
-                      ), */
-                ],
-              ),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    noificationTitle,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.1,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 6),
-            Expanded(
-              child: Text(
-                noificationBody,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: GoogleFonts.inter(
-                  color: const Color.fromARGB(255, 192, 192, 192),
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.1,
-                ),
+            Text(
+              noificationBody,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: GoogleFonts.inter(
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.1,
               ),
             ),
           ],

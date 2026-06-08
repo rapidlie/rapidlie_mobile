@@ -20,6 +20,9 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
     on<LeaveGroup>(_onLeave);
     on<FetchGroupMembers>(_onFetchMembers);
     on<FetchGroupEvents>(_onFetchEvents);
+    on<UpdateGroup>(_onUpdate);
+    on<DeleteGroup>(_onDelete);
+    on<InviteMember>(_onInvite);
   }
 
   String _errMsg(DataState state) =>
@@ -111,6 +114,40 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
     final result = await groupRepository.getGroupEvents(event.groupId);
     if (result is DataSuccess<List<EventDataModel>>) {
       emit(GroupEventsLoaded(result.data!));
+    } else {
+      emit(GroupsError(_errMsg(result)));
+    }
+  }
+
+  Future<void> _onUpdate(
+      UpdateGroup event, Emitter<GroupsState> emit) async {
+    emit(GroupsLoading());
+    final result =
+        await groupRepository.updateGroup(event.groupId, event.fields);
+    if (result is DataSuccess<GroupModel>) {
+      emit(GroupUpdateSuccess(result.data!));
+    } else {
+      emit(GroupsError(_errMsg(result)));
+    }
+  }
+
+  Future<void> _onDelete(
+      DeleteGroup event, Emitter<GroupsState> emit) async {
+    emit(GroupsLoading());
+    final result = await groupRepository.deleteGroup(event.groupId);
+    if (result is DataSuccess<String>) {
+      emit(GroupDeleteSuccess());
+    } else {
+      emit(GroupsError(_errMsg(result)));
+    }
+  }
+
+  Future<void> _onInvite(
+      InviteMember event, Emitter<GroupsState> emit) async {
+    final result =
+        await groupRepository.inviteMember(event.groupId, event.userId);
+    if (result is DataSuccess<String>) {
+      emit(GroupActionSuccess(result.data!));
     } else {
       emit(GroupsError(_errMsg(result)));
     }

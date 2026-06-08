@@ -10,3 +10,11 @@ abstract class ContactsEvent extends Equatable {
 class RequestPermissionEvent extends ContactsEvent {}
 
 class FetchContactsEvent extends ContactsEvent {}
+
+class MatchContactsEvent extends ContactsEvent {
+  final List<String> phoneNumbers;
+  const MatchContactsEvent(this.phoneNumbers);
+
+  @override
+  List<Object> get props => [phoneNumbers];
+}

@@ -63,3 +63,26 @@ class FetchGroupEvents extends GroupsEvent {
   @override
   List<Object?> get props => [groupId];
 }
+
+class UpdateGroup extends GroupsEvent {
+  final String groupId;
+  final Map<String, dynamic> fields;
+  const UpdateGroup({required this.groupId, required this.fields});
+  @override
+  List<Object?> get props => [groupId, fields];
+}
+
+class DeleteGroup extends GroupsEvent {
+  final String groupId;
+  const DeleteGroup(this.groupId);
+  @override
+  List<Object?> get props => [groupId];
+}
+
+class InviteMember extends GroupsEvent {
+  final String groupId;
+  final String userId;
+  const InviteMember({required this.groupId, required this.userId});
+  @override
+  List<Object?> get props => [groupId, userId];
+}

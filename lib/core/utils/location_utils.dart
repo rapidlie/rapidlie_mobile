@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:rapidlie/core/utils/autocomplete_predictions.dart';
 import 'package:rapidlie/core/utils/autocomplete_response.dart';
 import 'package:rapidlie/core/utils/network_utility.dart';

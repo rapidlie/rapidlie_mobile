@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 
 class EventCard extends StatelessWidget {
@@ -14,7 +11,6 @@ class EventCard extends StatelessWidget {
   final String inviteStatus;
   final bool showStatusBadge;
 
-  // Owner info — shown when showOwnerInfo is true
   final bool showOwnerInfo;
   final String? eventOwner;
   final String? eventOwnerAvatar;
@@ -38,99 +34,114 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
+    final primary = theme.colorScheme.primary;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (showOwnerInfo) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (showOwnerInfo) ...[
+            Row(
               children: [
-                Container(
-                  width: 35,
-                  height: 35,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: ClipOval(
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/placeholder.png',
-                      image: eventOwnerAvatar ?? '',
-                      fit: BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) =>
-                          Image.asset('assets/images/placeholder.png'),
-                      imageCacheHeight: 100,
-                      imageCacheWidth: 100,
-                    ),
-                  ),
+                CircleAvatar(
+                  radius: 18,
+                  backgroundImage: (eventOwnerAvatar != null &&
+                          eventOwnerAvatar!.isNotEmpty)
+                      ? NetworkImage(eventOwnerAvatar!)
+                      : null,
+                  backgroundColor: primary.withValues(alpha: 0.1),
+                  child: (eventOwnerAvatar == null || eventOwnerAvatar!.isEmpty)
+                      ? Icon(Icons.person, size: 18, color: primary)
+                      : null,
                 ),
-                const SizedBox(width: 5),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(eventOwner ?? '', style: inter14black600(context)),
-                    Text(eventLocation ?? '', style: inter10Black400(context)),
+                    Text(
+                      eventOwner ?? '',
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    if (eventLocation != null && eventLocation!.isNotEmpty)
+                      Text(
+                        eventLocation!,
+                        style: theme.textTheme.bodySmall
+                            ?.copyWith(color: theme.colorScheme.outline),
+                      ),
                   ],
                 ),
               ],
             ),
+            const SizedBox(height: 8),
+          ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: eventImageString != null && eventImageString!.isNotEmpty
+                  ? RenderImage(
+                      imageUrl: eventImageString!,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      color: primary.withValues(alpha: 0.08),
+                      child: Icon(Icons.event, size: 48, color: primary),
+                    ),
+            ),
           ),
-          const SizedBox(height: 5),
-        ],
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: width,
-                height: 250,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: eventImageString == null
-                    ? const SizedBox.shrink()
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: RenderImage(imageUrl: eventImageString!),
-                      ),
-              ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(
+                      eventName,
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
                       children: [
-                        Text(eventName, style: inter13black500(context)),
-                        Row(
-                          children: [
-                            Text(eventDay, style: inter10Black400(context)),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Container(
-                                height: 10,
-                                width: 1,
-                                color:
-                                    Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            Text(eventDate, style: inter10Black400(context)),
-                          ],
+                        Text(
+                          eventDay,
+                          style: theme.textTheme.bodySmall
+                              ?.copyWith(color: theme.colorScheme.outline),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            width: 1,
+                            height: 10,
+                            color: primary,
+                          ),
+                        ),
+                        Text(
+                          eventDate,
+                          style: theme.textTheme.bodySmall
+                              ?.copyWith(color: theme.colorScheme.outline),
                         ),
                       ],
                     ),
-                    if (showStatusBadge) _StatusBadge(status: inviteStatus),
                   ],
                 ),
               ),
+              if (showStatusBadge) ...[
+                const SizedBox(width: 8),
+                _StatusBadge(status: inviteStatus),
+              ],
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -141,29 +152,40 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAccepted = status == 'accepted';
-    final isDeclined = status == 'declined';
+    final Color bg;
+    final Color fg;
+    final String label;
+
+    switch (status) {
+      case 'accepted':
+        bg = Colors.green.withValues(alpha: 0.12);
+        fg = Colors.green.shade700;
+        label = 'GOING';
+        break;
+      case 'declined':
+        bg = Colors.red.withValues(alpha: 0.12);
+        fg = Colors.red.shade700;
+        label = 'DECLINED';
+        break;
+      default:
+        bg = Theme.of(context).colorScheme.surfaceContainerHighest;
+        fg = Theme.of(context).colorScheme.outline;
+        label = 'PENDING';
+    }
 
     return Container(
       decoration: BoxDecoration(
-        color: isAccepted
-            ? const Color.fromARGB(55, 76, 175, 79)
-            : isDeclined
-                ? const Color.fromARGB(55, 244, 67, 54)
-                : const Color.fromARGB(55, 0, 0, 0),
-        borderRadius: BorderRadius.circular(5),
+        color: bg,
+        borderRadius: BorderRadius.circular(8),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
       child: Text(
-        isAccepted ? 'GOING' : isDeclined ? 'DECLINED' : 'PENDING',
-        style: GoogleFonts.inter(
-          color: isAccepted
-              ? Colors.green
-              : isDeclined
-                  ? Colors.red
-                  : Colors.white,
-          fontSize: 9.sp,
-          fontWeight: FontWeight.w500,
+        label,
+        style: TextStyle(
+          color: fg,
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.3,
         ),
       ),
     );

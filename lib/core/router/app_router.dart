@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/bottom_nav_screen.dart';
+import 'package:rapidlie/core/widgets/animations.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
@@ -33,216 +34,235 @@ import 'package:rapidlie/features/mood/presentation/screens/mood_events_screen.d
 import 'package:rapidlie/features/groups/presentation/screens/groups_screen.dart';
 import 'package:rapidlie/features/groups/presentation/screens/group_detail_screen.dart';
 import 'package:rapidlie/features/groups/presentation/screens/create_group_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/app_settings_screen.dart';
+import 'package:rapidlie/features/settings/presentation/pages/vault_enable_screen.dart';
+import 'package:rapidlie/features/contributions/presentation/screens/my_contributions_screen.dart';
+import 'package:rapidlie/features/events/presentation/pages/pending_invitations_screen.dart';
+import 'package:rapidlie/features/contacts/presentation/pages/contact_list_screen.dart';
 import 'package:rapidlie/splash_screen.dart';
+
+CustomTransitionPage<void> _page(GoRouterState state, Widget child) =>
+    CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: child,
+      transitionsBuilder: pageTransitionBuilder,
+      transitionDuration: const Duration(milliseconds: 280),
+    );
 
 final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
     name: 'splash',
-    builder: (context, state) => const SplashScreen(),
+    pageBuilder: (context, state) => _page(state, const SplashScreen()),
   ),
   GoRoute(
     path: '/login',
     name: 'login',
-    builder: (context, state) => LoginScreen(),
+    pageBuilder: (context, state) => _page(state, LoginScreen()),
   ),
   GoRoute(
     path: '/register',
     name: 'register',
-    builder: (context, state) => RegisterScreen(),
+    pageBuilder: (context, state) => _page(state, RegisterScreen()),
   ),
   GoRoute(
     path: '/otp',
     name: 'otp',
-    builder: (context, state) => OtpScreen(),
+    pageBuilder: (context, state) => _page(state, OtpScreen()),
   ),
   GoRoute(
     path: '/forgot_password',
     name: 'forgot_password',
-    builder: (context, state) => ChangePasswordScreen(),
+    pageBuilder: (context, state) => _page(state, ChangePasswordScreen()),
   ),
   GoRoute(
     path: '/request_password_reset',
     name: 'request_password_reset',
-    builder: (context, state) => RequestResetPasswordScreen(),
+    pageBuilder: (context, state) =>
+        _page(state, RequestResetPasswordScreen()),
   ),
   GoRoute(
     path: '/delete_account',
     name: 'delete_account',
-    builder: (context, state) => DeleteAccountScreen(),
+    pageBuilder: (context, state) => _page(state, DeleteAccountScreen()),
   ),
   GoRoute(
     path: '/new_password',
     name: 'new_password',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final String email = state.extra as String;
-      return NewPasswordScreen(email: email);
+      return _page(state, NewPasswordScreen(email: email));
     },
   ),
   GoRoute(
-      path: '/bottom_nav',
-      name: 'bottom_nav',
-      builder: (context, state) {
-        final int currentIndex = state.extra as int? ?? 0;
-        return BottomNavScreen(currentIndex: currentIndex);
-      }),
+    path: '/bottom_nav',
+    name: 'bottom_nav',
+    pageBuilder: (context, state) {
+      final int currentIndex = state.extra as int? ?? 0;
+      return _page(state, BottomNavScreen(currentIndex: currentIndex));
+    },
+  ),
   GoRoute(
-      path: '/category',
-      name: 'category',
-      pageBuilder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        final String categoryId = extra['categoryId'] as String;
-        final String categoryName = extra['categoryName'] as String;
-
-        return MaterialPage(
-          child: CategoryScreen(
-            categoryId: categoryId,
-            categoryName: categoryName,
-          ),
-        );
-      }),
+    path: '/category',
+    name: 'category',
+    pageBuilder: (context, state) {
+      final extra = state.extra as Map<String, dynamic>;
+      return _page(
+        state,
+        CategoryScreen(
+          categoryId: extra['categoryId'] as String,
+          categoryName: extra['categoryName'] as String,
+        ),
+      );
+    },
+  ),
   GoRoute(
-      path: '/profile',
-      name: 'profile',
-      pageBuilder: (context, state) {
-        return MaterialPage(
-          child: ProfileSettingsScreen.fromState(state),
-        );
-      }),
+    path: '/profile',
+    name: 'profile',
+    pageBuilder: (context, state) =>
+        _page(state, ProfileSettingsScreen.fromState(state)),
+  ),
   GoRoute(
     path: '/event_details',
     name: 'event_details',
-    pageBuilder: (context, state) => MaterialPage(
-      child: EventDetailsScreen.fromState(state),
-    ),
+    pageBuilder: (context, state) =>
+        _page(state, EventDetailsScreen.fromState(state)),
   ),
   GoRoute(
     path: '/guest_list',
     name: 'guest_list',
     pageBuilder: (context, state) {
       final guests = state.extra as List<Invitation>?;
-      return MaterialPage(
-        child: GuestListScreen(guests: guests),
-      );
+      return _page(state, GuestListScreen(guests: guests));
     },
   ),
   GoRoute(
     path: '/create_event',
     name: 'create_event',
-    builder: (context, state) => CreateEventScreen(),
+    pageBuilder: (context, state) => _page(state, CreateEventScreen()),
   ),
   GoRoute(
     path: '/flockr_contacts',
     name: 'flockr_contacts',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final String id = state.extra as String;
-      return FlockrContactsScreen(id: id);
+      return _page(state, FlockrContactsScreen(id: id));
     },
   ),
   GoRoute(
     path: '/terms',
     name: 'terms',
-    builder: (context, state) => TermsAndConditionsScreen(),
+    pageBuilder: (context, state) => _page(state, TermsAndConditionsScreen()),
   ),
   GoRoute(
     path: '/privacy',
     name: 'privacy',
-    builder: (context, state) => PrivacyPolicyScreen(),
+    pageBuilder: (context, state) => _page(state, PrivacyPolicyScreen()),
   ),
   GoRoute(
     path: '/about',
     name: 'about',
-    builder: (context, state) => AboutScreen(),
+    pageBuilder: (context, state) => _page(state, AboutScreen()),
   ),
   GoRoute(
     path: '/change_password',
     name: 'change_password',
-    builder: (context, state) => ChangePasswordScreen(),
+    pageBuilder: (context, state) => _page(state, ChangePasswordScreen()),
   ),
   GoRoute(
     path: '/bookmarks',
     name: 'bookmarks',
-    builder: (context, state) => const BookmarkedEventsScreen(),
+    pageBuilder: (context, state) =>
+        _page(state, const BookmarkedEventsScreen()),
   ),
   GoRoute(
     path: '/tickets',
     name: 'tickets',
-    builder: (context, state) => const MyTicketsScreen(),
+    pageBuilder: (context, state) => _page(state, const MyTicketsScreen()),
   ),
   GoRoute(
     path: '/ticket_detail',
     name: 'ticket_detail',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final ticket = state.extra as TicketModel;
-      return TicketDetailScreen(ticket: ticket);
+      return _page(state, TicketDetailScreen(ticket: ticket));
     },
   ),
   GoRoute(
     path: '/ticket_scanner',
     name: 'ticket_scanner',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final eventId = state.extra as String;
-      return TicketScannerScreen(eventId: eventId);
+      return _page(state, TicketScannerScreen(eventId: eventId));
     },
   ),
   GoRoute(
     path: '/mood',
     name: 'mood',
-    builder: (context, state) => const MoodScreen(),
+    pageBuilder: (context, state) => _page(state, const MoodScreen()),
   ),
   GoRoute(
     path: '/mood_events',
     name: 'mood_events',
-    builder: (context, state) => const MoodEventsScreen(),
+    pageBuilder: (context, state) => _page(state, const MoodEventsScreen()),
   ),
   GoRoute(
     path: '/sage',
     name: 'sage',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final eventId = state.extra as String;
-      return SageScreen(eventId: eventId);
+      return _page(state, SageScreen(eventId: eventId));
     },
   ),
   GoRoute(
     path: '/insights',
     name: 'insights',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final eventId = state.extra as String;
-      return EventInsightsScreen(eventId: eventId);
+      return _page(state, EventInsightsScreen(eventId: eventId));
     },
   ),
   GoRoute(
     path: '/contribute',
     name: 'contribute',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final extra = state.extra as Map<String, dynamic>;
-      return ContributeScreen(
-        eventId: extra['eventId'] as String,
-        eventName: extra['eventName'] as String,
+      return _page(
+        state,
+        ContributeScreen(
+          eventId: extra['eventId'] as String,
+          eventName: extra['eventName'] as String,
+        ),
       );
     },
   ),
   GoRoute(
     path: '/polls',
     name: 'polls',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final extra = state.extra as Map<String, dynamic>;
-      return PollsScreen(
-        eventId: extra['eventId'] as String,
-        isOrganizer: extra['isOrganizer'] as bool,
+      return _page(
+        state,
+        PollsScreen(
+          eventId: extra['eventId'] as String,
+          isOrganizer: extra['isOrganizer'] as bool,
+        ),
       );
     },
   ),
   GoRoute(
     path: '/reels',
     name: 'reels',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final extra = state.extra as Map<String, dynamic>;
-      return Scaffold(
-        appBar: AppBar(title: const Text('Moments')),
-        body: ReelsScreen(
-          eventId: extra['eventId'] as String,
-          canPost: extra['canPost'] as bool,
+      return _page(
+        state,
+        Scaffold(
+          appBar: AppBar(title: const Text('Moments')),
+          body: ReelsScreen(
+            eventId: extra['eventId'] as String,
+            canPost: extra['canPost'] as bool,
+          ),
         ),
       );
     },
@@ -250,19 +270,46 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/groups',
     name: 'groups',
-    builder: (context, state) => const GroupsScreen(),
+    pageBuilder: (context, state) => _page(state, const GroupsScreen()),
   ),
   GoRoute(
     path: '/group_detail',
     name: 'group_detail',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final groupId = state.extra as String;
-      return GroupDetailScreen(groupId: groupId);
+      return _page(state, GroupDetailScreen(groupId: groupId));
     },
   ),
   GoRoute(
     path: '/create_group',
     name: 'create_group',
-    builder: (context, state) => const CreateGroupScreen(),
+    pageBuilder: (context, state) => _page(state, const CreateGroupScreen()),
+  ),
+  GoRoute(
+    path: '/app_settings',
+    name: 'app_settings',
+    pageBuilder: (context, state) => _page(state, const AppSettingsScreen()),
+  ),
+  GoRoute(
+    path: '/vault_enable',
+    name: 'vault_enable',
+    pageBuilder: (context, state) => _page(state, const VaultEnableScreen()),
+  ),
+  GoRoute(
+    path: '/my_contributions',
+    name: 'my_contributions',
+    pageBuilder: (context, state) =>
+        _page(state, const MyContributionsScreen()),
+  ),
+  GoRoute(
+    path: '/pending_invitations',
+    name: 'pending_invitations',
+    pageBuilder: (context, state) =>
+        _page(state, const PendingInvitationsScreen()),
+  ),
+  GoRoute(
+    path: '/contacts',
+    name: 'contacts',
+    pageBuilder: (context, state) => _page(state, const ContactListScreen()),
   ),
 ]);

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:rapidlie/core/utils/app_snackbars.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contacts/blocs/contacts_bloc/contacts_bloc.dart';
 import 'package:rapidlie/features/contacts/blocs/flockr_contacts_bloc/telephone_numbers_bloc.dart';
-import 'package:rapidlie/features/contacts/models/contact_details.dart';
-import 'package:rapidlie/features/contacts/presentation/widgets/contact_list_item.dart';
+import 'package:rapidlie/features/contacts/models/matched_user_model.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,30 +18,24 @@ class ContactListScreen extends StatefulWidget {
 
 class _ContactListScreenState extends State<ContactListScreen>
     with AutomaticKeepAliveClientMixin {
-  bool isLoading = true;
-  var language;
+  List<Contact> _deviceContacts = [];
+  bool _matchTriggered = false;
 
-  List<ContactDetails> fetchedContacts = [];
-  List<ContactDetails> _selectedContacts = [];
-  late TextEditingController searchController;
-  List<ContactDetails> flockrContacts = [];
-  List<Contact> contacts = [];
-
-  void inviteFriend(String? phone, BuildContext context) async {
-    if (phone != null && phone.isNotEmpty) {
-      String message = AppLocalizations.of(context).inviteMessage;
-      String encodedMessage = Uri.encodeComponent(message);
-      String smsUrl = "sms:$phone?body=$encodedMessage";
-
-      if (await canLaunchUrl(Uri.parse(smsUrl))) {
-        await launchUrl(Uri.parse(smsUrl));
-      } else {
+  void _inviteFriend(String? phone) async {
+    if (phone == null || phone.isEmpty) {
+      AppSnackbars.showError(
+          context, AppLocalizations.of(context).unavailablePhoneNumber);
+      return;
+    }
+    final message = AppLocalizations.of(context).inviteMessage;
+    final uri = Uri.parse('sms:$phone?body=${Uri.encodeComponent(message)}');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      if (mounted) {
         AppSnackbars.showError(
             context, AppLocalizations.of(context).unsentInvite);
       }
-    } else {
-      AppSnackbars.showError(
-          context, AppLocalizations.of(context).unavailablePhoneNumber);
     }
   }
 
@@ -53,180 +45,190 @@ class _ContactListScreenState extends State<ContactListScreen>
   @override
   void initState() {
     super.initState();
-    searchController = SearchController();
-    contacts = context.read<ContactsBloc>().cachedContacts;
+    _deviceContacts = context.read<ContactsBloc>().cachedContacts;
     final numbersBloc = context.read<TelephoneNumbersBloc>();
     if (numbersBloc.state is! TelephoneNumbersLoaded) {
       numbersBloc.add(GetNumbers());
     }
-    getCustomContacts();
+    _triggerMatch();
   }
 
-  Future<void> getCustomContacts() async {
-    setState(() {
-      fetchedContacts = contacts.map((contact) {
-        return ContactDetails(
-          name: contact.displayName,
-          telephone:
-              contact.phones.isNotEmpty ? contact.phones.first.number : null,
-        );
-      }).toList();
-      isLoading = false;
-    });
+  void _triggerMatch() {
+    if (_matchTriggered) return;
+    _matchTriggered = true;
+    final phoneNumbers = _deviceContacts
+        .where((c) => c.phones.isNotEmpty)
+        .map((c) => c.phones.first.number)
+        .toList();
+    if (phoneNumbers.isNotEmpty) {
+      context.read<ContactsBloc>().add(MatchContactsEvent(phoneNumbers));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    language = AppLocalizations.of(context);
     super.build(context);
+    final language = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final primary = theme.colorScheme.primary;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBarTemplate(
           pageTitle: language.contacts,
           isSubPage: true,
-          trailingWidget: _selectedContacts.isEmpty
-              ? const SizedBox()
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context, _selectedContacts);
-                  },
-                  child: Text(
-                    language.done,
-                    style: inter14black500(context),
-                  ),
-                ),
         ),
       ),
-      body: isLoading
-          ? const Center(
-              child: SafeArea(child: CircularProgressIndicator()),
-            )
-          : SafeArea(
-              child: Column(
-                children: [
-                  /* Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: TextFieldTemplate(
-                      hintText: language.searchName,
-                      controller: searchController,
-                      obscureText: false,
-                      width: width,
-                      height: 40,
-                      textInputType: TextInputType.text,
-                      textInputAction: TextInputAction.go,
-                      enabled: true,
-                    ),
-                  ), */
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            smallHeight(),
-                            Text(
-                              language.flockrContacts,
-                              style: inter15black500(context),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Flexible(
-                              child: BlocBuilder<TelephoneNumbersBloc,
-                                  TelephoneNumbersState>(
-                                builder: (context, state) {
-                                  if (state is TelephoneNumbersLoaded) {
-                                    flockrContacts.clear();
-                                    for (int i = 0;
-                                        i < fetchedContacts.length;
-                                        i++) {
-                                      String? contactPhone =
-                                          fetchedContacts[i].telephone;
-                                      if (contactPhone != null &&
-                                          contactPhone.length >= 9) {
-                                        String contactLastNine = contactPhone
-                                            .substring(contactPhone.length - 9);
+      body: SafeArea(
+        child: BlocBuilder<ContactsBloc, ContactsState>(
+          builder: (context, state) {
+            if (state is ContactMatchLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-                                        contactLastNine = contactLastNine
-                                            .replaceAll(RegExp(r'\D'), '');
+            final matchedUsers = state is ContactMatchLoaded
+                ? state.users
+                : <MatchedUserModel>[];
 
-                                        if (state.numbers.any((number) {
-                                          String cleanedStateNumber = number
-                                              .replaceAll(RegExp(r'\D'), '');
-                                          return cleanedStateNumber
-                                              .endsWith(contactLastNine);
-                                        })) {
-                                          flockrContacts
-                                              .add(fetchedContacts[i]);
-                                        }
-                                      }
-                                    }
-                                  }
-
-                                  return ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: flockrContacts.length,
-                                    itemBuilder: (context, index) {
-                                      return ContactListItemWithSelector(
-                                        contactName: flockrContacts[index].name,
-                                        value: flockrContacts[index].isSelected,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            flockrContacts[index].isSelected =
-                                                value ?? false;
-                                            _selectedContacts = flockrContacts
-                                                .where((contact) =>
-                                                    contact.isSelected)
-                                                .toList();
-                                          });
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            //smallHeight(),
-                            Text(
-                              language.inviteToFlockr,
-                              style: inter15black500(context),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Flexible(
-                              child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: fetchedContacts.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      inviteFriend(
-                                          fetchedContacts[index].telephone,
-                                          context);
-                                    },
-                                    child: ContactListItemWithText(
-                                      contactName: fetchedContacts[index].name,
-                                    ),
-                                  );
-                                  //return Container();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+            return CustomScrollView(
+              slivers: [
+                // Flockr contacts section
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                    child: Text(
+                      language.flockrContacts,
+                      style: theme.textTheme.titleSmall
+                          ?.copyWith(color: theme.colorScheme.outline),
                     ),
                   ),
-                ],
-              ),
-            ),
+                ),
+                if (matchedUsers.isEmpty && state is! ContactMatchLoading)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                      child: Text(
+                        'None of your contacts are on Flockr yet.',
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(color: theme.colorScheme.outline),
+                      ),
+                    ),
+                  )
+                else
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final user = matchedUsers[index];
+                        return ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 4),
+                          leading: CircleAvatar(
+                            radius: 22,
+                            backgroundColor: primary.withValues(alpha: 0.1),
+                            backgroundImage: user.avatar != null &&
+                                    user.avatar!.isNotEmpty
+                                ? NetworkImage(user.avatar!)
+                                : null,
+                            child: (user.avatar == null || user.avatar!.isEmpty)
+                                ? Text(
+                                    user.name.isNotEmpty
+                                        ? user.name[0].toUpperCase()
+                                        : '?',
+                                    style: TextStyle(
+                                        color: primary,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : null,
+                          ),
+                          title: Text(user.name,
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600)),
+                          subtitle: Text(user.phone,
+                              style: theme.textTheme.bodySmall
+                                  ?.copyWith(color: theme.colorScheme.outline)),
+                          trailing: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'On Flockr',
+                              style: theme.textTheme.labelSmall
+                                  ?.copyWith(color: primary),
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: matchedUsers.length,
+                    ),
+                  ),
+
+                // Divider
+                const SliverToBoxAdapter(child: Divider(height: 24)),
+
+                // Invite section
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                    child: Text(
+                      language.inviteToFlockr,
+                      style: theme.textTheme.titleSmall
+                          ?.copyWith(color: theme.colorScheme.outline),
+                    ),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final contact = _deviceContacts[index];
+                      final phone = contact.phones.isNotEmpty
+                          ? contact.phones.first.number
+                          : null;
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 2),
+                        leading: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                          child: Text(
+                            contact.displayName.isNotEmpty
+                                ? contact.displayName[0].toUpperCase()
+                                : '?',
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        title: Text(contact.displayName,
+                            style: theme.textTheme.bodyMedium),
+                        subtitle: phone != null
+                            ? Text(phone,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.outline))
+                            : null,
+                        trailing: IconButton(
+                          icon: Icon(Icons.send_outlined,
+                              size: 20, color: primary),
+                          tooltip: 'Invite',
+                          onPressed: () => _inviteFriend(phone),
+                        ),
+                      );
+                    },
+                    childCount: _deviceContacts.length,
+                  ),
+                ),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 40)),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
