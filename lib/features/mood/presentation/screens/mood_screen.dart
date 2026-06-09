@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/mood/blocs/mood_bloc/mood_bloc.dart';
 import 'package:rapidlie/features/mood/data/models/mood_model.dart';
 
@@ -24,20 +27,19 @@ class _MoodScreenState extends State<MoodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('How are you feeling?'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: 'How are you feeling?',
+          isSubPage: true,
         ),
       ),
       body: BlocConsumer<MoodBloc, MoodState>(
         listener: (context, state) {
           if (state is MoodSetSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(
-                      'Mood set! Finding events for you...')),
+              const SnackBar(
+                  content: Text('Mood set! Finding events for you...')),
             );
             context.read<MoodBloc>().add(const FetchMoodSuggestions());
             context.pushReplacementNamed('mood_events');
@@ -51,7 +53,8 @@ class _MoodScreenState extends State<MoodScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final moods = state is MoodOptionsLoaded ? state.moods : <MoodOption>[];
+          final moods =
+              state is MoodOptionsLoaded ? state.moods : <MoodOption>[];
 
           return Column(
             children: [
@@ -59,7 +62,10 @@ class _MoodScreenState extends State<MoodScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Text(
                   'Pick your vibe and we\'ll suggest the perfect events for you.',
-                  style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                  style: GoogleFonts.inter(
+                    color: Theme.of(context).colorScheme.outline,
+                    fontSize: 13.sp,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -84,16 +90,55 @@ class _MoodScreenState extends State<MoodScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
-                child: ElevatedButton(
-                  onPressed: _selected == null
+                child: GestureDetector(
+                  onTap: _selected == null
                       ? null
-                      : () => context
-                          .read<MoodBloc>()
-                          .add(SetMood(_selected!)),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 48),
+                      : () =>
+                          context.read<MoodBloc>().add(SetMood(_selected!)),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    height: 52,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: _selected != null
+                          ? const LinearGradient(
+                              colors: [
+                                AppColors.primary,
+                                AppColors.secondary,
+                              ],
+                            )
+                          : null,
+                      color: _selected == null
+                          ? Theme.of(context)
+                              .colorScheme
+                              .outline
+                              .withValues(alpha: 0.2)
+                          : null,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: _selected != null
+                          ? [
+                              BoxShadow(
+                                color:
+                                    AppColors.primary.withValues(alpha: 0.4),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              )
+                            ]
+                          : [],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Find My Events',
+                        style: GoogleFonts.inter(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: _selected != null
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ),
                   ),
-                  child: const Text('Find My Events'),
                 ),
               ),
             ],
@@ -116,40 +161,58 @@ class _MoodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.primary;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
+          gradient: isSelected
+              ? const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AppColors.primary, AppColors.secondary],
+                )
+              : null,
           color: isSelected
-              ? primary.withValues(alpha: 0.12)
-              : Theme.of(context).cardColor,
+              ? null
+              : Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkCard
+                  : Theme.of(context).cardColor,
           border: Border.all(
-            color: isSelected ? primary : Colors.grey.withValues(alpha: 0.3),
-            width: isSelected ? 2 : 1,
+            color: isSelected
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.1),
+            width: 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                      color: primary.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2))
+                      color: AppColors.primary.withValues(alpha: 0.35),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4))
                 ]
-              : [],
+              : [
+                  BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2))
+                ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(mood.emoji, style: TextStyle(fontSize: 32.sp)),
+            Text(mood.emoji, style: TextStyle(fontSize: 36.sp)),
             const SizedBox(height: 6),
             Text(
               mood.label,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13.sp,
-                  color: isSelected ? primary : null),
+              style: GoogleFonts.inter(
+                fontWeight: FontWeight.w600,
+                fontSize: 13.sp,
+                color: isSelected
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ],
         ),

@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_stack/image_stack.dart';
-import 'package:rapidlie/core/constants/custom_colors.dart';
-import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
-import 'package:rapidlie/core/widgets/header_title_template.dart';
+import 'package:rapidlie/core/widgets/animations.dart';
 import 'package:rapidlie/features/bookmarks/blocs/bookmark_bloc/bookmark_bloc.dart';
-import 'package:rapidlie/features/notifications/presentation/widgets/announce_sheet.dart';
-import 'package:rapidlie/features/tickets/blocs/ticket_bloc/ticket_bloc.dart';
-import 'package:rapidlie/features/reels/presentation/screens/reels_screen.dart';
-import 'package:rapidlie/features/polls/blocs/poll_bloc/poll_bloc.dart';
-import 'package:rapidlie/features/lens/blocs/lens_bloc/lens_bloc.dart';
-import 'package:rapidlie/features/sage/blocs/sage_bloc/sage_bloc.dart';
 import 'package:rapidlie/features/events/blocs/event_detail_bloc/event_detail_bloc.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/map_direction_launcher.dart';
 import 'package:rapidlie/features/events/repository/event_detail_respository.dart';
-import 'package:rapidlie/l10n/app_localizations.dart';
+import 'package:rapidlie/features/lens/blocs/lens_bloc/lens_bloc.dart';
+import 'package:rapidlie/features/notifications/presentation/widgets/announce_sheet.dart';
+import 'package:rapidlie/features/polls/blocs/poll_bloc/poll_bloc.dart';
+import 'package:rapidlie/features/reels/presentation/screens/reels_screen.dart';
+import 'package:rapidlie/features/sage/blocs/sage_bloc/sage_bloc.dart';
+import 'package:rapidlie/features/tickets/blocs/ticket_bloc/ticket_bloc.dart';
 import 'package:rapidlie/core/constants/strings.dart';
+import 'package:rapidlie/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// The screen now only needs the eventId to fetch its own data.
 class EventDetailsScreen extends StatelessWidget {
   final bool isOwnEvent;
   final String eventId;
@@ -41,7 +40,6 @@ class EventDetailsScreen extends StatelessWidget {
 
   static EventDetailsScreen fromState(GoRouterState state) {
     final data = state.extra as Map<String, dynamic>;
-
     return EventDetailsScreen(
       eventId: data['eventId'] as String,
       isOwnEvent: data['isOwnEvent'] as bool,
@@ -51,43 +49,121 @@ class EventDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // Provide the EventDetailBloc here.
-      // This makes the bloc available to all child widgets.
       create: (context) => EventDetailBloc(
         eventdetailRepository: context.read<EventDetailRepository>(),
-      )..add(GetEventDetail(eventId)), // Trigger initial data fetch
+      )..add(GetEventDetail(eventId)),
       child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<EventDetailBloc, EventDetailState>(
-            // Correctly specify the BLoC and State types here.
-
-            builder: (context, state) {
-              if (state is EventDetailLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is EventDetailLoaded) {
-                final eventDetail = state.events;
-                final userId = UserPreferences().getUserId().toString();
-                final inviteStatus = getInviteStatus(eventDetail, userId);
-
-                return _EventDetailsBody(
-                  event: eventDetail,
-                  isOwnEvent: isOwnEvent,
-                  inviteStatus: inviteStatus,
-                );
-              } else if (state is EventDetailError) {
-                return Center(child: Text('Error: ${state.message}'));
-              }
-              return const SizedBox(); // Initial state or unknown state
-            },
-          ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: BlocBuilder<EventDetailBloc, EventDetailState>(
+          builder: (context, state) {
+            if (state is EventDetailLoading) {
+              return _LoadingSkeleton();
+            } else if (state is EventDetailLoaded) {
+              final event = state.events;
+              final userId = UserPreferences().getUserId().toString();
+              final inviteStatus = getInviteStatus(event, userId);
+              return _EventDetailsBody(
+                event: event,
+                isOwnEvent: isOwnEvent,
+                inviteStatus: inviteStatus,
+              );
+            } else if (state is EventDetailError) {
+              return _ErrorState(message: state.message);
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );
   }
 }
 
-// A new widget to build the main body of the screen,
-// separate from the BLoC logic.
+// ── Loading skeleton ───────────────────────────────────────────────────────
+
+class _LoadingSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ShimmerBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.42,
+          borderRadius: 0,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerBox(width: 220, height: 22, borderRadius: 8),
+              const SizedBox(height: 8),
+              ShimmerBox(width: 100, height: 14, borderRadius: 6),
+              const SizedBox(height: 24),
+              ShimmerBox(width: double.infinity, height: 76, borderRadius: 14),
+              const SizedBox(height: 20),
+              ShimmerBox(width: 120, height: 16, borderRadius: 8),
+              const SizedBox(height: 8),
+              ShimmerBox(width: double.infinity, height: 60, borderRadius: 10),
+              const SizedBox(height: 20),
+              ShimmerBox(width: 120, height: 16, borderRadius: 8),
+              const SizedBox(height: 8),
+              ShimmerBox(width: double.infinity, height: 120, borderRadius: 10),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Error state ────────────────────────────────────────────────────────────
+
+class _ErrorState extends StatelessWidget {
+  final String message;
+  const _ErrorState({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: GestureDetector(
+              onTap: () => context.pop(),
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_back_ios_new_rounded, size: 16),
+              ),
+            ),
+          ),
+          const Spacer(),
+          Icon(Icons.error_outline_rounded,
+              size: 54, color: Theme.of(context).colorScheme.outline),
+          const SizedBox(height: 12),
+          Text('Could not load event',
+              style: GoogleFonts.inter(
+                  fontSize: 16, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          Text(message,
+              style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: Theme.of(context).colorScheme.outline),
+              textAlign: TextAlign.center),
+          const Spacer(),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Main body ──────────────────────────────────────────────────────────────
+
 class _EventDetailsBody extends StatelessWidget {
   final EventDataModel event;
   final bool isOwnEvent;
@@ -100,13 +176,10 @@ class _EventDetailsBody extends StatelessWidget {
     required this.inviteStatus,
   }) : super(key: key);
 
-  LatLng _extractLatLngFromString(String latLngString) {
-    final regex = RegExp(r"LatLng\(([^,]+), ([^)]+)\)");
-    final match = regex.firstMatch(latLngString);
-    if (match != null) {
-      double latitude = double.parse(match.group(1)!);
-      double longitude = double.parse(match.group(2)!);
-      return LatLng(latitude, longitude);
+  LatLng _latLng(String s) {
+    final m = RegExp(r"LatLng\(([^,]+), ([^)]+)\)").firstMatch(s);
+    if (m != null) {
+      return LatLng(double.parse(m.group(1)!), double.parse(m.group(2)!));
     }
     return const LatLng(0, 0);
   }
@@ -114,475 +187,663 @@ class _EventDetailsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final language = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final userImages = event.invitations
-        .map((invite) => invite.user.avatar ?? "assets/images/placeholder.png")
+        .map((i) => i.user.avatar ?? 'assets/images/placeholder.png')
         .toList();
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    final initialPosition = _extractLatLngFromString(event.mapLocation);
-    final eventPrimary = event.resolvedPrimaryColor;
-    final eventSecondary = event.resolvedSecondaryColor;
+    final initialPosition = _latLng(event.mapLocation);
+
+    // Bottom action bar height — keeps content clear of it
+    const bottomBarH = 86.0;
 
     return Stack(
       children: [
         CustomScrollView(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           slivers: [
+            // ── Hero image ──────────────────────────────────────────────
             SliverAppBar(
               pinned: true,
+              expandedHeight: MediaQuery.of(context).size.height * 0.42,
               automaticallyImplyLeading: false,
+              backgroundColor: AppColors.headerStart,
+              elevation: 0,
               leading: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10),
                 child: GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(
-                    height: 36,
                     width: 36,
+                    height: 36,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black.withValues(alpha: 0.35),
+                      color: Colors.black.withValues(alpha: 0.45),
+                      border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.2)),
                     ),
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 18,
-                    ),
+                    child: const Icon(Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white, size: 16),
                   ),
                 ),
               ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    border: Border(
-                      top: BorderSide(
-                        color: eventPrimary.withValues(alpha: 0.15),
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                  width: double.maxFinite,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(event.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge),
-                              const SizedBox(height: 4),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: eventPrimary.withValues(alpha: 0.12),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  event.category.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall
-                                      ?.copyWith(color: eventPrimary),
-                                ),
-                              ),
-                            ],
+              actions: [
+                // Bookmark
+                BlocBuilder<BookmarkBloc, BookmarkState>(
+                  builder: (context, bs) {
+                    final isBookmarked = bs is BookmarkToggleSuccess &&
+                        bs.isBookmarked;
+                    return _HeaderAction(
+                      icon: isBookmarked
+                          ? Icons.bookmark_rounded
+                          : Icons.bookmark_border_rounded,
+                      color: isBookmarked
+                          ? AppColors.accentAmber
+                          : Colors.white,
+                      onTap: () => context.read<BookmarkBloc>().add(
+                            ToggleBookmark(
+                                eventId: event.id,
+                                bookmark: !isBookmarked),
                           ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (isOwnEvent) ...[
-                              IconButton(
-                                icon: Icon(Icons.auto_awesome,
-                                    color: eventPrimary),
-                                tooltip: 'SAGE',
-                                onPressed: () {
-                                  context
-                                      .read<SageBloc>()
-                                      .add(FetchSageSuggestions(
-                                          eventId: event.id));
-                                  context.pushNamed('sage', extra: event.id);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.insights,
-                                    color: eventPrimary),
-                                tooltip: 'Insights',
-                                onPressed: () {
-                                  context
-                                      .read<LensBloc>()
-                                      .add(FetchInsights(event.id));
-                                  context.pushNamed('insights',
-                                      extra: event.id);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.campaign_outlined,
-                                    color: eventPrimary),
-                                tooltip: 'Announce',
-                                onPressed: () =>
-                                    AnnounceSheet.show(context, event.id),
-                              ),
-                            ],
-                            IconButton(
-                              icon: const Icon(Icons.calendar_month_outlined),
-                              tooltip: 'Add to Calendar',
-                              onPressed: () async {
-                                final uri = Uri.parse(
-                                    '$flockrAPIBaseUrl/events/${event.id}/calendar.ics');
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri,
-                                      mode: LaunchMode.externalApplication);
-                                }
-                              },
-                            ),
-                            BlocBuilder<BookmarkBloc, BookmarkState>(
-                              builder: (context, bookmarkState) {
-                                final isBookmarked =
-                                    bookmarkState is BookmarkToggleSuccess &&
-                                        bookmarkState.isBookmarked;
-                                return IconButton(
-                                  icon: Icon(
-                                    isBookmarked
-                                        ? Icons.bookmark
-                                        : Icons.bookmark_border,
-                                    color: isBookmarked ? eventPrimary : null,
-                                  ),
-                                  onPressed: () =>
-                                      context.read<BookmarkBloc>().add(
-                                            ToggleBookmark(
-                                              eventId: event.id,
-                                              bookmark: !isBookmarked,
-                                            ),
-                                          ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              ),
-              centerTitle: false,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              expandedHeight: 400,
+                // Calendar export
+                _HeaderAction(
+                  icon: Icons.calendar_month_rounded,
+                  color: Colors.white,
+                  onTap: () async {
+                    final uri = Uri.parse(
+                        '$flockrAPIBaseUrl/events/${event.id}/calendar.ics');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri,
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                ),
+                if (isOwnEvent) ...[
+                  _HeaderAction(
+                    icon: Icons.auto_awesome_rounded,
+                    color: Colors.white,
+                    onTap: () {
+                      context
+                          .read<SageBloc>()
+                          .add(FetchSageSuggestions(eventId: event.id));
+                      context.pushNamed('sage', extra: event.id);
+                    },
+                  ),
+                  _HeaderAction(
+                    icon: Icons.insights_rounded,
+                    color: Colors.white,
+                    onTap: () {
+                      context
+                          .read<LensBloc>()
+                          .add(FetchInsights(event.id));
+                      context.pushNamed('insights', extra: event.id);
+                    },
+                  ),
+                  _HeaderAction(
+                    icon: Icons.campaign_rounded,
+                    color: Colors.white,
+                    onTap: () => AnnounceSheet.show(context, event.id),
+                  ),
+                ],
+                const SizedBox(width: 4),
+              ],
               flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
                 background: Stack(
                   fit: StackFit.expand,
                   children: [
                     if (event.image != null)
-                      RenderImage(imageUrl: event.image!, fit: BoxFit.cover),
-                    // Dynamic gradient overlay from event colors
+                      RenderImage(imageUrl: event.image!, fit: BoxFit.cover)
+                    else
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.headerStart,
+                              AppColors.headerEnd
+                            ],
+                          ),
+                        ),
+                        child: const Icon(Icons.event_rounded,
+                            size: 80, color: Colors.white24),
+                      ),
+                    // Gradient scrim
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
+                            Colors.black.withValues(alpha: 0.08),
                             Colors.transparent,
-                            eventSecondary.withValues(alpha: 0.55),
-                            eventPrimary.withValues(alpha: 0.75),
+                            Colors.black.withValues(alpha: 0.65),
+                            Colors.black.withValues(alpha: 0.88),
                           ],
-                          stops: const [0.45, 0.75, 1.0],
+                          stops: const [0.0, 0.35, 0.75, 1.0],
                         ),
+                      ),
+                    ),
+                    // Overlaid title area
+                    Positioned(
+                      bottom: 20,
+                      left: 20,
+                      right: 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Category pill
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.85),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              event.category.name.toUpperCase(),
+                              style: GoogleFonts.inter(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            event.name,
+                            style: GoogleFonts.inter(
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              height: 1.2,
+                              letterSpacing: -0.3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              const Icon(Icons.place_rounded,
+                                  size: 13, color: Colors.white70),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  event.venue.split(',').first,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12.sp,
+                                    color: Colors.white70,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
             ),
+
+            // ── Content ─────────────────────────────────────────────────
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: height,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: width,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 20, 16, bottomBarH + 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ── Date / Time / Type pill row ──────────────────────
+                    FadeSlideItem(
+                      index: 0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 14),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(borderRadius),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withValues(alpha: 0.5),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withValues(alpha: 0.3),
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                              offset: const Offset(0, 2),
+                          color: isDark
+                              ? AppColors.darkCard
+                              : theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: theme.colorScheme.outline
+                                .withValues(alpha: 0.15),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            _InfoPill(
+                              icon: Icons.calendar_today_rounded,
+                              label: getDayName(event.date),
+                              value: convertDateDotFormat(
+                                  DateTime.parse(event.date)),
+                              color: AppColors.primary,
+                            ),
+                            _Separator(),
+                            _InfoPill(
+                              icon: Icons.access_time_rounded,
+                              label: language.time,
+                              value: event.startTime,
+                              color: AppColors.accentEmerald,
+                            ),
+                            _Separator(),
+                            _InfoPill(
+                              icon: event.eventType == 'public'
+                                  ? Icons.public_rounded
+                                  : Icons.lock_rounded,
+                              label: 'Type',
+                              value: event.eventType == 'public'
+                                  ? 'Public'
+                                  : 'Private',
+                              color: event.eventType == 'public'
+                                  ? AppColors.accentCyan
+                                  : AppColors.accentAmber,
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(language.date,
-                                      style: inter12Black600(context)),
-                                  extraSmallHeight(),
-                                  Text(
-                                    convertDateDotFormat(
-                                        DateTime.parse(event.date)),
-                                    style: inter10Black400(context),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // ── Description ───────────────────────────────────────
+                    FadeSlideItem(
+                      index: 1,
+                      child: _Section(
+                        label: language.description,
+                        child: Text(
+                          event.description,
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            height: 1.65,
+                            color: theme.colorScheme.onSurface
+                                .withValues(alpha: 0.75),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // ── Directions ────────────────────────────────────────
+                    FadeSlideItem(
+                      index: 2,
+                      child: _Section(
+                        label: language.directions,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: MapDirectionLauncher(
+                            targetLocation: initialPosition,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // ── Moments (Reels) ───────────────────────────────────
+                    FadeSlideItem(
+                      index: 3,
+                      child: _Section(
+                        label: 'Moments',
+                        trailing: _SeeAllButton(
+                          label: 'View All',
+                          onTap: () => context.pushNamed('reels', extra: {
+                            'eventId': event.id,
+                            'canPost': isOwnEvent ||
+                                inviteStatus == 'accepted',
+                          }),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: SizedBox(
+                            height: 90,
+                            child: ReelsScreen(
+                              eventId: event.id,
+                              canPost: false,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // ── Polls ──────────────────────────────────────────────
+                    FadeSlideItem(
+                      index: 4,
+                      child: PressScale(
+                        onTap: () {
+                          context
+                              .read<PollBloc>()
+                              .add(FetchPolls(event.id));
+                          context.pushNamed('polls', extra: {
+                            'eventId': event.id,
+                            'isOrganizer': isOwnEvent,
+                          });
+                        },
+                        child: _ActionTile(
+                          icon: Icons.poll_rounded,
+                          color: AppColors.accentAmber,
+                          title: 'Polls',
+                          subtitle: isOwnEvent
+                              ? 'Create & manage polls'
+                              : 'Vote on event polls',
+                          isDark: isDark,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // ── Invitations (private events) ───────────────────────
+                    if (event.eventType == 'private') ...[
+                      FadeSlideItem(
+                        index: 5,
+                        child: _Section(
+                          label: language.invites,
+                          trailing: isOwnEvent
+                              ? _SeeAllButton(
+                                  label: '+ Add',
+                                  onTap: () => context.pushNamed(
+                                    'flockr_contacts',
+                                    extra: event.id,
                                   ),
-                                  Text(
-                                    getDayName(event.date),
-                                    style: inter10Black400(context),
-                                  ),
-                                ],
+                                )
+                              : null,
+                          child: const SizedBox.shrink(),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+
+                    // ── Guest avatars ──────────────────────────────────────
+                    if (userImages.isNotEmpty)
+                      FadeSlideItem(
+                        index: 6,
+                        child: PressScale(
+                          onTap: () => context.push(
+                            '/guest_list',
+                            extra: event.invitations,
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppColors.darkCard
+                                  : theme.colorScheme.surface,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: theme.colorScheme.outline
+                                    .withValues(alpha: 0.15),
                               ),
-                              Container(
-                                height: 20,
-                                width: 1,
-                                color: CustomColors.lightGray,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(language.time,
-                                      style: inter12Black600(context)),
-                                  extraSmallHeight(),
-                                  Row(
+                            ),
+                            child: Row(
+                              children: [
+                                ImageStack(
+                                  imageList: userImages,
+                                  imageRadius: 40,
+                                  showTotalCount: userImages.length > 4,
+                                  imageBorderWidth: 2,
+                                  imageCount:
+                                      userImages.length > 4 ? 4 : userImages.length,
+                                  imageBorderColor:
+                                      isDark ? AppColors.darkCard : Colors.white,
+                                  backgroundColor: AppColors.primary,
+                                  extraCountBorderColor: AppColors.primary,
+                                  totalCount: userImages.length,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        event.startTime,
-                                        style: inter10Black400(context),
+                                        '${event.invitations.length} Guest${event.invitations.length == 1 ? '' : 's'}',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: theme.colorScheme.onSurface,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Tap to view guest list',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.sp,
+                                          color: theme.colorScheme.outline,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              Container(
-                                height: 20,
-                                width: 1,
-                                color: CustomColors.lightGray,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(language.venue,
-                                      style: inter12Black600(context)),
-                                  extraSmallHeight(),
-                                  Text(
-                                    event.venue.split(",").first,
-                                    style: inter10Black400(context),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      smallHeight(),
-                      Text(language.description,
-                          style: inter14black600(context)),
-                      Text(
-                        event.description,
-                        style: inter12black400(context),
-                      ),
-                      normalHeight(),
-                      Text(language.directions,
-                          style: inter14black600(context)),
-                      MapDirectionLauncher(
-                        targetLocation: initialPosition,
-                      ),
-                      normalHeight(),
-                      if (event.eventType == "private")
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(language.invites,
-                                style: inter14black600(context)),
-                            !isOwnEvent
-                                ? const SizedBox.shrink()
-                                : GestureDetector(
-                                    onTap: () {
-                                      context.pushNamed(
-                                        'flockr_contacts',
-                                        extra: event.id,
-                                      );
-                                    },
-                                    child: HeaderTextTemplate(
-                                      titleText: language.add,
-                                      titleTextColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      textSize: 10.sp,
-                                      containerColor:
-                                          Colors.grey.withValues(alpha: 0.3),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                      extraSmallHeight(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Moments', style: inter14black600(context)),
-                          GestureDetector(
-                            onTap: () => context.pushNamed('reels', extra: {
-                              'eventId': event.id,
-                              'canPost': isOwnEvent ||
-                                  inviteStatus == 'accepted',
-                            }),
-                            child: HeaderTextTemplate(
-                              titleText: 'View All',
-                              titleTextColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              textSize: 10.sp,
-                              containerColor:
-                                  Colors.grey.withValues(alpha: 0.3),
+                                ),
+                                Icon(Icons.arrow_forward_ios_rounded,
+                                    size: 13,
+                                    color: theme.colorScheme.outline),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                      extraSmallHeight(),
-                      SizedBox(
-                        height: 80,
-                        child: ReelsScreen(
-                          eventId: event.id,
-                          canPost: false,
                         ),
                       ),
-                      normalHeight(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Polls', style: inter14black600(context)),
-                          GestureDetector(
-                            onTap: () {
-                              context
-                                  .read<PollBloc>()
-                                  .add(FetchPolls(event.id));
-                              context.pushNamed('polls', extra: {
-                                'eventId': event.id,
-                                'isOrganizer': isOwnEvent,
-                              });
-                            },
-                            child: HeaderTextTemplate(
-                              titleText: isOwnEvent ? 'Manage' : 'View',
-                              titleTextColor:
-                                  Theme.of(context).colorScheme.onSurface,
-                              textSize: 10.sp,
-                              containerColor:
-                                  Colors.grey.withValues(alpha: 0.3),
-                            ),
-                          ),
-                        ],
-                      ),
-                      normalHeight(),
-                      GestureDetector(
-                        onTap: () {
-                          context.push(
-                            '/guest_list',
-                            extra: event.invitations,
-                          );
-                        },
-                        child: ImageStack(
-                          imageList: userImages,
-                          imageRadius: 50,
-                          showTotalCount: false,
-                          imageBorderWidth: 2,
-                          imageCount: userImages.length,
-                          imageBorderColor: Colors.white,
-                          backgroundColor: Colors.grey,
-                          extraCountBorderColor: Colors.grey,
-                          totalCount: userImages.length,
-                        ),
-                      ),
-                    ],
-                  ),
+
+                    const SizedBox(height: 8),
+                  ],
                 ),
               ),
             ),
           ],
         ),
+
+        // ── Bottom action bar ────────────────────────────────────────────
         Positioned(
-          bottom: 80.0,
-          right: 20.0,
-          child: !isOwnEvent
-              ? FloatingActionButton.extended(
-                  heroTag: 'contribute',
-                  backgroundColor: eventPrimary,
-                  foregroundColor: Colors.white,
-                  icon: const Icon(Icons.volunteer_activism),
-                  label: const Text('Contribute'),
-                  onPressed: () => context.pushNamed('contribute', extra: {
-                    'eventId': event.id,
-                    'eventName': event.name,
-                  }),
-                )
-              : const SizedBox.shrink(),
-        ),
-        Positioned(
-          bottom: 20.0,
-          left: 20.0,
-          right: 20.0,
-          child: isOwnEvent
-              ? ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: eventPrimary,
-                    foregroundColor: Colors.white,
-                  ),
-                  icon: const Icon(Icons.qr_code_scanner),
-                  label: const Text('Scan Tickets'),
-                  onPressed: () =>
-                      context.pushNamed('ticket_scanner', extra: event.id),
-                )
-              : inviteStatus == 'accepted'
-                  ? ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: eventPrimary,
-                        foregroundColor: Colors.white,
-                      ),
-                      icon: const Icon(Icons.confirmation_number_outlined),
-                      label: const Text('View My Ticket'),
-                      onPressed: () {
-                        context
-                            .read<TicketBloc>()
-                            .add(FetchEventTicket(event.id));
-                        context.pushNamed('tickets');
-                      },
-                    )
-                  : event.eventType == 'public'
-                      ? const SizedBox.shrink()
-                      : _ConsentButtons(
-                          event: event,
-                          inviteStatus: inviteStatus,
-                        ),
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: _BottomBar(
+            event: event,
+            isOwnEvent: isOwnEvent,
+            inviteStatus: inviteStatus,
+          ),
         ),
       ],
     );
   }
 }
 
+// ── Bottom action bar ──────────────────────────────────────────────────────
+
+class _BottomBar extends StatelessWidget {
+  final EventDataModel event;
+  final bool isOwnEvent;
+  final String? inviteStatus;
+
+  const _BottomBar({
+    required this.event,
+    required this.isOwnEvent,
+    required this.inviteStatus,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+          16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
+      decoration: BoxDecoration(
+        color: isDark
+            ? AppColors.darkSurface.withValues(alpha: 0.97)
+            : theme.colorScheme.surface.withValues(alpha: 0.97),
+        border: Border(
+          top: BorderSide(
+            color: theme.colorScheme.outline.withValues(alpha: 0.12),
+          ),
+        ),
+      ),
+      child: isOwnEvent
+          ? _GradientButton(
+              icon: Icons.qr_code_scanner_rounded,
+              label: 'Scan Tickets',
+              onTap: () =>
+                  context.pushNamed('ticket_scanner', extra: event.id),
+            )
+          : inviteStatus == 'accepted'
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: _GradientButton(
+                        icon: Icons.confirmation_number_outlined,
+                        label: 'My Ticket',
+                        onTap: () {
+                          context
+                              .read<TicketBloc>()
+                              .add(FetchEventTicket(event.id));
+                          context.pushNamed('tickets');
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    _OutlineButton(
+                      icon: Icons.volunteer_activism_rounded,
+                      label: 'Contribute',
+                      onTap: () => context.pushNamed('contribute', extra: {
+                        'eventId': event.id,
+                        'eventName': event.name,
+                      }),
+                    ),
+                  ],
+                )
+              : event.eventType == 'public'
+                  ? _GradientButton(
+                      icon: Icons.volunteer_activism_rounded,
+                      label: 'Contribute',
+                      onTap: () =>
+                          context.pushNamed('contribute', extra: {
+                        'eventId': event.id,
+                        'eventName': event.name,
+                      }),
+                    )
+                  : _ConsentButtons(
+                      event: event,
+                      inviteStatus: inviteStatus,
+                    ),
+    );
+  }
+}
+
+class _GradientButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _GradientButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PressScale(
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            colors: [AppColors.primary, Color(0xFF9F5CF7)],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.35),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: 18),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OutlineButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _OutlineButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PressScale(
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.55),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColors.primary, size: 18),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                color: AppColors.primary,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Consent buttons ────────────────────────────────────────────────────────
+
 class _ConsentButtons extends StatelessWidget {
   final EventDataModel event;
   final String? inviteStatus;
 
-  const _ConsentButtons({
-    Key? key,
-    required this.event,
-    required this.inviteStatus,
-  }) : super(key: key);
+  const _ConsentButtons({required this.event, required this.inviteStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -590,7 +851,6 @@ class _ConsentButtons extends StatelessWidget {
       listener: (context, state) {
         if (state is ConsentLoadedState) {
           context.read<EventDetailBloc>().add(GetEventDetail(event.id));
-
           context.read<InvitedEventBloc>().add(GetInvitedEvents());
           context.read<UpcomingEventBloc>().add(GetUpcomingEvents());
           context.read<PublicEventBloc>().add(GetPublicEvents());
@@ -599,140 +859,333 @@ class _ConsentButtons extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        bool isAnyButtonLoading = state is ConsentLoadingState;
-        String? currentInviteStatus = inviteStatus;
-        if (state is ConsentLoadedState) {
-          currentInviteStatus = state.message;
+        final isLoading = state is ConsentLoadingState;
+        String? status = inviteStatus;
+        if (state is ConsentLoadedState) status = state.message;
+
+        if (status == 'pending') {
+          return Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: _OutlineButton(
+                  icon: Icons.close_rounded,
+                  label: 'Decline',
+                  onTap: isLoading
+                      ? () {}
+                      : () => context.read<ConsentBloc>().add(
+                            GiveConsentEvent(
+                                status: 'declined', eventId: event.id),
+                          ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 3,
+                child: isLoading
+                    ? Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          gradient: const LinearGradient(
+                            colors: [AppColors.primary, Color(0xFF9F5CF7)],
+                          ),
+                        ),
+                        child: const Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        ),
+                      )
+                    : _GradientButton(
+                        icon: Icons.check_rounded,
+                        label: "Accept",
+                        onTap: () => context.read<ConsentBloc>().add(
+                              GiveConsentEvent(
+                                  status: 'accepted', eventId: event.id),
+                            ),
+                      ),
+              ),
+            ],
+          );
         }
 
-        if (currentInviteStatus == "pending") {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
+        // Already responded
+        final isDeclined = status == 'declined';
+        return PressScale(
+          onTap: isLoading
+              ? null
+              : () => context.read<ConsentBloc>().add(GiveConsentEvent(
+                    status: isDeclined ? 'accepted' : 'declined',
+                    eventId: event.id,
+                  )),
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: isDeclined
+                  ? const Color(0xFFEF4444).withValues(alpha: 0.12)
+                  : AppColors.accentEmerald.withValues(alpha: 0.12),
+              border: Border.all(
+                color: isDeclined
+                    ? const Color(0xFFEF4444).withValues(alpha: 0.4)
+                    : AppColors.accentEmerald.withValues(alpha: 0.4),
+              ),
+            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 3,
-                  child: ElevatedButton(
-                    onPressed: isAnyButtonLoading
-                        ? null
-                        : () {
-                            context.read<ConsentBloc>().add(GiveConsentEvent(
-                                  status: "declined",
-                                  eventId: event.id,
-                                ));
-                          },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
-                        const Color.fromARGB(185, 165, 165, 165),
-                      ),
-                      foregroundColor: WidgetStateProperty.all<Color>(
-                        Colors.white,
-                      ),
-                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
-                      ),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    child: isAnyButtonLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text("Decline"),
-                  ),
+                Icon(
+                  isDeclined ? Icons.thumb_down_rounded : Icons.check_rounded,
+                  color: isDeclined
+                      ? const Color(0xFFEF4444)
+                      : AppColors.accentEmerald,
+                  size: 18,
                 ),
-                const SizedBox(width: 5),
-                Expanded(
-                  flex: 5,
-                  child: ElevatedButton(
-                    onPressed: isAnyButtonLoading
-                        ? null
-                        : () {
-                            context.read<ConsentBloc>().add(GiveConsentEvent(
-                                  status: "accepted",
-                                  eventId: event.id,
-                                ));
-                          },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
-                        event.resolvedPrimaryColor,
-                      ),
-                      foregroundColor: WidgetStateProperty.all<Color>(
-                        Colors.white,
-                      ),
-                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
-                      ),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    child: isAnyButtonLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text("Accept"),
+                const SizedBox(width: 8),
+                Text(
+                  isDeclined ? 'Declined — tap to accept' : "You're going!",
+                  style: GoogleFonts.inter(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: isDeclined
+                        ? const Color(0xFFEF4444)
+                        : AppColors.accentEmerald,
                   ),
                 ),
               ],
             ),
-          );
-        } else {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: ElevatedButton(
-              onPressed: isAnyButtonLoading
-                  ? null
-                  : () {
-                      context.read<ConsentBloc>().add(GiveConsentEvent(
-                            status: currentInviteStatus == "accepted"
-                                ? 'declined'
-                                : 'accepted',
-                            eventId: event.id,
-                          ));
-                    },
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(
-                  currentInviteStatus == "declined"
-                      ? Colors.red
-                      : event.resolvedPrimaryColor,
-                ),
-                foregroundColor: WidgetStateProperty.all<Color>(
-                  Colors.white,
-                ),
-                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    currentInviteStatus == "declined"
-                        ? Icons.thumb_down
-                        : Icons.thumb_up,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    currentInviteStatus == "declined"
-                        ? "Declined"
-                        : "You're going",
-                  ),
-                ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ── Reusable UI helpers ────────────────────────────────────────────────────
+
+class _HeaderAction extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _HeaderAction(
+      {required this.icon, required this.color, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 8, top: 10, bottom: 10),
+        padding: const EdgeInsets.all(7),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.black.withValues(alpha: 0.38),
+          border:
+              Border.all(color: Colors.white.withValues(alpha: 0.18)),
+        ),
+        child: Icon(icon, color: color, size: 17),
+      ),
+    );
+  }
+}
+
+class _InfoPill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+
+  const _InfoPill(
+      {required this.icon,
+      required this.label,
+      required this.value,
+      required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 17),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 10.sp,
+              color: Theme.of(context).colorScheme.outline,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 1),
+          Text(
+            value,
+            style: GoogleFonts.inter(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Separator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 48,
+      color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.15),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  final String label;
+  final Widget child;
+  final Widget? trailing;
+
+  const _Section(
+      {required this.label, required this.child, this.trailing});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.onSurface,
+                letterSpacing: -0.1,
               ),
             ),
-          );
-        }
-      },
+            if (trailing != null) trailing!,
+          ],
+        ),
+        const SizedBox(height: 10),
+        child,
+      ],
+    );
+  }
+}
+
+class _SeeAllButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _SeeAllButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        decoration: BoxDecoration(
+          color:
+              AppColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.primary,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String subtitle;
+  final bool isDark;
+
+  const _ActionTile({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.subtitle,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkCard : theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: theme.colorScheme.outline.withValues(alpha: 0.15),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: GoogleFonts.inter(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.onSurface,
+                    )),
+                Text(subtitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 11.sp,
+                      color: theme.colorScheme.outline,
+                    )),
+              ],
+            ),
+          ),
+          Icon(Icons.arrow_forward_ios_rounded,
+              size: 13, color: theme.colorScheme.outline),
+        ],
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/constants/strings.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/events/blocs/give_consent_bloc/consent_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:dio/dio.dart';
@@ -75,20 +76,18 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pending Invitations'),
-        actions: [
-          if (_events.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Center(
-                child: Text(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: 'Pending Invitations',
+          isSubPage: true,
+          trailingWidget: _events.isNotEmpty
+              ? Text(
                   '${_currentIndex + 1} of ${_events.length}',
-                  style: const TextStyle(fontSize: 13, color: Colors.grey),
-                ),
-              ),
-            ),
-        ],
+                  style: const TextStyle(fontSize: 13, color: Colors.white70),
+                )
+              : null,
+        ),
       ),
       body: BlocListener<ConsentBloc, ConsentState>(
         listener: (context, state) {

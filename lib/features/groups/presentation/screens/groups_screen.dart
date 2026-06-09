@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
 import 'package:rapidlie/features/groups/blocs/groups_bloc/groups_bloc.dart';
 import 'package:rapidlie/features/groups/data/models/group_model.dart';
@@ -39,17 +41,66 @@ class _GroupsScreenState extends State<GroupsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final topPad = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Groups'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [Tab(text: 'Discover'), Tab(text: 'My Groups')],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(topPad + 56 + 46),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.headerStart,
+                Color(0xFF14063A),
+                AppColors.headerEnd,
+              ],
+              stops: [0.0, 0.55, 1.0],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: topPad + 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Groups',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TabBar(
+                controller: _tabController,
+                indicatorColor: AppColors.primary,
+                indicatorWeight: 3,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white54,
+                labelStyle: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                unselectedLabelStyle: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+                tabs: const [Tab(text: 'Discover'), Tab(text: 'My Groups')],
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
         onPressed: () => context.pushNamed('create_group'),
+        child: const Icon(Icons.add),
       ),
       body: BlocConsumer<GroupsBloc, GroupsState>(
         listener: (context, state) {
@@ -106,7 +157,35 @@ class _GroupsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (groups.isEmpty) {
-      return const Center(child: Text('No groups found'));
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.group_outlined,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No groups found',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Be the first to create a group',
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+          ],
+        ),
+      );
     }
     return RefreshIndicator(
       onRefresh: () async => onRefresh(),
@@ -159,7 +238,10 @@ class _GroupCard extends StatelessWidget {
                   : Container(
                       width: 80.w,
                       height: 80.w,
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.15),
                       child: Icon(Icons.group,
                           size: 32,
                           color: Theme.of(context).colorScheme.primary),
@@ -228,6 +310,8 @@ class _GroupCard extends StatelessWidget {
                       .read<GroupsBloc>()
                       .add(JoinGroup(group.id)),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 6),
                     minimumSize: Size.zero,

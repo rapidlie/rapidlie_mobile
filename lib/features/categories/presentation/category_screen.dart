@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
+import 'package:rapidlie/core/widgets/animations.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/repository/event_respository.dart';
 import 'package:rapidlie/core/widgets/event_card.dart';
-import 'package:rapidlie/l10n/app_localizations.dart';
 
 class CategoryScreen extends StatefulWidget {
   final String categoryId;
@@ -34,13 +34,8 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  late String userId;
-
-  var language;
-
   @override
   Widget build(BuildContext context) {
-    language = AppLocalizations.of(context);
     return BlocProvider(
       create: (context) =>
           EventByCategoryBloc(eventRepository: context.read<EventRepository>())
@@ -78,6 +73,8 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
@@ -90,14 +87,12 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
         child: SingleChildScrollView(
           child: BlocBuilder<EventByCategoryBloc, EventListState>(
             builder: (context, state) {
-              if (state is EventListInitial) {
-                return emptyListWithShimmer();
-              } else if (state is EventByCategoryLoading) {
-                return emptyListWithShimmer();
-              } else if (state is EventByCategoryLoaded) {
+              if (state is EventListInitial || state is EventListLoading) {
+                return _buildShimmer(width);
+              } else if (state is EventListLoaded) {
                 return buildBody(state.events.reversed.toList());
               } else {
-                return Container();
+                return _buildEmptyState();
               }
             },
           ),
@@ -106,50 +101,112 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
     );
   }
 
-  Widget buildBody(List<EventDataModel> events) {
-    return events.isEmpty
-        ? emptyStateView()
-        : ListView.builder(
-            shrinkWrap: true,
-            itemCount: events.length,
-            //controller: _scrollController,
-            physics: const BouncingScrollPhysics(
-                parent: BouncingScrollPhysics(
-              parent: NeverScrollableScrollPhysics(),
-            )),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 40.0),
-                child: GestureDetector(
-                  onTap: () {
-                    final inviteStatus = getInviteStatus(events[index], userId);
-                    bool isOwnEvent = events[index].user!.uuid == userId;
-                    context.pushNamed(
-                      'event_details',
-                      extra: {
-                        'eventId': events[index].id,
-                        'isOwnEvent': isOwnEvent,
-                      },
-                    );
-                  },
-                  child: EventCard(
-                    showOwnerInfo: true,
-                    eventOwner: events[index].username,
-                    eventName: events[index].name,
-                    eventLocation: events[index].venue.split(',').first,
-                    eventDay: getDayName(events[index].date),
-                    eventDate: convertDateDotFormat(
-                        DateTime.parse(events[index].date)),
-                    eventImageString: events[index].image!,
-                    eventId: events[index].id,
-                    hasLikedEvent: events[index].hasLikedEvent,
-                    eventOwnerAvatar: events[index].user!.avatar,
-                    inviteStatus: getInviteStatus(events[index], userId),
-                    showStatusBadge: false,
-                  ),
+  Widget _buildShimmer(double width) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      child: Column(
+        children: List.generate(
+          3,
+          (i) => Padding(
+            padding: EdgeInsets.only(bottom: 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerBox(
+                  width: double.infinity,
+                  height: (width - 32) * 9 / 16,
+                  borderRadius: 16,
                 ),
+                SizedBox(height: 10.h),
+                ShimmerBox(width: 200.w, height: 16.h, borderRadius: 8),
+                SizedBox(height: 6.h),
+                ShimmerBox(width: 120.w, height: 12.h, borderRadius: 6),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 80.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.event_outlined,
+              size: 64.sp,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              'No events yet',
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              'Check back later for events in this category',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildBody(List<EventDataModel> events) {
+    if (events.isEmpty) return _buildEmptyState();
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: events.length,
+      physics: const BouncingScrollPhysics(
+          parent: BouncingScrollPhysics(
+        parent: NeverScrollableScrollPhysics(),
+      )),
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 40.0),
+          child: GestureDetector(
+            onTap: () {
+              bool isOwnEvent = events[index].user!.uuid == userId;
+              context.pushNamed(
+                'event_details',
+                extra: {
+                  'eventId': events[index].id,
+                  'isOwnEvent': isOwnEvent,
+                },
               );
             },
-          );
+            child: EventCard(
+              showOwnerInfo: true,
+              eventOwner: events[index].username,
+              eventName: events[index].name,
+              eventLocation: events[index].venue.split(',').first,
+              eventDay: getDayName(events[index].date),
+              eventDate: convertDateDotFormat(
+                  DateTime.parse(events[index].date)),
+              eventImageString: events[index].image!,
+              eventId: events[index].id,
+              hasLikedEvent: events[index].hasLikedEvent,
+              eventOwnerAvatar: events[index].user!.avatar,
+              inviteStatus: getInviteStatus(events[index], userId),
+              showStatusBadge: false,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

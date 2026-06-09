@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/contributions/blocs/contribution_bloc/contribution_bloc.dart';
 import 'package:rapidlie/features/contributions/data/models/contribution_model.dart';
 
@@ -20,7 +21,13 @@ class _MyContributionsScreenState extends State<MyContributionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Contributions')),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(
+          pageTitle: 'My Contributions',
+          isSubPage: true,
+        ),
+      ),
       body: BlocBuilder<ContributionBloc, ContributionState>(
         builder: (context, state) {
           if (state is ContributionLoading) {

@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rapidlie/config/data_state.dart';
 import 'package:rapidlie/core/constants/strings.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
@@ -57,15 +59,19 @@ class EventRepositoryImpl implements EventRepository {
             'Authorization': "Bearer $bearerToken",
             'Accept': acceptString,
           },
+          sendTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
         ),
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final eventResponse = EventResponseModel.fromJson(response.data);
+        final data = response.data;
+        final Map<String, dynamic> jsonMap = data is String
+            ? Map<String, dynamic>.from(jsonDecode(data) as Map)
+            : Map<String, dynamic>.from(data as Map);
 
-        final List<EventDataModel> events = eventResponse.data;
-
-        return DataSuccess(events);
+        final eventResponse = EventResponseModel.fromJson(jsonMap);
+        return DataSuccess(eventResponse.data);
       } else {
         return DataFailed(DioException(
           error: response.statusMessage,
@@ -75,7 +81,15 @@ class EventRepositoryImpl implements EventRepository {
         ));
       }
     } on DioException catch (e) {
+      debugPrint('[EventRepo] DioException $url: ${e.message} ${e.response?.statusCode}');
       return DataFailed(e);
+    } catch (e, stack) {
+      debugPrint('[EventRepo] Parse error $url: $e\n$stack');
+      return DataFailed(DioException(
+        error: e.toString(),
+        type: DioExceptionType.unknown,
+        requestOptions: RequestOptions(path: url),
+      ));
     }
   }
 }

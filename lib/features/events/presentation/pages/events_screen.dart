@@ -3,12 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/get_invite_status.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
+import 'package:rapidlie/core/widgets/animations.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
-import 'package:rapidlie/core/widgets/epmty_list_view.dart';
 import 'package:rapidlie/core/widgets/event_card.dart';
 import 'package:rapidlie/features/events/blocs/get_bloc/event_bloc.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
@@ -25,14 +26,17 @@ class EventsScreen extends StatefulWidget {
 
 class _EventsScreenState extends State<EventsScreen> {
   late PageController _pageViewController;
-  bool publicEvent = false;
-  var language;
   late String userId;
 
   @override
   void initState() {
     _pageViewController = PageController();
     getUserID();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<PrivateEventBloc>().add(GetPrivateEvents());
+      }
+    });
     super.initState();
   }
 
@@ -52,10 +56,10 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<PrivateEventBloc>().add(GetPrivateEvents());
-    language = AppLocalizations.of(context);
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    final language = AppLocalizations.of(context);
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
@@ -70,20 +74,95 @@ class _EventsScreenState extends State<EventsScreen> {
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
             child: BlocBuilder<PrivateEventBloc, EventListState>(
               builder: (context, state) {
-                if (state is EventListInitial) {
-                  return emptyListWithShimmer();
-                } else if (state is PrivateEventLoading) {
-                  return emptyListWithShimmer();
-                } else if (state is PrivateEventLoaded) {
+                if (state is EventListInitial || state is EventListLoading) {
+                  return _buildShimmer(height, width);
+                } else if (state is EventListLoaded) {
                   return buildBody(
                       state.events.reversed.toList(), width, height);
                 }
-                return emptyListWithShimmer();
+                return _buildShimmer(height, width);
               },
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShimmer(double height, double width) {
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        child: Column(
+          children: List.generate(
+            3,
+            (i) => Padding(
+              padding: EdgeInsets.only(bottom: 24.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerBox(
+                    width: double.infinity,
+                    height: (width - 32) * 9 / 16,
+                    borderRadius: 16,
+                  ),
+                  SizedBox(height: 10.h),
+                  ShimmerBox(
+                    width: 200.w,
+                    height: 16.h,
+                    borderRadius: 8,
+                  ),
+                  SizedBox(height: 6.h),
+                  ShimmerBox(
+                    width: 120.w,
+                    height: 12.h,
+                    borderRadius: 6,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 80.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.event_outlined,
+              size: 64.sp,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              'No events yet',
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              'Create your first event',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -94,7 +173,7 @@ class _EventsScreenState extends State<EventsScreen> {
       height: height,
       width: width,
       child: eventDataModel.isEmpty
-          ? emptyStateView()
+          ? _buildEmptyState()
           : Padding(
               padding: const EdgeInsets.only(bottom: 200.0),
               child: ListView.builder(
@@ -106,8 +185,6 @@ class _EventsScreenState extends State<EventsScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      /* final inviteStatus =
-                          getInviteStatus(eventDataModel[index], userId); */
                       bool isOwnEvent =
                           eventDataModel[index].user!.uuid == userId;
                       context.pushNamed(

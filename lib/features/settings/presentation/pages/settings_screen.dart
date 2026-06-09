@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:rapidlie/core/constants/feature_constants.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/logout/bloc/logout_bloc.dart';
 import 'package:rapidlie/features/settings/blocs/profile_bloc/profile_bloc.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/custom_divider.dart';
-import 'package:rapidlie/features/settings/presentation/widgets/settings_container_layout.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/country_settings_layout.dart';
 import 'package:rapidlie/features/settings/presentation/widgets/language_settings_layout.dart';
-import 'package:rapidlie/features/settings/presentation/widgets/settings_item_layout.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -44,11 +45,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     language = AppLocalizations.of(context);
-    return SafeArea(
-      child: Scaffold(
+
+    return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80),
           child: AppBarTemplate(
@@ -59,261 +59,243 @@ class _SettingsScreenState extends State<SettingsScreen> {
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: SizedBox(
-            height: height,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BlocBuilder<ProfileBloc, ProfileState>(
-                    builder: (context, state) {
-                      if (state is ProfileLoadingState) {
-                      } else if (state is ProfileLoadedState) {
-                        return GestureDetector(
-                          onTap: () {
-                            context.push('/profile',
-                                extra: {'userProfile': state.userProfile});
-                          },
-                          child: SettingsContainerLayout(
-                            childWidget: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: ClipOval(
-                                          child: FadeInImage.assetNetwork(
-                                            placeholder:
-                                                'assets/images/placeholder.png',
-                                            image: state.userProfile.avatar,
-                                            fit: BoxFit.cover,
-                                            imageErrorBuilder: (context, error,
-                                                    stackTrace) =>
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Profile card ──
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  final String name;
+                  final String phone;
+                  final String? avatarUrl;
+                  final void Function() onTap;
+
+                  if (state is ProfileLoadedState) {
+                    name = state.userProfile.name;
+                    phone = state.userProfile.phone ?? '';
+                    avatarUrl = state.userProfile.avatar;
+                    onTap = () => context.push('/profile',
+                        extra: {'userProfile': state.userProfile});
+                  } else {
+                    name = UserPreferences().getUserName();
+                    phone = UserPreferences().getTelephone();
+                    avatarUrl = null;
+                    onTap = () =>
+                        context.push('/profile', extra: {'userProfile': null});
+                  }
+
+                  return GestureDetector(
+                    onTap: onTap,
+                    child: _AppleCard(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14.w, vertical: 14.h),
+                        child: Row(
+                          children: [
+                            // Avatar with gradient border
+                            Container(
+                              width: 56.r,
+                              height: 56.r,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    AppColors.primary,
+                                    AppColors.secondary,
+                                  ],
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(2),
+                              child: ClipOval(
+                                child: avatarUrl != null &&
+                                        avatarUrl.isNotEmpty
+                                    ? FadeInImage.assetNetwork(
+                                        placeholder:
+                                            'assets/images/placeholder.png',
+                                        image: avatarUrl,
+                                        fit: BoxFit.cover,
+                                        imageErrorBuilder:
+                                            (context, error, stackTrace) =>
                                                 Image.asset(
                                                     'assets/images/placeholder.png'),
-                                            imageCacheHeight: 100,
-                                            imageCacheWidth: 100,
-                                          ),
-                                        ),
+                                        imageCacheHeight: 112,
+                                        imageCacheWidth: 112,
+                                      )
+                                    : FadeInImage(
+                                        image: const AssetImage(
+                                            'assets/images/placeholder.png'),
+                                        fit: BoxFit.cover,
+                                        placeholder: const AssetImage(
+                                            'assets/images/placeholder.png'),
                                       ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            state.userProfile.name,
-                                            style: inter15black500(context),
-                                          ),
-                                          Text(
-                                            state.userProfile.phone ?? "",
-                                            style: inter10Black400(context),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                              ),
+                            ),
+                            SizedBox(width: 14.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    name,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.grey.shade300,
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    phone,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13.sp,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outline,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      return GestureDetector(
-                        onTap: () {
-                          context
-                              .push('/profile', extra: {'userProfile': null});
-                        },
-                        child: SettingsContainerLayout(
-                          childWidget: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey.shade600,
-                                      ),
-                                      child: const ClipOval(
-                                        child: FadeInImage(
-                                          image: AssetImage(
-                                              'assets/images/placeholder.png'),
-                                          fit: BoxFit.cover,
-                                          placeholder: AssetImage(
-                                              'assets/images/placeholder.png'),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          UserPreferences().getUserName(),
-                                          style: inter15black500(context),
-                                        ),
-                                        Text(
-                                          UserPreferences().getTelephone(),
-                                          style: inter10Black400(context),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.grey.shade300,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  normalHeight(),
-                  Text(
-                    language.general,
-                    style: inter14black500(context),
-                  ),
-                  extraSmallHeight(),
-                  SettingsContainerLayout(
-                    childWidget: Consumer<ChangeLanguageProvider>(
-                      builder: (context, provider, child) {
-                        return Column(
-                          children: [
-                            SettingsItemLayout(
-                              icon: Icons.language,
-                              title: language.language,
-                              value: Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: Text(
-                                  provider.applicationLocale ==
-                                          const Locale("en")
-                                      ? language.english
-                                      : provider.applicationLocale ==
-                                              const Locale("de")
-                                          ? language.german
-                                          : provider.applicationLocale ==
-                                                  const Locale("fr")
-                                              ? language.french
-                                              : language.english,
-                                  style: inter13black400(context),
-                                ),
-                              ),
-                              iconColor: Colors.blue,
-                              onCLickFunction: () =>
-                                  showModal(language.language, context, width),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40.0),
-                              child: customDivider(context),
-                            ),
-                            SettingsItemLayout(
-                              icon: Icons.flag,
-                              title: language.country,
-                              value: SizedBox(
-                                height: 31,
-                                child: CountrySettingsLayout(),
-                              ),
-                              iconColor: Colors.green,
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16.sp,
+                              color: Theme.of(context).colorScheme.outline,
                             ),
                           ],
-                        );
-                      },
-                    ),
-                  ),
-                  normalHeight(),
-                  Text(
-                    language.app,
-                    style: inter14black500(context),
-                  ),
-                  extraSmallHeight(),
-                  SettingsContainerLayout(
-                    childWidget: Column(
-                      children: [
-                        SettingsItemLayout(
-                          icon: Icons.description,
-                          title: language.aboutApp,
-                          iconColor: Colors.blue,
-                          onCLickFunction: () => context.push('/about'),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: customDivider(context),
-                        ),
-                        SettingsItemLayout(
-                          icon: Icons.rule,
-                          title: language.terms,
-                          iconColor: Theme.of(context).colorScheme.primary,
-                          onCLickFunction: () => context.push('/terms'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: customDivider(context),
-                        ),
-                        SettingsItemLayout(
-                          icon: Icons.privacy_tip,
-                          title: language.privacy,
-                          iconColor: Colors.red,
-                          onCLickFunction: () => context.push('/privacy'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40.0),
-                          child: customDivider(context),
-                        ),
-                        SettingsItemLayout(
-                          icon: Icons.numbers,
-                          title: language.appVersion,
-                          iconColor: Theme.of(context).colorScheme.primary,
-                          value: Text(_appVersion),
-                        ),
-                      ],
-                    ),
-                  ),
-                  normalHeight(),
-                  GestureDetector(
-                    onTap: () => _showLogoutDialog(context),
-                    child: SettingsContainerLayout(
-                      childWidget: SettingsItemLayout(
-                        icon: Icons.logout,
-                        title: language.logout,
-                        iconColor: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                  )
-                ],
+                  );
+                },
               ),
-            ),
+
+              SizedBox(height: 28.h),
+
+              // ── General section ──
+              _SectionLabel(label: language.general),
+              SizedBox(height: 8.h),
+              _AppleCard(
+                child: Consumer<ChangeLanguageProvider>(
+                  builder: (context, provider, child) {
+                    final localeName = provider.applicationLocale ==
+                            const Locale("en")
+                        ? language.english
+                        : provider.applicationLocale == const Locale("de")
+                            ? language.german
+                            : provider.applicationLocale == const Locale("fr")
+                                ? language.french
+                                : language.english;
+
+                    return Column(
+                      children: [
+                        _AppleRow(
+                          icon: Icons.language_rounded,
+                          iconBg: AppColors.accentCyan,
+                          title: language.language,
+                          trailing: Text(
+                            localeName,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                          ),
+                          onTap: () =>
+                              showModal(language.language, context, width),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 54.w),
+                          child: customDivider(context),
+                        ),
+                        _AppleRow(
+                          icon: Icons.flag_rounded,
+                          iconBg: AppColors.accentEmerald,
+                          title: language.country,
+                          trailing: SizedBox(
+                            height: 31,
+                            child: CountrySettingsLayout(),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+
+              SizedBox(height: 28.h),
+
+              // ── App section ──
+              _SectionLabel(label: language.app),
+              SizedBox(height: 8.h),
+              _AppleCard(
+                child: Column(
+                  children: [
+                    _AppleRow(
+                      icon: Icons.description_rounded,
+                      iconBg: AppColors.accentCyan,
+                      title: language.aboutApp,
+                      onTap: () => context.push('/about'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 54.w),
+                      child: customDivider(context),
+                    ),
+                    _AppleRow(
+                      icon: Icons.rule_rounded,
+                      iconBg: AppColors.primary,
+                      title: language.terms,
+                      onTap: () => context.push('/terms'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 54.w),
+                      child: customDivider(context),
+                    ),
+                    _AppleRow(
+                      icon: Icons.privacy_tip_rounded,
+                      iconBg: AppColors.accentAmber,
+                      title: language.privacy,
+                      onTap: () => context.push('/privacy'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 54.w),
+                      child: customDivider(context),
+                    ),
+                    _AppleRow(
+                      icon: Icons.numbers_rounded,
+                      iconBg: AppColors.accentEmerald,
+                      title: language.appVersion,
+                      trailing: Text(
+                        _appVersion,
+                        style: GoogleFonts.inter(
+                          fontSize: 13.sp,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 28.h),
+
+              // ── Logout section ──
+              _AppleCard(
+                child: _AppleRow(
+                  icon: Icons.logout_rounded,
+                  iconBg: AppColors.error,
+                  title: language.logout,
+                  titleColor: AppColors.error,
+                  showChevron: false,
+                  onTap: () => _showLogoutDialog(context),
+                ),
+              ),
+
+              SizedBox(height: 40.h),
+            ],
           ),
         ),
-      ),
     );
   }
 
@@ -402,7 +384,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return SingleChildScrollView(
               primary: true,
               child: GestureDetector(
-                //onTap: () => closeMenu(),
                 child: bottomSheetLayout(setState, menuTitle, width),
               ),
             );
@@ -457,9 +438,118 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: const EdgeInsets.only(top: 8.0),
               child: customDivider(context),
             ),
+            LanguageSettingsLayout(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Reusable Apple-style card ──
+class _AppleCard extends StatelessWidget {
+  final Widget child;
+  const _AppleCard({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: Theme.of(context).colorScheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+// ── iOS-style section header ──
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  const _SectionLabel({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 4.w, bottom: 2.h),
+      child: Text(
+        label.toUpperCase(),
+        style: GoogleFonts.inter(
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w600,
+          color: Theme.of(context).colorScheme.outline,
+          letterSpacing: 0.8,
+        ),
+      ),
+    );
+  }
+}
+
+// ── Single row inside an Apple card ──
+class _AppleRow extends StatelessWidget {
+  final IconData icon;
+  final Color iconBg;
+  final String title;
+  final Color? titleColor;
+  final Widget? trailing;
+  final bool showChevron;
+  final VoidCallback? onTap;
+
+  const _AppleRow({
+    required this.icon,
+    required this.iconBg,
+    required this.title,
+    this.titleColor,
+    this.trailing,
+    this.showChevron = true,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 11.h),
+        child: Row(
+          children: [
+            // Colored icon square
             Container(
-              child: LanguageSettingsLayout(),
-            )
+              width: 36.r,
+              height: 36.r,
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Icon(icon, color: Colors.white, size: 18.sp),
+            ),
+            SizedBox(width: 14.w),
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.inter(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: titleColor ??
+                      Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+            if (trailing != null) trailing!,
+            if (showChevron && trailing == null)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 14.sp,
+                color: Theme.of(context).colorScheme.outline,
+              ),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/core/utils/date_formatters.dart';
 import 'package:rapidlie/core/utils/render_image.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/tickets/blocs/ticket_bloc/ticket_bloc.dart';
 import 'package:rapidlie/features/tickets/data/models/ticket_model.dart';
 
@@ -24,7 +25,10 @@ class _MyTicketsScreenState extends State<MyTicketsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Tickets')),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(pageTitle: 'My Tickets', isSubPage: true),
+      ),
       body: BlocBuilder<TicketBloc, TicketState>(
         builder: (context, state) {
           if (state is TicketLoading) {

@@ -14,13 +14,16 @@ import 'package:rapidlie/core/utils/providers.dart';
 import 'package:rapidlie/core/utils/shared_peferences_manager.dart';
 import 'package:rapidlie/features/notifications/data/device_token_repository.dart';
 import 'package:rapidlie/features/settings/providers/change_language_provider.dart';
+import 'package:rapidlie/firebase_options.dart';
 import 'package:rapidlie/injection_container.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await UserPreferences().init();
   setupLocator();
   _registerFcmToken();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/polls/blocs/poll_bloc/poll_bloc.dart';
 import 'package:rapidlie/features/polls/data/models/poll_model.dart';
 import 'package:rapidlie/features/polls/presentation/widgets/create_poll_sheet.dart';
@@ -45,7 +46,10 @@ class _PollsScreenState extends State<PollsScreen> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Polls')),
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBarTemplate(pageTitle: 'Polls', isSubPage: true),
+          ),
           floatingActionButton: widget.isOrganizer
               ? FloatingActionButton(
                   child: const Icon(Icons.add),

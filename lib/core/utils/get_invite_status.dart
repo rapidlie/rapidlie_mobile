@@ -9,12 +9,9 @@ String getInviteStatus(EventDataModel events, userId) {
     return "accepted";
   }
 
-  String inviteStatus = events
-      .invitations
-      .firstWhere(
-        (invitation) => invitation.user.uuid == userId,
-      )
-      .status;
+  final match = events.invitations
+      .where((invitation) => invitation.user.uuid == userId)
+      .toList();
 
-  return inviteStatus;
+  return match.isNotEmpty ? match.first.status : 'pending';
 }

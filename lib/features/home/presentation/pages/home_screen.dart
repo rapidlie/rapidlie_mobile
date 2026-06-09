@@ -16,6 +16,7 @@ import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/home/bloc/notifications_bloc.dart';
 import 'package:rapidlie/features/home/models/notification.dart';
 import 'package:rapidlie/features/home/presentation/widgets/upcoming_event_list_template.dart';
+import 'package:rapidlie/core/utils/app_theme.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,13 +34,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<FlashNotifications> _notifications = [];
   String _searchQuery = '';
   CategoryModel? _selectedCategory;
-  bool _searchFocused = false;
-
   late final AnimationController _headerCtrl;
   late final Animation<double> _headerFade;
   late final Animation<Offset> _headerSlide;
   final TextEditingController _searchCtrl = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
+  bool _searchFocused = false;
 
   @override
   void initState() {
@@ -110,8 +110,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final lang = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
-    final secondary = theme.colorScheme.secondary;
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -124,9 +122,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             pinned: true,
             snap: false,
             floating: false,
-            expandedHeight: 110,
+            expandedHeight: 115,
             elevation: 0,
-            backgroundColor: primary,
+            backgroundColor: AppColors.headerStart,
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
@@ -135,22 +133,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: FadeTransition(
                   opacity: _headerFade,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [primary, secondary],
+                        colors: [
+                          AppColors.headerStart,
+                          Color(0xFF14063A),
+                          AppColors.headerEnd,
+                        ],
+                        stops: [0.0, 0.55, 1.0],
                       ),
                     ),
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 14,
-                      left: 20,
-                      right: 20,
-                      bottom: 0,
+                      top: MediaQuery.of(context).padding.top + 18,
+                      left: 22,
+                      right: 22,
+                      bottom: 16,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,18 +162,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             Text(
                               getTimeOfDayGreeting(context),
                               style: GoogleFonts.inter(
-                                color: Colors.white.withValues(alpha: 0.75),
+                                color: Colors.white.withValues(alpha: 0.60),
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w400,
+                                letterSpacing: 0.2,
                               ),
                             ),
+                            const SizedBox(height: 2),
                             Text(
-                              _name.isEmpty ? 'Welcome' : _name,
+                              _name.isEmpty ? 'Welcome 👋' : _name,
                               style: GoogleFonts.inter(
                                 color: Colors.white,
-                                fontSize: 22.sp,
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.w700,
-                                height: 1.1,
+                                height: 1.15,
+                                letterSpacing: -0.3,
                               ),
                             ),
                           ],
@@ -180,27 +186,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               context.pushNamed('pending_invitations'),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 7),
+                                horizontal: 14, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.18),
-                              borderRadius: BorderRadius.circular(20),
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary.withValues(alpha: 0.45),
+                                  AppColors.primary.withValues(alpha: 0.25),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(22),
                               border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.3),
+                                color: AppColors.primary.withValues(alpha: 0.55),
                                 width: 1,
                               ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.mail_outline,
+                                const Icon(Icons.mail_outline_rounded,
                                     color: Colors.white, size: 15),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 6),
                                 Text(
                                   'Invites',
                                   style: GoogleFonts.inter(
                                     color: Colors.white,
                                     fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],
@@ -213,80 +224,98 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            // Pinned search bar
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Container(
+          ),
+
+          // ── Search bar ─────────────────────────────────────────────────
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 50,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [secondary, secondary],
-                  ),
-                ),
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeOut,
-                  decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
                     color: _searchFocused
-                        ? Colors.white
-                        : Colors.white.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: _searchFocused
-                          ? Colors.transparent
-                          : Colors.white.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
+                        ? AppColors.primary.withValues(alpha: 0.7)
+                        : theme.colorScheme.outline.withValues(alpha: 0.18),
+                    width: _searchFocused ? 1.5 : 1,
                   ),
-                  child: TextField(
-                    controller: _searchCtrl,
-                    focusNode: _searchFocus,
-                    onChanged: (q) =>
-                        setState(() => _searchQuery = q),
-                    style: GoogleFonts.inter(
+                  boxShadow: [
+                    BoxShadow(
                       color: _searchFocused
-                          ? const Color(0xFF0D1117)
-                          : Colors.white,
-                      fontSize: 14.sp,
+                          ? AppColors.primary.withValues(alpha: 0.10)
+                          : Colors.black.withValues(alpha: 0.06),
+                      blurRadius: _searchFocused ? 14 : 6,
+                      offset: const Offset(0, 3),
                     ),
-                    decoration: InputDecoration(
-                      hintText: 'Search events, venues…',
-                      hintStyle: GoogleFonts.inter(
-                        color: _searchFocused
-                            ? const Color(0xFF9CA3AF)
-                            : Colors.white.withValues(alpha: 0.6),
-                        fontSize: 14.sp,
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: Icon(
+                          Icons.search_rounded,
+                          key: ValueKey(_searchFocused),
+                          color: _searchFocused
+                              ? AppColors.primary
+                              : theme.colorScheme.outline,
+                          size: 20,
+                        ),
                       ),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: _searchFocused
-                            ? const Color(0xFF6B7280)
-                            : Colors.white.withValues(alpha: 0.7),
-                        size: 20,
-                      ),
-                      suffixIcon: _searchQuery.isNotEmpty
-                          ? IconButton(
-                              icon: Icon(Icons.close,
-                                  size: 18,
-                                  color: _searchFocused
-                                      ? const Color(0xFF6B7280)
-                                      : Colors.white.withValues(alpha: 0.7)),
-                              onPressed: () {
-                                _searchCtrl.clear();
-                                setState(() => _searchQuery = '');
-                              },
-                            )
-                          : null,
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 0),
-                      isDense: true,
                     ),
-                  ),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchCtrl,
+                        focusNode: _searchFocus,
+                        onChanged: (q) => setState(() => _searchQuery = q),
+                        style: GoogleFonts.inter(
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Search events, venues…',
+                          hintStyle: GoogleFonts.inter(
+                            color: theme.colorScheme.outline,
+                            fontSize: 14.sp,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                    if (_searchQuery.isNotEmpty)
+                      GestureDetector(
+                        onTap: () {
+                          _searchCtrl.clear();
+                          setState(() => _searchQuery = '');
+                          _searchFocus.unfocus();
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.outline
+                                .withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.close_rounded,
+                            size: 14,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -305,25 +334,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _QuickAction(
                       icon: Icons.add_circle_outline_rounded,
                       label: 'Create',
-                      color: primary,
+                      color: AppColors.primary,
                       onTap: () => context.pushNamed('create_event'),
                     ),
                     _QuickAction(
                       icon: Icons.bookmark_outline_rounded,
                       label: 'Saved',
-                      color: const Color(0xFFE57E25),
+                      color: AppColors.accentAmber,
                       onTap: () => context.pushNamed('bookmarks'),
                     ),
                     _QuickAction(
                       icon: Icons.group_outlined,
                       label: 'Groups',
-                      color: const Color(0xFF24AE5F),
+                      color: AppColors.accentEmerald,
                       onTap: () => context.pushNamed('groups'),
                     ),
                     _QuickAction(
                       icon: Icons.mood_outlined,
                       label: 'Mood',
-                      color: const Color(0xFF00ACE9),
+                      color: AppColors.accentCyan,
                       onTap: () => context.pushNamed('mood'),
                     ),
                   ],
@@ -335,13 +364,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           // ── Upcoming events ─────────────────────────────────────────────
           BlocBuilder<UpcomingEventBloc, EventListState>(
             builder: (context, state) {
-              if (state is UpcomingEventLoading ||
-                  state is EventListInitial) {
+              if (state is EventListLoading || state is EventListInitial) {
                 return SliverToBoxAdapter(
                   child: _SkeletonSection(label: lang.upcomingEvents),
                 );
               }
-              if (state is UpcomingEventLoaded) {
+              if (state is EventListLoaded) {
                 _upcomingEvents = state.events.reversed.toList();
               }
               if (_upcomingEvents.isEmpty) {
@@ -435,13 +463,84 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
           ),
 
+          // ── Groups CTA ──────────────────────────────────────────────────
+          SliverToBoxAdapter(
+            child: FadeSlideItem(
+              index: 3,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+                child: PressScale(
+                  onTap: () => context.pushNamed('groups'),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 13),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF1E1040), Color(0xFF2D1560)],
+                      ),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.group_rounded,
+                              color: AppColors.primary, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Groups',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13.sp,
+                                    color: Colors.white,
+                                  )),
+                              Text('Discover and join communities',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 11.sp,
+                                      color: Colors.white60)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 26,
+                          height: 26,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.arrow_forward_ios_rounded,
+                              color: AppColors.primary, size: 13),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           // ── Explore + category pills ─────────────────────────────────────
           BlocBuilder<CategoryBloc, CategoryState>(
             builder: (context, state) {
               if (state is CategoryLoadingState) {
                 return SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
                     child: Row(
                       children: List.generate(
                         4,
@@ -463,6 +562,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 24),
                       _SectionHeader(title: lang.explore, onSeeAll: null),
                       SizedBox(
                         height: 40,
@@ -511,12 +611,64 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           // ── Public events feed ──────────────────────────────────────────
           BlocBuilder<PublicEventBloc, EventListState>(
             builder: (context, state) {
-              if (state is EventListInitial || state is PublicEventLoading) {
+              if (state is EventListInitial || state is EventListLoading) {
+                return SliverToBoxAdapter(child: _EventFeedSkeleton());
+              }
+              // Error: show cached data or friendly error state
+              if (state is EventListError && _publicEvents.isEmpty) {
                 return SliverToBoxAdapter(
-                  child: _EventFeedSkeleton(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 48),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(Icons.wifi_off_rounded,
+                              size: 34,
+                              color: theme.colorScheme.outline),
+                        ),
+                        const SizedBox(height: 16),
+                        Text('Could not load events',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 6),
+                        Text('Check your connection and pull to refresh',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.outline),
+                            textAlign: TextAlign.center),
+                        const SizedBox(height: 20),
+                        PressScale(
+                          onTap: () => context
+                              .read<PublicEventBloc>()
+                              .add(GetPublicEvents()),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: primary.withValues(alpha: 0.3)),
+                            ),
+                            child: Text('Retry',
+                                style: TextStyle(
+                                    color: primary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               }
-              if (state is PublicEventLoaded) {
+              if (state is EventListLoaded) {
                 _publicEvents = state.events.reversed.toList();
               }
               final filtered = _filtered(_publicEvents);
@@ -586,81 +738,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               );
             },
-          ),
-
-          // ── Groups CTA ──────────────────────────────────────────────────
-          SliverToBoxAdapter(
-            child: FadeSlideItem(
-              index: 6,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-                child: PressScale(
-                  onTap: () => context.pushNamed('groups'),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      gradient: LinearGradient(
-                        colors: [
-                          primary.withValues(alpha: isDark ? 0.2 : 0.1),
-                          primary.withValues(alpha: isDark ? 0.08 : 0.04),
-                        ],
-                      ),
-                      border: Border.all(
-                        color: primary.withValues(alpha: 0.2),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: primary.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(Icons.group, color: primary, size: 22),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Groups',
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.sp,
-                                  color: theme.colorScheme.onSurface,
-                                ),
-                              ),
-                              Text(
-                                'Discover and join communities',
-                                style: GoogleFonts.inter(
-                                    fontSize: 11.sp,
-                                    color: theme.colorScheme.outline),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 28,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            color: primary.withValues(alpha: 0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.arrow_forward,
-                              color: primary, size: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 80)),
