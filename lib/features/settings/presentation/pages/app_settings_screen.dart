@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/settings/blocs/user_setting_bloc/user_setting_bloc.dart';
 
 class AppSettingsScreen extends StatefulWidget {
@@ -30,7 +31,10 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(pageTitle: 'App Settings', isSubPage: true),
+      ),
       body: BlocConsumer<UserSettingBloc, UserSettingState>(
         listener: (context, state) {
           if (state is UserSettingError) {

@@ -8,10 +8,9 @@ import 'package:rapidlie/features/user/models/user_model.dart';
 import 'package:rapidlie/l10n/app_localizations.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
-  late var language;
   final UserModel userProfile;
 
-  ProfileSettingsScreen({Key? key, required this.userProfile})
+  const ProfileSettingsScreen({Key? key, required this.userProfile})
       : super(key: key);
 
   static ProfileSettingsScreen fromState(GoRouterState state) {
@@ -23,7 +22,7 @@ class ProfileSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    language = AppLocalizations.of(context);
+    final language = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: PreferredSize(
@@ -83,24 +82,6 @@ class ProfileSettingsScreen extends StatelessWidget {
                         imageCacheHeight: 172,
                         imageCacheWidth: 172,
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    userProfile.name,
-                    style: GoogleFonts.inter(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      letterSpacing: -0.2,
-                    ),
-                  ),
-                  SizedBox(height: 3.h),
-                  Text(
-                    userProfile.phone ?? '',
-                    style: GoogleFonts.inter(
-                      fontSize: 13.sp,
-                      color: Colors.white.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
