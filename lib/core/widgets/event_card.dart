@@ -273,12 +273,12 @@ class _DatePill extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.primary, Color(0xFF5B21B6)],
+          colors: [Color(0xFF1C1C1C), Color(0xFF2C2C2C)],
         ),
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.4),
+            color: Colors.black.withValues(alpha: 0.4),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

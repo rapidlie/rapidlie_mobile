@@ -761,14 +761,13 @@ class _GradientButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
-          gradient: const LinearGradient(
-            colors: [AppColors.primary, Color(0xFF9F5CF7)],
-          ),
+          color: AppColors.darkCard,
+          border: Border.all(color: const Color(0xFF3C3C3C), width: 1),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.35),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -887,9 +886,9 @@ class _ConsentButtons extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
-                          gradient: const LinearGradient(
-                            colors: [AppColors.primary, Color(0xFF9F5CF7)],
-                          ),
+                          color: AppColors.darkCard,
+                          border: Border.all(
+                              color: const Color(0xFF3C3C3C), width: 1),
                         ),
                         child: const Center(
                           child: SizedBox(

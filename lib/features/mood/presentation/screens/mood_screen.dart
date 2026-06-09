@@ -100,28 +100,23 @@ class _MoodScreenState extends State<MoodScreen> {
                     height: 52,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      gradient: _selected != null
-                          ? const LinearGradient(
-                              colors: [
-                                AppColors.primary,
-                                AppColors.secondary,
-                              ],
-                            )
-                          : null,
-                      color: _selected == null
-                          ? Theme.of(context)
+                      color: _selected != null
+                          ? AppColors.darkCard
+                          : Theme.of(context)
                               .colorScheme
                               .outline
-                              .withValues(alpha: 0.2)
-                          : null,
+                              .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(14),
+                      border: _selected != null
+                          ? Border.all(
+                              color: const Color(0xFF3C3C3C), width: 1)
+                          : null,
                       boxShadow: _selected != null
                           ? [
                               BoxShadow(
-                                color:
-                                    AppColors.primary.withValues(alpha: 0.4),
-                                blurRadius: 12,
-                                offset: const Offset(0, 4),
+                                color: Colors.black.withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 3),
                               )
                             ]
                           : [],
@@ -171,7 +166,7 @@ class _MoodTile extends StatelessWidget {
               ? const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [AppColors.primary, AppColors.secondary],
+                  colors: [Color(0xFF2A2A2A), Color(0xFF1C1C1C)],
                 )
               : null,
           color: isSelected
@@ -188,7 +183,7 @@ class _MoodTile extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.35),
+                      color: Colors.black.withValues(alpha: 0.35),
                       blurRadius: 12,
                       offset: const Offset(0, 4))
                 ]

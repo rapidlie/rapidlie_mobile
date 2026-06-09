@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         end: Alignment.bottomRight,
                         colors: [
                           AppColors.headerStart,
-                          Color(0xFF14063A),
+                          AppColors.headerEnd,
                           AppColors.headerEnd,
                         ],
                         stops: [0.0, 0.55, 1.0],
@@ -479,7 +479,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       gradient: const LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Color(0xFF1E1040), Color(0xFF2D1560)],
+                        colors: [AppColors.darkCard, Color(0xFF242424)],
                       ),
                       border: Border.all(
                         color: AppColors.primary.withValues(alpha: 0.3),

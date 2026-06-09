@@ -86,10 +86,10 @@ class MoodEventsScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 12),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [AppColors.primary, Color(0xFF9F5CF7)],
-                        ),
+                        color: AppColors.darkCard,
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                            color: const Color(0xFF3C3C3C), width: 1),
                       ),
                       child: Text(
                         'Retry',

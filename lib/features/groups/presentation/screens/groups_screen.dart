@@ -53,7 +53,7 @@ class _GroupsScreenState extends State<GroupsScreen>
               end: Alignment.bottomRight,
               colors: [
                 AppColors.headerStart,
-                Color(0xFF14063A),
+                AppColors.headerEnd,
                 AppColors.headerEnd,
               ],
               stops: [0.0, 0.55, 1.0],

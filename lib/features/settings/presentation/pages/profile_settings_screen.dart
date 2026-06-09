@@ -50,7 +50,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                   end: Alignment.bottomRight,
                   colors: [
                     AppColors.headerStart,
-                    Color(0xFF14063A),
+                    AppColors.headerEnd,
                     AppColors.headerEnd,
                   ],
                   stops: [0.0, 0.5, 1.0],
@@ -68,7 +68,7 @@ class ProfileSettingsScreen extends StatelessWidget {
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
-                        colors: [AppColors.primary, AppColors.secondary],
+                        colors: [Color(0xFFE8E8E8), Color(0xFF888888)],
                       ),
                     ),
                     padding: const EdgeInsets.all(2.5),

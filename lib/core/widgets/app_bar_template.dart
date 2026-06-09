@@ -26,16 +26,7 @@ class AppBarTemplate extends StatelessWidget {
         bottom: 16,
       ),
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.headerStart,
-            Color(0xFF14063A),
-            AppColors.headerEnd,
-          ],
-          stops: [0.0, 0.55, 1.0],
-        ),
+        color: AppColors.headerStart,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
