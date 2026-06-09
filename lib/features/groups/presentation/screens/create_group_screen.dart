@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/core/widgets/button_template.dart';
 import 'package:rapidlie/core/widgets/textfield_template.dart';
 import 'package:rapidlie/features/file_upload/bloc/file_upload_bloc.dart';
@@ -61,7 +62,10 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Group')),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBarTemplate(pageTitle: 'Create Group', isSubPage: true),
+      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<FileUploadBloc, FileUploadState>(

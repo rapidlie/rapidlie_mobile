@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rapidlie/bottom_nav_screen.dart';
 import 'package:rapidlie/core/widgets/animations.dart';
+import 'package:rapidlie/core/widgets/app_bar_template.dart';
 import 'package:rapidlie/features/categories/presentation/category_screen.dart';
 import 'package:rapidlie/features/events/models/event_model.dart';
 import 'package:rapidlie/features/events/presentation/pages/create_event/create_event_screen.dart';
@@ -258,7 +259,10 @@ final GoRouter appRouter = GoRouter(initialLocation: '/', routes: [
       return _page(
         state,
         Scaffold(
-          appBar: AppBar(title: const Text('Moments')),
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBarTemplate(pageTitle: 'Moments', isSubPage: true),
+          ),
           body: ReelsScreen(
             eventId: extra['eventId'] as String,
             canPost: extra['canPost'] as bool,

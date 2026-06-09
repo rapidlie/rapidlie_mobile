@@ -52,7 +52,10 @@
       "Bash(python3 /Users/andy/Documents/Projects/rapidlie_mobile/.claude/skills/ui-ux-pro-max/scripts/search.py \"social event discovery nightlife community app dark luxury\" --design-system -p \"Flockr\" -f markdown)",
       "Bash(python3 /Users/andy/Documents/Projects/rapidlie_mobile/.claude/skills/ui-ux-pro-max/scripts/search.py \"social event discovery dark luxury vibrant\" --design-system)",
       "Bash(grep -A 30 'casts\\\\|dates\\\\|$dates')",
-      "Bash(grep \"\\\\.dart$\")"
+      "Bash(grep \"\\\\.dart$\")",
+      "Bash(find /Users/andy/Documents/OM/om-automation-backend -name \"*eel*\" -o -name \"*Reel*\" 2>/dev/null | grep -v \".git\" | head -10)",
+      "Read(//Users/andy/Documents/OM/om-automation-backend/**)",
+      "Bash(find /Users/andy/Documents/OM/om-automation-backend -name \"api.php\" 2>/dev/null | xargs grep -i \"reel\\\\|moment\" 2>/dev/null | head -20)"
     ],
     "additionalDirectories": [
       "/Users/andy/.claude/projects/-Users-andy-Documents-Projects-rapidlie-mobile"
